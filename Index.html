@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VIZZU DIGITAL | Transforme sua Loja em Máquina de Vendas</title>
+    <meta name="description" content="Desenvolvimento front-end personalizado para e-commerce de atacado. Calculadoras, vídeos e gatilhos mentais para Nuvemshop, Tray e mais.">
+    
+    <!-- SEO / Social Media -->
+    <meta property="og:title" content="VIZZU Digital - Transforme Sua Loja em Máquina de Vendas">
+    <meta property="og:description" content="Saia do amadorismo. Ferramentas de alta conversão para e-commerce de moda e atacado.">
+    <!-- Imagem de compartilhamento (Logo Vizzu) -->
+    <meta property="og:image" content="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- ==========================================
+         ÁREA DE RASTREAMENTO (PIXEL E ANALYTICS)
+         Substitua os 'G-SEU-CODIGO' e '123456789'
+         pelos seus códigos reais antes de subir.
+    =========================================== -->
+    
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PLACEHOLDER'); // INSIRA SEU ID DO GA4 AQUI
+    </script>
+
+    <!-- Meta Pixel Code (Facebook) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '123456789012345'); // INSIRA SEU ID DO PIXEL AQUI
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=123456789012345&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS (Framework de Estilo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração de Cores da VIZZU DIGITAL -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#4a148c', // Roxo Principal
+                            dark: '#1a0b2e',   // Fundo Escuro
+                            pink: '#d500f9',   // Rosa Accent
+                            neon: '#c6ff00',   // Verde Neon (CTA)
+                            gray: '#f3f4f6',   // Cinza Claro (Fundos)
+                            glass: 'rgba(255, 255, 255, 0.05)' // Efeito Vidro
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],    // Texto Corrido
+                        display: ['Poppins', 'sans-serif'], // Títulos
+                    },
+                    fontSize: {
+                        'xxs': '.65rem',
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'spin-slow': 'spin 3s linear infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px #c6ff00, 0 0 10px #c6ff00' },
+                            '100%': { boxShadow: '0 0 20px #c6ff00, 0 0 30px #c6ff00' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    },
+                    screens: {
+                        'xs': '480px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Global da LP */
+        html { scroll-behavior: smooth; }
+        body { overflow-x: hidden; } 
+        
+        .gradient-bg { background: linear-gradient(135deg, #1a0b2e 0%, #4a148c 100%); }
+        .gradient-text { -webkit-background-clip: text; background-clip: text; color: transparent; background-image: linear-gradient(to right, #d500f9, #c6ff00); }
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* ESTILOS DOS WIDGETS (Adaptados para Mobile) */
+        .demo-box { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; margin-bottom: 2rem; position: relative; border: 1px solid #eee; }
+        .demo-label { position: absolute; top: 10px; right: 10px; background: #1a0b2e; color: #c6ff00; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; z-index: 50; text-transform: uppercase; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* Módulo 1: Barra */
+        #super-container-topo { width: 100%; position: relative; z-index: 10; display: block; }
+        #barra-vantagens-container { width: 100%; background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); padding: 15px 0; border-bottom: 2px solid #ccff00; border-top: 2px solid #ccff00; overflow: hidden; display: flex; align-items: center; }
+        .vantagens-track { display: flex; width: max-content; animation: scroll-infinite 35s linear infinite; }
+        .vantagem-item { display: flex; align-items: center; text-align: left; padding: 0 15px; flex-shrink: 0; border-right: 1px solid rgba(255, 255, 255, 0.15); }
+        .vantagem-icon { font-size: 20px; margin-right: 8px; color: #ccff00 !important; }
+        .vantagem-text-col { display: flex; flex-direction: column; justify-content: center; line-height: 1.1; }
+        .vantagem-titulo { font-weight: 800; text-transform: uppercase; font-size: 11px; color: #ccff00 !important; }
+        .vantagem-subtitulo { font-weight: 500; font-size: 10px; font-style: italic; color: #ffffff !important; }
+        @keyframes scroll-infinite { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        #menu-acesso-rapido { display: flex; justify-content: space-evenly; align-items: flex-start; background: #ffffff; width: 100%; padding: 20px 0; margin: 0; }
+        .item-acesso { display: flex; flex-direction: column; align-items: center; text-decoration: none !important; text-align: center; cursor: pointer; transition: transform 0.3s; margin: 0; width: 30%; }
+        .bg-gradiente-novo { background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); border: none; box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4); }
+        .circulo-icone { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; margin-bottom: 8px; }
+        @media (min-width: 768px) { .circulo-icone { width: 70px; height: 70px; font-size: 32px; } }
+        .texto-acesso { color: #4a0072; font-weight: 700; line-height: 1.2; display: block; letter-spacing: 0.3px; font-size: 11px; }
+        
+        /* Módulo 2: Stories */
+        .secao-videos-reels { width: 100%; background-color: #ffffff; padding: 0 0 40px 0; text-align: center; overflow: hidden; position: relative; }
+        .reels-container { display: flex; flex-direction: row; gap: 10px; padding: 10px 15px 30px 15px; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .reels-container::-webkit-scrollbar { display: none; }
+        .video-card { position: relative; width: 140px; height: 250px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        @media (min-width: 768px) { .video-card { width: 180px; height: 320px; } }
+        .video-card video { width: 100%; height: 100%; object-fit: cover; }
+        .etiqueta-preco-clean { position: absolute; top: 15px; left: 0; z-index: 10; background-color: #c6ff00; color: #4a148c; padding: 4px 8px; border-radius: 0 20px 20px 0; font-weight: 700; font-size: 11px; }
+        .btn-ver-modelo { background-color: #d500f9; color: #ffffff; font-weight: 700; font-size: 10px; padding: 6px 12px; border-radius: 50px; text-transform: uppercase; display: inline-block; position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 5; text-decoration: none; white-space: nowrap; }
+        .faixa-lucro { display: inline-block; background-color: #4a148c; color: #ffffff; border: 1px solid #c6ff00; padding: 8px 20px; border-radius: 50px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 10px; margin-bottom: 20px; }
+
+        /* Módulo 3: Oferta Relâmpago */
+        #faixa-urgencia-container { background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); color: white; border-radius: 15px; padding: 20px; margin: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(213, 0, 249, 0.4); }
+        @media (min-width: 768px) { #faixa-urgencia-container { flex-direction: row; text-align: left; padding: 25px 40px; justify-content: space-between; } }
+        .icone-raio { font-size: 28px; color: #ccff00; animation: shake 2s infinite; }
+        .titulo-oferta { font-size: 18px; font-weight: 800; text-transform: uppercase; line-height: 1; color: #fff; }
+        .timer-box { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 5px 10px; text-align: center; min-width: 50px; }
+        .timer-numero { font-size: 20px; font-weight: 700; display: block; }
+        .timer-label { font-size: 9px; color: #ccff00; display: block; text-transform: uppercase; }
+        .btn-ver-todos-relampago { background-color: #ccff00; color: #4a0072; padding: 12px 25px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; animation: pulse-btn 2s infinite; width: 100%; justify-content: center; }
+        @media (min-width: 768px) { .btn-ver-todos-relampago { width: auto; } }
+
+        /* Módulo 4: Calculadora */
+        .box-calc { background: #fff; border-radius: 15px; border: 2px solid #d500f9; overflow: hidden; display: flex; flex-direction: column; margin: 15px auto; max-width: 100%; }
+        @media (min-width: 768px) { .box-calc { flex-direction: row; } }
+        .calc-controles { padding: 20px; border-bottom: 1px dashed #d500f9; flex: 1; }
+        @media (min-width: 768px) { .calc-controles { padding: 30px; border-bottom: 0; border-right: 1px dashed #d500f9; } }
+        .calc-resultado { padding: 30px 20px; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); color: white; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .titulo-calc { color: #4a0072; font-size: 20px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
+        .input-valor { width: 100%; padding: 12px 15px; border: 2px solid #f0f0f0; border-radius: 8px; font-size: 16px; color: #333; font-weight: 600; margin-top: 10px; }
+        .valor-resultado-grande { font-size: 42px; font-weight: 800; color: #ccff00; text-shadow: 0 0 10px rgba(204, 255, 0, 0.4); line-height: 1; }
+        .btn-comecar { background-color: #ccff00; color: #4a0072; padding: 15px 30px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 14px; text-decoration: none; display: inline-flex; gap: 10px; align-items: center; animation: pulse-green 2s infinite; width: 100%; justify-content: center; }
+        @media (min-width: 768px) { .btn-comecar { width: auto; } }
+
+        /* Módulo 5: Cupom */
+        .box-cupom { display: flex; flex-direction: column; align-items: center; gap: 15px; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); border: 1px solid rgba(198, 255, 0, 0.5); border-radius: 12px; padding: 20px; margin: 15px auto; color: white; position: relative; max-width: 100%; overflow: hidden; text-align: center; }
+        @media (min-width: 768px) { .box-cupom { flex-direction: row; text-align: left; } }
+        .box-cupom::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #c6ff00; }
+        .icone-presente { font-size: 24px; color: #fff; background: rgba(255,255,255,0.15); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.2); }
+        .area-codigo { background: rgba(0,0,0,0.25); padding: 5px 5px 5px 15px; border-radius: 50px; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.2); width: 100%; justify-content: space-between; }
+        @media (min-width: 768px) { .area-codigo { width: auto; } }
+        .codigo-texto { font-family: monospace; font-weight: 700; font-size: 16px; margin-right: 10px; letter-spacing: 1px; }
+        .btn-copiar { background: #fff; color: #4a148c; border: none; padding: 8px 15px; border-radius: 40px; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap; }
+
+        /* Módulo 6: Tamanhos */
+        .secao-tamanhos { width: 100%; background-color: #ffffff; padding: 20px 10px; text-align: center; }
+        .titulo-tamanhos { color: #d500f9; font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .lista-tamanhos { display: flex; justify-content: flex-start; gap: 10px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .lista-tamanhos::-webkit-scrollbar { display: none; }
+        .btn-tamanho { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); border: none; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none !important; font-weight: 700; font-size: 13px; box-shadow: 0 3px 8px rgba(123, 31, 162, 0.3); }
+
+        /* Módulo 7: Rodapé */
+        #footer-infos-container { width: 100%; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); padding: 20px 0; border-bottom: 4px solid #ccff00; white-space: nowrap; overflow: hidden; }
+        .infos-wrapper { display: inline-flex; gap: 0; animation: scroll-footer 30s linear infinite; }
+        .info-item { display: flex; align-items: center; gap: 10px; padding: 0 30px; border-right: 1px solid rgba(255, 255, 255, 0.15); }
+        .info-icon { font-size: 24px; color: #ccff00; }
+        .info-titulo { font-size: 13px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 2px; display: block;}
+        .info-descricao { font-size: 11px; color: rgba(255, 255, 255, 0.9); display: block;}
+        @keyframes scroll-footer { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Módulo 8: Institucional */
+        .secao-confianca { width: 100%; background-color: #ffffff; padding: 10px 0 30px 0; text-align: center; }
+        .titulo-confianca { color: #4a148c; font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .texto-confianca { color: #555; font-size: 13px; margin-bottom: 20px; padding: 0 15px; line-height: 1.5; }
+        .reels-confianca-container { display: flex; gap: 15px; justify-content: flex-start; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .reels-confianca-container::-webkit-scrollbar { display: none; }
+        .card-bastidor { position: relative; width: 160px; height: 300px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; }
+        @media (min-width: 768px) { .card-bastidor { width: 220px; height: 400px; } }
+        .card-bastidor video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .botao-play-bastidor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: rgba(0, 0, 0, 0.6); border: 2px solid #c6ff00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c6ff00; font-size: 20px; padding-left: 3px; z-index: 10; pointer-events: none; transition: all 0.3s; }
+        .card-bastidor.tocando .botao-play-bastidor { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+        .etiqueta-bastidor { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: #c6ff00; color: #4a148c; padding: 4px 10px; border-radius: 20px; font-size: 9px; font-weight: 700; text-transform: uppercase; z-index: 2; white-space: nowrap; }
+        .video-loader-bastidor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #c6ff00; border-radius: 50%; animation: spin-slow 1s linear infinite; z-index: 11; display: none; }
+        .card-bastidor.carregando .video-loader-bastidor { display: block; }
+        .card-bastidor.carregando .botao-play-bastidor { display: none; }
+
+        /* Animations */
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
+        @keyframes pulse-green { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(204, 255, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); } }
+        
+        /* Sticky Calculator */
+        .sticky-calculator { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; transform: translateY(100%); transition: transform 0.3s ease-in-out; border-top: 1px solid rgba(255,255,255,0.1); }
+        .sticky-calculator.visible { transform: translateY(0); }
+        
+        /* Checkbox Customizado */
+        .item-checkbox:checked + div { border-color: #c6ff00; background: rgba(198, 255, 0, 0.1); box-shadow: 0 0 15px rgba(198, 255, 0, 0.2); }
+        .item-checkbox:checked + div .check-circle { background: #c6ff00; border-color: #c6ff00; color: #1a0b2e; }
+        .progress-bar-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Modal Exit Intent */
+        .modal { transition: opacity 0.3s ease; pointer-events: none; opacity: 0; }
+        .modal.active { opacity: 1; pointer-events: auto; }
+
+        /* Combo Cards */
+        .combo-card { transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .combo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(213,0,249,0.3); }
+        
+        /* Slide Styles */
+        .comparison-slide { animation: fade-in 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="font-sans bg-brand-dark text-gray-200 antialiased overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="fixed w-full z-40 bg-brand-dark/95 backdrop-blur-md border-b border-white/10" id="navbar">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2">
+                <!-- LOGO CORRIGIDA (Sem borda e tamanho equilibrado) -->
+                <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="VIZZU Digital" class="h-14 w-auto">
+            </a>
+            
+            <nav class="hidden md:flex gap-8 text-white/80 font-medium text-sm">
+                <a href="#problema" class="hover:text-brand-neon transition">O Problema</a>
+                <a href="#catalogo-visual" class="text-brand-neon font-bold transition">Funcionalidades</a>
+                <a href="#antes-depois" class="hover:text-brand-neon transition">Comparativo</a>
+                <a href="#personalizador" class="hover:text-brand-neon transition">Montar Combo</a>
+            </nav>
+            <a href="#personalizador" class="hidden md:block bg-gradient-to-r from-brand-pink to-brand-purple text-white font-bold px-6 py-2 rounded-lg hover:shadow-[0_0_20px_rgba(213,0,249,0.4)] transition transform hover:scale-105">
+                Ver Planos
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg min-h-screen pt-28 pb-20 relative overflow-hidden flex items-center">
+        <!-- Blobs decorativos -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-pink rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-purple rounded-full mix-blend-color-dodge filter blur-[120px] opacity-30"></div>
+
+        <div class="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="text-center lg:text-left order-2 lg:order-1">
+                <div class="inline-flex items-center gap-2 bg-brand-glass border border-brand-pink/30 rounded-full px-4 py-1 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
+                    <span class="text-brand-neon text-xs font-bold uppercase tracking-wider">Especialistas em E-commerce</span>
+                </div>
+                <h1 class="font-display font-bold text-4xl md:text-6xl text-white leading-tight mb-6">
+                    Transforme Sua Loja Genérica em uma <span class="gradient-text">Máquina de Vendas</span>
+                </h1>
+                <p class="text-lg text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                    O visual da sua loja define o valor do seu produto. Saia do amadorismo com ferramentas de elite: Calculadoras de Lucro, Stories na Home e Gatilhos Mentais.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="#catalogo-visual" class="bg-brand-neon text-brand-dark font-display font-bold text-lg px-8 py-4 rounded-lg shadow-[0_0_20px_rgba(198,255,0,0.4)] hover:shadow-[0_0_30px_rgba(198,255,0,0.6)] hover:-translate-y-1 transition transform flex items-center justify-center gap-2">
+                        Ver As Ferramentas <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    <!-- LINK WHATSAPP REAL -->
+                    <a href="https://wa.me/5562981480687?text=Olá! Gostaria de uma consultoria gratuita para minha loja." class="border-2 border-white/20 text-white font-bold text-lg px-8 py-4 rounded-lg hover:bg-white/10 transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp"></i> Consultoria Grátis
+                    </a>
+                </div>
+            </div>
+
+            <!-- Imagem Estática (Já que vamos mostrar o código embaixo) -->
+            <div class="relative order-1 lg:order-2 animate-float">
+                <div class="relative z-10 bg-gray-900 rounded-3xl p-2 border-4 border-gray-800 shadow-2xl backdrop-blur-xl max-w-sm mx-auto">
+                    <!-- Fake Browser Header -->
+                    <div class="bg-black rounded-t-2xl p-3 flex justify-between items-center">
+                        <div class="flex gap-2">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                        </div>
+                    </div>
+                    <!-- SUBSTITUIR ESTA IMAGEM PELO VÍDEO DO CELULAR -->
+                    <video src="https://files.catbox.moe/yav5jo.mp4" autoplay loop muted playsinline class="rounded-b-xl w-full object-cover h-[500px]"></video>
+                    
+                    <!-- Floating Highlight -->
+                    <div class="absolute -left-10 bottom-20 bg-brand-purple p-3 rounded-lg shadow-xl border border-brand-pink animate-bounce hidden md:block">
+                        <div class="text-xs font-bold text-white">Nós fazemos isso 👇</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O Problema (Agitação) -->
+    <section id="problema" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Diagnóstico</span>
+                <h2 class="text-3xl md:text-5xl font-display font-bold text-brand-dark mb-4">Sua loja passa Confiança ou Amadorismo?</h2>
+                <p class="text-lg text-gray-600">Clientes julgam seu site em 3 segundos. Se o layout não for profissional, eles saem e compram no concorrente.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-6 text-2xl text-red-600"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Sem Diferencial</h3>
+                    <p class="text-gray-600 text-sm">Sua loja parece igual a todas as outras. Você acaba brigando só por preço.</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-6 text-2xl text-red-600"><i class="fa-solid fa-cart-arrow-down"></i></div>
+                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Checkout Lento</h3>
+                    <p class="text-gray-600 text-sm">Processo de compra difícil no celular faz o cliente desistir no meio do caminho.</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-6 text-2xl text-red-600"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Visual Amador</h3>
+                    <p class="text-gray-600 text-sm">Se o site parece "feito em casa", o cliente acha que o produto é ruim ou que é golpe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Interativo Expandido -->
+    <section id="catalogo-visual" class="py-20 bg-gray-100 text-brand-dark">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Nossa Solução</span>
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Veja como sua loja vai ficar</h2>
+                <p class="text-gray-600">Abaixo, demonstramos exatamente as ferramentas que instalamos. Interaja e veja o resultado final.</p>
+            </div>
+
+            <!-- Módulo 1: Topo -->
+            <div class="mb-20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+                    <h3 class="text-2xl font-bold text-brand-dark">Barra de Vantagens & Menu Rápido</h3>
+                </div>
+                <div class="demo-box">
+                    <div class="demo-label">Live Preview</div>
+                    <div id="super-container-topo">
+                        <div id="barra-vantagens-container">
+                            <div class="vantagens-track">
+                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-gem"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">MAIS DE 5.000</span><span class="vantagem-subtitulo">revendedoras</span></div></div>
+                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-shipping-fast"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">ENVIO RÁPIDO</span><span class="vantagem-subtitulo">até 72h úteis</span></div></div>
+                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-box-open"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">FRETE GRÁTIS</span><span class="vantagem-subtitulo">acima de R$ 2k</span></div></div>
+                                <!-- Loop -->
+                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-gem"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">MAIS DE 5.000</span><span class="vantagem-subtitulo">revendedoras</span></div></div>
+                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-shipping-fast"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">ENVIO RÁPIDO</span><span class="vantagem-subtitulo">até 72h úteis</span></div></div>
+                            </div>
+                        </div>
+                        <div id="menu-acesso-rapido">
+                            <div class="item-acesso"><div class="circulo-icone bg-gradiente-novo"><i class="fab fa-whatsapp"></i></div><span class="texto-acesso">Fale Conosco</span></div>
+                            <div class="item-acesso"><div class="circulo-icone bg-gradiente-novo"><i class="fas fa-crown"></i></div><span class="texto-acesso">Grupo VIP</span></div>
+                            <div class="item-acesso"><div class="circulo-icone bg-gradiente-novo"><i class="fab fa-google-drive"></i></div><span class="texto-acesso">Catálogo</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 2: Carrossel de Vídeos -->
+            <div class="mb-20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-brand-dark">Carrossel "Shop the Look"</h3>
+                        <p class="text-sm text-gray-500">Stories do Instagram direto na home da loja.</p>
+                    </div>
+                </div>
+                <div class="demo-box">
+                    <div class="demo-label">Live Preview</div>
+                    <div class="secao-videos-reels">
+                        <div class="header-reels">
+                            <h2 class="titulo-principal">
+                                <span class="texto-destaque-upper" style="display:block;">OS MAIS VENDIDOS</span>
+                                <span class="texto-normal-lower">A seleção perfeita para você <strong>lucrar muito</strong>.</span>
+                            </h2>
+                            <div class="faixa-lucro"><i class="fas fa-hand-holding-usd"></i> Revenda com até 150% de Lucro</div>
+                        </div>
+                        <div class="reels-container">
+                            <!-- Video 1 -->
+                            <div class="video-card" onclick="this.querySelector('video').play()">
+                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
+                                <div class="etiqueta-preco-clean"><small>R$</small> 40,00</div>
+                                <video src="https://files.catbox.moe/0rz45y.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
+                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
+                            </div>
+                            <!-- Video 2 -->
+                            <div class="video-card" onclick="this.querySelector('video').play()">
+                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
+                                <div class="etiqueta-preco-clean"><small>R$</small> 25,00</div>
+                                <video src="https://files.catbox.moe/ldvflh.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
+                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
+                            </div>
+                             <!-- Video 3 -->
+                             <div class="video-card" onclick="this.querySelector('video').play()">
+                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
+                                <div class="etiqueta-preco-clean"><small>R$</small> 35,00</div>
+                                <video src="https://files.catbox.moe/61okrt.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
+                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
+                            </div>
+                            <!-- Video 4 -->
+                            <div class="video-card" onclick="this.querySelector('video').play()">
+                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
+                                <div class="etiqueta-preco-clean"><small>R$</small> 45,00</div>
+                                <video src="https://files.catbox.moe/r1h9kb.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
+                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3: Oferta Relâmpago -->
+            <div class="mb-20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+                    <h3 class="text-2xl font-bold text-brand-dark">Oferta Relâmpago (Escassez)</h3>
+                </div>
+                <div class="demo-box" style="padding: 20px; background: #f9f9f9;">
+                    <div class="demo-label">Live Preview</div>
+                    <div id="faixa-urgencia-container">
+                        <div class="coluna-texto flex-1 min-w-[200px]">
+                            <div class="oferta-header flex flex-col md:flex-row items-center gap-2">
+                                <i class="fas fa-bolt icone-raio"></i>
+                                <div>
+                                    <span class="titulo-oferta block">Oferta Relâmpago</span>
+                                    <span style="font-size:14px; opacity:0.9;">Oportunidade única. Acaba logo!</span>
+                                </div>
+                            </div>
+                            <div class="estoque-container w-full max-w-[250px] mt-2">
+                                <div class="texto-estoque flex justify-between text-[10px] font-bold text-brand-neon mb-1"><span>Vendido: 85%</span><span>Restam: 15%</span></div>
+                                <div class="barra-fundo h-2 bg-black/30 rounded-full overflow-hidden border border-white/10"><div class="barra-progresso h-full bg-brand-neon w-[85%] shadow-[0_0_10px_#ccff00]"></div></div>
+                            </div>
+                        </div>
+                        <div class="oferta-timer flex gap-1 items-center">
+                            <div class="timer-box"><span class="timer-numero">04</span><span class="timer-label">HORAS</span></div>
+                            <div class="timer-separador text-xl font-bold opacity-50">:</div>
+                            <div class="timer-box"><span class="timer-numero">35</span><span class="timer-label">MIN</span></div>
+                            <div class="timer-separador text-xl font-bold opacity-50">:</div>
+                            <div class="timer-box"><span class="timer-numero">00</span><span class="timer-label">SEG</span></div>
+                        </div>
+                        <div class="w-full md:w-auto text-center mt-2 md:mt-0">
+                            <a href="#" class="btn-ver-todos-relampago">EU QUERO AGORA <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 4: Calculadora -->
+            <div class="mb-20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">4</div>
+                    <h3 class="text-2xl font-bold text-brand-dark">Calculadora de Lucro B2B</h3>
+                </div>
+                <div class="demo-box" style="padding: 20px; background: #f0f0f0;">
+                    <div class="demo-label">Live Preview</div>
+                    <div class="box-calc">
+                        <div class="calc-controles">
+                            <h3 class="titulo-calc"><i class="fas fa-calculator"></i> Simule seu Lucro</h3>
+                            <span style="color:#666; font-size:16px;">Veja quanto <strong class="destaque-texto">DINHEIRO</strong> você coloca no bolso!</span>
+                            <div style="margin-top:15px;">
+                                <label style="display:block; font-weight:700; color:#4a0072; margin-bottom:5px; font-size:14px;">Preço Atacado</label>
+                                <input type="text" class="input-valor" value="R$ 35,00" readonly>
+                            </div>
+                        </div>
+                        <div class="calc-resultado">
+                            <span style="font-size:13px; text-transform:uppercase; margin-bottom:10px; display:block;">Lucro Líquido Estimado:</span>
+                            <div class="box-lucro-destaque mb-4">
+                                <div class="valor-resultado-grande">R$ 35,00</div>
+                            </div>
+                            <a href="#" class="btn-comecar">QUERO LUCRAR <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 5: Cupom e Tamanhos (Grid) -->
+            <div class="grid md:grid-cols-2 gap-8 mb-20">
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">5</div>
+                        <h3 class="text-xl font-bold text-brand-dark">Cupom One-Click</h3>
+                    </div>
+                    <div class="demo-box" style="padding: 20px; display: flex; align-items: center; justify-content: center;">
+                        <div class="box-cupom w-full">
+                            <div class="icone-presente"><i class="fas fa-gift"></i></div>
+                            <div style="flex:1; text-align:left;">
+                                <span style="display:block; font-size:13px; text-transform:uppercase;">Primeira Compra</span>
+                                <span style="font-size:19px;">Faça sua primeira compra e ganhe <br><span class="destaque-zaap">5% DE DESCONTO</span></span>
+                            </div>
+                            <div class="area-codigo hidden sm:flex">
+                                <span class="codigo-texto">VIZZU5</span>
+                                <button class="btn-copiar"><i class="far fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">6</div>
+                        <h3 class="text-xl font-bold text-brand-dark">Filtro de Tamanhos</h3>
+                    </div>
+                    <div class="demo-box" style="padding: 20px; height: 100%;">
+                        <div class="secao-tamanhos">
+                            <h3 class="titulo-tamanhos">COMPRE POR TAMANHO</h3>
+                            <div class="lista-tamanhos">
+                                <a href="#" class="btn-tamanho">33</a>
+                                <a href="#" class="btn-tamanho">34</a>
+                                <a href="#" class="btn-tamanho">35</a>
+                                <a href="#" class="btn-tamanho">36</a>
+                                <a href="#" class="btn-tamanho">37</a>
+                                <a href="#" class="btn-tamanho">38</a>
+                                <a href="#" class="btn-tamanho">39</a>
+                                <a href="#" class="btn-tamanho">40</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 7: Rodapé -->
+            <div class="mb-20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">7</div>
+                    <h3 class="text-2xl font-bold text-brand-dark">Rodapé Profissional</h3>
+                </div>
+                <div class="demo-box">
+                    <div class="demo-label">Live Preview</div>
+                    <div id="footer-infos-container">
+                        <div class="infos-wrapper">
+                            <div class="info-item"><div class="info-icon"><i class="fab fa-whatsapp"></i></div><div><span class="info-titulo">Fale Conosco</span><span class="info-descricao">(62) 98148-0687</span></div></div>
+                            <div class="info-item"><div class="info-icon"><i class="far fa-clock"></i></div><div><span class="info-titulo">Horários</span><span class="info-descricao">Seg-Sex 9h às 18h</span></div></div>
+                            <div class="info-item"><div class="info-icon"><i class="fas fa-map-marker-alt"></i></div><div><span class="info-titulo">Nossa Loja</span><span class="info-descricao">Goiânia - GO</span></div></div>
+                            <!-- Repetição -->
+                            <div class="info-item"><div class="info-icon"><i class="fab fa-whatsapp"></i></div><div><span class="info-titulo">Fale Conosco</span><span class="info-descricao">(62) 98148-0687</span></div></div>
+                            <div class="info-item"><div class="info-icon"><i class="far fa-clock"></i></div><div><span class="info-titulo">Horários</span><span class="info-descricao">Seg-Sex 9h às 18h</span></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 8: Institucional -->
+            <div class="mb-20">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">8</div>
+                    <h3 class="text-2xl font-bold text-brand-dark">Carrossel Institucional "Quem Somos"</h3>
+                </div>
+                <div class="demo-box">
+                    <div class="demo-label">Live Preview</div>
+                    <div class="secao-confianca">
+                        <h2 class="titulo-confianca">QUEM SOMOS</h2>
+                        <p class="texto-confianca">
+                            <strong>Somos fabricantes!</strong> Compre <strong>direto da fonte</strong> com <strong>segurança e qualidade garantida</strong>.
+                        </p>
+
+                        <div class="reels-confianca-container">
+                            <!-- Card 1 -->
+                            <div class="card-bastidor" onclick="tocarBastidor(this)">
+                                <div class="video-loader-bastidor"></div>
+                                <div class="botao-play-bastidor"><i class="fas fa-play"></i></div>
+                                <div class="etiqueta-bastidor"><i class="fas fa-map-marker-alt"></i> Fábrica</div>
+                                <video src="https://files.catbox.moe/f64qpi.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="card-bastidor" onclick="tocarBastidor(this)">
+                                <div class="video-loader-bastidor"></div>
+                                <div class="botao-play-bastidor"><i class="fas fa-play"></i></div>
+                                <div class="etiqueta-bastidor"><i class="fas fa-box-open"></i> Estoque</div>
+                                <video src="https://files.catbox.moe/qdnl00.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Antes x Depois (Prova Real com Carrossel) -->
+    <section id="antes-depois" class="py-20 bg-white border-t border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Transformação Visual</span>
+                <h2 class="text-3xl md:text-5xl font-display font-bold text-brand-dark mb-4">Veja a Diferença Real</h2>
+                <p class="text-lg text-gray-600">Não vendemos sonhos, vendemos design de alta performance.</p>
+            </div>
+
+            <!-- Navegação do Carrossel -->
+            <div class="flex justify-between items-center mb-8 max-w-4xl mx-auto bg-gray-50 p-4 rounded-full border border-gray-200 shadow-sm">
+                <button onclick="changeSlide(-1)" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <span id="slide-title" class="font-display font-bold text-lg md:text-2xl text-brand-purple uppercase tracking-wide">Página Inicial</span>
+                <button onclick="changeSlide(1)" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Container dos Slides -->
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Slide 1: Home Page -->
+                <div id="slide-0" class="comparison-slide grid md:grid-cols-2 gap-8 items-center">
+                    <div class="relative group">
+                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
+                        <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
+                        <p class="text-center text-sm text-gray-500 mt-2">Visual padrão, sem identidade.</p>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
+                        <img src="https://i.ibb.co/ZRJCvPgd/PAGINA-INICIAL-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
+                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Identidade forte, vídeos na home e menu fácil.</p>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Página de Produtos -->
+                <div id="slide-1" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-center">
+                    <div class="relative group">
+                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
+                        <img src="https://i.ibb.co/8nF9Ld83/PAGINA-DE-PRODUTO-ANTESINA-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
+                        <p class="text-center text-sm text-gray-500 mt-2">Lista confusa, difícil de navegar.</p>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
+                        <img src="https://i.ibb.co/JWj3tbnS/PAGINA-DE-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
+                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Filtros claros, fotos maiores e compra rápida.</p>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Detalhes do Produto -->
+                <div id="slide-2" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-center">
+                    <div class="relative group">
+                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
+                        <img src="https://i.ibb.co/nqhs9XQ8/PAGINA-POR-DENTRO-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
+                        <p class="text-center text-sm text-gray-500 mt-2">Informações escondidas, sem destaque.</p>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
+                        <img src="https://i.ibb.co/nsG9TZ9j/PAGINA-POR-DENTRO-DO-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
+                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Calculadora de lucro e gatilhos de escassez.</p>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Carrinho -->
+                <div id="slide-3" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-center">
+                    <div class="relative group">
+                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
+                        <img src="https://i.ibb.co/ZRcX5R8p/CARRINHO-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
+                        <p class="text-center text-sm text-gray-500 mt-2">Carrinho básico, muitos abandonam aqui.</p>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
+                        <img src="https://i.ibb.co/TxkcWrtS/CARRINHO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
+                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Visual confiável e checkout otimizado.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Descrições Dinâmicas dos Slides -->
+            <div id="desc-slide-0" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos na Home:</h4>
+                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Carrossel Institucional & Topo</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Barra de Vantagens e Menu Rápido</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Oferta Relâmpago & Calculadora</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Filtros por Tamanho & Rodapé</li>
+                </ul>
+            </div>
+
+            <div id="desc-slide-1" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 hidden">
+                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos na Lista de Produtos:</h4>
+                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Bordas arredondadas (mais moderno)</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Layout clean e sofisticado</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Botão de comprar com efeito "Pulsar"</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Remoção de botões quadrados robustos</li>
+                </ul>
+            </div>
+
+            <div id="desc-slide-2" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 hidden">
+                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos na Página do Produto:</h4>
+                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Botões de ação suavizados e clean</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Botão "Adicionar ao Carrinho" maior</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Efeito de pulso para incentivar o clique</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Design focado em facilidade de clique</li>
+                </ul>
+            </div>
+
+            <div id="desc-slide-3" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 hidden">
+                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos no Carrinho:</h4>
+                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Reestruturação total para alta conversão</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Visual mais limpo e organizado</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Fim do design amador/robusto</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Layout funcional focado no fechamento</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GARANTIA -->
+    <section class="py-16 bg-gradient-to-r from-green-50 to-emerald-50">
+        <div class="container mx-auto px-4 text-center max-w-3xl">
+            <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-handshake text-4xl text-green-600"></i>
+            </div>
+            <h2 class="text-3xl font-display font-bold text-brand-dark mb-4">
+                Garantia de Entrega e Satisfação
+            </h2>
+            <p class="text-lg text-gray-600 mb-6">
+                Nosso compromisso é com o <strong>resultado final</strong>. Entregamos sua loja pronta. Se dentro de <strong>7 dias</strong> você achar que o resultado não elevou o nível da sua marca, nós devolvemos 100% do seu dinheiro.
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 text-sm font-bold text-brand-dark">
+                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
+                    <i class="fa-solid fa-check text-green-600"></i>
+                    <span>Reembolso total em 7 dias</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
+                    <i class="fa-solid fa-check text-green-600"></i>
+                    <span>Rodada de ajustes inclusa</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
+                    <i class="fa-solid fa-check text-green-600"></i>
+                    <span>Código seu para sempre</span>
+                </div>
+            </div>
+        </section>
+
+    <!-- PERSONALIZADOR DE LOJA (MONTE SEU COMBO) -->
+    <section id="personalizador" class="py-20 relative bg-[#1a0b2e] overflow-hidden">
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-pink to-transparent opacity-50"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">Escolha o seu melhor Combo</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Pacotes prontos com descontos exclusivos para acelerar sua decisão.</p>
+            </div>
+
+            <div class="max-w-6xl mx-auto">
+                <!-- Combo ELITE TOTAL (Destaque Principal) -->
+                <div class="mb-16 transform hover:scale-[1.01] transition duration-300">
+                    <div class="combo-card glass-panel p-8 rounded-3xl border-4 border-brand-neon bg-gradient-to-br from-brand-purple/50 to-brand-pink/20 relative overflow-hidden shadow-[0_0_50px_rgba(198,255,0,0.2)]">
+                        <div class="absolute top-0 right-0 bg-brand-neon text-brand-dark font-black px-6 py-2 rounded-bl-2xl text-lg uppercase tracking-wider">
+                            50% OFF
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 class="text-4xl font-black text-white mb-2 tracking-tight">COMBO ELITE TOTAL <i class="fa-solid fa-crown text-brand-neon ml-2"></i></h3>
+                                <p class="text-gray-300 text-lg mb-6">A transformação completa. Tudo o que sua loja precisa para vender como as grandes marcas.</p>
+                                <div class="flex flex-wrap gap-2 mb-6">
+                                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-brand-neon border border-brand-neon/30">Todos os 9 Itens</span>
+                                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-brand-pink border border-brand-pink/30">Suporte Prioritário</span>
+                                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-white border border-white/30">Instalação VIP</span>
+                                </div>
+                                <div class="flex items-end gap-3 mb-6">
+                                    <span class="text-gray-400 line-through text-xl">R$ 3.323,00</span>
+                                    <span class="text-5xl font-black text-brand-neon">R$ 1.661,50</span>
+                                </div>
+                                <button onclick="applyPreset('elite')" class="w-full py-4 rounded-xl bg-brand-neon text-brand-dark font-black text-xl hover:bg-white transition shadow-lg flex items-center justify-center gap-2">
+                                    ESCOLHER O COMPLETÃO <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <div class="hidden md:grid grid-cols-2 gap-3 opacity-80">
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Visual App</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Shop the Look</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Oferta Relâmpago</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Calculadora Lucro</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Cupom One-Click</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Barra + Menu 3D</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Compre por Tamanho</div>
+                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Carrossel Institucional</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combos Menores -->
+                <div class="grid md:grid-cols-3 gap-6 mb-16">
+                    <!-- Card Visual -->
+                    <div class="combo-card glass-panel p-6 rounded-2xl border-t-4 border-brand-pink hover:bg-white/5 transition group flex flex-col">
+                        <div class="mb-4">
+                            <i class="fa-solid fa-paintbrush text-brand-pink text-3xl mb-2 block"></i>
+                            <h3 class="text-2xl font-bold text-white">Combo VISUAL</h3>
+                            <p class="text-gray-400 text-sm">Design Apple-like</p>
+                        </div>
+                        <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Redesign Visual App</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Barra + Menu 3D</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Rodapé Animado</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-auto">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-500 text-sm line-through">R$ 1.341</span>
+                                <span class="text-xs bg-brand-pink/20 text-brand-pink px-2 py-1 rounded font-bold">25% OFF</span>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-4">R$ 1.005<span class="text-lg text-gray-400">,75</span></div>
+                            <button onclick="applyPreset('visual')" class="w-full py-3 rounded-lg border border-brand-pink text-brand-pink font-bold hover:bg-brand-pink hover:text-white transition uppercase text-sm">
+                                Escolher Este
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card Vendas -->
+                    <div class="combo-card glass-panel p-6 rounded-2xl border-t-4 border-brand-neon hover:bg-white/5 transition group flex flex-col">
+                        <div class="mb-4">
+                            <i class="fa-solid fa-sack-dollar text-brand-neon text-3xl mb-2 block"></i>
+                            <h3 class="text-2xl font-bold text-white">Combo VENDAS</h3>
+                            <p class="text-gray-400 text-sm">Foco em Conversão</p>
+                        </div>
+                        <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Carrossel Shop the Look</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Oferta Relâmpago</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Cupom One-Click</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-auto">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-500 text-sm line-through">R$ 991</span>
+                                <span class="text-xs bg-brand-neon/20 text-brand-neon px-2 py-1 rounded font-bold">25% OFF</span>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-4">R$ 743<span class="text-lg text-gray-400">,25</span></div>
+                            <button onclick="applyPreset('vendas')" class="w-full py-3 rounded-lg border border-brand-neon text-brand-neon font-bold hover:bg-brand-neon hover:text-brand-dark transition uppercase text-sm">
+                                Escolher Este
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card Atacado -->
+                    <div class="combo-card glass-panel p-6 rounded-2xl border-t-4 border-brand-purple hover:bg-white/5 transition group flex flex-col">
+                        <div class="mb-4">
+                            <i class="fa-solid fa-boxes-stacked text-purple-300 text-3xl mb-2 block"></i>
+                            <h3 class="text-2xl font-bold text-white">Combo ATACADO</h3>
+                            <p class="text-gray-400 text-sm">Ferramentas B2B</p>
+                        </div>
+                        <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Carrossel Institucional</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Calculadora de Lucro</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Compre por Tamanho</li>
+                        </ul>
+                        <div class="border-t border-white/10 pt-4 mt-auto">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-500 text-sm line-through">R$ 991</span>
+                                <span class="text-xs bg-brand-purple/40 text-purple-300 px-2 py-1 rounded font-bold">25% OFF</span>
+                            </div>
+                            <div class="text-3xl font-bold text-white mb-4">R$ 743<span class="text-lg text-gray-400">,25</span></div>
+                            <button onclick="applyPreset('atacado')" class="w-full py-3 rounded-lg border border-purple-400 text-purple-300 font-bold hover:bg-brand-purple hover:text-white transition uppercase text-sm">
+                                Escolher Este
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divisor -->
+                <div class="flex items-center justify-center gap-4 mb-12 opacity-30">
+                    <div class="h-px bg-white w-full max-w-[100px]"></div>
+                    <span class="text-white font-medium uppercase tracking-widest text-xs">OU MONTE DO SEU JEITO</span>
+                    <div class="h-px bg-white w-full max-w-[100px]"></div>
+                </div>
+
+                <!-- Barra de Progresso -->
+                <div class="max-w-3xl mx-auto mb-8 bg-black/20 backdrop-blur-md p-4 rounded-xl border border-white/5">
+                    <div class="flex justify-between items-end mb-2">
+                        <div><span class="text-gray-400 text-[10px] uppercase tracking-wider font-bold">Nível de Desconto</span><div id="level-label" class="text-xl font-display font-bold text-white">Iniciante <span class="text-xs font-normal text-gray-500">(0%)</span></div></div>
+                    </div>
+                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden relative">
+                        <div id="progress-fill" class="h-full bg-gradient-to-r from-brand-purple via-brand-pink to-brand-neon progress-bar-fill w-0"></div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8">
+                    <!-- Lista de Itens -->
+                    <div class="lg:col-span-8 space-y-3" id="products-list"></div>
+
+                    <!-- Resumo Desktop -->
+                    <div class="lg:col-span-4 hidden lg:block">
+                        <div class="sticky top-40 glass-panel rounded-2xl p-6 border-t-4 border-brand-neon">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-receipt text-brand-neon"></i> Resumo</h3>
+                            <div class="space-y-4 mb-6" id="summary-desktop-list"><p class="text-gray-500 text-sm italic text-center">Nenhum item selecionado</p></div>
+                            <div class="border-t border-white/10 pt-4 space-y-2">
+                                <div class="flex justify-between text-gray-400 text-sm"><span>Subtotal</span><span id="desktop-subtotal">R$ 0,00</span></div>
+                                <div class="flex justify-between text-brand-pink font-bold text-sm"><span>Desconto</span><span id="desktop-discount-value">- R$ 0,00</span></div>
+                                <div class="flex justify-between items-end mt-4"><span class="text-white font-bold">TOTAL</span><span class="text-3xl font-display font-bold text-brand-neon" id="desktop-total">R$ 0,00</span></div>
+                            </div>
+                            <div id="almost-there-msg" class="hidden mt-4 bg-yellow-500/10 border border-yellow-500/30 rounded p-2 text-center animate-pulse"><p class="text-yellow-200 text-[10px] font-bold">⚠️ FALTA SÓ 1 ITEM PARA 50% OFF!</p></div>
+                            <a href="#" id="btn-desktop-checkout" class="block w-full mt-6 bg-brand-neon text-brand-dark font-bold py-4 rounded-xl text-center hover:shadow-[0_0_20px_rgba(198,255,0,0.6)] uppercase tracking-wide opacity-50 pointer-events-none">Fechar Pedido</a>
+                            <p class="text-center text-xs text-gray-500 mt-3 flex items-center justify-center gap-1"><i class="fa-solid fa-lock"></i> Pagamento Único e Seguro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 bg-gray-100 text-brand-dark">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h2 class="text-3xl font-display font-bold text-center mb-12 text-brand-dark">Perguntas Frequentes</h2>
+            <div class="space-y-4">
+                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer shadow-sm">
+                    <summary class="font-bold text-brand-dark flex justify-between items-center text-lg list-none">Funciona na minha plataforma?<span class="transition group-open:rotate-180 text-brand-purple"><i class="fa-solid fa-chevron-down"></i></span></summary>
+                    <p class="mt-4 text-gray-600 text-sm leading-relaxed border-l-2 border-brand-neon pl-4">Sim! Nossos códigos são compatíveis com Nuvemshop, Tray, Loja Integrada, Shopify, WooCommerce.</p>
+                </details>
+                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer shadow-sm">
+                    <summary class="font-bold text-brand-dark flex justify-between items-center text-lg list-none">Preciso pagar mensalidade?<span class="transition group-open:rotate-180 text-brand-purple"><i class="fa-solid fa-chevron-down"></i></span></summary>
+                    <p class="mt-4 text-gray-600 text-sm leading-relaxed border-l-2 border-brand-neon pl-4">Não! O pagamento é único. O código é seu para sempre.</p>
+                </details>
+                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer shadow-sm">
+                    <summary class="font-bold text-brand-dark flex justify-between items-center text-lg list-none">Quanto tempo demora?<span class="transition group-open:rotate-180 text-brand-purple"><i class="fa-solid fa-chevron-down"></i></span></summary>
+                    <p class="mt-4 text-gray-600 text-sm leading-relaxed border-l-2 border-brand-neon pl-4">Entregamos sua loja pronta em até 7 dias corridos.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12 border-t border-white/5 text-center pb-32 lg:pb-12">
+        <div class="container mx-auto px-4">
+            <div class="opacity-50 hover:opacity-100 transition duration-500 mb-6"><span class="font-display font-bold text-2xl tracking-widest">VIZZU</span><span class="font-sans text-[10px] tracking-[0.3em] uppercase block">Digital</span></div>
+            <p class="text-gray-600 text-xs">© 2024 Vizzu Digital. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky Calc -->
+    <div id="mobile-sticky-calc" class="sticky-calculator bg-[#1a0b2e]/95 backdrop-blur-xl border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.4)] p-4 lg:hidden">
+        <div class="flex justify-between items-center mb-3">
+            <div class="flex flex-col"><span class="text-gray-400 text-xs line-through" id="mobile-subtotal">R$ 0,00</span><div class="flex items-center gap-2"><span class="text-2xl font-display font-bold text-brand-neon" id="mobile-total">R$ 0,00</span><span class="bg-brand-pink/20 text-brand-pink text-[10px] px-2 py-0.5 rounded font-bold" id="mobile-badge-discount">-0%</span></div></div>
+            <div class="text-right"><span class="text-[10px] text-gray-400 block mb-1" id="mobile-item-count">0 itens</span></div>
+        </div>
+        <a href="#" id="btn-mobile-checkout" class="block w-full bg-brand-neon text-brand-dark font-bold py-3 rounded-lg text-center uppercase text-sm tracking-wide opacity-50 pointer-events-none">FECHAR PEDIDO</a>
+    </div>
+
+    <!-- Exit Intent Modal -->
+    <div id="exitModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-1 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-neon to-brand-pink"></div>
+            <button id="closeModal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="p-8 text-center">
+                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl text-yellow-600 animate-bounce"><i class="fa-solid fa-gift"></i></div>
+                <h3 class="text-2xl font-bold text-brand-dark mb-2">Espere! Não vá embora...</h3>
+                <p class="text-gray-600 mb-6">Queremos te dar uma <strong>Análise Gratuita</strong> da sua loja.</p>
+                <a href="https://wa.me/5562981480687?text=Olá, quero minha análise gratuita!" class="block w-full bg-brand-pink text-white font-bold py-3 rounded-lg hover:bg-pink-700 transition mb-3 uppercase tracking-wide shadow-lg">Quero Análise Gratuita</a>
+                <button id="closeModalBtn" class="text-sm text-gray-400 underline hover:text-gray-600">Não, prefiro continuar perdendo vendas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const products = [
+            { id: 1, name: 'Redesign Visual App', price: 897, desc: 'Visual iPhone' },
+            { id: 2, name: 'Carrossel Shop the Look', price: 497, desc: 'Stories Home' },
+            { id: 3, name: 'Institucional Quem Somos', price: 397, desc: 'Vídeo Fábrica' },
+            { id: 4, name: 'Calculadora Lucro B2B', price: 397, desc: 'Simulador' },
+            { id: 5, name: 'Oferta Relâmpago', price: 297, desc: 'Escassez' },
+            { id: 6, name: 'Barra + Menu 3D', price: 247, desc: 'Navegação' },
+            { id: 7, name: 'Filtro Tamanhos', price: 197, desc: 'Agilidade' },
+            { id: 8, name: 'Cupom One-Click', price: 197, desc: 'Retenção' },
+            { id: 9, name: 'Rodapé Animado', price: 197, desc: 'Acabamento' }
+        ];
+
+        let selectedIds = new Set();
+
+        function init() { 
+            renderProducts(); 
+            updateCalculator(); 
+            
+            // Inicializa vídeos do Institucional e Reels
+            var allVideos = document.querySelectorAll('video');
+            allVideos.forEach(v => {
+                v.addEventListener('playing', function() {
+                    var card = this.closest('.card-bastidor') || this.closest('.video-card');
+                    if(card) {
+                        card.classList.remove('carregando');
+                        card.classList.add('tocando');
+                    }
+                });
+                v.addEventListener('waiting', function() {
+                    var card = this.closest('.card-bastidor') || this.closest('.video-card');
+                    if(card && !this.paused) card.classList.add('carregando');
+                });
+            });
+        }
+
+        // Logic for Comparison Slider
+        let currentSlideIndex = 0;
+        const totalSlides = 4;
+        const slideTitles = [
+            "Página Inicial",
+            "Página de Produtos",
+            "Detalhes do Produto",
+            "Carrinho"
+        ];
+
+        function changeSlide(direction) {
+            // Hide current slide text and image
+            document.getElementById(`slide-${currentSlideIndex}`).classList.add('hidden');
+            document.getElementById(`desc-slide-${currentSlideIndex}`).classList.add('hidden');
+            
+            // Update index
+            currentSlideIndex += direction;
+            if (currentSlideIndex >= totalSlides) currentSlideIndex = 0;
+            if (currentSlideIndex < 0) currentSlideIndex = totalSlides - 1;
+            
+            // Show new slide text and image
+            document.getElementById(`slide-${currentSlideIndex}`).classList.remove('hidden');
+            document.getElementById(`desc-slide-${currentSlideIndex}`).classList.remove('hidden');
+            
+            // Update title
+            document.getElementById('slide-title').innerText = slideTitles[currentSlideIndex];
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-list');
+            if (container) {
+                container.innerHTML = products.map(p => `
+                    <label class="cursor-pointer group block">
+                        <input type="checkbox" class="hidden item-checkbox" value="${p.id}" onchange="toggleItem(${p.id})">
+                        <div class="glass-card p-4 rounded-xl flex items-center justify-between border border-white/5 hover:border-white/20 group-hover:translate-x-1 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-6 h-6 rounded border border-gray-500 flex items-center justify-center check-circle transition-colors"><i class="fa-solid fa-check text-xs opacity-0 group-hover:opacity-50"></i></div>
+                                <div><h4 class="font-bold text-white text-sm md:text-base">${p.name}</h4><p class="text-xs text-gray-400">${p.desc}</p></div>
+                            </div>
+                            <div class="font-display font-bold text-brand-neon text-right whitespace-nowrap">R$ ${p.price}</div>
+                        </div>
+                    </label>
+                `).join('');
+            }
+        }
+
+        function toggleItem(id) {
+            if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id);
+            document.querySelectorAll(`input[value="${id}"]`).forEach(input => input.checked = selectedIds.has(id));
+            updateCalculator();
+        }
+
+        function updateCalculator() {
+            const count = selectedIds.size;
+            let subtotal = 0;
+            let discountPercent = 0;
+            let tierName = "Iniciante";
+            let barWidth = 5;
+
+            selectedIds.forEach(id => { const p = products.find(prod => prod.id === id); if (p) subtotal += p.price; });
+
+            if (count === 1) { discountPercent = 0; barWidth = 10; }
+            else if (count === 2) { discountPercent = 0.15; tierName = "Bronze"; barWidth = 25; }
+            else if (count >= 3 && count <= 4) { discountPercent = 0.25; tierName = "Prata"; barWidth = 50; }
+            else if (count >= 5 && count <= 7) { discountPercent = 0.35; tierName = "Ouro"; barWidth = 75; }
+            else if (count >= 8) { discountPercent = 0.50; tierName = "Diamante"; barWidth = 100; }
+
+            const discountValue = subtotal * discountPercent;
+            const total = subtotal - discountValue;
+
+            // Safety checks for calculator elements
+            const progressFill = document.getElementById('progress-fill');
+            if (progressFill) progressFill.style.width = `${barWidth}%`;
+            
+            const levelLabel = document.getElementById('level-label');
+            if (levelLabel) levelLabel.innerHTML = `${tierName} <span class="text-xs font-normal text-gray-500">(${discountPercent * 100}%)</span>`;
+            
+            const desktopTotal = document.getElementById('desktop-total');
+            if (desktopTotal) desktopTotal.innerText = formatCurrency(total);
+            
+            const desktopSubtotal = document.getElementById('desktop-subtotal');
+            if (desktopSubtotal) desktopSubtotal.innerText = formatCurrency(subtotal);
+            
+            const desktopDiscount = document.getElementById('desktop-discount-value');
+            if (desktopDiscount) desktopDiscount.innerText = `-${formatCurrency(discountValue)}`;
+
+            const mobileSubtotal = document.getElementById('mobile-subtotal');
+            if (mobileSubtotal) mobileSubtotal.innerText = subtotal > 0 ? formatCurrency(subtotal) : 'R$ 0,00';
+            
+            const mobileTotal = document.getElementById('mobile-total');
+            if (mobileTotal) mobileTotal.innerText = formatCurrency(total);
+            
+            const mobileBadge = document.getElementById('mobile-badge-discount');
+            if (mobileBadge) mobileBadge.innerText = `-${discountPercent * 100}%`;
+            
+            const mobileCount = document.getElementById('mobile-item-count');
+            if (mobileCount) mobileCount.innerText = `${count} item(s)`;
+
+            const summaryList = document.getElementById('summary-desktop-list');
+            if (summaryList) {
+                if (count > 0) {
+                    summaryList.innerHTML = Array.from(selectedIds).map(id => { 
+                        const p = products.find(prod => prod.id === id); 
+                        return `<div class="flex justify-between text-xs text-gray-300"><span>${p.name}</span><span>R$ ${p.price}</span></div>`; 
+                    }).join('');
+                } else {
+                    summaryList.innerHTML = '<p class="text-gray-500 text-xs italic text-center">Nenhum item selecionado</p>';
+                }
+            }
+
+            const stickyMobile = document.getElementById('mobile-sticky-calc');
+            if (stickyMobile) {
+                if (count > 0) stickyMobile.classList.add('visible'); 
+                else stickyMobile.classList.remove('visible');
+            }
+
+            const almostMsg = document.getElementById('almost-there-msg');
+            const nextHint = document.getElementById('next-level-hint');
+            
+            if (almostMsg && nextHint) {
+                 if (count === 7) { almostMsg.classList.remove('hidden'); nextHint.classList.remove('hidden'); } else { almostMsg.classList.add('hidden'); nextHint.classList.add('hidden'); }
+            } else {
+                if (almostMsg) {
+                     if (count === 7) almostMsg.classList.remove('hidden'); else almostMsg.classList.add('hidden');
+                }
+                if (nextHint) {
+                     if (count === 7) nextHint.classList.remove('hidden'); else nextHint.classList.add('hidden');
+                }
+            }
+
+            updateCheckoutButtons(count, total, selectedIds);
+        }
+
+        function updateCheckoutButtons(count, total, ids) {
+            const btnDesktop = document.getElementById('btn-desktop-checkout');
+            const btnMobile = document.getElementById('btn-mobile-checkout');
+            
+            if (count > 0) {
+                if (btnDesktop) btnDesktop.classList.remove('opacity-50', 'pointer-events-none');
+                if (btnMobile) btnMobile.classList.remove('opacity-50', 'pointer-events-none');
+                
+                let message = `Olá VIZZU! Montei meu combo no site:%0A`;
+                ids.forEach(id => { const p = products.find(prod => prod.id === id); message += `- ${p.name}%0A`; });
+                message += `%0ATotal Estimado: ${formatCurrency(total)}`;
+                const link = `https://wa.me/5562981480687?text=${message}`;
+                
+                if (btnDesktop) btnDesktop.href = link;
+                if (btnMobile) btnMobile.href = link;
+            } else {
+                if (btnDesktop) btnDesktop.classList.add('opacity-50', 'pointer-events-none');
+                if(btnMobile) btnMobile.classList.add('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        function formatCurrency(value) { return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+
+        function applyPreset(type) {
+            selectedIds.clear();
+            let idsToAdd = [];
+            // Combo Elite Total (Todos os 9 itens)
+            if (type === 'elite') idsToAdd = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            // Combo Visual
+            else if (type === 'visual') idsToAdd = [1, 6, 9];
+            // Combo Vendas
+            else if (type === 'vendas') idsToAdd = [2, 5, 8];
+            // Combo Atacado
+            else if (type === 'atacado') idsToAdd = [3, 4, 7];
+            
+            idsToAdd.forEach(id => selectedIds.add(id));
+            document.querySelectorAll('.item-checkbox').forEach(input => input.checked = selectedIds.has(parseInt(input.value)));
+            updateCalculator();
+            
+            if(window.innerWidth < 1024) {
+                const mobSticky = document.getElementById('mobile-sticky-calc');
+                if(mobSticky) mobSticky.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            } else {
+                const prodList = document.getElementById('products-list');
+                if(prodList) prodList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
+        // Exit Intent Logic
+        const exitModal = document.getElementById('exitModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        let modalShown = false;
+
+        const showModal = () => { if (!modalShown) { exitModal.classList.add('active'); modalShown = true; } };
+        const hideModal = () => { exitModal.classList.remove('active'); };
+
+        document.addEventListener('mouseleave', (e) => { if (e.clientY < 0) showModal(); });
+        setTimeout(() => { if(window.innerWidth < 768) showModal(); }, 15000);
+
+        closeModal.addEventListener('click', hideModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        exitModal.addEventListener('click', (e) => { if (e.target === exitModal) hideModal(); });
+        
+        // Video Logic
+        function tocarBastidor(cardClicado) {
+            var videoClicado = cardClicado.querySelector('video');
+            if (!videoClicado.paused) {
+                videoClicado.pause();
+                cardClicado.classList.remove('tocando');
+                cardClicado.classList.remove('carregando');
+            } else {
+                var container = cardClicado.closest('.reels-confianca-container');
+                container.querySelectorAll('.card-bastidor').forEach(function(card) {
+                    var vid = card.querySelector('video');
+                    if(vid !== videoClicado) {
+                        vid.pause();
+                        card.classList.remove('tocando');
+                        card.classList.remove('carregando');
+                    }
+                });
+                cardClicado.classList.add('carregando');
+                videoClicado.muted = false; 
+                var p = videoClicado.play();
+                if (p !== undefined) {
+                    p.then(() => {
+                        cardClicado.classList.remove('carregando');
+                        cardClicado.classList.add('tocando');
+                    }).catch(e => {
+                        console.log("Erro ou bloqueio", e);
+                        cardClicado.classList.remove('carregando');
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
