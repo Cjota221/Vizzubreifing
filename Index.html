@@ -9,24 +9,20 @@
     <!-- SEO / Social Media -->
     <meta property="og:title" content="VIZZU Digital - Transforme Sua Loja em Máquina de Vendas">
     <meta property="og:description" content="Saia do amadorismo. Ferramentas de alta conversão para e-commerce de moda e atacado.">
-    <!-- Imagem de compartilhamento (Logo Vizzu) -->
     <meta property="og:image" content="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- ==========================================
          ÁREA DE RASTREAMENTO (PIXEL E ANALYTICS)
     =========================================== -->
-    
-    <!-- Google Analytics (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-PLACEHOLDER'); // INSIRA SEU ID DO GA4 AQUI
+      gtag('config', 'G-PLACEHOLDER'); 
     </script>
 
-    <!-- Meta Pixel Code (Facebook) -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -36,70 +32,57 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '123456789012345'); // INSIRA SEU ID DO PIXEL AQUI
+    fbq('init', '123456789012345'); 
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=123456789012345&ev=PageView&noscript=1"
     /></noscript>
-    <!-- End Meta Pixel Code -->
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Tailwind CSS (Framework de Estilo) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Configuração de Cores da VIZZU DIGITAL -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            purple: '#4a148c', // Roxo Principal
-                            dark: '#1a0b2e',   // Fundo Escuro
-                            pink: '#d500f9',   // Rosa Accent
-                            neon: '#c6ff00',   // Verde Neon (CTA)
-                            gray: '#f3f4f6',   // Cinza Claro (Fundos)
-                            glass: 'rgba(255, 255, 255, 0.05)' // Efeito Vidro
+                            purple: '#4a148c',
+                            dark: '#1a0b2e',
+                            pink: '#d500f9',
+                            neon: '#c6ff00',
+                            gray: '#f3f4f6',
+                            glass: 'rgba(255, 255, 255, 0.05)'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],    // Texto Corrido
-                        display: ['Poppins', 'sans-serif'], // Títulos
-                    },
-                    fontSize: {
-                        'xxs': '.65rem',
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif'],
                     },
                     animation: {
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 3s ease-in-out infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                        'spin-slow': 'spin 3s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
                         },
-                        glow: {
-                            '0%': { boxShadow: '0 0 5px #c6ff00, 0 0 10px #c6ff00' },
-                            '100%': { boxShadow: '0 0 20px #c6ff00, 0 0 30px #c6ff00' }
-                        },
                         fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' }
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
                         }
-                    },
-                    screens: {
-                        'xs': '480px',
                     }
                 }
             }
@@ -107,16 +90,14 @@
     </script>
 
     <style>
-        /* CSS Global da LP */
         html { scroll-behavior: smooth; }
         body { overflow-x: hidden; } 
-        
         .gradient-bg { background: linear-gradient(135deg, #1a0b2e 0%, #4a148c 100%); }
         .gradient-text { -webkit-background-clip: text; background-clip: text; color: transparent; background-image: linear-gradient(to right, #d500f9, #c6ff00); }
         .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        /* ESTILOS DOS WIDGETS (Adaptados para Mobile) */
+        /* Widgets Styles Globais */
         .demo-box { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; margin-bottom: 2rem; position: relative; border: 1px solid #eee; }
         .demo-label { position: absolute; top: 10px; right: 10px; background: #1a0b2e; color: #c6ff00; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; z-index: 50; text-transform: uppercase; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
@@ -130,27 +111,26 @@
         .vantagem-titulo { font-weight: 800; text-transform: uppercase; font-size: 11px; color: #ccff00 !important; }
         .vantagem-subtitulo { font-weight: 500; font-size: 10px; font-style: italic; color: #ffffff !important; }
         @keyframes scroll-infinite { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        /* Menu Rápido */
         #menu-acesso-rapido { display: flex; justify-content: space-evenly; align-items: flex-start; background: #ffffff; width: 100%; padding: 20px 0; margin: 0; }
         .item-acesso { display: flex; flex-direction: column; align-items: center; text-decoration: none !important; text-align: center; cursor: pointer; transition: transform 0.3s; margin: 0; width: 30%; }
         .bg-gradiente-novo { background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); border: none; box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4); }
         .circulo-icone { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; margin-bottom: 8px; }
-        @media (min-width: 768px) { .circulo-icone { width: 70px; height: 70px; font-size: 32px; } }
         .texto-acesso { color: #4a0072; font-weight: 700; line-height: 1.2; display: block; letter-spacing: 0.3px; font-size: 11px; }
-        
-        /* Módulo 2: Stories */
-        .secao-videos-reels { width: 100%; background-color: #ffffff; padding: 0 0 40px 0; text-align: center; overflow: hidden; position: relative; }
-        .reels-container { display: flex; flex-direction: row; gap: 10px; padding: 10px 15px 30px 15px; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        /* AJUSTE DESKTOP: Centralizar quando houver espaço */
+
+        /* Módulo 2: Reels (Shop the look) */
+        .reels-container { display: flex; flex-direction: row; gap: 10px; padding: 10px 15px 30px 15px; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }
         @media (min-width: 768px) { .reels-container { justify-content: center; } }
         .reels-container::-webkit-scrollbar { display: none; }
-        .video-card { position: relative; width: 140px; height: 250px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .video-card { position: relative; width: 140px; height: 250px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         @media (min-width: 768px) { .video-card { width: 180px; height: 320px; } }
         .video-card video { width: 100%; height: 100%; object-fit: cover; }
         .etiqueta-preco-clean { position: absolute; top: 15px; left: 0; z-index: 10; background-color: #c6ff00; color: #4a148c; padding: 4px 8px; border-radius: 0 20px 20px 0; font-weight: 700; font-size: 11px; }
         .btn-ver-modelo { background-color: #d500f9; color: #ffffff; font-weight: 700; font-size: 10px; padding: 6px 12px; border-radius: 50px; text-transform: uppercase; display: inline-block; position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 5; text-decoration: none; white-space: nowrap; }
         .faixa-lucro { display: inline-block; background-color: #4a148c; color: #ffffff; border: 1px solid #c6ff00; padding: 8px 20px; border-radius: 50px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 10px; margin-bottom: 20px; }
 
-        /* Módulo 3: Oferta Relâmpago */
+        /* Módulo 3: Oferta Relâmpago (RESTAURADO) */
         #faixa-urgencia-container { background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); color: white; border-radius: 15px; padding: 20px; margin: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(213, 0, 249, 0.4); }
         @media (min-width: 768px) { #faixa-urgencia-container { flex-direction: row; text-align: left; padding: 25px 40px; justify-content: space-between; } }
         .icone-raio { font-size: 28px; color: #ccff00; animation: shake 2s infinite; }
@@ -161,7 +141,7 @@
         .btn-ver-todos-relampago { background-color: #ccff00; color: #4a0072; padding: 12px 25px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; animation: pulse-btn 2s infinite; width: 100%; justify-content: center; }
         @media (min-width: 768px) { .btn-ver-todos-relampago { width: auto; } }
 
-        /* Módulo 4: Calculadora */
+        /* Módulo 4: Calculadora (RESTAURADA) */
         .box-calc { background: #fff; border-radius: 15px; border: 2px solid #d500f9; overflow: hidden; display: flex; flex-direction: column; margin: 15px auto; max-width: 100%; }
         @media (min-width: 768px) { .box-calc { flex-direction: row; } }
         .calc-controles { padding: 20px; border-bottom: 1px dashed #d500f9; flex: 1; }
@@ -183,14 +163,16 @@
         .codigo-texto { font-family: monospace; font-weight: 700; font-size: 16px; margin-right: 10px; letter-spacing: 1px; }
         .btn-copiar { background: #fff; color: #4a148c; border: none; padding: 8px 15px; border-radius: 40px; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap; }
 
-        /* Módulo 6: Tamanhos */
-        .secao-tamanhos { width: 100%; background-color: #ffffff; padding: 20px 10px; text-align: center; }
-        .titulo-tamanhos { color: #d500f9; font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .lista-tamanhos { display: flex; justify-content: flex-start; gap: 10px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        /* Módulo 6: Tamanhos (CORRIGIDO: Compacto e Sem Espaço Branco) */
+        .secao-tamanhos { width: 100%; background-color: #ffffff; padding: 10px; text-align: center; }
+        /* Removemos a largura desnecessária */
+        .titulo-tamanhos { color: #d500f9; font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* Lista compacta e centralizada */
+        .lista-tamanhos { display: flex; justify-content: center; gap: 8px; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .lista-tamanhos::-webkit-scrollbar { display: none; }
         .btn-tamanho { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); border: none; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none !important; font-weight: 700; font-size: 13px; box-shadow: 0 3px 8px rgba(123, 31, 162, 0.3); }
 
-        /* Módulo 7: Rodapé */
+        /* Módulo 7: Rodapé Info */
         #footer-infos-container { width: 100%; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); padding: 20px 0; border-bottom: 4px solid #ccff00; white-space: nowrap; overflow: hidden; }
         .infos-wrapper { display: inline-flex; gap: 0; animation: scroll-footer 30s linear infinite; }
         .info-item { display: flex; align-items: center; gap: 10px; padding: 0 30px; border-right: 1px solid rgba(255, 255, 255, 0.15); }
@@ -199,47 +181,28 @@
         .info-descricao { font-size: 11px; color: rgba(255, 255, 255, 0.9); display: block;}
         @keyframes scroll-footer { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* Módulo 8: Institucional */
-        .secao-confianca { width: 100%; background-color: #ffffff; padding: 10px 0 30px 0; text-align: center; }
-        .titulo-confianca { color: #4a148c; font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
-        .texto-confianca { color: #555; font-size: 13px; margin-bottom: 20px; padding: 0 15px; line-height: 1.5; }
-        .reels-confianca-container { display: flex; gap: 15px; justify-content: flex-start; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        /* AJUSTE DESKTOP: Centralizar quando houver espaço */
+        /* Institucional */
+        .reels-confianca-container { display: flex; gap: 15px; justify-content: flex-start; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; }
         @media (min-width: 768px) { .reels-confianca-container { justify-content: center; } }
-        .reels-confianca-container::-webkit-scrollbar { display: none; }
         .card-bastidor { position: relative; width: 160px; height: 300px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; }
         @media (min-width: 768px) { .card-bastidor { width: 220px; height: 400px; } }
-        .card-bastidor video { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .botao-play-bastidor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: rgba(0, 0, 0, 0.6); border: 2px solid #c6ff00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c6ff00; font-size: 20px; padding-left: 3px; z-index: 10; pointer-events: none; transition: all 0.3s; }
-        .card-bastidor.tocando .botao-play-bastidor { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
-        .etiqueta-bastidor { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: #c6ff00; color: #4a148c; padding: 4px 10px; border-radius: 20px; font-size: 9px; font-weight: 700; text-transform: uppercase; z-index: 2; white-space: nowrap; }
-        .video-loader-bastidor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #c6ff00; border-radius: 50%; animation: spin-slow 1s linear infinite; z-index: 11; display: none; }
-        .card-bastidor.carregando .video-loader-bastidor { display: block; }
-        .card-bastidor.carregando .botao-play-bastidor { display: none; }
+        .botao-play-bastidor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: rgba(0, 0, 0, 0.6); border: 2px solid #c6ff00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c6ff00; font-size: 20px; pointer-events: none; transition: all 0.3s; }
+        .card-bastidor.tocando .botao-play-bastidor { opacity: 0; transform: scale(1.5); }
 
-        /* Animations */
-        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
-        @keyframes pulse-green { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(204, 255, 0, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); } }
-        
-        /* Sticky Calculator */
+        /* Checkbox & Calc Sticky */
         .sticky-calculator { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; transform: translateY(100%); transition: transform 0.3s ease-in-out; border-top: 1px solid rgba(255,255,255,0.1); }
         .sticky-calculator.visible { transform: translateY(0); }
-        
-        /* Checkbox Customizado */
         .item-checkbox:checked + div { border-color: #c6ff00; background: rgba(198, 255, 0, 0.1); box-shadow: 0 0 15px rgba(198, 255, 0, 0.2); }
         .item-checkbox:checked + div .check-circle { background: #c6ff00; border-color: #c6ff00; color: #1a0b2e; }
         .progress-bar-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Comparison Slide Animation */
+        .comparison-slide { animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
 
-        /* Modal Exit Intent */
+        /* Exit Modal Fix */
         .modal { transition: opacity 0.3s ease; pointer-events: none; opacity: 0; }
         .modal.active { opacity: 1; pointer-events: auto; }
-
-        /* Combo Cards */
-        .combo-card { transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .combo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(213,0,249,0.3); }
-        
-        /* Slide Styles */
-        .comparison-slide { animation: fade-in 0.5s ease-in-out; }
     </style>
 </head>
 <body class="font-sans bg-brand-dark text-gray-200 antialiased overflow-x-hidden">
@@ -248,7 +211,6 @@
     <header class="fixed w-full z-40 bg-brand-dark/95 backdrop-blur-md border-b border-white/10" id="navbar">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <a href="#" class="flex items-center gap-2">
-                <!-- LOGO CORRIGIDA (Sem borda e tamanho equilibrado) -->
                 <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="VIZZU Digital" class="h-14 w-auto">
             </a>
             
@@ -265,7 +227,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="gradient-bg min-h-screen pt-28 pb-20 relative overflow-hidden flex items-center">
+    <section class="gradient-bg min-h-screen pt-28 pb-12 md:pb-20 relative overflow-hidden flex items-center">
         <!-- Blobs decorativos -->
         <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-pink rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-pulse"></div>
         <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-purple rounded-full mix-blend-color-dodge filter blur-[120px] opacity-30"></div>
@@ -276,17 +238,16 @@
                     <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
                     <span class="text-brand-neon text-xs font-bold uppercase tracking-wider">Especialistas em E-commerce</span>
                 </div>
-                <h1 class="font-display font-bold text-4xl md:text-6xl text-white leading-tight mb-6">
+                <h1 class="font-display font-bold text-3xl md:text-6xl text-white leading-tight mb-6">
                     Transforme Sua Loja Genérica em uma <span class="gradient-text">Máquina de Vendas</span>
                 </h1>
-                <p class="text-lg text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                <p class="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
                     O visual da sua loja define o valor do seu produto. Saia do amadorismo com ferramentas de elite: Calculadoras de Lucro, Stories na Home e Gatilhos Mentais.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="#catalogo-visual" class="bg-brand-neon text-brand-dark font-display font-bold text-lg px-8 py-4 rounded-lg shadow-[0_0_20px_rgba(198,255,0,0.4)] hover:shadow-[0_0_30px_rgba(198,255,0,0.6)] hover:-translate-y-1 transition transform flex items-center justify-center gap-2">
                         Ver As Ferramentas <i class="fa-solid fa-arrow-down"></i>
                     </a>
-                    <!-- LINK WHATSAPP REAL -->
                     <a href="https://wa.me/5562981480687?text=Olá! Gostaria de uma consultoria gratuita para minha loja." class="border-2 border-white/20 text-white font-bold text-lg px-8 py-4 rounded-lg hover:bg-white/10 transition flex items-center justify-center gap-2">
                         <i class="fa-brands fa-whatsapp"></i> Consultoria Grátis
                     </a>
@@ -302,10 +263,7 @@
                             <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
                         </div>
                     </div>
-                    <!-- SUBSTITUIR ESTA IMAGEM PELO VÍDEO DO CELULAR -->
-                    <video src="https://files.catbox.moe/yav5jo.mp4" autoplay loop muted playsinline class="rounded-b-xl w-full object-cover h-[500px]"></video>
-                    
-                    <!-- Floating Highlight -->
+                    <video src="https://files.catbox.moe/yav5jo.mp4" autoplay loop muted playsinline class="rounded-b-xl w-full object-cover h-[500px] bg-gray-800"></video>
                     <div class="absolute -left-10 bottom-20 bg-brand-purple p-3 rounded-lg shadow-xl border border-brand-pink animate-bounce hidden md:block">
                         <div class="text-xs font-bold text-white">Nós fazemos isso 👇</div>
                     </div>
@@ -314,30 +272,33 @@
         </div>
     </section>
 
-    <!-- O Problema (Agitação) - ÍCONES CORRIGIDOS -->
+    <!-- O Problema (Diagnóstico) -->
     <section id="problema" class="py-20 bg-white">
         <div class="container mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="text-center max-w-3xl mx-auto mb-12">
                 <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Diagnóstico</span>
                 <h2 class="text-3xl md:text-5xl font-display font-bold text-brand-dark mb-4">Sua loja passa Confiança ou Amadorismo?</h2>
                 <p class="text-lg text-gray-600">Clientes julgam seu site em 3 segundos. Se o layout não for profissional, eles saem e compram no concorrente.</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
-                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                <!-- Card 1 -->
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition group">
+                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink group-hover:scale-110 transition"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
                     <h3 class="font-bold text-xl mb-3 text-brand-dark">Sem Diferencial</h3>
-                    <p class="text-gray-600 text-sm">Sua loja parece igual a todas as outras. Você acaba brigando só por preço.</p>
+                    <p class="text-gray-600 text-sm">Sua loja parece igual a todas as outras (temas padrões). Você acaba brigando apenas por preço baixo.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
-                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink"><i class="fa-solid fa-cart-arrow-down"></i></div>
-                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Checkout Lento</h3>
-                    <p class="text-gray-600 text-sm">Processo de compra difícil no celular faz o cliente desistir no meio do caminho.</p>
+                <!-- Card 2 -->
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition group">
+                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink group-hover:scale-110 transition"><i class="fa-solid fa-eye-slash"></i></div>
+                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Checkout Confuso</h3>
+                    <p class="text-gray-600 text-sm">A plataforma é rápida, mas o <strong>visual poluído</strong> faz o cliente se perder e desistir da compra no meio do caminho.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
-                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Visual Amador</h3>
-                    <p class="text-gray-600 text-sm">Se o site parece "feito em casa", o cliente acha que o produto é ruim ou que é golpe.</p>
+                <!-- Card 3 -->
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition group">
+                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink group-hover:scale-110 transition"><i class="fa-solid fa-store-slash"></i></div>
+                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Falta de Gatilhos</h3>
+                    <p class="text-gray-600 text-sm">Loja "pelada" não vende. Você precisa de <strong>Cupons, Filtros e Ofertas Relâmpago</strong> para converter visitantes em clientes.</p>
                 </div>
             </div>
         </div>
@@ -380,7 +341,7 @@
                 </div>
             </div>
 
-            <!-- Módulo 2: Carrossel de Vídeos - CENTRALIZADO NO DESKTOP -->
+            <!-- Módulo 2: Carrossel de Vídeos -->
             <div class="mb-20">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
@@ -433,7 +394,7 @@
                 </div>
             </div>
 
-            <!-- Módulo 3: Oferta Relâmpago -->
+            <!-- Módulo 3: Oferta Relâmpago - CORRIGIDO -->
             <div class="mb-20">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
@@ -469,7 +430,7 @@
                 </div>
             </div>
 
-            <!-- Módulo 4: Calculadora -->
+            <!-- Módulo 4: Calculadora - CORRIGIDA -->
             <div class="mb-20">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">4</div>
@@ -524,7 +485,8 @@
                         <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">6</div>
                         <h3 class="text-xl font-bold text-brand-dark">Filtro de Tamanhos</h3>
                     </div>
-                    <div class="demo-box" style="padding: 20px; height: 100%;">
+                    <div class="demo-box" style="padding: 20px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <!-- CORREÇÃO: Remove height:100% e adiciona centralização -->
                         <div class="secao-tamanhos">
                             <h3 class="titulo-tamanhos">COMPRE POR TAMANHO</h3>
                             <div class="lista-tamanhos">
@@ -563,7 +525,7 @@
                 </div>
             </div>
 
-            <!-- Módulo 8: Institucional - CENTRALIZADO NO DESKTOP -->
+            <!-- Módulo 8: Institucional -->
             <div class="mb-20">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">8</div>
@@ -610,12 +572,12 @@
             </div>
 
             <!-- Navegação do Carrossel -->
-            <div class="flex justify-between items-center mb-8 max-w-4xl mx-auto bg-gray-50 p-4 rounded-full border border-gray-200 shadow-sm">
-                <button onclick="changeSlide(-1)" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-sm">
+            <div class="flex justify-between items-center mb-8 max-w-4xl mx-auto bg-gray-50 p-4 rounded-full border border-gray-200 shadow-sm sticky top-20 z-20 md:static">
+                <button onclick="changeSlide(-1)" class="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-md active:scale-95">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
-                <span id="slide-title" class="font-display font-bold text-lg md:text-2xl text-brand-purple uppercase tracking-wide">Página Inicial</span>
-                <button onclick="changeSlide(1)" class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-sm">
+                <span id="slide-title" class="font-display font-bold text-base md:text-2xl text-brand-purple uppercase tracking-wide text-center">Página Inicial</span>
+                <button onclick="changeSlide(1)" class="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-md active:scale-95">
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
@@ -623,103 +585,139 @@
             <!-- Container dos Slides -->
             <div class="max-w-6xl mx-auto">
                 
-                <!-- Slide 1: Home Page -->
-                <div id="slide-0" class="comparison-slide grid md:grid-cols-2 gap-8 items-center">
+                <!-- Slide 0: Home Page -->
+                <div id="slide-0" class="comparison-slide grid md:grid-cols-2 gap-8 items-start">
                     <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
-                        <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
-                        <p class="text-center text-sm text-gray-500 mt-2">Visual padrão, sem identidade.</p>
+                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
+                        <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
+                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Sem Identidade</p>
                     </div>
                     <div class="relative group">
                         <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
-                        <img src="https://i.ibb.co/ZRJCvPgd/PAGINA-INICIAL-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
-                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Identidade forte, vídeos na home e menu fácil.</p>
+                        <img src="https://i.ibb.co/ZRJCvPgd/PAGINA-INICIAL-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
+                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Identidade Forte</p>
                     </div>
                 </div>
 
-                <!-- Slide 2: Página de Produtos -->
-                <div id="slide-1" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-center">
+                <!-- Slide 1: Página de Produtos -->
+                <div id="slide-1" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-start">
                     <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
-                        <img src="https://i.ibb.co/8nF9Ld83/PAGINA-DE-PRODUTO-ANTESINA-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
-                        <p class="text-center text-sm text-gray-500 mt-2">Lista confusa, difícil de navegar.</p>
+                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES</div>
+                        <img src="https://i.ibb.co/8nF9Ld83/PAGINA-DE-PRODUTO-ANTESINA-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
+                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Confuso</p>
                     </div>
                     <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
-                        <img src="https://i.ibb.co/JWj3tbnS/PAGINA-DE-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
-                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Filtros claros, fotos maiores e compra rápida.</p>
-                    </div>
-                </div>
-
-                <!-- Slide 3: Detalhes do Produto -->
-                <div id="slide-2" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-center">
-                    <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
-                        <img src="https://i.ibb.co/nqhs9XQ8/PAGINA-POR-DENTRO-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
-                        <p class="text-center text-sm text-gray-500 mt-2">Informações escondidas, sem destaque.</p>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
-                        <img src="https://i.ibb.co/nsG9TZ9j/PAGINA-POR-DENTRO-DO-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
-                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Calculadora de lucro e gatilhos de escassez.</p>
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS</div>
+                        <img src="https://i.ibb.co/JWj3tbnS/PAGINA-DE-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
+                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Clean & Vendedor</p>
                     </div>
                 </div>
 
-                <!-- Slide 4: Carrinho -->
-                <div id="slide-3" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-center">
+                <!-- Slide 2: Detalhes do Produto -->
+                <div id="slide-2" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-start">
                     <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
-                        <img src="https://i.ibb.co/ZRcX5R8p/CARRINHO-ANTES.png" class="w-full h-auto rounded-xl shadow-lg filter grayscale opacity-70 transition duration-500 hover:filter-none hover:opacity-100">
-                        <p class="text-center text-sm text-gray-500 mt-2">Carrinho básico, muitos abandonam aqui.</p>
+                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES</div>
+                        <img src="https://i.ibb.co/nqhs9XQ8/PAGINA-POR-DENTRO-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
+                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Informação Escondida</p>
                     </div>
                     <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
-                        <img src="https://i.ibb.co/TxkcWrtS/CARRINHO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon transform md:-translate-x-4 md:translate-y-4 transition duration-500 hover:scale-[1.02]">
-                        <p class="text-center text-sm text-brand-purple font-bold mt-2">Visual confiável e checkout otimizado.</p>
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS</div>
+                        <img src="https://i.ibb.co/nsG9TZ9j/PAGINA-POR-DENTRO-DO-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
+                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Foco na Conversão</p>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Carrinho -->
+                <div id="slide-3" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-start">
+                    <div class="relative group">
+                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES</div>
+                        <img src="https://i.ibb.co/ZRcX5R8p/CARRINHO-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
+                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Robusto & Antigo</p>
+                    </div>
+                    <div class="relative group">
+                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS</div>
+                        <img src="https://i.ibb.co/TxkcWrtS/CARRINHO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
+                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Otimizado</p>
                     </div>
                 </div>
 
             </div>
             
-            <!-- Descrições Dinâmicas dos Slides -->
-            <div id="desc-slide-0" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
-                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos na Home:</h4>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Carrossel Institucional & Topo</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Barra de Vantagens e Menu Rápido</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Oferta Relâmpago & Calculadora</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Filtros por Tamanho & Rodapé</li>
+            <!-- Descrições Técnicas Dinâmicas (BOX EXPLICATIVO) -->
+            <div id="desc-slide-0" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
+                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos na Home:
+                </h4>
+                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Carrossel Institucional & Topo:</strong> Credibilidade imediata.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Barra de Vantagens:</strong> Destaque para Frete e Envio.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Oferta Relâmpago & Calculadora:</strong> Gatilhos de escassez e lucro.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Filtros por Tamanho:</strong> Facilita a navegação no mobile.</span></li>
                 </ul>
+                
+                <!-- Navegação Mobile Interna -->
+                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
+                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
 
-            <div id="desc-slide-1" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 hidden">
-                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos na Lista de Produtos:</h4>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Bordas arredondadas (mais moderno)</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Layout clean e sofisticado</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Botão de comprar com efeito "Pulsar"</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Remoção de botões quadrados robustos</li>
+            <div id="desc-slide-1" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
+                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos na Lista de Produtos:
+                </h4>
+                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Bordas Arredondadas:</strong> Design moderno e amigável ao clique.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Layout Clean:</strong> Remoção de poluição visual para focar na foto.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Botão "Pulsar":</strong> Incentiva o clique impulsivo.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Remoção do Robusto:</strong> Fim dos botões quadrados e pesados.</span></li>
                 </ul>
+                
+                 <!-- Navegação Mobile Interna -->
+                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
+                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
 
-            <div id="desc-slide-2" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 hidden">
-                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos na Página do Produto:</h4>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Botões de ação suavizados e clean</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Botão "Adicionar ao Carrinho" maior</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Efeito de pulso para incentivar o clique</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Design focado em facilidade de clique</li>
+            <div id="desc-slide-2" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
+                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos na Página do Produto:
+                </h4>
+                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Botões Suavizados:</strong> Mais modernos e fáceis de interagir.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>CTA Adicionar ao Carrinho:</strong> Maior, com efeito pulse.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Seletor de Variação:</strong> Mais visível e intuitivo.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Foco na Imagem:</strong> Destaque total para o produto.</span></li>
                 </ul>
+                
+                 <!-- Navegação Mobile Interna -->
+                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
+                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
 
-            <div id="desc-slide-3" class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200 hidden">
-                <h4 class="font-bold text-brand-purple mb-4 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> O que mudamos no Carrinho:</h4>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Reestruturação total para alta conversão</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Visual mais limpo e organizado</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Fim do design amador/robusto</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-neon"></span> Layout funcional focado no fechamento</li>
+            <div id="desc-slide-3" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
+                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos no Carrinho:
+                </h4>
+                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Reestruturação Total:</strong> Foco em alta conversão.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Organização Visual:</strong> Cliente vê claramente o que está comprando.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Edição Fácil:</strong> Adicionar/remover itens sem frustração.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Fim do Amadorismo:</strong> Saída do layout padrão "travado".</span></li>
                 </ul>
+                
+                 <!-- Navegação Mobile Interna -->
+                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
+                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
+                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
 
         </div>
