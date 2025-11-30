@@ -140,6 +140,8 @@
         /* Módulo 2: Stories */
         .secao-videos-reels { width: 100%; background-color: #ffffff; padding: 0 0 40px 0; text-align: center; overflow: hidden; position: relative; }
         .reels-container { display: flex; flex-direction: row; gap: 10px; padding: 10px 15px 30px 15px; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        /* AJUSTE DESKTOP: Centralizar quando houver espaço */
+        @media (min-width: 768px) { .reels-container { justify-content: center; } }
         .reels-container::-webkit-scrollbar { display: none; }
         .video-card { position: relative; width: 140px; height: 250px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         @media (min-width: 768px) { .video-card { width: 180px; height: 320px; } }
@@ -202,6 +204,8 @@
         .titulo-confianca { color: #4a148c; font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
         .texto-confianca { color: #555; font-size: 13px; margin-bottom: 20px; padding: 0 15px; line-height: 1.5; }
         .reels-confianca-container { display: flex; gap: 15px; justify-content: flex-start; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        /* AJUSTE DESKTOP: Centralizar quando houver espaço */
+        @media (min-width: 768px) { .reels-confianca-container { justify-content: center; } }
         .reels-confianca-container::-webkit-scrollbar { display: none; }
         .card-bastidor { position: relative; width: 160px; height: 300px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; }
         @media (min-width: 768px) { .card-bastidor { width: 220px; height: 400px; } }
@@ -289,10 +293,9 @@
                 </div>
             </div>
 
-            <!-- Imagem Estática (Já que vamos mostrar o código embaixo) -->
+            <!-- Vídeo do Celular (Prova Social) -->
             <div class="relative order-1 lg:order-2 animate-float">
                 <div class="relative z-10 bg-gray-900 rounded-3xl p-2 border-4 border-gray-800 shadow-2xl backdrop-blur-xl max-w-sm mx-auto">
-                    <!-- Fake Browser Header -->
                     <div class="bg-black rounded-t-2xl p-3 flex justify-between items-center">
                         <div class="flex gap-2">
                             <div class="w-2 h-2 rounded-full bg-red-500"></div>
@@ -311,7 +314,7 @@
         </div>
     </section>
 
-    <!-- O Problema (Agitação) -->
+    <!-- O Problema (Agitação) - ÍCONES CORRIGIDOS -->
     <section id="problema" class="py-20 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center max-w-3xl mx-auto mb-16">
@@ -322,17 +325,17 @@
 
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
-                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-6 text-2xl text-red-600"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
                     <h3 class="font-bold text-xl mb-3 text-brand-dark">Sem Diferencial</h3>
                     <p class="text-gray-600 text-sm">Sua loja parece igual a todas as outras. Você acaba brigando só por preço.</p>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
-                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-6 text-2xl text-red-600"><i class="fa-solid fa-cart-arrow-down"></i></div>
+                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink"><i class="fa-solid fa-cart-arrow-down"></i></div>
                     <h3 class="font-bold text-xl mb-3 text-brand-dark">Checkout Lento</h3>
                     <p class="text-gray-600 text-sm">Processo de compra difícil no celular faz o cliente desistir no meio do caminho.</p>
                 </div>
                 <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition">
-                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-6 text-2xl text-red-600"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink"><i class="fa-solid fa-mobile-screen-button"></i></div>
                     <h3 class="font-bold text-xl mb-3 text-brand-dark">Visual Amador</h3>
                     <p class="text-gray-600 text-sm">Se o site parece "feito em casa", o cliente acha que o produto é ruim ou que é golpe.</p>
                 </div>
@@ -377,7 +380,7 @@
                 </div>
             </div>
 
-            <!-- Módulo 2: Carrossel de Vídeos -->
+            <!-- Módulo 2: Carrossel de Vídeos - CENTRALIZADO NO DESKTOP -->
             <div class="mb-20">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
@@ -560,7 +563,7 @@
                 </div>
             </div>
 
-            <!-- Módulo 8: Institucional -->
+            <!-- Módulo 8: Institucional - CENTRALIZADO NO DESKTOP -->
             <div class="mb-20">
                 <div class="flex items-center gap-4 mb-6">
                     <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">8</div>
@@ -952,22 +955,63 @@
     </div>
 
     <!-- Exit Intent Modal -->
-    <div id="exitModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-1 relative overflow-hidden">
+    <div id="exitModal" class="modal fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 pointer-events-auto">
+        <div class="bg-white rounded-2xl max-w-md w-full p-1 relative overflow-hidden pointer-events-auto">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-neon to-brand-pink"></div>
-            <button id="closeModal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <button id="closeModal" onclick="closeExitPopup()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 cursor-pointer w-10 h-10 flex items-center justify-center z-50 bg-white/80 rounded-full hover:bg-gray-100 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             <div class="p-8 text-center">
                 <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl text-yellow-600 animate-bounce"><i class="fa-solid fa-gift"></i></div>
                 <h3 class="text-2xl font-bold text-brand-dark mb-2">Espere! Não vá embora...</h3>
                 <p class="text-gray-600 mb-6">Queremos te dar uma <strong>Análise Gratuita</strong> da sua loja.</p>
                 <a href="https://wa.me/5562981480687?text=Olá, quero minha análise gratuita!" class="block w-full bg-brand-pink text-white font-bold py-3 rounded-lg hover:bg-pink-700 transition mb-3 uppercase tracking-wide shadow-lg">Quero Análise Gratuita</a>
-                <button id="closeModalBtn" class="text-sm text-gray-400 underline hover:text-gray-600">Não, prefiro continuar perdendo vendas</button>
+                <button id="closeModalBtn" onclick="closeExitPopup()" class="text-sm text-gray-400 underline hover:text-gray-600">Não, prefiro continuar perdendo vendas</button>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
     <script>
+        // Função GLOBAL para fechar o modal (Infalível)
+        function closeExitPopup() {
+            const modal = document.getElementById('exitModal');
+            if(modal) {
+                modal.classList.remove('active');
+                // Remove o listener para não abrir de novo na mesma sessão
+                document.removeEventListener('mouseleave', showModalHandler);
+            }
+        }
+
+        let modalShown = false;
+        
+        // Handler separado para poder remover depois
+        function showModalHandler(e) {
+            if (e.clientY < 0 && !modalShown) {
+                const modal = document.getElementById('exitModal');
+                if(modal) {
+                    modal.classList.add('active');
+                    modalShown = true;
+                }
+            }
+        }
+
+        function initModal() {
+            // Desktop Exit Intent
+            document.addEventListener('mouseleave', showModalHandler);
+            
+            // Mobile Timer (15s)
+            if(window.innerWidth < 768) {
+                setTimeout(() => { 
+                    if(!modalShown) {
+                        const modal = document.getElementById('exitModal');
+                        if(modal) {
+                            modal.classList.add('active');
+                            modalShown = true;
+                        }
+                    }
+                }, 15000);
+            }
+        }
+
         const products = [
             { id: 1, name: 'Redesign Visual App', price: 897, desc: 'Visual iPhone' },
             { id: 2, name: 'Carrossel Shop the Look', price: 497, desc: 'Stories Home' },
@@ -981,10 +1025,19 @@
         ];
 
         let selectedIds = new Set();
+        let currentSlideIndex = 0;
+        const totalSlides = 4;
+        const slideTitles = [
+            "Página Inicial",
+            "Página de Produtos",
+            "Detalhes do Produto",
+            "Carrinho"
+        ];
 
         function init() { 
             renderProducts(); 
             updateCalculator(); 
+            initModal();
             
             // Inicializa vídeos do Institucional e Reels
             var allVideos = document.querySelectorAll('video');
@@ -1002,16 +1055,6 @@
                 });
             });
         }
-
-        // Logic for Comparison Slider
-        let currentSlideIndex = 0;
-        const totalSlides = 4;
-        const slideTitles = [
-            "Página Inicial",
-            "Página de Produtos",
-            "Detalhes do Produto",
-            "Carrinho"
-        ];
 
         function changeSlide(direction) {
             // Hide current slide text and image
@@ -1184,54 +1227,6 @@
             }
         }
         
-        // Exit Intent Logic
-        const exitModal = document.getElementById('exitModal');
-        const closeModal = document.getElementById('closeModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        let modalShown = false;
-
-        const showModal = () => { if (!modalShown) { exitModal.classList.add('active'); modalShown = true; } };
-        const hideModal = () => { exitModal.classList.remove('active'); };
-
-        document.addEventListener('mouseleave', (e) => { if (e.clientY < 0) showModal(); });
-        setTimeout(() => { if(window.innerWidth < 768) showModal(); }, 15000);
-
-        closeModal.addEventListener('click', hideModal);
-        closeModalBtn.addEventListener('click', hideModal);
-        exitModal.addEventListener('click', (e) => { if (e.target === exitModal) hideModal(); });
-        
-        // Video Logic
-        function tocarBastidor(cardClicado) {
-            var videoClicado = cardClicado.querySelector('video');
-            if (!videoClicado.paused) {
-                videoClicado.pause();
-                cardClicado.classList.remove('tocando');
-                cardClicado.classList.remove('carregando');
-            } else {
-                var container = cardClicado.closest('.reels-confianca-container');
-                container.querySelectorAll('.card-bastidor').forEach(function(card) {
-                    var vid = card.querySelector('video');
-                    if(vid !== videoClicado) {
-                        vid.pause();
-                        card.classList.remove('tocando');
-                        card.classList.remove('carregando');
-                    }
-                });
-                cardClicado.classList.add('carregando');
-                videoClicado.muted = false; 
-                var p = videoClicado.play();
-                if (p !== undefined) {
-                    p.then(() => {
-                        cardClicado.classList.remove('carregando');
-                        cardClicado.classList.add('tocando');
-                    }).catch(e => {
-                        console.log("Erro ou bloqueio", e);
-                        cardClicado.classList.remove('carregando');
-                    });
-                }
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
