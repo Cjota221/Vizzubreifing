@@ -1027,7 +1027,7 @@
             <li><i class="fas fa-check"></i> Cupom One-Click</li>
             <li style="opacity: 0.7; font-size: 0.9em; margin-top: 15px;"><i class="fas fa-tools"></i> Instalação Padrão</li>
           </ul>
-          <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20INICIANTE%0A%E2%9C%85%20Valor:%20R$%20797,00" class="btn btn-secondary" style="width:100%">ESCOLHER</a>
+          <button class="btn btn-secondary" style="width:100%" onclick="buyIniciante()">ESCOLHER</button>
         </div>
 
         <div class="price-card card-elite">
@@ -1042,7 +1042,7 @@
             <li><i class="fas fa-check"></i> Entrega em 7 Dias (Agendada)</li>
             <li><i class="fas fa-check"></i> Suporte VIP Prioritário</li>
           </ul>
-          <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20ELITE%20TOTAL%20%F0%9F%91%91%0A%E2%9C%85%20Valor:%20R$%201.661,00" class="btn btn-primary btn-pulse" style="width:100%">PIX AGORA</a>
+          <button class="btn btn-primary btn-pulse" style="width:100%" onclick="buyElite()">PIX AGORA</button>
         </div>
 
         <div class="price-card">
@@ -1053,7 +1053,7 @@
             <li><i class="fas fa-check"></i> Pesquisa de Mercado</li>
             <li><i class="fas fa-check"></i> Suporte Ilimitado</li>
           </ul>
-          <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20PERSONALIZADO%0A%E2%9C%85%20Valor:%20R$%202.999,00" class="btn btn-secondary" style="width:100%">CONSULTAR</a>
+          <button class="btn btn-secondary" style="width:100%" onclick="buyPersonalizado()">CONSULTAR</button>
         </div>
       </div>
 
@@ -1214,10 +1214,23 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // --- WhatsApp Generators ---
+    // --- WhatsApp Generators with SAFE Emojis ---
+    function buyPlan(planName, price) {
+        // Standard Emojis that work everywhere
+        const msg = `Olá VIZZU! 🚀\nQuero transformar minha loja!\n\n📋 *MEU PEDIDO:*\n✅ Combo: ${planName}\n💰 Valor: ${price}`;
+        window.open(`https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function buyIniciante() {
+        buyPlan('INICIANTE', 'R$ 797,00');
+    }
+
     function buyElite() {
-      const msg = `Olá VIZZU! 🚀\nQuero transformar minha loja!\n\n📋 *MEU PEDIDO:*\n✅ Combo: ELITE TOTAL\n✅ Valor: R$ 1.661,00`;
-      window.open(`https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`, '_blank');
+        buyPlan('ELITE TOTAL 👑', 'R$ 1.661,00');
+    }
+
+    function buyPersonalizado() {
+        buyPlan('PERSONALIZADO', 'R$ 2.999,00');
     }
 
     function buyCustom(total) {
