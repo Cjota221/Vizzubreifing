@@ -675,6 +675,19 @@
         </div>
     </section>
 
+    <!-- FLOATING CART -->
+    <div id="floating-cart" class="fixed bottom-4 left-4 right-4 z-50 transform translate-y-[150%] transition-transform duration-300 md:hidden">
+        <div class="glass-panel p-4 border border-vizzu-green flex justify-between items-center bg-vizzu-dark/90 backdrop-blur-xl shadow-2xl">
+            <div class="flex flex-col">
+                <span class="text-xs text-gray-400"><span id="float-count">0</span> itens selecionados</span>
+                <span class="text-xl font-black text-vizzu-green" id="float-total">R$ 0,00</span>
+            </div>
+            <a href="#planos" class="bg-vizzu-green text-vizzu-dark font-bold py-2 px-6 rounded-full shadow-lg text-sm">
+                CONCLUIR
+            </a>
+        </div>
+    </div>
+
     <!-- FAQ -->
     <section class="py-12 bg-vizzu-dark">
         <div class="container mx-auto px-4 max-w-2xl">
@@ -817,7 +830,7 @@
             const container = document.getElementById('lista-widgets');
             // GERAÇÃO DOS CHECKBOXES COM CLASSES DINÂMICAS (peer-checked) - ATUALIZADO LIMPO
             container.innerHTML = widgets.map(w => `
-                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer hover:border-vizzu-green/50 transition-all duration-300 group select-none overflow-hidden">
+                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer hover:border-vizzu-green/50 transition-all duration-300 group select-none overflow-hidden peer-checked:bg-vizzu-green/20 peer-checked:border-vizzu-green peer-checked:shadow-[0_0_15px_rgba(198,255,0,0.2)]">
                     <input type="checkbox" class="peer sr-only" 
                            onchange="toggleWidget(${w.id})" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
                     <div class="flex items-center gap-3 z-10">
@@ -829,6 +842,8 @@
                         </div>
                     </div>
                     <div class="font-mono text-vizzu-pink font-bold z-10 peer-checked:text-white">R$ ${w.preco}</div>
+                    <!-- Efeito de Brilho de Fundo ao Selecionar -->
+                    <div class="absolute inset-0 bg-vizzu-green/5 opacity-0 peer-checked:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </label>
             `).join('');
             updateSummary();
@@ -855,13 +870,29 @@
             const discountValue = subtotal * (discountPercent / 100);
             const finalPrice = subtotal - discountValue;
 
+            const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Atualiza resumo principal
             document.getElementById('count-items').innerText = count;
-            document.getElementById('subtotal-price').innerText = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('subtotal-price').innerText = formatarMoeda(subtotal);
             document.getElementById('discount-label').innerText = discountPercent > 0 ? `${discountPercent}% OFF` : '0%';
-            document.getElementById('final-price').innerText = finalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('final-price').innerText = formatarMoeda(finalPrice);
             
             if(count === 9) {
                 document.getElementById('discount-label').innerHTML = `<i class="fas fa-crown"></i> 50% (ELITE)`;
+            }
+
+            // Atualiza Floating Cart
+            const floatingCart = document.getElementById('floating-cart');
+            const floatCount = document.getElementById('float-count');
+            const floatTotal = document.getElementById('float-total');
+
+            if (count > 0) {
+                floatingCart.classList.remove('translate-y-[150%]');
+                floatCount.innerText = count;
+                floatTotal.innerText = formatarMoeda(finalPrice);
+            } else {
+                floatingCart.classList.add('translate-y-[150%]');
             }
         }
 
