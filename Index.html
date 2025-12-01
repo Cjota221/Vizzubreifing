@@ -56,6 +56,7 @@
       color: var(--text-white);
       overflow-x: hidden;
       line-height: 1.5;
+      padding-bottom: 80px; /* Space for sticky bar */
     }
     h1, h2, h3, h4, .btn-text { font-family: 'Poppins', sans-serif; }
     img { max-width: 100%; display: block; }
@@ -338,7 +339,6 @@
     
     .widget-demo-purple { background: var(--gradient-purple-card); color: #fff; }
     .widget-demo-tall { height: auto; padding: 20px; background: #000; }
-    /* Compact demo for small widgets */
     .widget-demo-compact {
       background: #fff;
       padding: 20px;
@@ -349,11 +349,58 @@
       justify-content: center;
     }
 
-    .widget-footer { padding: 15px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; background: var(--glass-subtle); color: #fff;}
-    .price-tag { color: #fff; font-weight: 600; }
-    .price-check { color: var(--green-electric); margin-left: 5px; }
+    /* Widget Footer com Botão de Adicionar */
+    .widget-footer { 
+      padding: 15px; 
+      border-top: 1px solid var(--glass-border); 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      background: var(--glass-subtle); 
+      color: #fff;
+    }
+    .price-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .price-tag { color: #fff; font-weight: 600; font-size: 1.1rem; }
+    .price-sub { font-size: 0.75rem; opacity: 0.6; }
+    
+    /* Toggle Add Button */
+    .toggle-add {
+      position: relative;
+      display: inline-block;
+    }
+    .toggle-add input { 
+      opacity: 0; 
+      width: 0; 
+      height: 0; 
+    }
+    .btn-add-widget {
+      padding: 8px 16px;
+      border: 1px solid var(--green-electric);
+      color: var(--green-electric);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .toggle-add input:checked + .btn-add-widget {
+      background-color: var(--green-electric);
+      color: #000;
+    }
+    .toggle-add input:checked + .btn-add-widget:before {
+      content: "✓";
+    }
+    .toggle-add input:not(:checked) + .btn-add-widget:before {
+      content: "+";
+    }
 
-    /* --- MARQUEE STYLES (Usado para Vantagens e Info) --- */
+    /* --- MARQUEE STYLES --- */
     .marquee-purple { background: #aa00ff; padding: 15px 0; border-top: 1px solid #d500f9; border-bottom: 1px solid #d500f9; overflow: hidden; white-space: nowrap; width: 100%; }
     .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -396,7 +443,7 @@
     .coupon-input-group { background: #3e0061; border: 1px solid #ccff00; border-radius: 8px; padding: 5px; display: flex; justify-content: space-between; width: 100%; max-width: 300px; align-items: center; }
     .btn-copy-small { background: #ccff00; color: #000; border: none; padding: 8px 15px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
 
-    /* New Widgets: Filter & Central Links */
+    /* New Widgets */
     .filter-size-title { color: #d500f9; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
     .size-circle { width: 45px; height: 45px; background: #9d00e0; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
     .size-circle:hover { background: #fff; color: #9d00e0; border-color: #9d00e0; transform: scale(1.1); }
@@ -406,18 +453,18 @@
     .link-icon:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(157, 0, 224, 0.5); }
     .link-text { color: #330066; font-weight: 800; font-size: 0.8rem; }
 
-    /* --- CASE STUDY (CORRIGIDO - LAYOUT LADO A LADO) --- */
+    /* --- CASE STUDY --- */
     .case-section { padding: 80px 0; }
     .case-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* Volta para o layout lado a lado */
+      grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: center;
       margin-top: 40px;
     }
     .stats-container {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Mantém os stats em grade */
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
     }
     .stat-card {
@@ -449,7 +496,7 @@
       box-shadow: 0 0 20px rgba(198,255,0,0.4);
     }
 
-    /* --- PRICING & FOOTER --- */
+    /* --- PRICING --- */
     .pricing-section { padding: 80px 0; background: #0f0518; }
     .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; align-items: center; }
     .price-card { background: var(--glass-subtle); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; text-align: center; position: relative; }
@@ -457,20 +504,54 @@
     .price-amount { font-size: 2.5rem; font-weight: 800; margin: 20px 0; font-family: 'Poppins'; }
     .price-features li { margin: 15px 0; color: #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .price-features i { color: var(--green-electric); }
+    .economy-alert { background: rgba(198,255,0,0.1); color: var(--green-electric); padding: 10px; margin: 15px 0; border-radius: 8px; font-weight: bold; }
     
     .calc-wrapper { margin-top: 40px; padding: 20px; background: var(--glass-subtle); border-radius: 10px; border: 1px dashed #555; }
     .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: left; }
+
+    /* --- STICKY CART BAR (DYNAMIC) --- */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(15, 5, 24, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      z-index: 9999;
+      border-top: 2px solid var(--green-electric);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+      transition: all 0.3s;
+    }
+    .sticky-info { display: flex; flex-direction: column; }
+    .sticky-title { font-size: 0.8rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+    .sticky-price { font-size: 1.4rem; font-weight: 900; color: var(--green-electric); }
+    .sticky-upsell { font-size: 0.8rem; color: var(--pink-neon); font-weight: bold; animation: pulse 2s infinite; }
+    .btn-sticky {
+      background: var(--green-electric);
+      color: #000;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
 
     .urgency-section { background: linear-gradient(135deg, #b71c1c, #880e4f); padding: 60px 0; text-align: center; }
     .lead-form { max-width: 600px; margin: 0 auto; display: grid; gap: 15px; }
     .lead-form input { padding: 15px; border-radius: 8px; border: none; font-size: 1rem; }
     .lead-form button { width: 100%; border-radius: 8px; font-size: 1.2rem; }
     
-    footer { background: #05020a; padding: 60px 0 20px; font-size: 0.9rem; color: #888; border-top: 1px solid #222; }
+    footer { background: #05020a; padding: 60px 0 100px; font-size: 0.9rem; color: #888; border-top: 1px solid #222; }
     .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 40px; }
     
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green-electric); color: #000; padding: 10px 20px; border-radius: 30px; font-weight: 700; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 2000; }
-    .toast.show { opacity: 1; bottom: 40px; }
+    .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--green-electric); color: #000; padding: 10px 20px; border-radius: 30px; font-weight: 700; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 2000; }
+    .toast.show { opacity: 1; bottom: 120px; }
     
     .exit-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
     .popup-content { background: var(--bg-panel); border: 2px solid var(--pink-neon); padding: 40px; border-radius: 20px; max-width: 400px; text-align: center; position: relative; box-shadow: var(--shadow-pink); }
@@ -515,13 +596,12 @@
     /* --- RESPONSIVIDADE --- */
     @media (max-width: 1024px) {
       .card-elite { transform: scale(1); border-width: 4px; }
-      .process-grid { flex-direction: column; } /* Empilha no tablet/mobile */
-      .arrow-next { display: none; } /* Esconde setas no mobile */
+      .process-grid { flex-direction: column; }
+      .arrow-next { display: none; }
       .hero-grid { grid-template-columns: 1fr; text-align: center; }
       .hero-grid .comparison-container { margin-top: 30px; }
       .hero-buttons { justify-content: center; }
-      
-      .case-grid { grid-template-columns: 1fr; } /* Empilha Case no Mobile */
+      .case-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
@@ -529,16 +609,18 @@
       .pricing-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; text-align: center; }
       .mobile-only { display: block; }
-      .sticky-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.9); padding: 12px; z-index: 999; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--green-electric); }
+      .sticky-bar { padding: 10px; }
+      .sticky-price { font-size: 1.1rem; }
+      .btn-sticky { padding: 8px 15px; font-size: 0.8rem; }
       
       .float-wa { bottom: 85px; right: 15px; width: 50px; height: 50px; font-size: 24px; }
-      .float-tooltip { display: none; } /* Esconde texto em telas muito pequenas para não poluir */
+      .float-tooltip { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <div id="toast" class="toast">Cupom VIZZU5 copiado! ✅</div>
+  <div id="toast" class="toast">Item adicionado! ✅</div>
 
   <div id="exitPopup" class="exit-popup">
     <div class="popup-content">
@@ -560,6 +642,16 @@
     <span class="float-tooltip">Tem dúvida? Entre em contato conosco!</span>
   </a>
 
+  <!-- STICKY CART BAR (DYNAMIC) -->
+  <div class="sticky-bar" id="sticky-bar">
+    <div class="sticky-info">
+      <span class="sticky-title" id="sticky-label">OFERTA RECOMENDADA</span>
+      <span class="sticky-price" id="sticky-price">COMBO ELITE R$ 1.661</span>
+      <span class="sticky-upsell" id="sticky-upsell" style="display:none;"></span>
+    </div>
+    <button class="btn-sticky" id="btn-sticky-action" onclick="buyElite()">COMPRAR AGORA</button>
+  </div>
+
   <header>
     <div class="container header-content">
       <div class="logo">
@@ -575,6 +667,7 @@
   </header>
 
   <section class="hero">
+    <!-- Hero content same as before -->
     <video class="video-bg" autoplay muted loop playsinline>
       <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
     </video>
@@ -636,7 +729,7 @@
   <section class="widgets-section" id="widgets">
     <div class="container">
       <h2 class="section-title">10 WIDGETS <span class="neon-green">PODEROSOS</span></h2>
-      <p class="section-subtitle">Teste a interatividade de cada funcionalidade incluída no Combo Elite</p>
+      <p class="section-subtitle">Monte seu pacote ou leve tudo no Combo Elite</p>
 
       <div class="widgets-grid">
         
@@ -656,15 +749,15 @@
             </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$450</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 450</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="450" data-name="Redesign Visual" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
-        <!-- Widget 2: Carrossel Vitrine (Stories) -->
+        <!-- Widget 2: Carrossel Vitrine -->
         <div class="widget-card">
           <div class="widget-header">
-            <span>Carrossel Vitrine/Provador</span>
+            <span>Carrossel Vitrine</span>
             <span class="widget-badge">+35% Conv.</span>
           </div>
           <div class="widget-demo-tall" style="background: #111;">
@@ -676,8 +769,8 @@
              </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$280</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 280</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="280" data-name="Carrossel Vitrine" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
@@ -696,8 +789,8 @@
              </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$280</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 280</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="280" data-name="Carrossel Institucional" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
@@ -709,6 +802,7 @@
           </div>
           <div class="widget-demo">
             <div class="calc-box-white">
+              <!-- Content same as before -->
               <div>
                 <div class="calc-title"><i class="fas fa-calculator"></i> SIMULE SEU LUCRO</div>
                 <div class="calc-subtitle">Veja quanto <strong>DINHEIRO</strong> você coloca no bolso <strong>REVENDENDO!</strong></div>
@@ -732,8 +826,8 @@
             </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$380</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 380</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="380" data-name="Calculadora Lucro" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
@@ -763,8 +857,8 @@
             </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$310</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 310</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="310" data-name="Oferta Relâmpago" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
@@ -786,12 +880,12 @@
             </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$180</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 180</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="180" data-name="Cupom One-Click" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
-        <!-- Widget 7: Filtro Inteligente (Compre por Tamanho) -->
+        <!-- Widget 7: Filtro Inteligente -->
         <div class="widget-card">
           <div class="widget-header">
             <span>Filtro Inteligente</span>
@@ -810,12 +904,12 @@
              </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$190</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 190</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="190" data-name="Filtro Inteligente" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
-        <!-- Widget 10: Central de Links (Menu de Apoio) -->
+        <!-- Widget 10: Central de Links -->
         <div class="widget-card">
           <div class="widget-header">
             <span>Central de Links</span>
@@ -823,23 +917,14 @@
           </div>
           <div class="widget-demo-compact">
              <div style="display: flex; gap: 20px; text-align: center; justify-content: center;">
-               <div class="link-item">
-                 <div class="link-icon"><i class="fab fa-whatsapp"></i></div>
-                 <p class="link-text">Fale Conosco</p>
-               </div>
-               <div class="link-item">
-                 <div class="link-icon"><i class="fas fa-crown"></i></div>
-                 <p class="link-text">Grupo VIP</p>
-               </div>
-               <div class="link-item">
-                 <div class="link-icon"><i class="fab fa-google-drive"></i></div>
-                 <p class="link-text">Material de<br>Divulgação</p>
-               </div>
+               <div class="link-item"><div class="link-icon"><i class="fab fa-whatsapp"></i></div><p class="link-text">Fale Conosco</p></div>
+               <div class="link-item"><div class="link-icon"><i class="fas fa-crown"></i></div><p class="link-text">Grupo VIP</p></div>
+               <div class="link-item"><div class="link-icon"><i class="fab fa-google-drive"></i></div><p class="link-text">Material de<br>Divulgação</p></div>
              </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$150</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 150</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="150" data-name="Central de Links" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
@@ -854,7 +939,7 @@
               <div class="marquee-content">
                 <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-truck"></i></div><div class="marquee-text"><h4>ENVIAMOS PARA TODO O BRASIL</h4><p>Envio do pedido em até 72h úteis</p></div></div>
                 <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-box-open"></i></div><div class="marquee-text"><h4>FRETE GRÁTIS</h4><p>em compras acima de R$ 2.000</p></div></div>
-                <!-- Duplicado para loop perfeito -->
+                <!-- Loop -->
                 <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-truck"></i></div><div class="marquee-text"><h4>ENVIAMOS PARA TODO O BRASIL</h4><p>Envio do pedido em até 72h úteis</p></div></div>
                 <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-box-open"></i></div><div class="marquee-text"><h4>FRETE GRÁTIS</h4><p>em compras acima de R$ 2.000</p></div></div>
                 <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-truck"></i></div><div class="marquee-text"><h4>ENVIAMOS PARA TODO O BRASIL</h4><p>Envio do pedido em até 72h úteis</p></div></div>
@@ -863,12 +948,12 @@
             </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$150</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 150</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="150" data-name="Barra Vantagens" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
-        <!-- Widget 9: Barra Informativa (A "Barra de Baixo") - AGORA EM MARQUEE -->
+        <!-- Widget 9: Barra Informativa -->
         <div class="widget-card" style="grid-column: 1 / -1;">
           <div class="widget-header">
             <span>Barra Informativa (Rodapé)</span>
@@ -877,44 +962,19 @@
           <div class="widget-demo" style="background: #1a0b2e; height: 120px; min-height: auto;">
             <div class="marquee-container marquee-purple">
               <div class="marquee-content">
-                
-                <div class="marquee-item">
-                  <div class="marquee-icon"><i class="fas fa-map-marker-alt"></i></div>
-                  <div class="marquee-text"><h4>NOSSA LOJA</h4><p>Shopping Centro Oeste Outlet</p></div>
-                </div>
-                
-                <div class="marquee-item">
-                  <div class="marquee-icon"><i class="fab fa-whatsapp"></i></div>
-                  <div class="marquee-text"><h4>FALE CONOSCO</h4><p>(62) 98148-0687</p></div>
-                </div>
-
-                <div class="marquee-item">
-                  <div class="marquee-icon"><i class="far fa-clock"></i></div>
-                  <div class="marquee-text"><h4>HORÁRIOS</h4><p>Seg. a Sex: 09:30 às 17:00</p></div>
-                </div>
-
-                <!-- Duplicado para loop -->
-                <div class="marquee-item">
-                  <div class="marquee-icon"><i class="fas fa-map-marker-alt"></i></div>
-                  <div class="marquee-text"><h4>NOSSA LOJA</h4><p>Shopping Centro Oeste Outlet</p></div>
-                </div>
-                
-                <div class="marquee-item">
-                  <div class="marquee-icon"><i class="fab fa-whatsapp"></i></div>
-                  <div class="marquee-text"><h4>FALE CONOSCO</h4><p>(62) 98148-0687</p></div>
-                </div>
-
-                <div class="marquee-item">
-                  <div class="marquee-icon"><i class="far fa-clock"></i></div>
-                  <div class="marquee-text"><h4>HORÁRIOS</h4><p>Seg. a Sex: 09:30 às 17:00</p></div>
-                </div>
-
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-map-marker-alt"></i></div><div class="marquee-text"><h4>NOSSA LOJA</h4><p>Shopping Centro Oeste Outlet</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="fab fa-whatsapp"></i></div><div class="marquee-text"><h4>FALE CONOSCO</h4><p>(62) 98148-0687</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="far fa-clock"></i></div><div class="marquee-text"><h4>HORÁRIOS</h4><p>Seg. a Sex: 09:30 às 17:00</p></div></div>
+                <!-- Loop -->
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-map-marker-alt"></i></div><div class="marquee-text"><h4>NOSSA LOJA</h4><p>Shopping Centro Oeste Outlet</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="fab fa-whatsapp"></i></div><div class="marquee-text"><h4>FALE CONOSCO</h4><p>(62) 98148-0687</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="far fa-clock"></i></div><div class="marquee-text"><h4>HORÁRIOS</h4><p>Seg. a Sex: 09:30 às 17:00</p></div></div>
               </div>
             </div>
           </div>
           <div class="widget-footer">
-            <span class="price-tag">R$120</span>
-            <span class="price-check">✓ Incluso Elite</span>
+            <div class="price-box"><span class="price-tag">R$ 120</span><span class="price-sub">(Avulso)</span></div>
+            <label class="toggle-add"><input type="checkbox" class="w-check-add" value="120" data-name="Barra Informativa" onchange="syncCart(this)"><span class="btn-add-widget">ADICIONAR</span></label>
           </div>
         </div>
 
@@ -922,11 +982,11 @@
     </div>
   </section>
 
+  <!-- Rest of the sections remains the same: Case Study, Pricing, Urgency, Footer -->
   <section class="case-section container">
     <h2 class="text-center">CASE DE SUCESSO: <span class="neon-pink">CJ RASTEIRINHAS</span></h2>
     <p class="text-center" style="color:#ccc;">Loja padrão transformada em referência de mercado</p>
     
-    <!-- Link para a loja real -->
     <div class="text-center">
       <a href="https://cjotarasteirinhas.com.br" target="_blank" class="btn-live-store btn-pulse">
         VER LOJA AO VIVO <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
@@ -944,8 +1004,6 @@
           <div class="comp-slider" style="left: 50%;"><i class="fas fa-arrows-alt-h"></i></div>
         </div>
       </div>
-      
-      <!-- Stats Container (Lado a Lado / Grid) -->
       <div class="stats-container">
         <div class="stat-card"><div class="stat-num">+237%</div><p>Aumento na Conversão</p></div>
         <div class="stat-card"><div class="stat-num">+52%</div><p>Ticket Médio</p></div>
@@ -998,22 +1056,23 @@
       </div>
 
       <div class="calc-wrapper">
-        <h4 class="text-center neon-pink">CALCULADORA DE ECONOMIA</h4>
-        <p class="text-center" style="font-size:0.9rem; margin-bottom:20px;">Selecione os widgets avulsos e veja quanto pagaria:</p>
+        <h4 class="text-center neon-pink">SEU PEDIDO (RESUMO)</h4>
+        <p class="text-center" style="font-size:0.9rem; margin-bottom:20px;">Itens selecionados na galeria:</p>
         <div class="checkbox-grid">
-          <label class="check-item"><input type="checkbox" class="w-check" value="450" checked disabled> Redesign Visual (R$450)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="280" onclick="calcTotal()"> Carrossel Vitrine (R$280)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="280" onclick="calcTotal()"> Carrossel Institucional (R$280)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="380" onclick="calcTotal()"> Calculadora Lucro (R$380)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="310" onclick="calcTotal()"> Oferta Relâmpago (R$310)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="150" onclick="calcTotal()"> Barra Vantagens (R$150)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="120" onclick="calcTotal()"> Barra Informativa (R$120)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="180" onclick="calcTotal()"> Cupom One-Click (R$180)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="190" onclick="calcTotal()"> Filtro Inteligente (R$190)</label>
-          <label class="check-item"><input type="checkbox" class="w-check" value="150" onclick="calcTotal()"> Central de Links (R$150)</label>
+          <!-- Checks are synced via JS -->
+          <label class="check-item"><input type="checkbox" class="w-check" value="450" disabled> Redesign Visual (R$450)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="280" disabled> Carrossel Vitrine (R$280)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="280" disabled> Carrossel Institucional (R$280)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="380" disabled> Calculadora Lucro (R$380)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="310" disabled> Oferta Relâmpago (R$310)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="150" disabled> Barra Vantagens (R$150)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="120" disabled> Barra Informativa (R$120)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="180" disabled> Cupom One-Click (R$180)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="190" disabled> Filtro Inteligente (R$190)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="150" disabled> Central de Links (R$150)</label>
         </div>
         <div style="margin-top:20px; text-align:center; padding-top:20px; border-top:1px solid #444;">
-          <div style="font-size:1.2rem;">Total Avulso: <span id="total-avulso" style="color:#aaa; text-decoration: line-through;">R$ 450</span></div>
+          <div style="font-size:1.2rem;">Total Avulso: <span id="total-avulso">R$ 0,00</span></div>
           <div style="font-size:1.5rem; font-weight:bold; color:var(--green-electric);">COMBO ELITE: R$ 1.661</div>
           <p id="total-economy" style="color:var(--pink-neon); font-weight:bold;">Economia: R$ 0,00</p>
         </div>
@@ -1066,15 +1125,110 @@
     </div>
   </footer>
 
-  <div class="sticky-bar mobile-only">
-    <div class="sticky-text">
-      👑 92% ESCOLHEM ELITE<br>
-      <span style="color:var(--green-electric); font-size:1.1rem;">R$ 1.661</span>
-    </div>
-    <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20ELITE%20TOTAL%20%F0%9F%91%91%0A%E2%9C%85%20Valor:%20R$%201.661,00" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">PIX AGORA</a>
-  </div>
-
   <script>
+    // --- Logic for Cart & Selection ---
+    let selectedItems = [];
+    const ELITE_PRICE = 1661;
+
+    function syncCart(checkbox) {
+      // 1. Visual Feedback
+      if(checkbox.checked) {
+        showToast("Item adicionado ao carrinho!");
+      }
+
+      // 2. Sync Logic
+      // Find all checkboxes in gallery and summary with same index or logic
+      const allGalleryChecks = document.querySelectorAll('.w-check-add');
+      const summaryChecks = document.querySelectorAll('.w-check');
+      
+      let total = 0;
+      selectedItems = [];
+
+      allGalleryChecks.forEach((box, index) => {
+        if(box.checked) {
+          total += parseFloat(box.value);
+          selectedItems.push(box.getAttribute('data-name'));
+          // Update Summary table
+          if(summaryChecks[index]) summaryChecks[index].checked = true;
+        } else {
+          if(summaryChecks[index]) summaryChecks[index].checked = false;
+        }
+      });
+
+      updateStickyBar(total);
+      updateSummary(total);
+    }
+
+    function updateStickyBar(total) {
+      const label = document.getElementById('sticky-label');
+      const price = document.getElementById('sticky-price');
+      const upsell = document.getElementById('sticky-upsell');
+      const btn = document.getElementById('btn-sticky-action');
+
+      if (total === 0) {
+        // Default State (Sell Elite)
+        label.innerText = "OFERTA RECOMENDADA";
+        price.innerText = "COMBO ELITE R$ 1.661";
+        upsell.style.display = "none";
+        btn.innerText = "COMPRAR AGORA";
+        btn.onclick = buyElite;
+      } else {
+        // Custom Cart State
+        label.innerText = "SEU CARRINHO AVULSO";
+        price.innerText = "TOTAL: R$ " + total.toFixed(2);
+        
+        btn.innerText = "FINALIZAR PEDIDO";
+        btn.onclick = () => buyCustom(total);
+
+        // Upsell Logic
+        if (total > 1000) {
+          const diff = (ELITE_PRICE - total).toFixed(2);
+          if (total < ELITE_PRICE) {
+             upsell.style.display = "block";
+             upsell.innerText = `Falta pouco! Leve TUDO por só +R$ ${diff}`;
+          } else {
+             upsell.style.display = "block";
+             upsell.innerText = `Compensa mais o Combo Elite (R$ 1.661)!`;
+          }
+        } else {
+          upsell.style.display = "none";
+        }
+      }
+    }
+
+    function updateSummary(total) {
+      document.getElementById('total-avulso').innerText = 'R$ ' + total.toFixed(2);
+      const economyEl = document.getElementById('total-economy');
+      const savings = total > ELITE_PRICE ? total - ELITE_PRICE : 0;
+      
+      if (savings > 0) {
+        economyEl.style.display = 'block';
+        economyEl.innerText = 'Economia potencial vs Avulso: R$ ' + savings.toFixed(2);
+      } else {
+        economyEl.style.display = 'none';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // --- WhatsApp Generators ---
+    function buyElite() {
+      const msg = `Olá VIZZU! 🚀\nQuero transformar minha loja!\n\n📋 *MEU PEDIDO:*\n✅ Combo: ELITE TOTAL\n✅ Valor: R$ 1.661,00`;
+      window.open(`https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function buyCustom(total) {
+      let itemsList = selectedItems.map(i => `✅ ${i}`).join('\n');
+      const msg = `Olá VIZZU! 🚀\nQuero transformar minha loja com itens avulsos!\n\n📋 *MEU PEDIDO PERSONALIZADO:*\n${itemsList}\n\n💰 *Valor Total:* R$ ${total.toFixed(2)}`;
+      window.open(`https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // --- Standard Functions (Slider, Timer, etc) ---
     function moveSlider(e, id) {
       const container = document.getElementById(id);
       if (!container) return;
@@ -1094,6 +1248,7 @@
       if(imgBefore) imgBefore.style.width = percent + '%';
     }
 
+    // Profit Calc Logic
     let currentMargin = 100;
     function setMargin(margin) {
       currentMargin = margin;
@@ -1114,9 +1269,7 @@
 
     function copyCoupon() {
       navigator.clipboard.writeText('PRIMEIRACOMPRA').then(() => {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        showToast("Cupom Copiado!");
       });
     }
 
@@ -1131,9 +1284,7 @@
         const secEl = document.getElementById('sec-val');
         if(minEl) minEl.textContent = minutes;
         if(secEl) secEl.textContent = seconds;
-        if (--timer < 0) {
-          timer = duration; 
-        }
+        if (--timer < 0) { timer = duration; }
       }, 1000);
     }
 
@@ -1152,51 +1303,23 @@
       }, 1000);
     }
 
-    function calcTotal() {
-      const checks = document.querySelectorAll('.w-check');
-      let total = 0;
-      checks.forEach(c => {
-        if(c.checked) total += parseFloat(c.value);
-      });
-      const elitePrice = 1661;
-      const savings = total > elitePrice ? total - elitePrice : 0;
-      document.getElementById('total-avulso').innerText = 'R$ ' + total.toFixed(2);
-      const economyEl = document.getElementById('total-economy');
-      if (savings > 0) {
-        economyEl.style.display = 'block';
-        economyEl.innerText = 'Economia potencial vs Avulso: R$ ' + savings.toFixed(2);
-      } else {
-        economyEl.style.display = 'none';
-      }
-    }
-
-    let popupShown = false;
-    document.addEventListener('mouseleave', (e) => {
-      if (e.clientY < 0 && !popupShown) {
-        showPopup();
-      }
-    });
-    function showPopup() { document.getElementById('exitPopup').style.display = 'flex'; popupShown = true; }
-    function closePopup() { document.getElementById('exitPopup').style.display = 'none'; }
-    
-    // ATUALIZADO: Formatação de Mensagem Tipo Checklist
+    // Lead Form
     function handleFormSubmit(e) {
       e.preventDefault();
       const inputs = e.target.querySelectorAll('input');
       const name = inputs[0].value;
       const phone = inputs[1].value;
       const url = inputs.length > 2 ? inputs[2].value : 'N/A';
-      
       const msg = `Olá VIZZU! 🚀\nQuero transformar minha loja!\n\n📋 *MEU PEDIDO:*\n✅ Combo: ELITE TOTAL\n✅ Valor: R$ 1.661,00\n\n👤 *Meus Dados:*\nNome: ${name}\nLoja: ${url}`;
-      
       const waLink = `https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`;
       window.open(waLink, '_blank');
     }
 
+    // Init
     document.addEventListener('DOMContentLoaded', () => {
       startTimer(3553);
       startGlobalTimer();
-      calcTotal(); 
+      // No calcTotal on init, start fresh
     });
   </script>
 </body>
