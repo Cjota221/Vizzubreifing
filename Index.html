@@ -81,15 +81,25 @@
         /* Utilitários de Vídeo */
         .video-cover { object-fit: cover; width: 100%; height: 100%; }
 
-        /* Estilo para simular tela de celular */
-        .mockup-screen {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
-            position: relative;
+        /* Checkbox Customizado - FUNCIONAL */
+        .peer:checked ~ .checkbox-box {
+            background-color: #c6ff00;
+            border-color: #c6ff00;
         }
-
+        .peer:checked ~ .checkbox-box i {
+            opacity: 1;
+            color: #1a0b2e; /* Check preto/roxo escuro para contraste */
+        }
+        
+        /* Ajuste para evitar flash amarelo no mobile */
+        input[type="checkbox"], label {
+            -webkit-tap-highlight-color: transparent;
+        }
+        input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        
         /* Estilo do Slider da Calculadora */
         input[type=range] {
             -webkit-appearance: none;
@@ -113,33 +123,23 @@
             background: #e2e8f0;
             border-radius: 2px;
         }
-
-        /* Checkbox Customizado - CORRIGIDO */
-        input[type="checkbox"]:checked + div {
-            background-color: #c6ff00 !important;
-            border-color: #c6ff00 !important;
-        }
-        input[type="checkbox"]:checked + div i {
-            opacity: 1 !important;
-            color: #1a0b2e !important; /* Cor do check preto/roxo escuro */
-        }
     </style>
 </head>
 <body class="antialiased pb-20 md:pb-0">
 
-    <!-- BARRA DE VAGAS (IMPACTANTE NO MOBILE) -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-red-600 to-purple-900 text-white py-3 px-2 text-center border-b-2 border-yellow-400 shadow-2xl flex justify-center items-center">
-        <p class="text-sm md:text-sm font-black flex justify-center items-center gap-2 uppercase tracking-wide">
-            <i class="fas fa-exclamation-triangle text-yellow-400 animate-pulse"></i>
-            <span>Apenas <span class="text-yellow-400 text-lg">3 VAGAS</span> este mês!</span>
-            <span class="bg-white text-red-600 px-2 py-0.5 rounded text-[10px] font-bold shadow-sm animate-pulse ml-1">80% OFF</span>
+    <!-- BARRA DE VAGAS (DEGRADÊ ROXO > AMARELO) -->
+    <div class="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-vizzu-purple to-yellow-400 text-white py-3 px-2 text-center border-b-2 border-white/20 shadow-2xl flex justify-center items-center">
+        <p class="text-sm md:text-sm font-black flex justify-center items-center gap-2 uppercase tracking-wide drop-shadow-md">
+            <i class="fas fa-exclamation-triangle text-white animate-pulse"></i>
+            <span>Apenas <span class="text-white text-lg underline decoration-vizzu-dark">3 VAGAS</span> este mês!</span>
+            <span class="bg-vizzu-dark text-yellow-400 px-2 py-0.5 rounded text-[10px] font-bold shadow-sm animate-pulse ml-1">80% OFF</span>
         </p>
     </div>
 
     <!-- HERO SECTION -->
     <header class="relative pt-24 pb-12 overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-40">
-            <video class="w-full h-full object-cover" autoplay loop muted playsinline poster="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
+            <video class="w-full h-full object-cover" autoplay loop muted playsinline poster="https://i.ibb.co/7dZ9GK5M/VIZZU.png" preload="auto">
                 <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-vizzu-dark/80 to-vizzu-dark"></div>
@@ -172,7 +172,7 @@
         </div>
     </header>
 
-    <!-- AGITAÇÃO (ANTES E DEPOIS - CORRIGIDO) -->
+    <!-- AGITAÇÃO (ANTES E DEPOIS - CORRIGIDO CENTRALIZADO) -->
     <section class="py-12 bg-vizzu-surface relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-2xl md:text-4xl font-bold text-center mb-10">
@@ -180,28 +180,21 @@
             </h2>
 
             <div class="grid md:grid-cols-2 gap-8 items-stretch">
-                <!-- O Lado Feio (IMAGEM CENTRALIZADA) -->
+                <!-- O Lado Feio -->
                 <div class="glass-panel p-6 border-red-500/30 border opacity-90 relative flex flex-col" data-aos="fade-right">
                      <div class="absolute -top-4 left-4 bg-red-600 text-white font-bold px-3 py-1 rounded shadow-lg text-sm z-10">SUA LOJA HOJE</div>
                     <h3 class="text-red-400 font-bold mb-4 text-xl mt-2"><i class="fas fa-times-circle"></i> FácilZap Padrão</h3>
                     
-                    <!-- Mockup Celular -->
+                    <!-- Container Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-gray-700">
                         <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl flex items-center justify-center bg-white">
-                            
                             <!-- 
-                                =========================================================================
-                                ⚠ ATENÇÃO: PARA ALINHAR A IMAGEM ⚠
-                                Mude a classe 'object-center' abaixo para:
-                                - 'object-top' (Alinhar no topo)
-                                - 'object-bottom' (Alinhar no rodapé)
-                                - 'object-center' (Centralizar - Atual)
-                                =========================================================================
+                                CORREÇÃO DEFINITIVA: object-center
+                                Centraliza a imagem perfeitamente, eliminando a faixa branca na lateral.
                             -->
                             <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" 
                                  alt="Antes - Loja Genérica" 
                                  class="w-full h-full object-cover object-center">
-                        
                         </div>
                     </div>
                     
@@ -213,10 +206,10 @@
                     <div class="absolute -top-4 right-4 bg-vizzu-green text-vizzu-dark font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
                     <h3 class="text-vizzu-green font-bold mb-4 text-xl mt-2"><i class="fas fa-check-circle"></i> APP Vendas B2B</h3>
                      
-                    <!-- Mockup Celular -->
+                    <!-- Container Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
                         <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
-                            <video class="w-full h-full object-cover object-center" autoplay loop muted playsinline>
+                            <video class="w-full h-full object-cover object-top" autoplay loop muted playsinline preload="auto">
                                 <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
                             </video>
                             <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow">💎 MODO APP</div>
@@ -229,18 +222,18 @@
         </div>
     </section>
 
-    <!-- SOLUÇÃO (VISUALIZAÇÃO ADAPTADA DOS WIDGETS) -->
+    <!-- SOLUÇÃO (WIDGETS DEMO) -->
     <section class="py-16 container mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="font-display text-3xl md:text-5xl font-black mb-4 neon-text">
                 Veja como fica <span class="text-vizzu-pink">na Prática</span>
             </h2>
-            <p class="text-gray-400">Recriamos abaixo uma demonstração de como cada widget se comporta na tela do seu cliente.</p>
+            <p class="text-gray-400">Recriamos abaixo uma demonstração de como cada widget se comporta.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <!-- 1. Redesign Visual -->
+            <!-- Redesign -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-vizzu-green">1. Redesign Visual App</h3>
@@ -249,20 +242,20 @@
                 <div class="bg-gray-100 p-4 rounded-xl flex justify-center items-center h-52">
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
                         <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
-                            <img src="https://i.ibb.co/35ntjbps/Captura-de-tela-2025-11-30-224053.png" class="w-full h-full object-cover" alt="Exemplo Produto 1">
+                            <img src="https://i.ibb.co/35ntjbps/Captura-de-tela-2025-11-30-224053.png" class="w-full h-full object-cover">
                         </div>
                         <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
-                            <img src="https://i.ibb.co/rfpz65dq/Captura-de-tela-2025-11-30-224105.png" class="w-full h-full object-cover" alt="Exemplo Produto 2">
+                            <img src="https://i.ibb.co/rfpz65dq/Captura-de-tela-2025-11-30-224105.png" class="w-full h-full object-cover">
                         </div>
                         <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
-                            <img src="https://i.ibb.co/Z60kSYg5/Captura-de-tela-2025-11-30-224150.png" class="w-full h-full object-cover" alt="Exemplo Produto 3">
+                            <img src="https://i.ibb.co/Z60kSYg5/Captura-de-tela-2025-11-30-224150.png" class="w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
                 <p class="text-sm text-gray-400 mt-3">Visual limpo, cartões flutuantes e layout nativo de app.</p>
             </div>
 
-            <!-- 2. Stories Shop-the-Look -->
+            <!-- Stories -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-pink-400">2. Stories Shop-the-Look</h3>
@@ -271,15 +264,16 @@
                 <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
                      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md">
-                            <video src="https://files.catbox.moe/0rz45y.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay></video>
+                            <video src="https://files.catbox.moe/0rz45y.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 49</div>
                         </div>
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
-                            <video src="https://files.catbox.moe/ldvflh.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay></video>
+                            <video src="https://files.catbox.moe/ldvflh.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
                              <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 89</div>
                         </div>
+                         <!-- 3º VÍDEO -->
                          <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
-                            <video src="https://files.catbox.moe/61okrt.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay></video>
+                            <video src="https://files.catbox.moe/61okrt.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
                              <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 59</div>
                         </div>
                      </div>
@@ -287,7 +281,7 @@
                 <p class="text-sm text-gray-400 mt-3">Carrossel de vídeos no topo. O cliente clica no story e compra.</p>
             </div>
 
-             <!-- 3. Institucional B2B -->
+             <!-- Institucional -->
              <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
@@ -297,18 +291,18 @@
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
-                           <video src="https://files.catbox.moe/f64qpi.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay></video>
+                           <video src="https://files.catbox.moe/f64qpi.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay preload="auto"></video>
                        </div>
                         <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
                             <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
-                            <video src="https://files.catbox.moe/qdnl00.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay></video>
+                            <video src="https://files.catbox.moe/qdnl00.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay preload="auto"></video>
                         </div>
                     </div>
                </div>
                 <p class="text-sm text-gray-400 mt-3">Gere confiança mostrando sua fábrica e estoque em vídeo.</p>
             </div>
 
-            <!-- 4. Calculadora de Lucro -->
+            <!-- Calculadora -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-vizzu-green">4. Calculadora B2B</h3>
@@ -326,11 +320,6 @@
                     </div>
                     <div class="px-4 py-2 bg-gray-50">
                         <input type="range" min="0" max="200" value="100" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="lucro-slider" oninput="updateCalculadora(this.value)">
-                        <div class="flex justify-between text-[8px] text-gray-400 font-bold mt-1">
-                            <span>0%</span>
-                            <span>100%</span>
-                            <span>200%</span>
-                        </div>
                     </div>
                     <div class="flex-1 bg-gradient-to-br from-[#d500f9] to-[#4a148c] p-2 flex flex-col items-center justify-center text-center">
                         <div class="grid grid-cols-2 gap-4 w-full px-2">
@@ -348,7 +337,7 @@
                 <p class="text-sm text-gray-400 mt-3">Arraste a régua. Mostre ao revendedor o lucro real na hora.</p>
             </div>
 
-            <!-- 5. Oferta Relâmpago -->
+            <!-- Oferta Relâmpago -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-red-400">5. Oferta Relâmpago</h3>
@@ -360,11 +349,11 @@
                         <i class="fas fa-bolt text-2xl text-[#c6ff00] animate-pulse"></i>
                     </div>
                     <div class="flex gap-1 justify-center my-2 z-10">
-                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">04</span><span class="text-[8px] text-[#c6ff00]">HORAS</span></div>
+                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">04</span></div>
                         <div class="text-white font-bold">:</div>
-                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">35</span><span class="text-[8px] text-[#c6ff00]">MIN</span></div>
+                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">35</span></div>
                         <div class="text-white font-bold">:</div>
-                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">12</span><span class="text-[8px] text-[#c6ff00]">SEG</span></div>
+                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">12</span></div>
                     </div>
                     <div class="w-full bg-black/40 h-3 rounded-full mt-2 overflow-hidden border border-white/10 z-10">
                         <div class="bg-[#c6ff00] h-full w-[85%] rounded-full"></div>
@@ -374,7 +363,7 @@
                 <p class="text-sm text-gray-400 mt-3">Barra de escassez com timer. Acelera o fechamento.</p>
             </div>
 
-            <!-- 6. Barra + Menu 3D -->
+            <!-- Barra + Menu -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-indigo-400">6. Barra 3D Infinita</h3>
@@ -390,7 +379,7 @@
                             <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
                         </div>
                     </div>
-                    <!-- Menu Rápido Corrigido -->
+                    <!-- Menu Rápido -->
                     <div class="flex justify-around items-center h-full bg-gray-50">
                         <div class="flex flex-col items-center gap-1">
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fab fa-whatsapp"></i></div>
@@ -409,7 +398,7 @@
                 <p class="text-sm text-gray-400 mt-3">Animação infinita no topo destacando benefícios e menu rápido.</p>
             </div>
 
-            <!-- 7. Filtro Tamanhos -->
+            <!-- Filtro Tamanhos -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-yellow-400">7. Filtro de Tamanhos</h3>
@@ -427,14 +416,13 @@
                 <p class="text-sm text-gray-400 mt-3">Facilita a busca por grade. Essencial para atacado.</p>
             </div>
 
-            <!-- 8. Cupom (GRANDE E ROBUSTO) -->
+            <!-- Cupom -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-teal-400">8. Cupom One-Click</h3>
                     <i class="fas fa-ticket-alt text-2xl text-gray-500"></i>
                 </div>
                 <div class="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-xl h-52 flex flex-col items-center justify-center p-4 relative overflow-hidden shadow-inner border border-white/10 group">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                     <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#c6ff00] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(198,255,0,0.3)] animate-float">🎁</div>
                     <h4 class="text-white font-black text-xl uppercase italic tracking-tighter mb-1">PRIMEIRA COMPRA</h4>
                     <span class="text-[#c6ff00] font-bold text-2xl mb-3 drop-shadow-sm">5% OFF</span>
@@ -446,7 +434,7 @@
                 <p class="text-sm text-gray-400 mt-3">Botão flutuante robusto. O cliente clica, copia e ganha.</p>
             </div>
 
-             <!-- 9. Rodapé Animado -->
+             <!-- Rodapé Animado -->
              <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-gray-400">9. Rodapé Animado</h3>
@@ -460,7 +448,6 @@
                         <div class="inline-block animate-scroll-left text-[10px] text-gray-300">
                             <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
                             <span class="mx-4"><i class="fas fa-map-marker-alt text-[#c6ff00]"></i> Goiânia - GO</span>
-                            <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
                         </div>
                     </div>
                 </div>
@@ -470,8 +457,9 @@
         </div>
     </section>
 
-    <!-- PROVA SOCIAL ATUALIZADA (CJ Rasteirinhas) -->
+    <!-- PROVA SOCIAL -->
     <section class="py-12 bg-black/30 border-y border-vizzu-purple/30">
+        <!-- (Conteúdo prova social CJ Rasteirinhas igual) -->
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="md:w-1/2">
@@ -480,42 +468,26 @@
                     </h3>
                     <p class="text-gray-400 italic mb-4">- A loja que mais vende rasteirinhas no atacado</p>
                     <div class="flex gap-2">
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                    </div>
-                    <div class="mt-6 flex gap-4 text-center">
-                         <div>
-                             <span class="block text-3xl font-black text-vizzu-green">100+</span>
-                             <span class="text-xs text-gray-400">Lojas Transformadas</span>
-                         </div>
-                         <div>
-                             <span class="block text-3xl font-black text-vizzu-green">300%</span>
-                             <span class="text-xs text-gray-400">Aumento Médio</span>
-                         </div>
+                        <i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i>
                     </div>
                 </div>
                 <div class="md:w-1/2 grid grid-cols-2 gap-4">
                     <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
-                        <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                        <video class="w-full h-full object-cover" muted loop playsinline autoplay preload="auto">
                              <source src="https://files.catbox.moe/f64qpi.mp4" type="video/mp4">
                         </video>
-                        <div class="absolute bottom-0 w-full bg-black/60 text-xs p-1 text-center">Bastidores Fábrica</div>
                     </div>
                     <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
-                        <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                        <video class="w-full h-full object-cover" muted loop playsinline autoplay preload="auto">
                              <source src="https://files.catbox.moe/qdnl00.mp4" type="video/mp4">
                         </video>
-                         <div class="absolute bottom-0 w-full bg-black/60 text-xs p-1 text-center">Estoque Lotado</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- COMBOS ESTRATÉGICOS (PRONTOS + OPÇÃO DE MONTAR DINÂMICA) -->
+    <!-- COMBOS ESTRATÉGICOS (LISTAS RESTAURADAS) -->
     <section id="planos" class="py-16 relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-3xl md:text-5xl font-black text-center mb-4">
@@ -523,7 +495,7 @@
             </h2>
             <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Escolha um combo pronto ou personalize o seu logo abaixo.</p>
 
-            <!-- 1. COMBOS PRONTOS (DESTAQUE) -->
+            <!-- 1. COMBOS PRONTOS (COM LISTAS COMPLETAS) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end mb-20">
                 
                 <!-- COMBO VISUAL -->
@@ -542,7 +514,7 @@
                         <div class="text-gray-500 line-through text-xs">R$ 1.341,00</div>
                         <div class="text-2xl font-black text-white">R$ 1.005,75</div>
                         <div class="text-xs text-pink-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Quero%20o%20*Combo%20Visual*%20para%20minha%20loja%20por%20R$%201.005,75." class="block w-full border border-pink-500 text-white hover:bg-pink-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                        <a href="https://wa.me/62982237075" class="block w-full border border-pink-500 text-white hover:bg-pink-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
 
@@ -562,7 +534,7 @@
                         <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
                         <div class="text-2xl font-black text-white">R$ 743,25</div>
                         <div class="text-xs text-yellow-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Quero%20o%20*Combo%20Vendas*%20para%20acelerar%20meus%20pedidos%20por%20R$%20743,25." class="block w-full border border-yellow-500 text-white hover:bg-yellow-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                        <a href="https://wa.me/62982237075" class="block w-full border border-yellow-500 text-white hover:bg-yellow-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
 
@@ -582,7 +554,7 @@
                         <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
                         <div class="text-2xl font-black text-white">R$ 743,25</div>
                         <div class="text-xs text-blue-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Sou%20Atacadista%20e%20quero%20o%20*Combo%20Atacado*%20por%20R$%20743,25." class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                        <a href="https://wa.me/62982237075" class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
 
@@ -606,7 +578,7 @@
                         <div class="text-4xl font-black text-white mb-1">R$ 1.661,50</div>
                         <div class="text-sm text-vizzu-green mb-6 font-bold">50% OFF SÓ HOJE</div>
                         
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20N%C3%A3o%20quero%20perder%20tempo.%20Quero%20o%20*COMBO%20ELITE%20TOTAL*%20com%2050%25%20OFF%20e%20Instala%C3%A7%C3%A3o%20VIP!" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 px-4 rounded-full text-center transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2">
+                        <a href="https://wa.me/62982237075" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 px-4 rounded-full text-center transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2">
                             <i class="fab fa-whatsapp text-2xl"></i> QUERO TUDO
                         </a>
                     </div>
@@ -620,49 +592,35 @@
                 <div class="h-px bg-gray-700 w-1/4"></div>
             </div>
 
-            <!-- 2. MONTE SEU COMBO (SECUNDÁRIO - DINÂMICO LIMPO) -->
+            <!-- 2. MONTE SEU COMBO (CHECKBOX CORRIGIDO E LIMPO) -->
             <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
-                <!-- COLUNA 1 & 2: SELEÇÃO DE ITENS -->
                 <div class="lg:col-span-2 glass-panel p-6">
                     <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
-                        <!-- Itens gerados via JS com EFEITO LIMPO -->
+                        <!-- Gerado via JS com checkbox corrigido -->
                     </div>
                 </div>
 
-                <!-- COLUNA 3: RESUMO E FORMULÁRIO -->
                 <div class="lg:col-span-1">
                     <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(198,255,0,0.1)]">
                         <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
                         
                         <div class="space-y-2 mb-6 text-sm">
-                            <div class="flex justify-between text-gray-400">
-                                <span>Itens:</span>
-                                <span id="count-items" class="font-bold text-white">0</span>
-                            </div>
-                            <div class="flex justify-between text-gray-400">
-                                <span>Subtotal:</span>
-                                <span id="subtotal-price" class="font-bold text-white">R$ 0,00</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-vizzu-green/10 p-2 rounded text-vizzu-green">
-                                <span>Desconto:</span>
-                                <span id="discount-label" class="font-bold">0%</span>
-                            </div>
+                            <div class="flex justify-between text-gray-400"><span>Itens:</span><span id="count-items" class="font-bold text-white">0</span></div>
+                            <div class="flex justify-between text-gray-400"><span>Subtotal:</span><span id="subtotal-price" class="font-bold text-white">R$ 0,00</span></div>
+                            <div class="flex justify-between items-center bg-vizzu-green/10 p-2 rounded text-vizzu-green"><span>Desconto:</span><span id="discount-label" class="font-bold">0%</span></div>
                             <div class="border-t border-gray-700 my-2 pt-2 flex justify-between items-end">
                                 <span class="text-lg font-bold">TOTAL:</span>
-                                <div class="text-right">
-                                    <span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span>
-                                </div>
+                                <div class="text-right"><span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span></div>
                             </div>
                         </div>
 
-                        <!-- Formulário de Captação -->
                         <div class="space-y-3 mb-4">
-                            <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
-                            <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
-                            <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
+                            <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
+                            <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
+                            <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
                         </div>
 
                         <button onclick="finalizarPedido()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
@@ -677,7 +635,7 @@
 
     <!-- FLOATING CART -->
     <div id="floating-cart" class="fixed bottom-4 left-4 right-4 z-50 transform translate-y-[150%] transition-transform duration-300 md:hidden">
-        <div class="glass-panel p-4 border border-vizzu-green flex justify-between items-center bg-vizzu-dark/90 backdrop-blur-xl shadow-2xl">
+        <div class="glass-panel p-4 border border-vizzu-green flex justify-between items-center bg-vizzu-dark/95 backdrop-blur-xl shadow-2xl">
             <div class="flex flex-col">
                 <span class="text-xs text-gray-400"><span id="float-count">0</span> itens selecionados</span>
                 <span class="text-xl font-black text-vizzu-green" id="float-total">R$ 0,00</span>
@@ -688,88 +646,9 @@
         </div>
     </div>
 
-    <!-- FAQ -->
-    <section class="py-12 bg-vizzu-dark">
-        <div class="container mx-auto px-4 max-w-2xl">
-            <h3 class="text-2xl font-bold text-center mb-8">Dúvidas Frequentes</h3>
-            <div class="space-y-4">
-                <details class="group glass-panel p-4 cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center list-none text-white">
-                        <span>Preciso saber programação?</span>
-                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
-                        Não. Nós criamos o código personalizado para sua marca e <strong>nós aplicamos</strong> tudo dentro da sua loja. Você não precisa mexer em uma linha de código sequer.
-                    </p>
-                </details>
-                
-                <details class="group glass-panel p-4 cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center list-none text-white">
-                        <span>O código é meu? Posso alterar?</span>
-                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
-                        Sim, o código é 100% seu. Você tem liberdade para alterar, porém, caso não saiba programação, nossa equipe pode realizar ajustes futuros mediante orçamento.
-                    </p>
-                </details>
-
-                <details class="group glass-panel p-4 cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center list-none text-white">
-                        <span>E se eu não gostar do resultado?</span>
-                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
-                        Risco Zero. Antes de aplicar na sua loja, enviamos uma prévia em nosso <strong>site demonstrativo</strong>. Se você não aprovar o visual, nós devolvemos o seu dinheiro integralmente e encerramos o projeto.
-                    </p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER ANIMADO (ANO ATUALIZADO) -->
-    <footer class="bg-black py-8 border-t border-gray-800 overflow-hidden">
-        <div class="w-full overflow-hidden mb-8">
-            <div class="whitespace-nowrap animate-scroll-left">
-                <span class="text-2xl font-black text-gray-700 mx-4">VIZZU DIGITAL</span>
-                <span class="text-2xl font-black text-vizzu-purple mx-4">MAIS VENDAS</span>
-                <span class="text-2xl font-black text-gray-700 mx-4">DESIGN PREMIUM</span>
-                <span class="text-2xl font-black text-vizzu-green mx-4">SEM MENSALIDADE</span>
-                <span class="text-2xl font-black text-gray-700 mx-4">VIZZU DIGITAL</span>
-                <span class="text-2xl font-black text-vizzu-purple mx-4">MAIS VENDAS</span>
-                <span class="text-2xl font-black text-gray-700 mx-4">DESIGN PREMIUM</span>
-                <span class="text-2xl font-black text-vizzu-green mx-4">SEM MENSALIDADE</span>
-            </div>
-        </div>
-        
-        <div class="container mx-auto px-4 text-center">
-            <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Logo Footer" class="h-10 mx-auto mb-4 grayscale opacity-50">
-            <p class="text-gray-600 text-sm mb-4">© 2025 Vizzu Digital. Todos os direitos reservados.</p>
-            <div class="flex justify-center gap-4 text-2xl text-gray-500">
-                <i class="fab fa-instagram hover:text-vizzu-pink cursor-pointer"></i>
-                <i class="fab fa-whatsapp hover:text-green-500 cursor-pointer"></i>
-            </div>
-        </div>
-    </footer>
-
-    <!-- CUPOM FLUTUANTE -->
-    <div id="cupom-float" class="fixed bottom-24 right-4 z-40 animate-float hidden md:block">
-        <div class="bg-white text-black p-1 rounded-lg shadow-xl border-2 border-vizzu-purple flex items-center gap-2 pr-3">
-            <div class="bg-vizzu-purple text-white p-2 rounded animate-pulse">
-                <i class="fas fa-gift"></i>
-            </div>
-            <div>
-                <span class="block text-[10px] font-bold uppercase text-gray-500">Cupom Extra</span>
-                <span class="font-black text-lg">VIZZU5</span>
-            </div>
-            <button onclick="copyCupom()" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-full transition">
-                <i class="far fa-copy"></i>
-            </button>
-        </div>
-    </div>
-
     <!-- MENU MOBILE -->
-    <div class="md:hidden fixed bottom-0 left-0 w-full bg-vizzu-dark/95 backdrop-blur border-t border-gray-700 p-3 z-50 grid grid-cols-2 gap-3">
-        <a href="https://wa.me/62982237075?text=Ana,%20tenho%20uma%20dúvida%20sobre%20os%20Widgets!" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
+    <div id="mobile-bottom-menu" class="md:hidden fixed bottom-0 left-0 w-full bg-vizzu-dark/95 backdrop-blur border-t border-gray-700 p-3 z-40 grid grid-cols-2 gap-3 transition-transform duration-300">
+        <a href="https://wa.me/62982237075" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
             <i class="fab fa-whatsapp"></i> Dúvidas
         </a>
         <a href="#planos" class="flex items-center justify-center gap-2 bg-vizzu-green text-vizzu-dark font-black rounded text-sm py-3 shadow-[0_0_15px_rgba(198,255,0,0.4)]">
@@ -782,36 +661,23 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // CONFIGURAÇÃO SUPABASE (COLOQUE SUAS CHAVES AQUI)
-        const SUPABASE_URL = 'SUA_URL_SUPABASE';
-        const SUPABASE_ANON_KEY = 'SUA_KEY_SUPABASE';
+        // --- LÓGICA DE VÍDEOS (LAZY PLAY) ---
+        function lazyPlayVideos() {
+            var videos = document.querySelectorAll('video');
+            videos.forEach(function(video) {
+                video.setAttribute('playsinline', '');
+                video.setAttribute('muted', '');
+                video.muted = true; // Força via JS também
+                var promise = video.play();
+                if (promise !== undefined) {
+                    promise.catch(error => {
+                        console.log('Autoplay prevent');
+                    });
+                }
+            });
+        }
         
-        // Inicializa cliente apenas se as chaves estiverem presentes
-        let supabase;
-        try {
-            if(SUPABASE_URL !== 'SUA_URL_SUPABASE') {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
-        } catch(e) { console.log('Supabase não configurado'); }
-
-        function copyCupom() {
-            navigator.clipboard.writeText("VIZZU5");
-            alert("Cupom VIZZU5 copiado! Cole no WhatsApp para +5% OFF.");
-        }
-
-        // --- LÓGICA DA CALCULADORA DE LUCRO (WIDGET DEMO) ---
-        function updateCalculadora(porcentagem) {
-            const custo = 35.00;
-            const perc = parseInt(porcentagem);
-            const lucro = custo * (perc / 100);
-            const precoVenda = custo + lucro;
-            const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            document.getElementById('margem-display').innerText = perc + "%";
-            document.getElementById('venda-display').innerText = formatarMoeda(precoVenda);
-            document.getElementById('lucro-display').innerText = formatarMoeda(lucro);
-        }
-
-        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT DINÂMICO) ---
+        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT CLEAN E FUNCIONAL) ---
         const widgets = [
             { id: 1, nome: "Redesign Visual App", preco: 497, icon: "fa-mobile-alt" },
             { id: 2, nome: "Barra + Menu 3D", preco: 422, icon: "fa-bars" },
@@ -828,35 +694,36 @@
 
         function renderWidgets() {
             const container = document.getElementById('lista-widgets');
-            // GERAÇÃO DOS CHECKBOXES COM CLASSES DINÂMICAS (peer-checked) - ATUALIZADO LIMPO
+            // Checkbox limpo, sem firulas, funcionando
             container.innerHTML = widgets.map(w => `
-                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer hover:border-vizzu-green/50 transition-all duration-300 group select-none overflow-hidden peer-checked:bg-vizzu-green/20 peer-checked:border-vizzu-green peer-checked:shadow-[0_0_15px_rgba(198,255,0,0.2)]">
-                    <input type="checkbox" class="peer sr-only" 
-                           onchange="toggleWidget(${w.id})" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
+                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 group select-none hover:bg-white/5 peer-checked:border-vizzu-green">
+                    <input type="checkbox" class="peer sr-only focus:outline-none" 
+                           onchange="toggleWidget(${w.id}, this)" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
+                    
                     <div class="flex items-center gap-3 z-10">
+                        <!-- O quadradinho do Check -->
                         <div class="w-5 h-5 rounded border-2 border-gray-500 flex items-center justify-center transition-colors checkbox-box">
-                            <i class="fas fa-check text-xs opacity-0 transition-opacity checkbox-icon"></i>
+                            <i class="fas fa-check text-[10px] opacity-0 transition-opacity font-black"></i>
                         </div>
-                        <div class="group-hover:text-white transition-colors peer-checked:text-vizzu-green">
-                            <div class="font-bold flex items-center gap-2"><i class="fas ${w.icon} text-gray-500 group-hover:text-vizzu-green peer-checked:text-vizzu-green"></i> ${w.nome}</div>
+                        <div class="group-hover:text-white transition-colors text-gray-300 font-bold flex items-center gap-2">
+                            <i class="fas ${w.icon} group-hover:text-vizzu-green text-sm"></i> ${w.nome}
                         </div>
                     </div>
-                    <div class="font-mono text-vizzu-pink font-bold z-10 peer-checked:text-white">R$ ${w.preco}</div>
-                    <!-- Efeito de Brilho de Fundo ao Selecionar -->
-                    <div class="absolute inset-0 bg-vizzu-green/5 opacity-0 peer-checked:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    <div class="font-mono text-vizzu-pink font-bold text-sm">R$ ${w.preco}</div>
                 </label>
             `).join('');
             updateSummary();
         }
 
-        function toggleWidget(id) {
-            if (selectedWidgets.includes(id)) {
-                selectedWidgets = selectedWidgets.filter(wId => wId !== id);
+        function toggleWidget(id, checkbox) {
+            // Atualiza array sem re-renderizar tudo
+            if (checkbox.checked) {
+                if (!selectedWidgets.includes(id)) selectedWidgets.push(id);
             } else {
-                selectedWidgets.push(id);
+                selectedWidgets.filter(wId => wId !== id);
             }
-            // Re-renderiza para aplicar os estilos corretos baseados no estado 'checked'
-            renderWidgets();
+            // Apenas atualiza totais
+            updateSummary();
         }
 
         function updateSummary() {
@@ -864,80 +731,48 @@
             const subtotal = selectedWidgets.reduce((sum, id) => sum + widgets.find(w => w.id === id).preco, 0);
             
             let discountPercent = 0;
-            if (count === 9) discountPercent = 50; // Combo Elite
-            else if (count >= 3) discountPercent = 25; // Combo Intermediário
+            if (count === 9) discountPercent = 50; 
+            else if (count >= 3) discountPercent = 25;
 
             const discountValue = subtotal * (discountPercent / 100);
             const finalPrice = subtotal - discountValue;
 
             const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-            // Atualiza resumo principal
             document.getElementById('count-items').innerText = count;
             document.getElementById('subtotal-price').innerText = formatarMoeda(subtotal);
             document.getElementById('discount-label').innerText = discountPercent > 0 ? `${discountPercent}% OFF` : '0%';
             document.getElementById('final-price').innerText = formatarMoeda(finalPrice);
             
-            if(count === 9) {
-                document.getElementById('discount-label').innerHTML = `<i class="fas fa-crown"></i> 50% (ELITE)`;
-            }
-
-            // Atualiza Floating Cart
+            // LÓGICA DO CARRINHO FLUTUANTE VS MENU MOBILE
             const floatingCart = document.getElementById('floating-cart');
+            const mobileMenu = document.getElementById('mobile-bottom-menu');
             const floatCount = document.getElementById('float-count');
             const floatTotal = document.getElementById('float-total');
 
             if (count > 0) {
                 floatingCart.classList.remove('translate-y-[150%]');
+                mobileMenu.classList.add('translate-y-[150%]'); // Esconde menu
                 floatCount.innerText = count;
                 floatTotal.innerText = formatarMoeda(finalPrice);
             } else {
                 floatingCart.classList.add('translate-y-[150%]');
+                mobileMenu.classList.remove('translate-y-[150%]'); // Mostra menu
             }
-        }
-
-        async function finalizarPedido() {
-            const name = document.getElementById('input-name').value;
-            const store = document.getElementById('input-store').value;
-            const phone = document.getElementById('input-phone').value;
-            
-            if (!name || !store || !phone) {
-                alert("Por favor, preencha todos os campos (Nome, Loja e WhatsApp) para continuar.");
-                return;
-            }
-
-            if (selectedWidgets.length === 0) {
-                alert("Selecione pelo menos um item para montar seu combo.");
-                return;
-            }
-
-            const itensNomes = selectedWidgets.map(id => widgets.find(w => w.id === id).nome).join(', ');
-            const totalText = document.getElementById('final-price').innerText;
-            const descontoText = document.getElementById('discount-label').innerText;
-
-            // 1. Salvar no Supabase (Se configurado)
-            if (supabase) {
-                const { error } = await supabase
-                    .from('leads_vizzu')
-                    .insert([{ nome: name, loja: store, telefone: phone, itens: itensNomes, total: totalText }]);
-                
-                if (error) console.error('Erro ao salvar:', error);
-            }
-
-            // 2. Redirecionar para WhatsApp
-            const msg = `Olá! Sou ${name}, da loja *${store}*.\n\nMontei meu combo personalizado VIZZU:\n\n${selectedWidgets.map(id => `✅ ${widgets.find(w => w.id === id).nome}`).join('\n')}\n\n*Desconto:* ${descontoText}\n*Valor Final:* ${totalText}\n\nQuero fechar agora!`;
-            
-            const link = `https://wa.me/62982237075?text=${encodeURIComponent(msg)}`;
-            window.open(link, '_blank');
         }
 
         // Inicializa
         window.onload = function() {
-            renderWidgets(); // Renderiza a lista de widgets
-            // Timer do topo
-            var display = document.querySelector('#top-timer'); // Elemento do timer (se existir na barra)
-            // ... (Seu código de timer existente pode ficar aqui se precisar)
+            renderWidgets(); 
+            lazyPlayVideos(); // Tenta rodar vídeos
+            
+            // Timer do topo (se existir)
+            // ...
         };
+        
+        // Listener extra para interação (desbloqueia áudio/vídeo em browsers restritos)
+        document.addEventListener('touchstart', lazyPlayVideos, {once:true});
+        document.addEventListener('click', lazyPlayVideos, {once:true});
     </script>
 </body>
 </html>
