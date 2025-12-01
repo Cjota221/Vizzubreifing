@@ -1,67 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VIZZU DIGITAL | Transforme sua Loja em Máquina de Vendas</title>
-    <meta name="description" content="Desenvolvimento front-end personalizado para e-commerce de atacado. Calculadoras, vídeos e gatilhos mentais para Nuvemshop, Tray e mais.">
-    
-    <!-- SEO / Social Media -->
-    <meta property="og:title" content="VIZZU Digital - Transforme Sua Loja em Máquina de Vendas">
-    <meta property="og:description" content="Saia do amadorismo. Ferramentas de alta conversão para e-commerce de moda e atacado.">
-    <meta property="og:image" content="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
-    <meta name="twitter:card" content="summary_large_image">
+    <title>VIZZU | Transforme seu FácilZap em um APP de Atacado</title>
+    <meta name="description" content="Customizações oficiais para FácilZap. Tenha uma loja estilo Shein e aumente suas vendas em 300%.">
 
-    <!-- ==========================================
-         ÁREA DE RASTREAMENTO (PIXEL E ANALYTICS)
-    =========================================== -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-PLACEHOLDER'); 
-    </script>
-
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '123456789012345'); 
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=123456789012345&ev=PageView&noscript=1"
-    /></noscript>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
+    <!-- CDNs OBRIGATÓRIOS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CONFIGURAÇÃO DE CORES E ESTILOS TAILWIND -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: {
+                        vizzu: {
                             purple: '#4a148c',
                             dark: '#1a0b2e',
                             pink: '#d500f9',
-                            neon: '#c6ff00',
-                            gray: '#f3f4f6',
-                            glass: 'rgba(255, 255, 255, 0.05)'
+                            green: '#c6ff00',
+                            surface: '#2d1b4e'
                         }
                     },
                     fontFamily: {
@@ -69,19 +33,19 @@
                         display: ['Poppins', 'sans-serif'],
                     },
                     animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 3s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'spin-slow': 'spin 3s linear infinite',
+                        'scroll-left': 'scrollLeft 10s linear infinite',
+                        'scroll-left-fast': 'scrollLeft 5s linear infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
                         },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        scrollLeft: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-100%)' },
                         }
                     }
                 }
@@ -90,1142 +54,848 @@
     </script>
 
     <style>
-        html { scroll-behavior: smooth; }
-        body { overflow-x: hidden; } 
-        .gradient-bg { background: linear-gradient(135deg, #1a0b2e 0%, #4a148c 100%); }
-        .gradient-text { -webkit-background-clip: text; background-clip: text; color: transparent; background-image: linear-gradient(to right, #d500f9, #c6ff00); }
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* ESTILOS GERAIS */
+        body {
+            background-color: #1a0b2e;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .neon-text { text-shadow: 0 0 10px rgba(213, 0, 249, 0.7); }
+        .card-elite { border: 2px solid #c6ff00; box-shadow: 0 0 30px rgba(198, 255, 0, 0.2); position: relative; background: rgba(74, 20, 140, 0.4); }
         
-        /* Widgets Styles Globais */
-        .demo-box { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; margin-bottom: 2rem; position: relative; border: 1px solid #eee; }
-        .demo-label { position: absolute; top: 10px; right: 10px; background: #1a0b2e; color: #c6ff00; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; z-index: 50; text-transform: uppercase; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        /* Scrollbar fina para os widgets de scroll horizontal */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Módulo 1: Barra */
-        #super-container-topo { width: 100%; position: relative; z-index: 10; display: block; }
-        #barra-vantagens-container { width: 100%; background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); padding: 15px 0; border-bottom: 2px solid #ccff00; border-top: 2px solid #ccff00; overflow: hidden; display: flex; align-items: center; }
-        .vantagens-track { display: flex; width: max-content; animation: scroll-infinite 35s linear infinite; }
-        .vantagem-item { display: flex; align-items: center; text-align: left; padding: 0 15px; flex-shrink: 0; border-right: 1px solid rgba(255, 255, 255, 0.15); }
-        .vantagem-icon { font-size: 20px; margin-right: 8px; color: #ccff00 !important; }
-        .vantagem-text-col { display: flex; flex-direction: column; justify-content: center; line-height: 1.1; }
-        .vantagem-titulo { font-weight: 800; text-transform: uppercase; font-size: 11px; color: #ccff00 !important; }
-        .vantagem-subtitulo { font-weight: 500; font-size: 10px; font-style: italic; color: #ffffff !important; }
-        @keyframes scroll-infinite { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        
-        /* Menu Rápido */
-        #menu-acesso-rapido { display: flex; justify-content: space-evenly; align-items: flex-start; background: #ffffff; width: 100%; padding: 20px 0; margin: 0; }
-        .item-acesso { display: flex; flex-direction: column; align-items: center; text-decoration: none !important; text-align: center; cursor: pointer; transition: transform 0.3s; margin: 0; width: 30%; }
-        .bg-gradiente-novo { background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); border: none; box-shadow: 0 5px 15px rgba(123, 31, 162, 0.4); }
-        .circulo-icone { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; margin-bottom: 8px; }
-        .texto-acesso { color: #4a0072; font-weight: 700; line-height: 1.2; display: block; letter-spacing: 0.3px; font-size: 11px; }
+        /* Utilitários de Vídeo */
+        .video-cover { object-fit: cover; width: 100%; height: 100%; }
 
-        /* Módulo 2: Reels (Shop the look) */
-        .reels-container { display: flex; flex-direction: row; gap: 10px; padding: 10px 15px 30px 15px; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }
-        @media (min-width: 768px) { .reels-container { justify-content: center; } }
-        .reels-container::-webkit-scrollbar { display: none; }
-        .video-card { position: relative; width: 140px; height: 250px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        @media (min-width: 768px) { .video-card { width: 180px; height: 320px; } }
-        .video-card video { width: 100%; height: 100%; object-fit: cover; }
-        .etiqueta-preco-clean { position: absolute; top: 15px; left: 0; z-index: 10; background-color: #c6ff00; color: #4a148c; padding: 4px 8px; border-radius: 0 20px 20px 0; font-weight: 700; font-size: 11px; }
-        .btn-ver-modelo { background-color: #d500f9; color: #ffffff; font-weight: 700; font-size: 10px; padding: 6px 12px; border-radius: 50px; text-transform: uppercase; display: inline-block; position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); z-index: 5; text-decoration: none; white-space: nowrap; }
-        .faixa-lucro { display: inline-block; background-color: #4a148c; color: #ffffff; border: 1px solid #c6ff00; padding: 8px 20px; border-radius: 50px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 10px; margin-bottom: 20px; }
+        /* Estilo para simular tela de celular */
+        .mockup-screen {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+            position: relative;
+        }
 
-        /* Módulo 3: Oferta Relâmpago (RESTAURADO) */
-        #faixa-urgencia-container { background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); color: white; border-radius: 15px; padding: 20px; margin: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(213, 0, 249, 0.4); }
-        @media (min-width: 768px) { #faixa-urgencia-container { flex-direction: row; text-align: left; padding: 25px 40px; justify-content: space-between; } }
-        .icone-raio { font-size: 28px; color: #ccff00; animation: shake 2s infinite; }
-        .titulo-oferta { font-size: 18px; font-weight: 800; text-transform: uppercase; line-height: 1; color: #fff; }
-        .timer-box { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 5px 10px; text-align: center; min-width: 50px; }
-        .timer-numero { font-size: 20px; font-weight: 700; display: block; }
-        .timer-label { font-size: 9px; color: #ccff00; display: block; text-transform: uppercase; }
-        .btn-ver-todos-relampago { background-color: #ccff00; color: #4a0072; padding: 12px 25px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; animation: pulse-btn 2s infinite; width: 100%; justify-content: center; }
-        @media (min-width: 768px) { .btn-ver-todos-relampago { width: auto; } }
+        /* Estilo do Slider da Calculadora */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #c6ff00;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e2e8f0;
+            border-radius: 2px;
+        }
 
-        /* Módulo 4: Calculadora (RESTAURADA) */
-        .box-calc { background: #fff; border-radius: 15px; border: 2px solid #d500f9; overflow: hidden; display: flex; flex-direction: column; margin: 15px auto; max-width: 100%; }
-        @media (min-width: 768px) { .box-calc { flex-direction: row; } }
-        .calc-controles { padding: 20px; border-bottom: 1px dashed #d500f9; flex: 1; }
-        @media (min-width: 768px) { .calc-controles { padding: 30px; border-bottom: 0; border-right: 1px dashed #d500f9; } }
-        .calc-resultado { padding: 30px 20px; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); color: white; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .titulo-calc { color: #4a0072; font-size: 20px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
-        .input-valor { width: 100%; padding: 12px 15px; border: 2px solid #f0f0f0; border-radius: 8px; font-size: 16px; color: #333; font-weight: 600; margin-top: 10px; }
-        .valor-resultado-grande { font-size: 42px; font-weight: 800; color: #ccff00; text-shadow: 0 0 10px rgba(204, 255, 0, 0.4); line-height: 1; }
-        .btn-comecar { background-color: #ccff00; color: #4a0072; padding: 15px 30px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 14px; text-decoration: none; display: inline-flex; gap: 10px; align-items: center; animation: pulse-green 2s infinite; width: 100%; justify-content: center; }
-        @media (min-width: 768px) { .btn-comecar { width: auto; } }
-
-        /* Módulo 5: Cupom */
-        .box-cupom { display: flex; flex-direction: column; align-items: center; gap: 15px; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); border: 1px solid rgba(198, 255, 0, 0.5); border-radius: 12px; padding: 20px; margin: 15px auto; color: white; position: relative; max-width: 100%; overflow: hidden; text-align: center; }
-        @media (min-width: 768px) { .box-cupom { flex-direction: row; text-align: left; } }
-        .box-cupom::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #c6ff00; }
-        .icone-presente { font-size: 24px; color: #fff; background: rgba(255,255,255,0.15); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.2); }
-        .area-codigo { background: rgba(0,0,0,0.25); padding: 5px 5px 5px 15px; border-radius: 50px; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.2); width: 100%; justify-content: space-between; }
-        @media (min-width: 768px) { .area-codigo { width: auto; } }
-        .codigo-texto { font-family: monospace; font-weight: 700; font-size: 16px; margin-right: 10px; letter-spacing: 1px; }
-        .btn-copiar { background: #fff; color: #4a148c; border: none; padding: 8px 15px; border-radius: 40px; font-weight: 800; font-size: 12px; cursor: pointer; white-space: nowrap; }
-
-        /* Módulo 6: Tamanhos (CORRIGIDO: Compacto e Sem Espaço Branco) */
-        .secao-tamanhos { width: 100%; background-color: #ffffff; padding: 10px; text-align: center; }
-        /* Removemos a largura desnecessária */
-        .titulo-tamanhos { color: #d500f9; font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        /* Lista compacta e centralizada */
-        .lista-tamanhos { display: flex; justify-content: center; gap: 8px; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .lista-tamanhos::-webkit-scrollbar { display: none; }
-        .btn-tamanho { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #d500f9 0%, #7b1fa2 100%); border: none; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none !important; font-weight: 700; font-size: 13px; box-shadow: 0 3px 8px rgba(123, 31, 162, 0.3); }
-
-        /* Módulo 7: Rodapé Info */
-        #footer-infos-container { width: 100%; background: linear-gradient(135deg, #d500f9 0%, #4a148c 100%); padding: 20px 0; border-bottom: 4px solid #ccff00; white-space: nowrap; overflow: hidden; }
-        .infos-wrapper { display: inline-flex; gap: 0; animation: scroll-footer 30s linear infinite; }
-        .info-item { display: flex; align-items: center; gap: 10px; padding: 0 30px; border-right: 1px solid rgba(255, 255, 255, 0.15); }
-        .info-icon { font-size: 24px; color: #ccff00; }
-        .info-titulo { font-size: 13px; font-weight: 700; color: #ffffff; text-transform: uppercase; margin-bottom: 2px; display: block;}
-        .info-descricao { font-size: 11px; color: rgba(255, 255, 255, 0.9); display: block;}
-        @keyframes scroll-footer { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* Institucional */
-        .reels-confianca-container { display: flex; gap: 15px; justify-content: flex-start; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; }
-        @media (min-width: 768px) { .reels-confianca-container { justify-content: center; } }
-        .card-bastidor { position: relative; width: 160px; height: 300px; border-radius: 12px; overflow: hidden; border: 2px solid #d500f9; background: #000; flex-shrink: 0; cursor: pointer; }
-        @media (min-width: 768px) { .card-bastidor { width: 220px; height: 400px; } }
-        .botao-play-bastidor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: rgba(0, 0, 0, 0.6); border: 2px solid #c6ff00; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c6ff00; font-size: 20px; pointer-events: none; transition: all 0.3s; }
-        .card-bastidor.tocando .botao-play-bastidor { opacity: 0; transform: scale(1.5); }
-
-        /* Checkbox & Calc Sticky */
-        .sticky-calculator { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; transform: translateY(100%); transition: transform 0.3s ease-in-out; border-top: 1px solid rgba(255,255,255,0.1); }
-        .sticky-calculator.visible { transform: translateY(0); }
-        .item-checkbox:checked + div { border-color: #c6ff00; background: rgba(198, 255, 0, 0.1); box-shadow: 0 0 15px rgba(198, 255, 0, 0.2); }
-        .item-checkbox:checked + div .check-circle { background: #c6ff00; border-color: #c6ff00; color: #1a0b2e; }
-        .progress-bar-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Comparison Slide Animation */
-        .comparison-slide { animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        @keyframes shake { 0% { transform: rotate(0deg); } 25% { transform: rotate(10deg); } 75% { transform: rotate(-10deg); } 100% { transform: rotate(0deg); } }
-
-        /* Exit Modal Fix */
-        .modal { transition: opacity 0.3s ease; pointer-events: none; opacity: 0; }
-        .modal.active { opacity: 1; pointer-events: auto; }
+        /* Checkbox Customizado */
+        .custom-checkbox:checked {
+            background-color: #c6ff00;
+            border-color: #c6ff00;
+        }
+        .custom-checkbox:checked + div {
+            color: #c6ff00;
+        }
     </style>
 </head>
-<body class="font-sans bg-brand-dark text-gray-200 antialiased overflow-x-hidden">
+<body class="antialiased pb-20 md:pb-0">
 
-    <!-- Header -->
-    <header class="fixed w-full z-40 bg-brand-dark/95 backdrop-blur-md border-b border-white/10" id="navbar">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-2">
-                <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="VIZZU Digital" class="h-14 w-auto">
-            </a>
+    <!-- BARRA DE VAGAS -->
+    <div class="fixed top-0 left-0 w-full z-50 bg-vizzu-purple bg-opacity-95 backdrop-blur text-white py-2 px-2 text-center border-b border-vizzu-pink shadow-lg">
+        <p class="text-xs md:text-sm font-bold flex justify-center items-center gap-2">
+            <span class="animate-pulse text-vizzu-green"><i class="fas fa-exclamation-triangle"></i> ATENÇÃO:</span>
+            <span>Temos apenas <span class="text-vizzu-green font-black">3 VAGAS</span> para este mês.</span>
+            <span class="bg-red-600 px-2 py-0.5 rounded text-[10px] animate-pulse-fast">80% PREENCHIDAS</span>
+        </p>
+    </div>
+
+    <!-- HERO SECTION -->
+    <header class="relative pt-20 pb-12 overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-40">
+            <video class="w-full h-full object-cover" autoplay loop muted playsinline poster="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
+                <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-vizzu-dark/80 to-vizzu-dark"></div>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
+            <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Vizzu Logo" class="h-16 mx-auto mb-6 animate-float">
             
-            <nav class="hidden md:flex gap-8 text-white/80 font-medium text-sm">
-                <a href="#problema" class="hover:text-brand-neon transition">O Problema</a>
-                <a href="#catalogo-visual" class="text-brand-neon font-bold transition">Funcionalidades</a>
-                <a href="#antes-depois" class="hover:text-brand-neon transition">Comparativo</a>
-                <a href="#personalizador" class="hover:text-brand-neon transition">Montar Combo</a>
-            </nav>
-            <a href="#personalizador" class="hidden md:block bg-gradient-to-r from-brand-pink to-brand-purple text-white font-bold px-6 py-2 rounded-lg hover:shadow-[0_0_20px_rgba(213,0,249,0.4)] transition transform hover:scale-105">
-                Ver Planos
+            <div class="inline-block bg-vizzu-purple/50 px-4 py-1 rounded-full border border-vizzu-pink/30 mb-4 backdrop-blur-sm">
+                <span class="text-vizzu-pink text-xs font-bold tracking-wider uppercase">⚠ Exclusivo para Lojistas B2B</span>
+            </div>
+
+            <h1 class="font-display text-4xl md:text-6xl font-black leading-tight mb-4 text-white">
+                Lojista, cansada de perder vendas por ter uma loja com <span class="text-transparent bg-clip-text bg-gradient-to-r from-vizzu-pink to-purple-400">"cara de amadora"?</span>
+            </h1>
+
+            <p class="font-sans text-gray-300 text-lg md:text-xl mb-8 leading-relaxed">
+                Transforme sua loja FácilZap genérica em um <strong>APP Nível Shein</strong>. Sem agência, sem mensalidade, sem código.
+            </p>
+
+            <a href="#planos" class="inline-flex items-center justify-center gap-3 bg-[#c6ff00] text-[#1a0b2e] px-8 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(198,255,0,0.6)] animate-pulse-fast w-full md:w-auto">
+                QUERO O COMBO ELITE
+                <i class="fas fa-arrow-right"></i>
             </a>
+
+            <div class="mt-4 text-sm text-gray-400 flex justify-center items-center gap-4">
+                <span><i class="fas fa-check text-vizzu-green"></i> Garantia de Aprovação</span>
+                <span><i class="fas fa-check text-vizzu-green"></i> Instalação VIP</span>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="gradient-bg min-h-screen pt-28 pb-12 md:pb-20 relative overflow-hidden flex items-center">
-        <!-- Blobs decorativos -->
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-pink rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-purple rounded-full mix-blend-color-dodge filter blur-[120px] opacity-30"></div>
-
-        <div class="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-            <div class="text-center lg:text-left order-2 lg:order-1">
-                <div class="inline-flex items-center gap-2 bg-brand-glass border border-brand-pink/30 rounded-full px-4 py-1 mb-6">
-                    <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
-                    <span class="text-brand-neon text-xs font-bold uppercase tracking-wider">Especialistas em E-commerce</span>
-                </div>
-                <h1 class="font-display font-bold text-3xl md:text-6xl text-white leading-tight mb-6">
-                    Transforme Sua Loja Genérica em uma <span class="gradient-text">Máquina de Vendas</span>
-                </h1>
-                <p class="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                    O visual da sua loja define o valor do seu produto. Saia do amadorismo com ferramentas de elite: Calculadoras de Lucro, Stories na Home e Gatilhos Mentais.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a href="#catalogo-visual" class="bg-brand-neon text-brand-dark font-display font-bold text-lg px-8 py-4 rounded-lg shadow-[0_0_20px_rgba(198,255,0,0.4)] hover:shadow-[0_0_30px_rgba(198,255,0,0.6)] hover:-translate-y-1 transition transform flex items-center justify-center gap-2">
-                        Ver As Ferramentas <i class="fa-solid fa-arrow-down"></i>
-                    </a>
-                    <a href="https://wa.me/5562981480687?text=Olá! Gostaria de uma consultoria gratuita para minha loja." class="border-2 border-white/20 text-white font-bold text-lg px-8 py-4 rounded-lg hover:bg-white/10 transition flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp"></i> Consultoria Grátis
-                    </a>
-                </div>
-            </div>
-
-            <!-- Vídeo do Celular (Prova Social) -->
-            <div class="relative order-1 lg:order-2 animate-float">
-                <div class="relative z-10 bg-gray-900 rounded-3xl p-2 border-4 border-gray-800 shadow-2xl backdrop-blur-xl max-w-sm mx-auto">
-                    <div class="bg-black rounded-t-2xl p-3 flex justify-between items-center">
-                        <div class="flex gap-2">
-                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
-                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
-                        </div>
-                    </div>
-                    <video src="https://files.catbox.moe/yav5jo.mp4" autoplay loop muted playsinline class="rounded-b-xl w-full object-cover h-[500px] bg-gray-800"></video>
-                    <div class="absolute -left-10 bottom-20 bg-brand-purple p-3 rounded-lg shadow-xl border border-brand-pink animate-bounce hidden md:block">
-                        <div class="text-xs font-bold text-white">Nós fazemos isso 👇</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- O Problema (Diagnóstico) -->
-    <section id="problema" class="py-20 bg-white">
+    <!-- AGITAÇÃO (ANTES E DEPOIS - CORRIGIDO) -->
+    <section class="py-12 bg-vizzu-surface relative">
         <div class="container mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Diagnóstico</span>
-                <h2 class="text-3xl md:text-5xl font-display font-bold text-brand-dark mb-4">Sua loja passa Confiança ou Amadorismo?</h2>
-                <p class="text-lg text-gray-600">Clientes julgam seu site em 3 segundos. Se o layout não for profissional, eles saem e compram no concorrente.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition group">
-                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink group-hover:scale-110 transition"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
-                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Sem Diferencial</h3>
-                    <p class="text-gray-600 text-sm">Sua loja parece igual a todas as outras (temas padrões). Você acaba brigando apenas por preço baixo.</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition group">
-                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink group-hover:scale-110 transition"><i class="fa-solid fa-eye-slash"></i></div>
-                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Checkout Confuso</h3>
-                    <p class="text-gray-600 text-sm">A plataforma é rápida, mas o <strong>visual poluído</strong> faz o cliente se perder e desistir da compra no meio do caminho.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition group">
-                    <div class="w-14 h-14 bg-brand-pink/10 rounded-full flex items-center justify-center mb-6 text-2xl text-brand-pink group-hover:scale-110 transition"><i class="fa-solid fa-store-slash"></i></div>
-                    <h3 class="font-bold text-xl mb-3 text-brand-dark">Falta de Gatilhos</h3>
-                    <p class="text-gray-600 text-sm">Loja "pelada" não vende. Você precisa de <strong>Cupons, Filtros e Ofertas Relâmpago</strong> para converter visitantes em clientes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Showcase Interativo Expandido -->
-    <section id="catalogo-visual" class="py-20 bg-gray-100 text-brand-dark">
-        <div class="container mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Nossa Solução</span>
-                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Veja como sua loja vai ficar</h2>
-                <p class="text-gray-600">Abaixo, demonstramos exatamente as ferramentas que instalamos. Interaja e veja o resultado final.</p>
-            </div>
-
-            <!-- Módulo 1: Topo -->
-            <div class="mb-20">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
-                    <h3 class="text-2xl font-bold text-brand-dark">Barra de Vantagens & Menu Rápido</h3>
-                </div>
-                <div class="demo-box">
-                    <div class="demo-label">Live Preview</div>
-                    <div id="super-container-topo">
-                        <div id="barra-vantagens-container">
-                            <div class="vantagens-track">
-                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-gem"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">MAIS DE 5.000</span><span class="vantagem-subtitulo">revendedoras</span></div></div>
-                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-shipping-fast"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">ENVIO RÁPIDO</span><span class="vantagem-subtitulo">até 72h úteis</span></div></div>
-                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-box-open"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">FRETE GRÁTIS</span><span class="vantagem-subtitulo">acima de R$ 2k</span></div></div>
-                                <!-- Loop -->
-                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-gem"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">MAIS DE 5.000</span><span class="vantagem-subtitulo">revendedoras</span></div></div>
-                                <div class="vantagem-item"><div class="vantagem-icon"><i class="fas fa-shipping-fast"></i></div><div class="vantagem-text-col"><span class="vantagem-titulo">ENVIO RÁPIDO</span><span class="vantagem-subtitulo">até 72h úteis</span></div></div>
-                            </div>
-                        </div>
-                        <div id="menu-acesso-rapido">
-                            <div class="item-acesso"><div class="circulo-icone bg-gradiente-novo"><i class="fab fa-whatsapp"></i></div><span class="texto-acesso">Fale Conosco</span></div>
-                            <div class="item-acesso"><div class="circulo-icone bg-gradiente-novo"><i class="fas fa-crown"></i></div><span class="texto-acesso">Grupo VIP</span></div>
-                            <div class="item-acesso"><div class="circulo-icone bg-gradiente-novo"><i class="fab fa-google-drive"></i></div><span class="texto-acesso">Catálogo</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 2: Carrossel de Vídeos -->
-            <div class="mb-20">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-brand-dark">Carrossel "Shop the Look"</h3>
-                        <p class="text-sm text-gray-500">Stories do Instagram direto na home da loja.</p>
-                    </div>
-                </div>
-                <div class="demo-box">
-                    <div class="demo-label">Live Preview</div>
-                    <div class="secao-videos-reels">
-                        <div class="header-reels">
-                            <h2 class="titulo-principal">
-                                <span class="texto-destaque-upper" style="display:block;">OS MAIS VENDIDOS</span>
-                                <span class="texto-normal-lower">A seleção perfeita para você <strong>lucrar muito</strong>.</span>
-                            </h2>
-                            <div class="faixa-lucro"><i class="fas fa-hand-holding-usd"></i> Revenda com até 150% de Lucro</div>
-                        </div>
-                        <div class="reels-container">
-                            <!-- Video 1 -->
-                            <div class="video-card" onclick="this.querySelector('video').play()">
-                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
-                                <div class="etiqueta-preco-clean"><small>R$</small> 40,00</div>
-                                <video src="https://files.catbox.moe/0rz45y.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
-                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
-                            </div>
-                            <!-- Video 2 -->
-                            <div class="video-card" onclick="this.querySelector('video').play()">
-                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
-                                <div class="etiqueta-preco-clean"><small>R$</small> 25,00</div>
-                                <video src="https://files.catbox.moe/ldvflh.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
-                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
-                            </div>
-                             <!-- Video 3 -->
-                             <div class="video-card" onclick="this.querySelector('video').play()">
-                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
-                                <div class="etiqueta-preco-clean"><small>R$</small> 35,00</div>
-                                <video src="https://files.catbox.moe/61okrt.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
-                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
-                            </div>
-                            <!-- Video 4 -->
-                            <div class="video-card" onclick="this.querySelector('video').play()">
-                                <div class="icone-som"><i class="fas fa-volume-up"></i></div>
-                                <div class="etiqueta-preco-clean"><small>R$</small> 45,00</div>
-                                <video src="https://files.catbox.moe/r1h9kb.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
-                                <div class="video-legenda"><a href="#" class="btn-ver-modelo">VER MODELO</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 3: Oferta Relâmpago - CORRIGIDO -->
-            <div class="mb-20">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
-                    <h3 class="text-2xl font-bold text-brand-dark">Oferta Relâmpago (Escassez)</h3>
-                </div>
-                <div class="demo-box" style="padding: 20px; background: #f9f9f9;">
-                    <div class="demo-label">Live Preview</div>
-                    <div id="faixa-urgencia-container">
-                        <div class="coluna-texto flex-1 min-w-[200px]">
-                            <div class="oferta-header flex flex-col md:flex-row items-center gap-2">
-                                <i class="fas fa-bolt icone-raio"></i>
-                                <div>
-                                    <span class="titulo-oferta block">Oferta Relâmpago</span>
-                                    <span style="font-size:14px; opacity:0.9;">Oportunidade única. Acaba logo!</span>
-                                </div>
-                            </div>
-                            <div class="estoque-container w-full max-w-[250px] mt-2">
-                                <div class="texto-estoque flex justify-between text-[10px] font-bold text-brand-neon mb-1"><span>Vendido: 85%</span><span>Restam: 15%</span></div>
-                                <div class="barra-fundo h-2 bg-black/30 rounded-full overflow-hidden border border-white/10"><div class="barra-progresso h-full bg-brand-neon w-[85%] shadow-[0_0_10px_#ccff00]"></div></div>
-                            </div>
-                        </div>
-                        <div class="oferta-timer flex gap-1 items-center">
-                            <div class="timer-box"><span class="timer-numero">04</span><span class="timer-label">HORAS</span></div>
-                            <div class="timer-separador text-xl font-bold opacity-50">:</div>
-                            <div class="timer-box"><span class="timer-numero">35</span><span class="timer-label">MIN</span></div>
-                            <div class="timer-separador text-xl font-bold opacity-50">:</div>
-                            <div class="timer-box"><span class="timer-numero">00</span><span class="timer-label">SEG</span></div>
-                        </div>
-                        <div class="w-full md:w-auto text-center mt-2 md:mt-0">
-                            <a href="#" class="btn-ver-todos-relampago">EU QUERO AGORA <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 4: Calculadora - CORRIGIDA -->
-            <div class="mb-20">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">4</div>
-                    <h3 class="text-2xl font-bold text-brand-dark">Calculadora de Lucro B2B</h3>
-                </div>
-                <div class="demo-box" style="padding: 20px; background: #f0f0f0;">
-                    <div class="demo-label">Live Preview</div>
-                    <div class="box-calc">
-                        <div class="calc-controles">
-                            <h3 class="titulo-calc"><i class="fas fa-calculator"></i> Simule seu Lucro</h3>
-                            <span style="color:#666; font-size:16px;">Veja quanto <strong class="destaque-texto">DINHEIRO</strong> você coloca no bolso!</span>
-                            <div style="margin-top:15px;">
-                                <label style="display:block; font-weight:700; color:#4a0072; margin-bottom:5px; font-size:14px;">Preço Atacado</label>
-                                <input type="text" class="input-valor" value="R$ 35,00" readonly>
-                            </div>
-                        </div>
-                        <div class="calc-resultado">
-                            <span style="font-size:13px; text-transform:uppercase; margin-bottom:10px; display:block;">Lucro Líquido Estimado:</span>
-                            <div class="box-lucro-destaque mb-4">
-                                <div class="valor-resultado-grande">R$ 35,00</div>
-                            </div>
-                            <a href="#" class="btn-comecar">QUERO LUCRAR <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 5: Cupom e Tamanhos (Grid) -->
-            <div class="grid md:grid-cols-2 gap-8 mb-20">
-                <div>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">5</div>
-                        <h3 class="text-xl font-bold text-brand-dark">Cupom One-Click</h3>
-                    </div>
-                    <div class="demo-box" style="padding: 20px; display: flex; align-items: center; justify-content: center;">
-                        <div class="box-cupom w-full">
-                            <div class="icone-presente"><i class="fas fa-gift"></i></div>
-                            <div style="flex:1; text-align:left;">
-                                <span style="display:block; font-size:13px; text-transform:uppercase;">Primeira Compra</span>
-                                <span style="font-size:19px;">Faça sua primeira compra e ganhe <br><span class="destaque-zaap">5% DE DESCONTO</span></span>
-                            </div>
-                            <div class="area-codigo hidden sm:flex">
-                                <span class="codigo-texto">VIZZU5</span>
-                                <button class="btn-copiar"><i class="far fa-copy"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">6</div>
-                        <h3 class="text-xl font-bold text-brand-dark">Filtro de Tamanhos</h3>
-                    </div>
-                    <div class="demo-box" style="padding: 20px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                        <!-- CORREÇÃO: Remove height:100% e adiciona centralização -->
-                        <div class="secao-tamanhos">
-                            <h3 class="titulo-tamanhos">COMPRE POR TAMANHO</h3>
-                            <div class="lista-tamanhos">
-                                <a href="#" class="btn-tamanho">33</a>
-                                <a href="#" class="btn-tamanho">34</a>
-                                <a href="#" class="btn-tamanho">35</a>
-                                <a href="#" class="btn-tamanho">36</a>
-                                <a href="#" class="btn-tamanho">37</a>
-                                <a href="#" class="btn-tamanho">38</a>
-                                <a href="#" class="btn-tamanho">39</a>
-                                <a href="#" class="btn-tamanho">40</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 7: Rodapé -->
-            <div class="mb-20">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">7</div>
-                    <h3 class="text-2xl font-bold text-brand-dark">Rodapé Profissional</h3>
-                </div>
-                <div class="demo-box">
-                    <div class="demo-label">Live Preview</div>
-                    <div id="footer-infos-container">
-                        <div class="infos-wrapper">
-                            <div class="info-item"><div class="info-icon"><i class="fab fa-whatsapp"></i></div><div><span class="info-titulo">Fale Conosco</span><span class="info-descricao">(62) 98148-0687</span></div></div>
-                            <div class="info-item"><div class="info-icon"><i class="far fa-clock"></i></div><div><span class="info-titulo">Horários</span><span class="info-descricao">Seg-Sex 9h às 18h</span></div></div>
-                            <div class="info-item"><div class="info-icon"><i class="fas fa-map-marker-alt"></i></div><div><span class="info-titulo">Nossa Loja</span><span class="info-descricao">Goiânia - GO</span></div></div>
-                            <!-- Repetição -->
-                            <div class="info-item"><div class="info-icon"><i class="fab fa-whatsapp"></i></div><div><span class="info-titulo">Fale Conosco</span><span class="info-descricao">(62) 98148-0687</span></div></div>
-                            <div class="info-item"><div class="info-icon"><i class="far fa-clock"></i></div><div><span class="info-titulo">Horários</span><span class="info-descricao">Seg-Sex 9h às 18h</span></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 8: Institucional -->
-            <div class="mb-20">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="bg-brand-purple text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">8</div>
-                    <h3 class="text-2xl font-bold text-brand-dark">Carrossel Institucional "Quem Somos"</h3>
-                </div>
-                <div class="demo-box">
-                    <div class="demo-label">Live Preview</div>
-                    <div class="secao-confianca">
-                        <h2 class="titulo-confianca">QUEM SOMOS</h2>
-                        <p class="texto-confianca">
-                            <strong>Somos fabricantes!</strong> Compre <strong>direto da fonte</strong> com <strong>segurança e qualidade garantida</strong>.
-                        </p>
-
-                        <div class="reels-confianca-container">
-                            <!-- Card 1 -->
-                            <div class="card-bastidor" onclick="tocarBastidor(this)">
-                                <div class="video-loader-bastidor"></div>
-                                <div class="botao-play-bastidor"><i class="fas fa-play"></i></div>
-                                <div class="etiqueta-bastidor"><i class="fas fa-map-marker-alt"></i> Fábrica</div>
-                                <video src="https://files.catbox.moe/f64qpi.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
-                            </div>
-                            <!-- Card 2 -->
-                            <div class="card-bastidor" onclick="tocarBastidor(this)">
-                                <div class="video-loader-bastidor"></div>
-                                <div class="botao-play-bastidor"><i class="fas fa-play"></i></div>
-                                <div class="etiqueta-bastidor"><i class="fas fa-box-open"></i> Estoque</div>
-                                <video src="https://files.catbox.moe/qdnl00.mp4#t=0.1" loop playsinline webkit-playsinline muted preload="metadata"></video>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Antes x Depois (Prova Real com Carrossel) -->
-    <section id="antes-depois" class="py-20 bg-white border-t border-gray-100">
-        <div class="container mx-auto px-4">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-brand-purple font-bold tracking-wider uppercase text-sm mb-2 block">Transformação Visual</span>
-                <h2 class="text-3xl md:text-5xl font-display font-bold text-brand-dark mb-4">Veja a Diferença Real</h2>
-                <p class="text-lg text-gray-600">Não vendemos sonhos, vendemos design de alta performance.</p>
-            </div>
-
-            <!-- Navegação do Carrossel -->
-            <div class="flex justify-between items-center mb-8 max-w-4xl mx-auto bg-gray-50 p-4 rounded-full border border-gray-200 shadow-sm sticky top-20 z-20 md:static">
-                <button onclick="changeSlide(-1)" class="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-md active:scale-95">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <span id="slide-title" class="font-display font-bold text-base md:text-2xl text-brand-purple uppercase tracking-wide text-center">Página Inicial</span>
-                <button onclick="changeSlide(1)" class="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-purple hover:bg-brand-purple hover:text-white transition shadow-md active:scale-95">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-
-            <!-- Container dos Slides -->
-            <div class="max-w-6xl mx-auto">
-                
-                <!-- Slide 0: Home Page -->
-                <div id="slide-0" class="comparison-slide grid md:grid-cols-2 gap-8 items-start">
-                    <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES (PADRÃO)</div>
-                        <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
-                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Sem Identidade</p>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS (VIZZU)</div>
-                        <img src="https://i.ibb.co/ZRJCvPgd/PAGINA-INICIAL-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
-                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Identidade Forte</p>
-                    </div>
-                </div>
-
-                <!-- Slide 1: Página de Produtos -->
-                <div id="slide-1" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-start">
-                    <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES</div>
-                        <img src="https://i.ibb.co/8nF9Ld83/PAGINA-DE-PRODUTO-ANTESINA-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
-                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Confuso</p>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS</div>
-                        <img src="https://i.ibb.co/JWj3tbnS/PAGINA-DE-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
-                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Clean & Vendedor</p>
-                    </div>
-                </div>
-
-                <!-- Slide 2: Detalhes do Produto -->
-                <div id="slide-2" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-start">
-                    <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES</div>
-                        <img src="https://i.ibb.co/nqhs9XQ8/PAGINA-POR-DENTRO-DO-PRODUTO-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
-                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Informação Escondida</p>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS</div>
-                        <img src="https://i.ibb.co/nsG9TZ9j/PAGINA-POR-DENTRO-DO-PRODUTO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
-                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Foco na Conversão</p>
-                    </div>
-                </div>
-
-                <!-- Slide 3: Carrinho -->
-                <div id="slide-3" class="comparison-slide hidden grid md:grid-cols-2 gap-8 items-start">
-                    <div class="relative group">
-                        <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded text-xs font-bold z-10">ANTES</div>
-                        <img src="https://i.ibb.co/ZRcX5R8p/CARRINHO-ANTES.png" class="w-full h-auto rounded-xl shadow-md border border-gray-200">
-                        <p class="text-center text-xs text-gray-500 mt-2 font-bold uppercase">Robusto & Antigo</p>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute top-4 right-4 bg-brand-neon text-brand-dark px-3 py-1 rounded text-xs font-bold z-10 shadow-md">DEPOIS</div>
-                        <img src="https://i.ibb.co/TxkcWrtS/CARRINHO-DEPOIS.png" class="w-full h-auto rounded-xl shadow-2xl border-2 border-brand-neon">
-                        <p class="text-center text-xs text-brand-purple mt-2 font-bold uppercase">Otimizado</p>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Descrições Técnicas Dinâmicas (BOX EXPLICATIVO) -->
-            <div id="desc-slide-0" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden group">
-                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
-                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos na Home:
-                </h4>
-                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Carrossel Institucional & Topo:</strong> Credibilidade imediata.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Barra de Vantagens:</strong> Destaque para Frete e Envio.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Oferta Relâmpago & Calculadora:</strong> Gatilhos de escassez e lucro.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Filtros por Tamanho:</strong> Facilita a navegação no mobile.</span></li>
-                </ul>
-                
-                <!-- Navegação Mobile Interna -->
-                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
-                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
-                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <div id="desc-slide-1" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
-                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos na Lista de Produtos:
-                </h4>
-                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Bordas Arredondadas:</strong> Design moderno e amigável ao clique.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Layout Clean:</strong> Remoção de poluição visual para focar na foto.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Botão "Pulsar":</strong> Incentiva o clique impulsivo.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Remoção do Robusto:</strong> Fim dos botões quadrados e pesados.</span></li>
-                </ul>
-                
-                 <!-- Navegação Mobile Interna -->
-                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
-                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
-                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <div id="desc-slide-2" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
-                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos na Página do Produto:
-                </h4>
-                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Botões Suavizados:</strong> Mais modernos e fáceis de interagir.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>CTA Adicionar ao Carrinho:</strong> Maior, com efeito pulse.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Seletor de Variação:</strong> Mais visível e intuitivo.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Foco na Imagem:</strong> Destaque total para o produto.</span></li>
-                </ul>
-                
-                 <!-- Navegação Mobile Interna -->
-                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
-                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
-                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <div id="desc-slide-3" class="mt-10 bg-white p-6 md:p-8 rounded-2xl border border-brand-purple/20 shadow-xl relative overflow-hidden hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-brand-neon"></div>
-                <h4 class="font-display font-bold text-brand-purple text-lg md:text-xl mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-brand-pink"></i> O que mudamos no Carrinho:
-                </h4>
-                <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Reestruturação Total:</strong> Foco em alta conversão.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Organização Visual:</strong> Cliente vê claramente o que está comprando.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Edição Fácil:</strong> Adicionar/remover itens sem frustração.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-neon bg-brand-dark p-1 rounded-full text-[10px] mt-1"></i> <span><strong>Fim do Amadorismo:</strong> Saída do layout padrão "travado".</span></li>
-                </ul>
-                
-                 <!-- Navegação Mobile Interna -->
-                <div class="mt-6 flex justify-between items-center md:hidden border-t border-gray-200 pt-4">
-                    <button onclick="changeSlide(-1)" class="text-brand-purple font-bold text-sm flex items-center gap-2 hover:text-brand-pink transition"><i class="fa-solid fa-arrow-left"></i> Anterior</button>
-                    <button onclick="changeSlide(1)" class="bg-brand-purple text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-brand-dark transition shadow-md">Próximo <i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- GARANTIA -->
-    <section class="py-16 bg-gradient-to-r from-green-50 to-emerald-50">
-        <div class="container mx-auto px-4 text-center max-w-3xl">
-            <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-handshake text-4xl text-green-600"></i>
-            </div>
-            <h2 class="text-3xl font-display font-bold text-brand-dark mb-4">
-                Garantia de Entrega e Satisfação
+            <h2 class="font-display text-2xl md:text-4xl font-bold text-center mb-10">
+                A Diferença entre <span class="text-red-500">Amadorismo</span> e <span class="text-vizzu-green">Profissionalismo</span>
             </h2>
-            <p class="text-lg text-gray-600 mb-6">
-                Nosso compromisso é com o <strong>resultado final</strong>. Entregamos sua loja pronta. Se dentro de <strong>7 dias</strong> você achar que o resultado não elevou o nível da sua marca, nós devolvemos 100% do seu dinheiro.
-            </p>
-            <div class="flex flex-wrap justify-center gap-6 text-sm font-bold text-brand-dark">
-                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                    <i class="fa-solid fa-check text-green-600"></i>
-                    <span>Reembolso total em 7 dias</span>
+
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <!-- O Lado Feio (IMAGEM GRANDE EM MOCKUP) -->
+                <div class="glass-panel p-6 border-red-500/30 border opacity-90 relative flex flex-col" data-aos="fade-right">
+                     <div class="absolute -top-4 left-4 bg-red-600 text-white font-bold px-3 py-1 rounded shadow-lg text-sm z-10">SUA LOJA HOJE</div>
+                    <h3 class="text-red-400 font-bold mb-4 text-xl mt-2"><i class="fas fa-times-circle"></i> FácilZap Padrão</h3>
+                    
+                    <!-- Mockup Celular -->
+                    <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-gray-700">
+                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
+                            <!-- Imagem contida no mockup -->
+                            <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" alt="Antes - Loja Genérica" class="w-full h-full object-contain bg-white">
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-400 text-sm mt-4 text-center">Visual poluído, botões pequenos, sem identidade.</p>
                 </div>
-                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                    <i class="fa-solid fa-check text-green-600"></i>
-                    <span>Rodada de ajustes inclusa</span>
-                </div>
-                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                    <i class="fa-solid fa-check text-green-600"></i>
-                    <span>Código seu para sempre</span>
+
+                <!-- A Promessa (VIDEO NO TAMANHO CORRETO) -->
+                <div class="glass-panel p-6 border-vizzu-green border relative flex flex-col shadow-[0_0_20px_rgba(198,255,0,0.1)]" data-aos="fade-left">
+                    <div class="absolute -top-4 right-4 bg-vizzu-green text-vizzu-dark font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
+                    <h3 class="text-vizzu-green font-bold mb-4 text-xl mt-2"><i class="fas fa-check-circle"></i> APP Vendas B2B</h3>
+                     
+                    <!-- Mockup Celular -->
+                    <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
+                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
+                            <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+                                <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
+                            </video>
+                            <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow">💎 MODO APP</div>
+                        </div>
+                    </div>
+
+                    <p class="text-white text-sm mt-4 text-center">Design nível Shein, vídeos e gatilhos de compra.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    <!-- PERSONALIZADOR DE LOJA (MONTE SEU COMBO) -->
-    <section id="personalizador" class="py-20 relative bg-[#1a0b2e] overflow-hidden">
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-pink to-transparent opacity-50"></div>
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-4">Escolha o seu melhor Combo</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Pacotes prontos com descontos exclusivos para acelerar sua decisão.</p>
+    <!-- SOLUÇÃO (VISUALIZAÇÃO ADAPTADA DOS WIDGETS - ÍCONE CORRIGIDO) -->
+    <section class="py-16 container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="font-display text-3xl md:text-5xl font-black mb-4 neon-text">
+                Veja como fica <span class="text-vizzu-pink">na Prática</span>
+            </h2>
+            <p class="text-gray-400">Recriamos abaixo uma demonstração de como cada widget se comporta na tela do seu cliente.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- 1. Redesign Visual -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-vizzu-green">1. Redesign Visual App</h3>
+                    <i class="fas fa-mobile-alt text-2xl text-gray-500"></i>
+                </div>
+                <!-- Miniatura APP (Imagens Reais) -->
+                <div class="bg-gray-100 p-4 rounded-xl flex justify-center items-center h-52">
+                    <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
+                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
+                            <img src="https://i.ibb.co/35ntjbps/Captura-de-tela-2025-11-30-224053.png" class="w-full h-full object-cover" alt="Exemplo Produto 1">
+                        </div>
+                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
+                            <img src="https://i.ibb.co/rfpz65dq/Captura-de-tela-2025-11-30-224105.png" class="w-full h-full object-cover" alt="Exemplo Produto 2">
+                        </div>
+                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
+                            <img src="https://i.ibb.co/Z60kSYg5/Captura-de-tela-2025-11-30-224150.png" class="w-full h-full object-cover" alt="Exemplo Produto 3">
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Visual limpo, cartões flutuantes e layout nativo de app.</p>
             </div>
 
-            <div class="max-w-6xl mx-auto">
-                <!-- Combo ELITE TOTAL (Destaque Principal) -->
-                <div class="mb-16 transform hover:scale-[1.01] transition duration-300">
-                    <div class="combo-card glass-panel p-8 rounded-3xl border-4 border-brand-neon bg-gradient-to-br from-brand-purple/50 to-brand-pink/20 relative overflow-hidden shadow-[0_0_50px_rgba(198,255,0,0.2)]">
-                        <div class="absolute top-0 right-0 bg-brand-neon text-brand-dark font-black px-6 py-2 rounded-bl-2xl text-lg uppercase tracking-wider">
-                            50% OFF
+            <!-- 2. Stories Shop-the-Look -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-pink-400">2. Stories Shop-the-Look</h3>
+                    <i class="fas fa-camera text-2xl text-gray-500"></i>
+                </div>
+                <!-- Container Horizontal -->
+                <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
+                     <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
+                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md">
+                            <video src="https://files.catbox.moe/0rz45y.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay></video>
+                            <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 49</div>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
-                            <div>
-                                <h3 class="text-4xl font-black text-white mb-2 tracking-tight">COMBO ELITE TOTAL <i class="fa-solid fa-crown text-brand-neon ml-2"></i></h3>
-                                <p class="text-gray-300 text-lg mb-6">A transformação completa. Tudo o que sua loja precisa para vender como as grandes marcas.</p>
-                                <div class="flex flex-wrap gap-2 mb-6">
-                                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-brand-neon border border-brand-neon/30">Todos os 9 Itens</span>
-                                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-brand-pink border border-brand-pink/30">Suporte Prioritário</span>
-                                    <span class="bg-white/10 px-3 py-1 rounded-full text-xs font-bold text-white border border-white/30">Instalação VIP</span>
+                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
+                            <video src="https://files.catbox.moe/ldvflh.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay></video>
+                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 89</div>
+                        </div>
+                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
+                            <video src="https://files.catbox.moe/61okrt.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay></video>
+                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 59</div>
+                        </div>
+                     </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Carrossel de vídeos no topo. O cliente clica no story e compra.</p>
+            </div>
+
+             <!-- 3. Institucional B2B -->
+             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
+                    <i class="fas fa-building text-2xl text-gray-500"></i>
+                </div>
+                 <!-- Container Institucional -->
+                 <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
+                    <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
+                       <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
+                           <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
+                           <video src="https://files.catbox.moe/f64qpi.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay></video>
+                       </div>
+                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
+                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
+                            <video src="https://files.catbox.moe/qdnl00.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay></video>
+                        </div>
+                    </div>
+               </div>
+                <p class="text-sm text-gray-400 mt-3">Gere confiança mostrando sua fábrica e estoque em vídeo.</p>
+            </div>
+
+            <!-- 4. Calculadora de Lucro (INTERATIVA) -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-vizzu-green">4. Calculadora B2B</h3>
+                    <i class="fas fa-calculator text-2xl text-gray-500"></i>
+                </div>
+                <!-- Mini App Calculadora Interativa -->
+                <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col shadow-inner relative">
+                    <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <div class="flex flex-col">
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Preço Atacado</span>
+                            <span class="text-sm font-black text-gray-800">R$ 35,00</span>
+                        </div>
+                        <div class="flex flex-col text-right">
+                             <span class="text-[9px] font-bold text-gray-400 uppercase">Margem: <span id="margem-display" class="text-purple-600">100%</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="px-4 py-2 bg-gray-50">
+                        <input type="range" min="0" max="200" value="100" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="lucro-slider" oninput="updateCalculadora(this.value)">
+                        <div class="flex justify-between text-[8px] text-gray-400 font-bold mt-1">
+                            <span>0%</span>
+                            <span>100%</span>
+                            <span>200%</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 bg-gradient-to-br from-[#d500f9] to-[#4a148c] p-2 flex flex-col items-center justify-center text-center">
+                        <div class="grid grid-cols-2 gap-4 w-full px-2">
+                             <div class="flex flex-col">
+                                <span class="text-[9px] text-white/70 uppercase">Venda Sugerida</span>
+                                <span class="text-lg font-bold text-white" id="venda-display">R$ 70,00</span>
+                             </div>
+                             <div class="flex flex-col">
+                                <span class="text-[9px] text-white/70 uppercase">Seu Lucro</span>
+                                <span class="text-lg font-black text-[#c6ff00]" id="lucro-display">R$ 35,00</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Arraste a régua. Mostre ao revendedor o lucro real na hora.</p>
+            </div>
+
+            <!-- 5. Oferta Relâmpago -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-red-400">5. Oferta Relâmpago</h3>
+                    <i class="fas fa-bolt text-2xl text-gray-500"></i>
+                </div>
+                <div class="bg-gradient-to-r from-purple-900 to-pink-900 rounded-xl p-4 h-52 flex flex-col justify-center relative overflow-hidden shadow-inner border border-white/10">
+                    <div class="flex justify-between items-center mb-2 z-10">
+                        <span class="font-black text-white italic text-lg tracking-tighter">OFERTA<br><span class="text-[#c6ff00]">RELÂMPAGO</span></span>
+                        <i class="fas fa-bolt text-2xl text-[#c6ff00] animate-pulse"></i>
+                    </div>
+                    <div class="flex gap-1 justify-center my-2 z-10">
+                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">04</span><span class="text-[8px] text-[#c6ff00]">HORAS</span></div>
+                        <div class="text-white font-bold">:</div>
+                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">35</span><span class="text-[8px] text-[#c6ff00]">MIN</span></div>
+                        <div class="text-white font-bold">:</div>
+                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">12</span><span class="text-[8px] text-[#c6ff00]">SEG</span></div>
+                    </div>
+                    <div class="w-full bg-black/40 h-3 rounded-full mt-2 overflow-hidden border border-white/10 z-10">
+                        <div class="bg-[#c6ff00] h-full w-[85%] rounded-full"></div>
+                    </div>
+                    <p class="text-[10px] text-right text-gray-300 mt-1 z-10">85% Vendido</p>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Barra de escassez com timer. Acelera o fechamento.</p>
+            </div>
+
+            <!-- 6. Barra + Menu 3D (ÍCONE CORRIGIDO) -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-indigo-400">6. Barra 3D Infinita</h3>
+                    <i class="fas fa-bars text-2xl text-gray-500"></i>
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col relative shadow-inner">
+                    <!-- Barra de Topo -->
+                    <div class="bg-gradient-to-r from-purple-600 to-pink-600 py-2 overflow-hidden whitespace-nowrap relative z-10 shadow-md">
+                        <div class="inline-block animate-scroll-left-fast">
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-credit-card text-[#c6ff00] mr-1"></i> 12X SEM JUROS</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-star text-[#c6ff00] mr-1"></i> 5% NO PIX</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
+                        </div>
+                    </div>
+                    <!-- Menu Rápido Corrigido -->
+                    <div class="flex justify-around items-center h-full bg-gray-50">
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fab fa-whatsapp"></i></div>
+                            <span class="text-[9px] font-bold text-purple-900">Contato</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fas fa-crown"></i></div>
+                            <span class="text-[9px] font-bold text-purple-900">Grupo VIP</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fas fa-image"></i></div>
+                            <span class="text-[9px] font-bold text-purple-900">Mídia</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Animação infinita no topo destacando benefícios e menu rápido.</p>
+            </div>
+
+            <!-- 7. Filtro Tamanhos -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-yellow-400">7. Filtro de Tamanhos</h3>
+                    <i class="fas fa-filter text-2xl text-gray-500"></i>
+                </div>
+                <div class="bg-white rounded-xl h-52 flex flex-col justify-center items-center shadow-inner gap-3">
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Selecione o Tamanho</span>
+                    <div class="flex gap-2">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">P</div>
+                        <div class="w-8 h-8 rounded-full border-2 border-[#c6ff00] text-purple-900 flex items-center justify-center text-xs font-bold cursor-pointer bg-[#c6ff00]/10">M</div>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">G</div>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">GG</div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Facilita a busca por grade. Essencial para atacado.</p>
+            </div>
+
+            <!-- 8. Cupom (GRANDE E ROBUSTO) -->
+            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-teal-400">8. Cupom One-Click</h3>
+                    <i class="fas fa-ticket-alt text-2xl text-gray-500"></i>
+                </div>
+                <!-- Cupom Expandido -->
+                <div class="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-xl h-52 flex flex-col items-center justify-center p-4 relative overflow-hidden shadow-inner border border-white/10 group">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                    <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#c6ff00] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(198,255,0,0.3)] animate-float">🎁</div>
+                    <h4 class="text-white font-black text-xl uppercase italic tracking-tighter mb-1">PRIMEIRA COMPRA</h4>
+                    <span class="text-[#c6ff00] font-bold text-2xl mb-3 drop-shadow-sm">5% OFF</span>
+                    <div class="w-full bg-black/40 border border-white/20 rounded-full px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-black/60 transition">
+                        <span class="font-mono text-white font-bold tracking-widest text-sm">VIZZU5</span>
+                        <i class="far fa-copy text-[#c6ff00]"></i>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Botão flutuante robusto. O cliente clica, copia e ganha.</p>
+            </div>
+
+             <!-- 9. Rodapé Animado -->
+             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg text-gray-400">9. Rodapé Animado</h3>
+                    <i class="fas fa-arrow-down text-2xl text-gray-500"></i>
+                </div>
+                <div class="bg-gradient-to-br from-purple-900 to-black rounded-xl h-52 flex flex-col justify-end overflow-hidden border-b-4 border-[#c6ff00] relative">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-20">
+                        <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" class="w-20 grayscale">
+                    </div>
+                    <div class="w-full bg-black/50 backdrop-blur py-2 overflow-hidden whitespace-nowrap">
+                        <div class="inline-block animate-scroll-left text-[10px] text-gray-300">
+                            <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
+                            <span class="mx-4"><i class="fas fa-map-marker-alt text-[#c6ff00]"></i> Goiânia - GO</span>
+                            <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400 mt-3">Finalização profissional com movimento e dados claros.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROVA SOCIAL ATUALIZADA (CJ Rasteirinhas) -->
+    <section class="py-12 bg-black/30 border-y border-vizzu-purple/30">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="md:w-1/2">
+                    <h3 class="font-display text-2xl font-bold mb-4">
+                        "CJ Rasteirinhas já está usando o novo layout desenvolvido pela VIZZU."
+                    </h3>
+                    <p class="text-gray-400 italic mb-4">- A loja que mais vende rasteirinhas no atacado</p>
+                    <div class="flex gap-2">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                    <div class="mt-6 flex gap-4 text-center">
+                         <div>
+                             <span class="block text-3xl font-black text-vizzu-green">100+</span>
+                             <span class="text-xs text-gray-400">Lojas Transformadas</span>
+                         </div>
+                         <div>
+                             <span class="block text-3xl font-black text-vizzu-green">300%</span>
+                             <span class="text-xs text-gray-400">Aumento Médio</span>
+                         </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 grid grid-cols-2 gap-4">
+                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
+                        <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                             <source src="https://files.catbox.moe/f64qpi.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute bottom-0 w-full bg-black/60 text-xs p-1 text-center">Bastidores Fábrica</div>
+                    </div>
+                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
+                        <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                             <source src="https://files.catbox.moe/qdnl00.mp4" type="video/mp4">
+                        </video>
+                         <div class="absolute bottom-0 w-full bg-black/60 text-xs p-1 text-center">Estoque Lotado</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMBOS ESTRATÉGICOS (PRONTOS + OPÇÃO DE MONTAR) -->
+    <section id="planos" class="py-16 relative">
+        <div class="container mx-auto px-4">
+            <h2 class="font-display text-3xl md:text-5xl font-black text-center mb-4">
+                Planos Oficiais <span class="text-vizzu-green">VIZZU</span>
+            </h2>
+            <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Escolha um combo pronto ou personalize o seu logo abaixo.</p>
+
+            <!-- 1. COMBOS PRONTOS (DESTAQUE) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end mb-20">
+                
+                <!-- COMBO VISUAL -->
+                <div class="glass-panel p-6 flex flex-col h-full hover:border-pink-500/50 transition duration-300">
+                    <div class="mb-4">
+                        <div class="bg-pink-900/30 text-pink-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">🎨 Foco em Design</div>
+                        <h3 class="font-bold text-xl">Combo Visual</h3>
+                        <p class="text-xs text-gray-400 mt-2 h-10">Para quem quer acabar com a "cara de amador" hoje.</p>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
+                        <li><i class="fas fa-check text-pink-500 mr-2"></i> Redesign Visual App</li>
+                        <li><i class="fas fa-check text-pink-500 mr-2"></i> Barra + Menu 3D</li>
+                        <li><i class="fas fa-check text-pink-500 mr-2"></i> Rodapé Animado</li>
+                    </ul>
+                    <div class="border-t border-gray-700 pt-4">
+                        <div class="text-gray-500 line-through text-xs">R$ 1.341,00</div>
+                        <div class="text-2xl font-black text-white">R$ 1.005,75</div>
+                        <div class="text-xs text-pink-400 mb-4">25% OFF</div>
+                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Quero%20o%20*Combo%20Visual*%20para%20minha%20loja%20por%20R$%201.005,75." class="block w-full border border-pink-500 text-white hover:bg-pink-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                    </div>
+                </div>
+
+                <!-- COMBO VENDAS -->
+                <div class="glass-panel p-6 flex flex-col h-full hover:border-yellow-500/50 transition duration-300">
+                    <div class="mb-4">
+                        <div class="bg-yellow-900/30 text-yellow-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">💰 Foco em Conversão</div>
+                        <h3 class="font-bold text-xl">Combo Vendas</h3>
+                        <p class="text-xs text-gray-400 mt-2 h-10">Para acelerar o fechamento de pedidos no WhatsApp.</p>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
+                        <li><i class="fas fa-check text-yellow-500 mr-2"></i> Shop the Look (Stories)</li>
+                        <li><i class="fas fa-check text-yellow-500 mr-2"></i> Oferta Relâmpago</li>
+                        <li><i class="fas fa-check text-yellow-500 mr-2"></i> Cupom One-Click</li>
+                    </ul>
+                    <div class="border-t border-gray-700 pt-4">
+                        <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
+                        <div class="text-2xl font-black text-white">R$ 743,25</div>
+                        <div class="text-xs text-yellow-400 mb-4">25% OFF</div>
+                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Quero%20o%20*Combo%20Vendas*%20para%20acelerar%20meus%20pedidos%20por%20R$%20743,25." class="block w-full border border-yellow-500 text-white hover:bg-yellow-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                    </div>
+                </div>
+
+                <!-- COMBO ATACADO -->
+                <div class="glass-panel p-6 flex flex-col h-full hover:border-blue-500/50 transition duration-300">
+                    <div class="mb-4">
+                        <div class="bg-blue-900/30 text-blue-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">📦 Foco B2B</div>
+                        <h3 class="font-bold text-xl">Combo Atacado</h3>
+                        <p class="text-xs text-gray-400 mt-2 h-10">Ferramentas essenciais para quem vende em grade.</p>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Institucional (Vídeos)</li>
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Calculadora de Lucro</li>
+                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Filtro de Tamanhos</li>
+                    </ul>
+                    <div class="border-t border-gray-700 pt-4">
+                        <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
+                        <div class="text-2xl font-black text-white">R$ 743,25</div>
+                        <div class="text-xs text-blue-400 mb-4">25% OFF</div>
+                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Sou%20Atacadista%20e%20quero%20o%20*Combo%20Atacado*%20por%20R$%20743,25." class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                    </div>
+                </div>
+
+                <!-- COMBO ELITE -->
+                <div class="card-elite p-6 flex flex-col h-full transform scale-105 md:-translate-y-4 z-10 rounded-xl">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-vizzu-dark font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
+                        👑 O MAIS VENDIDO
+                    </div>
+                    <div class="mb-4 mt-2">
+                        <h3 class="font-black text-2xl text-vizzu-green">COMBO ELITE</h3>
+                        <p class="text-sm text-gray-200 mt-2">A transformação completa. Sua loja vira uma máquina.</p>
+                    </div>
+                    <ul class="text-sm text-white space-y-3 mb-6 flex-grow font-medium">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-vizzu-green mr-2"></i> <span class="font-bold">TODOS OS 9 WIDGETS</span></li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-vizzu-green mr-2"></i> Instalação VIP Inclusa</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-vizzu-green mr-2"></i> Suporte Prioritário</li>
+                        <li class="flex items-center opacity-75 text-xs ml-6">Economia de R$ 1.661,50</li>
+                    </ul>
+                    <div class="border-t border-vizzu-green/30 pt-4">
+                        <div class="text-gray-400 line-through text-sm">R$ 3.323,00</div>
+                        <div class="text-4xl font-black text-white mb-1">R$ 1.661,50</div>
+                        <div class="text-sm text-vizzu-green mb-6 font-bold">50% OFF SÓ HOJE</div>
+                        
+                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20N%C3%A3o%20quero%20perder%20tempo.%20Quero%20o%20*COMBO%20ELITE%20TOTAL*%20com%2050%25%20OFF%20e%20Instala%C3%A7%C3%A3o%20VIP!" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 px-4 rounded-full text-center transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp text-2xl"></i> QUERO TUDO
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIVISÓRIA -->
+            <div class="flex items-center justify-center gap-4 mb-16">
+                <div class="h-px bg-gray-700 w-1/4"></div>
+                <span class="text-gray-500 uppercase font-bold text-sm">OU PREFERE MONTAR DO SEU JEITO?</span>
+                <div class="h-px bg-gray-700 w-1/4"></div>
+            </div>
+
+            <!-- 2. MONTE SEU COMBO (SECUNDÁRIO) -->
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- COLUNA 1 & 2: SELEÇÃO DE ITENS -->
+                <div class="lg:col-span-2 glass-panel p-6">
+                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
+                        <!-- Itens gerados via JS -->
+                    </div>
+                </div>
+
+                <!-- COLUNA 3: RESUMO E FORMULÁRIO -->
+                <div class="lg:col-span-1">
+                    <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(198,255,0,0.1)]">
+                        <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
+                        
+                        <div class="space-y-2 mb-6 text-sm">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Itens:</span>
+                                <span id="count-items" class="font-bold text-white">0</span>
+                            </div>
+                            <div class="flex justify-between text-gray-400">
+                                <span>Subtotal:</span>
+                                <span id="subtotal-price" class="font-bold text-white">R$ 0,00</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-vizzu-green/10 p-2 rounded text-vizzu-green">
+                                <span>Desconto:</span>
+                                <span id="discount-label" class="font-bold">0%</span>
+                            </div>
+                            <div class="border-t border-gray-700 my-2 pt-2 flex justify-between items-end">
+                                <span class="text-lg font-bold">TOTAL:</span>
+                                <div class="text-right">
+                                    <span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span>
                                 </div>
-                                <div class="flex items-end gap-3 mb-6">
-                                    <span class="text-gray-400 line-through text-xl">R$ 3.323,00</span>
-                                    <span class="text-5xl font-black text-brand-neon">R$ 1.661,50</span>
-                                </div>
-                                <button onclick="applyPreset('elite')" class="w-full py-4 rounded-xl bg-brand-neon text-brand-dark font-black text-xl hover:bg-white transition shadow-lg flex items-center justify-center gap-2">
-                                    ESCOLHER O COMPLETÃO <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                            </div>
-                            <div class="hidden md:grid grid-cols-2 gap-3 opacity-80">
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Visual App</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Shop the Look</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Oferta Relâmpago</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Calculadora Lucro</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Cupom One-Click</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Barra + Menu 3D</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Compre por Tamanho</div>
-                                <div class="flex items-center gap-2 text-white text-sm bg-black/20 p-2 rounded"><i class="fa-solid fa-check text-brand-neon"></i> Carrossel Institucional</div>
                             </div>
                         </div>
+
+                        <!-- Formulário de Captação -->
+                        <div class="space-y-3 mb-4">
+                            <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
+                            <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
+                            <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
+                        </div>
+
+                        <button onclick="finalizarPedido()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp text-xl"></i> ORÇAR NO WHATS
+                        </button>
                     </div>
                 </div>
 
-                <!-- Combos Menores -->
-                <div class="grid md:grid-cols-3 gap-6 mb-16">
-                    <!-- Card Visual -->
-                    <div class="combo-card glass-panel p-6 rounded-2xl border-t-4 border-brand-pink hover:bg-white/5 transition group flex flex-col">
-                        <div class="mb-4">
-                            <i class="fa-solid fa-paintbrush text-brand-pink text-3xl mb-2 block"></i>
-                            <h3 class="text-2xl font-bold text-white">Combo VISUAL</h3>
-                            <p class="text-gray-400 text-sm">Design Apple-like</p>
-                        </div>
-                        <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Redesign Visual App</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Barra + Menu 3D</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Rodapé Animado</li>
-                        </ul>
-                        <div class="border-t border-white/10 pt-4 mt-auto">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-gray-500 text-sm line-through">R$ 1.341</span>
-                                <span class="text-xs bg-brand-pink/20 text-brand-pink px-2 py-1 rounded font-bold">25% OFF</span>
-                            </div>
-                            <div class="text-3xl font-bold text-white mb-4">R$ 1.005<span class="text-lg text-gray-400">,75</span></div>
-                            <button onclick="applyPreset('visual')" class="w-full py-3 rounded-lg border border-brand-pink text-brand-pink font-bold hover:bg-brand-pink hover:text-white transition uppercase text-sm">
-                                Escolher Este
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Card Vendas -->
-                    <div class="combo-card glass-panel p-6 rounded-2xl border-t-4 border-brand-neon hover:bg-white/5 transition group flex flex-col">
-                        <div class="mb-4">
-                            <i class="fa-solid fa-sack-dollar text-brand-neon text-3xl mb-2 block"></i>
-                            <h3 class="text-2xl font-bold text-white">Combo VENDAS</h3>
-                            <p class="text-gray-400 text-sm">Foco em Conversão</p>
-                        </div>
-                        <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Carrossel Shop the Look</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Oferta Relâmpago</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Cupom One-Click</li>
-                        </ul>
-                        <div class="border-t border-white/10 pt-4 mt-auto">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-gray-500 text-sm line-through">R$ 991</span>
-                                <span class="text-xs bg-brand-neon/20 text-brand-neon px-2 py-1 rounded font-bold">25% OFF</span>
-                            </div>
-                            <div class="text-3xl font-bold text-white mb-4">R$ 743<span class="text-lg text-gray-400">,25</span></div>
-                            <button onclick="applyPreset('vendas')" class="w-full py-3 rounded-lg border border-brand-neon text-brand-neon font-bold hover:bg-brand-neon hover:text-brand-dark transition uppercase text-sm">
-                                Escolher Este
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Card Atacado -->
-                    <div class="combo-card glass-panel p-6 rounded-2xl border-t-4 border-brand-purple hover:bg-white/5 transition group flex flex-col">
-                        <div class="mb-4">
-                            <i class="fa-solid fa-boxes-stacked text-purple-300 text-3xl mb-2 block"></i>
-                            <h3 class="text-2xl font-bold text-white">Combo ATACADO</h3>
-                            <p class="text-gray-400 text-sm">Ferramentas B2B</p>
-                        </div>
-                        <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Carrossel Institucional</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Calculadora de Lucro</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-neon"></i> Compre por Tamanho</li>
-                        </ul>
-                        <div class="border-t border-white/10 pt-4 mt-auto">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-gray-500 text-sm line-through">R$ 991</span>
-                                <span class="text-xs bg-brand-purple/40 text-purple-300 px-2 py-1 rounded font-bold">25% OFF</span>
-                            </div>
-                            <div class="text-3xl font-bold text-white mb-4">R$ 743<span class="text-lg text-gray-400">,25</span></div>
-                            <button onclick="applyPreset('atacado')" class="w-full py-3 rounded-lg border border-purple-400 text-purple-300 font-bold hover:bg-brand-purple hover:text-white transition uppercase text-sm">
-                                Escolher Este
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divisor -->
-                <div class="flex items-center justify-center gap-4 mb-12 opacity-30">
-                    <div class="h-px bg-white w-full max-w-[100px]"></div>
-                    <span class="text-white font-medium uppercase tracking-widest text-xs">OU MONTE DO SEU JEITO</span>
-                    <div class="h-px bg-white w-full max-w-[100px]"></div>
-                </div>
-
-                <!-- Barra de Progresso -->
-                <div class="max-w-3xl mx-auto mb-8 bg-black/20 backdrop-blur-md p-4 rounded-xl border border-white/5">
-                    <div class="flex justify-between items-end mb-2">
-                        <div><span class="text-gray-400 text-[10px] uppercase tracking-wider font-bold">Nível de Desconto</span><div id="level-label" class="text-xl font-display font-bold text-white">Iniciante <span class="text-xs font-normal text-gray-500">(0%)</span></div></div>
-                    </div>
-                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden relative">
-                        <div id="progress-fill" class="h-full bg-gradient-to-r from-brand-purple via-brand-pink to-brand-neon progress-bar-fill w-0"></div>
-                    </div>
-                </div>
-
-                <div class="grid lg:grid-cols-12 gap-8">
-                    <!-- Lista de Itens -->
-                    <div class="lg:col-span-8 space-y-3" id="products-list"></div>
-
-                    <!-- Resumo Desktop -->
-                    <div class="lg:col-span-4 hidden lg:block">
-                        <div class="sticky top-40 glass-panel rounded-2xl p-6 border-t-4 border-brand-neon">
-                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2"><i class="fa-solid fa-receipt text-brand-neon"></i> Resumo</h3>
-                            <div class="space-y-4 mb-6" id="summary-desktop-list"><p class="text-gray-500 text-sm italic text-center">Nenhum item selecionado</p></div>
-                            <div class="border-t border-white/10 pt-4 space-y-2">
-                                <div class="flex justify-between text-gray-400 text-sm"><span>Subtotal</span><span id="desktop-subtotal">R$ 0,00</span></div>
-                                <div class="flex justify-between text-brand-pink font-bold text-sm"><span>Desconto</span><span id="desktop-discount-value">- R$ 0,00</span></div>
-                                <div class="flex justify-between items-end mt-4"><span class="text-white font-bold">TOTAL</span><span class="text-3xl font-display font-bold text-brand-neon" id="desktop-total">R$ 0,00</span></div>
-                            </div>
-                            <div id="almost-there-msg" class="hidden mt-4 bg-yellow-500/10 border border-yellow-500/30 rounded p-2 text-center animate-pulse"><p class="text-yellow-200 text-[10px] font-bold">⚠️ FALTA SÓ 1 ITEM PARA 50% OFF!</p></div>
-                            <a href="#" id="btn-desktop-checkout" class="block w-full mt-6 bg-brand-neon text-brand-dark font-bold py-4 rounded-xl text-center hover:shadow-[0_0_20px_rgba(198,255,0,0.6)] uppercase tracking-wide opacity-50 pointer-events-none">Fechar Pedido</a>
-                            <p class="text-center text-xs text-gray-500 mt-3 flex items-center justify-center gap-1"><i class="fa-solid fa-lock"></i> Pagamento Único e Seguro</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ -->
-    <section class="py-20 bg-gray-100 text-brand-dark">
-        <div class="container mx-auto px-4 max-w-3xl">
-            <h2 class="text-3xl font-display font-bold text-center mb-12 text-brand-dark">Perguntas Frequentes</h2>
+    <section class="py-12 bg-vizzu-dark">
+        <div class="container mx-auto px-4 max-w-2xl">
+            <h3 class="text-2xl font-bold text-center mb-8">Dúvidas Frequentes</h3>
             <div class="space-y-4">
-                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer shadow-sm">
-                    <summary class="font-bold text-brand-dark flex justify-between items-center text-lg list-none">Funciona na minha plataforma?<span class="transition group-open:rotate-180 text-brand-purple"><i class="fa-solid fa-chevron-down"></i></span></summary>
-                    <p class="mt-4 text-gray-600 text-sm leading-relaxed border-l-2 border-brand-neon pl-4">Sim! Nossos códigos são compatíveis com Nuvemshop, Tray, Loja Integrada, Shopify, WooCommerce.</p>
+                <details class="group glass-panel p-4 cursor-pointer">
+                    <summary class="font-bold flex justify-between items-center list-none text-white">
+                        <span>Preciso saber programação?</span>
+                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
+                    </summary>
+                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
+                        Não. Nós criamos o código personalizado para sua marca e <strong>nós aplicamos</strong> tudo dentro da sua loja. Você não precisa mexer em uma linha de código sequer.
+                    </p>
                 </details>
-                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer shadow-sm">
-                    <summary class="font-bold text-brand-dark flex justify-between items-center text-lg list-none">Preciso pagar mensalidade?<span class="transition group-open:rotate-180 text-brand-purple"><i class="fa-solid fa-chevron-down"></i></span></summary>
-                    <p class="mt-4 text-gray-600 text-sm leading-relaxed border-l-2 border-brand-neon pl-4">Não! O pagamento é único. O código é seu para sempre.</p>
+                
+                <details class="group glass-panel p-4 cursor-pointer">
+                    <summary class="font-bold flex justify-between items-center list-none text-white">
+                        <span>O código é meu? Posso alterar?</span>
+                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
+                    </summary>
+                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
+                        Sim, o código é 100% seu. Você tem liberdade para alterar, porém, caso não saiba programação, nossa equipe pode realizar ajustes futuros mediante orçamento.
+                    </p>
                 </details>
-                <details class="group bg-white p-6 rounded-xl border border-gray-200 cursor-pointer shadow-sm">
-                    <summary class="font-bold text-brand-dark flex justify-between items-center text-lg list-none">Quanto tempo demora?<span class="transition group-open:rotate-180 text-brand-purple"><i class="fa-solid fa-chevron-down"></i></span></summary>
-                    <p class="mt-4 text-gray-600 text-sm leading-relaxed border-l-2 border-brand-neon pl-4">Entregamos sua loja pronta em até 7 dias corridos.</p>
+
+                <details class="group glass-panel p-4 cursor-pointer">
+                    <summary class="font-bold flex justify-between items-center list-none text-white">
+                        <span>E se eu não gostar do resultado?</span>
+                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
+                    </summary>
+                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
+                        Risco Zero. Antes de aplicar na sua loja, enviamos uma prévia em nosso <strong>site demonstrativo</strong>. Se você não aprovar o visual, nós devolvemos o seu dinheiro integralmente e encerramos o projeto.
+                    </p>
                 </details>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-black text-white py-12 border-t border-white/5 text-center pb-32 lg:pb-12">
-        <div class="container mx-auto px-4">
-            <div class="opacity-50 hover:opacity-100 transition duration-500 mb-6"><span class="font-display font-bold text-2xl tracking-widest">VIZZU</span><span class="font-sans text-[10px] tracking-[0.3em] uppercase block">Digital</span></div>
-            <p class="text-gray-600 text-xs">© 2024 Vizzu Digital. Todos os direitos reservados.</p>
+    <!-- FOOTER ANIMADO -->
+    <footer class="bg-black py-8 border-t border-gray-800 overflow-hidden">
+        <div class="w-full overflow-hidden mb-8">
+            <div class="whitespace-nowrap animate-scroll-left">
+                <span class="text-2xl font-black text-gray-700 mx-4">VIZZU DIGITAL</span>
+                <span class="text-2xl font-black text-vizzu-purple mx-4">MAIS VENDAS</span>
+                <span class="text-2xl font-black text-gray-700 mx-4">DESIGN PREMIUM</span>
+                <span class="text-2xl font-black text-vizzu-green mx-4">SEM MENSALIDADE</span>
+                <span class="text-2xl font-black text-gray-700 mx-4">VIZZU DIGITAL</span>
+                <span class="text-2xl font-black text-vizzu-purple mx-4">MAIS VENDAS</span>
+                <span class="text-2xl font-black text-gray-700 mx-4">DESIGN PREMIUM</span>
+                <span class="text-2xl font-black text-vizzu-green mx-4">SEM MENSALIDADE</span>
+            </div>
+        </div>
+        
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Logo Footer" class="h-10 mx-auto mb-4 grayscale opacity-50">
+            <p class="text-gray-600 text-sm mb-4">© 2024 Vizzu Digital. Todos os direitos reservados.</p>
+            <div class="flex justify-center gap-4 text-2xl text-gray-500">
+                <i class="fab fa-instagram hover:text-vizzu-pink cursor-pointer"></i>
+                <i class="fab fa-whatsapp hover:text-green-500 cursor-pointer"></i>
+            </div>
         </div>
     </footer>
 
-    <!-- Mobile Sticky Calc -->
-    <div id="mobile-sticky-calc" class="sticky-calculator bg-[#1a0b2e]/95 backdrop-blur-xl border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.4)] p-4 lg:hidden">
-        <div class="flex justify-between items-center mb-3">
-            <div class="flex flex-col"><span class="text-gray-400 text-xs line-through" id="mobile-subtotal">R$ 0,00</span><div class="flex items-center gap-2"><span class="text-2xl font-display font-bold text-brand-neon" id="mobile-total">R$ 0,00</span><span class="bg-brand-pink/20 text-brand-pink text-[10px] px-2 py-0.5 rounded font-bold" id="mobile-badge-discount">-0%</span></div></div>
-            <div class="text-right"><span class="text-[10px] text-gray-400 block mb-1" id="mobile-item-count">0 itens</span></div>
-        </div>
-        <a href="#" id="btn-mobile-checkout" class="block w-full bg-brand-neon text-brand-dark font-bold py-3 rounded-lg text-center uppercase text-sm tracking-wide opacity-50 pointer-events-none">FECHAR PEDIDO</a>
-    </div>
-
-    <!-- Exit Intent Modal -->
-    <div id="exitModal" class="modal fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 pointer-events-auto">
-        <div class="bg-white rounded-2xl max-w-md w-full p-1 relative overflow-hidden pointer-events-auto">
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-neon to-brand-pink"></div>
-            <button id="closeModal" onclick="closeExitPopup()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 cursor-pointer w-10 h-10 flex items-center justify-center z-50 bg-white/80 rounded-full hover:bg-gray-100 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <div class="p-8 text-center">
-                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl text-yellow-600 animate-bounce"><i class="fa-solid fa-gift"></i></div>
-                <h3 class="text-2xl font-bold text-brand-dark mb-2">Espere! Não vá embora...</h3>
-                <p class="text-gray-600 mb-6">Queremos te dar uma <strong>Análise Gratuita</strong> da sua loja.</p>
-                <a href="https://wa.me/5562981480687?text=Olá, quero minha análise gratuita!" class="block w-full bg-brand-pink text-white font-bold py-3 rounded-lg hover:bg-pink-700 transition mb-3 uppercase tracking-wide shadow-lg">Quero Análise Gratuita</a>
-                <button id="closeModalBtn" onclick="closeExitPopup()" class="text-sm text-gray-400 underline hover:text-gray-600">Não, prefiro continuar perdendo vendas</button>
+    <!-- CUPOM FLUTUANTE -->
+    <div id="cupom-float" class="fixed bottom-24 right-4 z-40 animate-float hidden md:block">
+        <div class="bg-white text-black p-1 rounded-lg shadow-xl border-2 border-vizzu-purple flex items-center gap-2 pr-3">
+            <div class="bg-vizzu-purple text-white p-2 rounded animate-pulse">
+                <i class="fas fa-gift"></i>
             </div>
+            <div>
+                <span class="block text-[10px] font-bold uppercase text-gray-500">Cupom Extra</span>
+                <span class="font-black text-lg">VIZZU5</span>
+            </div>
+            <button onclick="copyCupom()" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-full transition">
+                <i class="far fa-copy"></i>
+            </button>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- MENU MOBILE -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-vizzu-dark/95 backdrop-blur border-t border-gray-700 p-3 z-50 grid grid-cols-2 gap-3">
+        <a href="https://wa.me/62982237075?text=Ana,%20tenho%20uma%20dúvida%20sobre%20os%20Widgets!" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
+            <i class="fab fa-whatsapp"></i> Dúvidas
+        </a>
+        <a href="#planos" class="flex items-center justify-center gap-2 bg-vizzu-green text-vizzu-dark font-black rounded text-sm py-3 shadow-[0_0_15px_rgba(198,255,0,0.4)]">
+            COMPRAR AGORA
+        </a>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Função GLOBAL para fechar o modal (Infalível)
-        function closeExitPopup() {
-            const modal = document.getElementById('exitModal');
-            if(modal) {
-                modal.classList.remove('active');
-                // Remove o listener para não abrir de novo na mesma sessão
-                document.removeEventListener('mouseleave', showModalHandler);
-            }
-        }
+        AOS.init({ duration: 800, once: true });
 
-        let modalShown = false;
+        // CONFIGURAÇÃO SUPABASE (COLOQUE SUAS CHAVES AQUI)
+        const SUPABASE_URL = 'SUA_URL_SUPABASE';
+        const SUPABASE_ANON_KEY = 'SUA_KEY_SUPABASE';
         
-        // Handler separado para poder remover depois
-        function showModalHandler(e) {
-            if (e.clientY < 0 && !modalShown) {
-                const modal = document.getElementById('exitModal');
-                if(modal) {
-                    modal.classList.add('active');
-                    modalShown = true;
-                }
+        // Inicializa cliente apenas se as chaves estiverem presentes
+        let supabase;
+        try {
+            if(SUPABASE_URL !== 'SUA_URL_SUPABASE') {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             }
+        } catch(e) { console.log('Supabase não configurado'); }
+
+        function copyCupom() {
+            navigator.clipboard.writeText("VIZZU5");
+            alert("Cupom VIZZU5 copiado! Cole no WhatsApp para +5% OFF.");
         }
 
-        function initModal() {
-            // Desktop Exit Intent
-            document.addEventListener('mouseleave', showModalHandler);
-            
-            // Mobile Timer (15s)
-            if(window.innerWidth < 768) {
-                setTimeout(() => { 
-                    if(!modalShown) {
-                        const modal = document.getElementById('exitModal');
-                        if(modal) {
-                            modal.classList.add('active');
-                            modalShown = true;
-                        }
-                    }
-                }, 15000);
-            }
+        // --- LÓGICA DA CALCULADORA DE LUCRO (WIDGET DEMO) ---
+        function updateCalculadora(porcentagem) {
+            const custo = 35.00;
+            const perc = parseInt(porcentagem);
+            const lucro = custo * (perc / 100);
+            const precoVenda = custo + lucro;
+            const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('margem-display').innerText = perc + "%";
+            document.getElementById('venda-display').innerText = formatarMoeda(precoVenda);
+            document.getElementById('lucro-display').innerText = formatarMoeda(lucro);
         }
 
-        const products = [
-            { id: 1, name: 'Redesign Visual App', price: 897, desc: 'Visual iPhone' },
-            { id: 2, name: 'Carrossel Shop the Look', price: 497, desc: 'Stories Home' },
-            { id: 3, name: 'Institucional Quem Somos', price: 397, desc: 'Vídeo Fábrica' },
-            { id: 4, name: 'Calculadora Lucro B2B', price: 397, desc: 'Simulador' },
-            { id: 5, name: 'Oferta Relâmpago', price: 297, desc: 'Escassez' },
-            { id: 6, name: 'Barra + Menu 3D', price: 247, desc: 'Navegação' },
-            { id: 7, name: 'Filtro Tamanhos', price: 197, desc: 'Agilidade' },
-            { id: 8, name: 'Cupom One-Click', price: 197, desc: 'Retenção' },
-            { id: 9, name: 'Rodapé Animado', price: 197, desc: 'Acabamento' }
+        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT) ---
+        const widgets = [
+            { id: 1, nome: "Redesign Visual App", preco: 497, icon: "fa-mobile-alt" },
+            { id: 2, nome: "Barra + Menu 3D", preco: 422, icon: "fa-bars" },
+            { id: 3, nome: "Rodapé Animado", preco: 422, icon: "fa-arrow-down" },
+            { id: 4, nome: "Stories Shop-the-Look", preco: 397, icon: "fa-camera" },
+            { id: 5, nome: "Oferta Relâmpago", preco: 297, icon: "fa-bolt" },
+            { id: 6, nome: "Cupom One-Click", preco: 297, icon: "fa-ticket-alt" },
+            { id: 7, nome: "Institucional B2B", preco: 397, icon: "fa-building" },
+            { id: 8, nome: "Calculadora de Lucro", preco: 297, icon: "fa-calculator" },
+            { id: 9, nome: "Filtro de Tamanhos", preco: 297, icon: "fa-filter" }
         ];
 
-        let selectedIds = new Set();
-        let currentSlideIndex = 0;
-        const totalSlides = 4;
-        const slideTitles = [
-            "Página Inicial",
-            "Página de Produtos",
-            "Detalhes do Produto",
-            "Carrinho"
-        ];
+        let selectedWidgets = [];
 
-        function init() { 
-            renderProducts(); 
-            updateCalculator(); 
-            initModal();
-            
-            // Inicializa vídeos do Institucional e Reels
-            var allVideos = document.querySelectorAll('video');
-            allVideos.forEach(v => {
-                v.addEventListener('playing', function() {
-                    var card = this.closest('.card-bastidor') || this.closest('.video-card');
-                    if(card) {
-                        card.classList.remove('carregando');
-                        card.classList.add('tocando');
-                    }
-                });
-                v.addEventListener('waiting', function() {
-                    var card = this.closest('.card-bastidor') || this.closest('.video-card');
-                    if(card && !this.paused) card.classList.add('carregando');
-                });
-            });
-        }
-
-        function changeSlide(direction) {
-            // Hide current slide text and image
-            document.getElementById(`slide-${currentSlideIndex}`).classList.add('hidden');
-            document.getElementById(`desc-slide-${currentSlideIndex}`).classList.add('hidden');
-            
-            // Update index
-            currentSlideIndex += direction;
-            if (currentSlideIndex >= totalSlides) currentSlideIndex = 0;
-            if (currentSlideIndex < 0) currentSlideIndex = totalSlides - 1;
-            
-            // Show new slide text and image
-            document.getElementById(`slide-${currentSlideIndex}`).classList.remove('hidden');
-            document.getElementById(`desc-slide-${currentSlideIndex}`).classList.remove('hidden');
-            
-            // Update title
-            document.getElementById('slide-title').innerText = slideTitles[currentSlideIndex];
-        }
-
-        function renderProducts() {
-            const container = document.getElementById('products-list');
-            if (container) {
-                container.innerHTML = products.map(p => `
-                    <label class="cursor-pointer group block">
-                        <input type="checkbox" class="hidden item-checkbox" value="${p.id}" onchange="toggleItem(${p.id})">
-                        <div class="glass-card p-4 rounded-xl flex items-center justify-between border border-white/5 hover:border-white/20 group-hover:translate-x-1 transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="w-6 h-6 rounded border border-gray-500 flex items-center justify-center check-circle transition-colors"><i class="fa-solid fa-check text-xs opacity-0 group-hover:opacity-50"></i></div>
-                                <div><h4 class="font-bold text-white text-sm md:text-base">${p.name}</h4><p class="text-xs text-gray-400">${p.desc}</p></div>
-                            </div>
-                            <div class="font-display font-bold text-brand-neon text-right whitespace-nowrap">R$ ${p.price}</div>
+        function renderWidgets() {
+            const container = document.getElementById('lista-widgets');
+            container.innerHTML = widgets.map(w => `
+                <label class="flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer hover:border-vizzu-green/50 transition group select-none">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-5 h-5 rounded accent-vizzu-green custom-checkbox" 
+                               onchange="toggleWidget(${w.id})" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
+                        <div class="group-hover:text-white transition-colors">
+                            <div class="font-bold flex items-center gap-2"><i class="fas ${w.icon} text-gray-500 group-hover:text-vizzu-green"></i> ${w.nome}</div>
                         </div>
-                    </label>
-                `).join('');
+                    </div>
+                    <div class="font-mono text-vizzu-pink font-bold">R$ ${w.preco}</div>
+                </label>
+            `).join('');
+            updateSummary();
+        }
+
+        function toggleWidget(id) {
+            if (selectedWidgets.includes(id)) {
+                selectedWidgets = selectedWidgets.filter(wId => wId !== id);
+            } else {
+                selectedWidgets.push(id);
             }
+            updateSummary();
         }
 
-        function toggleItem(id) {
-            if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id);
-            document.querySelectorAll(`input[value="${id}"]`).forEach(input => input.checked = selectedIds.has(id));
-            updateCalculator();
-        }
-
-        function updateCalculator() {
-            const count = selectedIds.size;
-            let subtotal = 0;
+        function updateSummary() {
+            const count = selectedWidgets.length;
+            const subtotal = selectedWidgets.reduce((sum, id) => sum + widgets.find(w => w.id === id).preco, 0);
+            
             let discountPercent = 0;
-            let tierName = "Iniciante";
-            let barWidth = 5;
+            if (count === 9) discountPercent = 50; // Combo Elite
+            else if (count >= 3) discountPercent = 25; // Combo Intermediário
 
-            selectedIds.forEach(id => { const p = products.find(prod => prod.id === id); if (p) subtotal += p.price; });
+            const discountValue = subtotal * (discountPercent / 100);
+            const finalPrice = subtotal - discountValue;
 
-            if (count === 1) { discountPercent = 0; barWidth = 10; }
-            else if (count === 2) { discountPercent = 0.15; tierName = "Bronze"; barWidth = 25; }
-            else if (count >= 3 && count <= 4) { discountPercent = 0.25; tierName = "Prata"; barWidth = 50; }
-            else if (count >= 5 && count <= 7) { discountPercent = 0.35; tierName = "Ouro"; barWidth = 75; }
-            else if (count >= 8) { discountPercent = 0.50; tierName = "Diamante"; barWidth = 100; }
-
-            const discountValue = subtotal * discountPercent;
-            const total = subtotal - discountValue;
-
-            // Safety checks for calculator elements
-            const progressFill = document.getElementById('progress-fill');
-            if (progressFill) progressFill.style.width = `${barWidth}%`;
+            document.getElementById('count-items').innerText = count;
+            document.getElementById('subtotal-price').innerText = subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('discount-label').innerText = discountPercent > 0 ? `${discountPercent}% OFF` : '0%';
+            document.getElementById('final-price').innerText = finalPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             
-            const levelLabel = document.getElementById('level-label');
-            if (levelLabel) levelLabel.innerHTML = `${tierName} <span class="text-xs font-normal text-gray-500">(${discountPercent * 100}%)</span>`;
-            
-            const desktopTotal = document.getElementById('desktop-total');
-            if (desktopTotal) desktopTotal.innerText = formatCurrency(total);
-            
-            const desktopSubtotal = document.getElementById('desktop-subtotal');
-            if (desktopSubtotal) desktopSubtotal.innerText = formatCurrency(subtotal);
-            
-            const desktopDiscount = document.getElementById('desktop-discount-value');
-            if (desktopDiscount) desktopDiscount.innerText = `-${formatCurrency(discountValue)}`;
-
-            const mobileSubtotal = document.getElementById('mobile-subtotal');
-            if (mobileSubtotal) mobileSubtotal.innerText = subtotal > 0 ? formatCurrency(subtotal) : 'R$ 0,00';
-            
-            const mobileTotal = document.getElementById('mobile-total');
-            if (mobileTotal) mobileTotal.innerText = formatCurrency(total);
-            
-            const mobileBadge = document.getElementById('mobile-badge-discount');
-            if (mobileBadge) mobileBadge.innerText = `-${discountPercent * 100}%`;
-            
-            const mobileCount = document.getElementById('mobile-item-count');
-            if (mobileCount) mobileCount.innerText = `${count} item(s)`;
-
-            const summaryList = document.getElementById('summary-desktop-list');
-            if (summaryList) {
-                if (count > 0) {
-                    summaryList.innerHTML = Array.from(selectedIds).map(id => { 
-                        const p = products.find(prod => prod.id === id); 
-                        return `<div class="flex justify-between text-xs text-gray-300"><span>${p.name}</span><span>R$ ${p.price}</span></div>`; 
-                    }).join('');
-                } else {
-                    summaryList.innerHTML = '<p class="text-gray-500 text-xs italic text-center">Nenhum item selecionado</p>';
-                }
+            if(count === 9) {
+                document.getElementById('discount-label').innerHTML = `<i class="fas fa-crown"></i> 50% (ELITE)`;
             }
-
-            const stickyMobile = document.getElementById('mobile-sticky-calc');
-            if (stickyMobile) {
-                if (count > 0) stickyMobile.classList.add('visible'); 
-                else stickyMobile.classList.remove('visible');
-            }
-
-            const almostMsg = document.getElementById('almost-there-msg');
-            const nextHint = document.getElementById('next-level-hint');
-            
-            if (almostMsg && nextHint) {
-                 if (count === 7) { almostMsg.classList.remove('hidden'); nextHint.classList.remove('hidden'); } else { almostMsg.classList.add('hidden'); nextHint.classList.add('hidden'); }
-            } else {
-                if (almostMsg) {
-                     if (count === 7) almostMsg.classList.remove('hidden'); else almostMsg.classList.add('hidden');
-                }
-                if (nextHint) {
-                     if (count === 7) nextHint.classList.remove('hidden'); else nextHint.classList.add('hidden');
-                }
-            }
-
-            updateCheckoutButtons(count, total, selectedIds);
         }
 
-        function updateCheckoutButtons(count, total, ids) {
-            const btnDesktop = document.getElementById('btn-desktop-checkout');
-            const btnMobile = document.getElementById('btn-mobile-checkout');
+        async function finalizarPedido() {
+            const name = document.getElementById('input-name').value;
+            const store = document.getElementById('input-store').value;
+            const phone = document.getElementById('input-phone').value;
             
-            if (count > 0) {
-                if (btnDesktop) btnDesktop.classList.remove('opacity-50', 'pointer-events-none');
-                if (btnMobile) btnMobile.classList.remove('opacity-50', 'pointer-events-none');
+            if (!name || !store || !phone) {
+                alert("Por favor, preencha todos os campos (Nome, Loja e WhatsApp) para continuar.");
+                return;
+            }
+
+            if (selectedWidgets.length === 0) {
+                alert("Selecione pelo menos um item para montar seu combo.");
+                return;
+            }
+
+            const itensNomes = selectedWidgets.map(id => widgets.find(w => w.id === id).nome).join(', ');
+            const totalText = document.getElementById('final-price').innerText;
+            const descontoText = document.getElementById('discount-label').innerText;
+
+            // 1. Salvar no Supabase (Se configurado)
+            if (supabase) {
+                const { error } = await supabase
+                    .from('leads_vizzu')
+                    .insert([{ nome: name, loja: store, telefone: phone, itens: itensNomes, total: totalText }]);
                 
-                let message = `Olá VIZZU! Montei meu combo no site:%0A`;
-                ids.forEach(id => { const p = products.find(prod => prod.id === id); message += `- ${p.name}%0A`; });
-                message += `%0ATotal Estimado: ${formatCurrency(total)}`;
-                const link = `https://wa.me/5562981480687?text=${message}`;
-                
-                if (btnDesktop) btnDesktop.href = link;
-                if (btnMobile) btnMobile.href = link;
-            } else {
-                if (btnDesktop) btnDesktop.classList.add('opacity-50', 'pointer-events-none');
-                if(btnMobile) btnMobile.classList.add('opacity-50', 'pointer-events-none');
+                if (error) console.error('Erro ao salvar:', error);
             }
+
+            // 2. Redirecionar para WhatsApp
+            const msg = `Olá! Sou ${name}, da loja *${store}*.\n\nMontei meu combo personalizado VIZZU:\n\n${selectedWidgets.map(id => `✅ ${widgets.find(w => w.id === id).nome}`).join('\n')}\n\n*Desconto:* ${descontoText}\n*Valor Final:* ${totalText}\n\nQuero fechar agora!`;
+            
+            const link = `https://wa.me/62982237075?text=${encodeURIComponent(msg)}`;
+            window.open(link, '_blank');
         }
 
-        function formatCurrency(value) { return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
-        function applyPreset(type) {
-            selectedIds.clear();
-            let idsToAdd = [];
-            // Combo Elite Total (Todos os 9 itens)
-            if (type === 'elite') idsToAdd = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-            // Combo Visual
-            else if (type === 'visual') idsToAdd = [1, 6, 9];
-            // Combo Vendas
-            else if (type === 'vendas') idsToAdd = [2, 5, 8];
-            // Combo Atacado
-            else if (type === 'atacado') idsToAdd = [3, 4, 7];
-            
-            idsToAdd.forEach(id => selectedIds.add(id));
-            document.querySelectorAll('.item-checkbox').forEach(input => input.checked = selectedIds.has(parseInt(input.value)));
-            updateCalculator();
-            
-            if(window.innerWidth < 1024) {
-                const mobSticky = document.getElementById('mobile-sticky-calc');
-                if(mobSticky) mobSticky.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            } else {
-                const prodList = document.getElementById('products-list');
-                if(prodList) prodList.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', init);
+        // Inicializa
+        window.onload = function() {
+            renderWidgets(); // Renderiza a lista de widgets
+            // Timer do topo
+            var display = document.querySelector('#top-timer'); // Elemento do timer (se existir na barra)
+            // ... (Seu código de timer existente pode ficar aqui se precisar)
+        };
     </script>
 </body>
 </html>
