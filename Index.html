@@ -78,56 +78,84 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Utilitários de Vídeo */
-        .video-cover { object-fit: cover; width: 100%; height: 100%; }
+        /* Utilitários de Vídeo Otimizados */
+        .video-wrapper {
+            position: relative;
+            background-color: #000;
+            overflow: hidden;
+        }
+        
+        /* Loader sutil enquanto o vídeo baixa */
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: #c6ff00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
 
-        /* Checkbox Customizado - FUNCIONAL */
+        .video-wrapper.loaded::before {
+            display: none;
+        }
+
+        video {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        video.is-playing {
+            opacity: 1;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Checkbox Customizado */
         .peer:checked ~ .checkbox-box {
             background-color: #c6ff00;
             border-color: #c6ff00;
         }
         .peer:checked ~ .checkbox-box i {
             opacity: 1;
-            color: #1a0b2e; /* Check preto/roxo escuro para contraste */
+            color: #1a0b2e;
         }
         
-        /* Ajuste para evitar flash amarelo no mobile */
-        input[type="checkbox"], label {
-            -webkit-tap-highlight-color: transparent;
-        }
-        input[type="checkbox"]:focus {
-            outline: none;
-            box-shadow: none;
-        }
+        input[type="checkbox"], label { -webkit-tap-highlight-color: transparent; }
+        input[type="checkbox"]:focus { outline: none; box-shadow: none; }
         
-        /* Estilo do Slider da Calculadora */
-        input[type=range] {
-            -webkit-appearance: none;
+        /* Slider Calculadora */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #c6ff00; cursor: pointer; margin-top: -8px; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px; }
+
+        /* Barra de Progresso Animada */
+        .progress-bar-container {
             width: 100%;
-            background: transparent;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 999px;
+            height: 10px;
+            overflow: hidden;
+            position: relative;
         }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #c6ff00;
-            cursor: pointer;
-            margin-top: -8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.3);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #e2e8f0;
-            border-radius: 2px;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d500f9, #c6ff00);
+            border-radius: 999px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
 <body class="antialiased pb-20 md:pb-0">
 
-    <!-- BARRA DE VAGAS (CORRIGIDA - VERMELHO ALERTA) -->
+    <!-- BARRA DE VAGAS -->
     <div class="fixed top-0 left-0 w-full z-50 bg-[#cc0000] text-white py-3 px-2 text-center border-b border-white/10 shadow-xl flex justify-center items-center">
         <p class="text-sm md:text-base font-bold flex justify-center items-center gap-2 uppercase tracking-wide">
             <i class="fas fa-fire text-yellow-300 animate-pulse"></i>
@@ -138,11 +166,9 @@
 
     <!-- HERO SECTION -->
     <header class="relative pt-24 pb-12 overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-40">
-            <video class="w-full h-full object-cover" autoplay loop muted playsinline poster="https://i.ibb.co/7dZ9GK5M/VIZZU.png" preload="auto">
-                <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-vizzu-dark/80 to-vizzu-dark"></div>
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-[#2d1b4e] to-vizzu-dark"></div>
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#4a148c 1px, transparent 1px); background-size: 30px 30px;"></div>
         </div>
 
         <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
@@ -172,7 +198,7 @@
         </div>
     </header>
 
-    <!-- AGITAÇÃO (ANTES E DEPOIS - CORRIGIDO) -->
+    <!-- AGITAÇÃO -->
     <section class="py-12 bg-vizzu-surface relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-2xl md:text-4xl font-bold text-center mb-10">
@@ -185,18 +211,9 @@
                      <div class="absolute -top-4 left-4 bg-red-600 text-white font-bold px-3 py-1 rounded shadow-lg text-sm z-10">SUA LOJA HOJE</div>
                     <h3 class="text-red-400 font-bold mb-4 text-xl mt-2"><i class="fas fa-times-circle"></i> FácilZap Padrão</h3>
                     
-                    <!-- Container Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-gray-700">
-                        <!-- CONTAINER IDENTICO AO DO VIDEO PARA GARANTIR ALINHAMENTO -->
                         <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
-                            <!-- 
-                                IMAGEM PREENCHENDO TUDO IGUAL AO VÍDEO
-                                object-cover: Preenche tudo sem bordas brancas
-                                object-top: Alinha no topo (mostra o cabeçalho)
-                            -->
-                            <img src="https://i.ibb.co/VYfVBQ2Y/PAGINA-INICIAL-ANTES-1.png" 
-                                 alt="Antes - Loja Genérica" 
-                                 class="w-full h-full object-cover object-top">
+                            <img src="https://i.ibb.co/VYfVBQ2Y/PAGINA-INICIAL-ANTES-1.png" alt="Antes" class="w-full h-full object-cover object-top">
                         </div>
                     </div>
                     
@@ -208,13 +225,10 @@
                     <div class="absolute -top-4 right-4 bg-vizzu-green text-vizzu-dark font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
                     <h3 class="text-vizzu-green font-bold mb-4 text-xl mt-2"><i class="fas fa-check-circle"></i> APP Vendas B2B</h3>
                      
-                    <!-- Container Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
-                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
-                            <video class="w-full h-full object-cover object-top" autoplay loop muted playsinline preload="auto">
-                                <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
-                            </video>
-                            <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow">💎 MODO APP</div>
+                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl video-wrapper">
+                            <video class="lazy-video w-full h-full object-cover object-top" muted loop playsinline preload="none" data-src="https://files.catbox.moe/yav5jo.mp4"></video>
+                            <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow z-10">💎 MODO APP</div>
                         </div>
                     </div>
 
@@ -224,7 +238,7 @@
         </div>
     </section>
 
-    <!-- NOVA SEÇÃO: ESTATÍSTICAS (POR QUE VOCÊ PERDE VENDAS) -->
+    <!-- ESTATÍSTICAS -->
     <section class="py-16 bg-gradient-to-b from-vizzu-surface to-vizzu-dark">
         <div class="container mx-auto px-4 text-center max-w-4xl">
             <h2 class="font-display text-3xl md:text-4xl font-bold mb-12">
@@ -232,34 +246,21 @@
             </h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Stat 1 -->
                 <div class="glass-panel p-6 border-t-4 border-red-500 hover:transform hover:-translate-y-2 transition duration-300">
                     <div class="text-5xl font-black text-white mb-2">52%</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        dos consumidores <strong class="text-red-400">não voltam</strong> a uma loja se não gostarem da estética visual.
-                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">dos consumidores <strong class="text-red-400">não voltam</strong> se não gostarem da estética visual.</p>
                 </div>
-                
-                <!-- Stat 2 -->
                 <div class="glass-panel p-6 border-t-4 border-red-500 hover:transform hover:-translate-y-2 transition duration-300">
                     <div class="text-5xl font-black text-white mb-2">3s</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        é o tempo que você tem para passar <strong class="text-red-400">credibilidade</strong> antes do cliente fechar a aba.
-                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">é o tempo que você tem para passar <strong class="text-red-400">credibilidade</strong>.</p>
                 </div>
-
-                <!-- Stat 3 -->
                 <div class="glass-panel p-6 border-t-4 border-vizzu-green hover:transform hover:-translate-y-2 transition duration-300">
                     <div class="text-5xl font-black text-vizzu-green mb-2">+200%</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        é o aumento na percepção de valor quando sua loja parece um <strong class="text-vizzu-green">APP Oficial</strong>.
-                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">aumento na percepção de valor com aparência de <strong class="text-vizzu-green">APP Oficial</strong>.</p>
                 </div>
             </div>
             
-            <p class="mt-12 text-lg text-gray-300">
-                Não deixe sua loja parecer amadora. Veja o que preparamos para você:
-            </p>
+            <p class="mt-12 text-lg text-gray-300">Não deixe sua loja parecer amadora. Veja o que preparamos:</p>
             <div class="mt-6 animate-bounce text-vizzu-green text-2xl"><i class="fas fa-chevron-down"></i></div>
         </div>
     </section>
@@ -274,7 +275,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- (WIDGETS MANTIDOS IGUAIS AO APROVADO ANTERIORMENTE) -->
             <!-- 1. Redesign -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
@@ -283,15 +283,9 @@
                 </div>
                 <div class="bg-gray-100 p-4 rounded-xl flex justify-center items-center h-52">
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
-                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
-                            <img src="https://i.ibb.co/35ntjbps/Captura-de-tela-2025-11-30-224053.png" class="w-full h-full object-cover">
-                        </div>
-                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
-                            <img src="https://i.ibb.co/rfpz65dq/Captura-de-tela-2025-11-30-224105.png" class="w-full h-full object-cover">
-                        </div>
-                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
-                            <img src="https://i.ibb.co/Z60kSYg5/Captura-de-tela-2025-11-30-224150.png" class="w-full h-full object-cover">
-                        </div>
+                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden"><img src="https://i.ibb.co/35ntjbps/Captura-de-tela-2025-11-30-224053.png" class="w-full h-full object-cover"></div>
+                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden"><img src="https://i.ibb.co/rfpz65dq/Captura-de-tela-2025-11-30-224105.png" class="w-full h-full object-cover"></div>
+                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden"><img src="https://i.ibb.co/Z60kSYg5/Captura-de-tela-2025-11-30-224150.png" class="w-full h-full object-cover"></div>
                     </div>
                 </div>
                 <p class="text-sm text-gray-400 mt-3">Visual limpo, cartões flutuantes e layout nativo de app.</p>
@@ -305,38 +299,39 @@
                 </div>
                 <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
                      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
-                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md">
-                            <video src="https://files.catbox.moe/0rz45y.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
-                            <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 49</div>
+                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md video-wrapper">
+                            <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/0rz45y.mp4"></video>
+                            <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 49</div>
                         </div>
-                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
-                            <video src="https://files.catbox.moe/ldvflh.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
-                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 89</div>
+                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
+                            <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/ldvflh.mp4"></video>
+                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 89</div>
                         </div>
-                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
-                            <video src="https://files.catbox.moe/61okrt.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
-                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 59</div>
+                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
+                            <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/61okrt.mp4"></video>
+                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 59</div>
                         </div>
                      </div>
                 </div>
                 <p class="text-sm text-gray-400 mt-3">Carrossel de vídeos no topo. O cliente clica no story e compra.</p>
             </div>
 
-             <!-- 3. Institucional -->
+             <!-- 3. Institucional (CORRIGIDO: ALINHAMENTO) -->
              <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
                     <i class="fas fa-building text-2xl text-gray-500"></i>
                 </div>
                  <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
-                    <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
-                       <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
+                    <!-- ADICIONADO justify-center PARA CENTRALIZAR OS VIDEOS -->
+                    <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x justify-center">
+                       <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
-                           <video src="https://files.catbox.moe/f64qpi.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay preload="auto"></video>
+                           <video class="lazy-video w-full h-full object-cover opacity-90" muted loop playsinline preload="none" data-src="https://files.catbox.moe/f64qpi.mp4"></video>
                        </div>
-                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
+                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
                             <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
-                            <video src="https://files.catbox.moe/qdnl00.mp4" class="w-full h-full object-cover opacity-90" loop muted playsinline autoplay preload="auto"></video>
+                            <video class="lazy-video w-full h-full object-cover opacity-90" muted loop playsinline preload="none" data-src="https://files.catbox.moe/qdnl00.mp4"></video>
                         </div>
                     </div>
                </div>
@@ -411,7 +406,6 @@
                     <i class="fas fa-bars text-2xl text-gray-500"></i>
                 </div>
                 <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col relative shadow-inner">
-                    <!-- Barra de Topo -->
                     <div class="bg-gradient-to-r from-purple-600 to-pink-600 py-2 overflow-hidden whitespace-nowrap relative z-10 shadow-md">
                         <div class="inline-block animate-scroll-left-fast">
                             <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
@@ -420,7 +414,6 @@
                             <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
                         </div>
                     </div>
-                    <!-- Menu Rápido Corrigido -->
                     <div class="flex justify-around items-center h-full bg-gray-50">
                         <div class="flex flex-col items-center gap-1">
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fab fa-whatsapp"></i></div>
@@ -512,15 +505,11 @@
                     </div>
                 </div>
                 <div class="md:w-1/2 grid grid-cols-2 gap-4">
-                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
-                        <video class="w-full h-full object-cover" muted loop playsinline autoplay preload="auto">
-                             <source src="https://files.catbox.moe/f64qpi.mp4" type="video/mp4">
-                        </video>
+                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group video-wrapper">
+                        <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/f64qpi.mp4"></video>
                     </div>
-                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
-                        <video class="w-full h-full object-cover" muted loop playsinline autoplay preload="auto">
-                             <source src="https://files.catbox.moe/qdnl00.mp4" type="video/mp4">
-                        </video>
+                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group video-wrapper">
+                        <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/qdnl00.mp4"></video>
                     </div>
                 </div>
             </div>
@@ -558,10 +547,10 @@
             </h2>
             <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Escolha um combo pronto ou personalize o seu logo abaixo.</p>
 
-            <!-- 1. COMBOS PRONTOS -->
+            <!-- 1. COMBOS PRONTOS (CORRIGIDO: ELITE CARD COM MD: PREFIX) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end mb-20">
                 <!-- Visual -->
-                <div class="glass-panel p-6 flex flex-col h-full hover:border-pink-500/50 transition duration-300">
+                <div class="glass-panel p-6 flex flex-col h-full hover:border-pink-500/50 transition duration-300 mb-8 md:mb-0">
                     <div class="mb-4">
                         <div class="bg-pink-900/30 text-pink-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">🎨 Foco em Design</div>
                         <h3 class="font-bold text-xl">Combo Visual</h3>
@@ -580,7 +569,7 @@
                     </div>
                 </div>
                 <!-- Vendas -->
-                <div class="glass-panel p-6 flex flex-col h-full hover:border-yellow-500/50 transition duration-300">
+                <div class="glass-panel p-6 flex flex-col h-full hover:border-yellow-500/50 transition duration-300 mb-8 md:mb-0">
                     <div class="mb-4">
                         <div class="bg-yellow-900/30 text-yellow-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">💰 Foco em Conversão</div>
                         <h3 class="font-bold text-xl">Combo Vendas</h3>
@@ -599,7 +588,7 @@
                     </div>
                 </div>
                 <!-- Atacado -->
-                <div class="glass-panel p-6 flex flex-col h-full hover:border-blue-500/50 transition duration-300">
+                <div class="glass-panel p-6 flex flex-col h-full hover:border-blue-500/50 transition duration-300 mb-8 md:mb-0">
                     <div class="mb-4">
                         <div class="bg-blue-900/30 text-blue-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">📦 Foco B2B</div>
                         <h3 class="font-bold text-xl">Combo Atacado</h3>
@@ -617,8 +606,8 @@
                         <a href="https://wa.me/62982237075" class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
-                <!-- Elite -->
-                <div class="card-elite p-6 flex flex-col h-full transform scale-105 md:-translate-y-4 z-10 rounded-xl">
+                <!-- Elite (CORRIGIDO: MD:SCALE-105) -->
+                <div class="card-elite p-6 flex flex-col h-full md:transform md:scale-105 md:-translate-y-4 z-10 rounded-xl">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-vizzu-dark font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
                         👑 O MAIS VENDIDO
                     </div>
@@ -651,14 +640,13 @@
                 <div class="h-px bg-gray-700 w-1/4"></div>
             </div>
 
-            <!-- 2. MONTE SEU COMBO (CHECKBOX CORRIGIDO E LIMPO) -->
+            <!-- 2. MONTE SEU COMBO -->
             <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
                 <div class="lg:col-span-2 glass-panel p-6">
                     <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
-                        <!-- Gerado via JS com checkbox corrigido -->
+                        <!-- Gerado via JS (CHECKBOX COM EFEITO VERDE) -->
                     </div>
                 </div>
 
@@ -666,6 +654,18 @@
                     <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(198,255,0,0.1)]">
                         <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
                         
+                        <!-- NOVA BARRA DE GAMIFICAÇÃO -->
+                        <div class="mb-6 bg-black/30 p-3 rounded-lg border border-gray-700" id="gamification-box">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-[10px] font-bold text-gray-300 uppercase" id="progress-text">Inicie sua seleção</span>
+                                <span class="text-xs font-black text-[#c6ff00]" id="progress-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-fill" style="width: 0%" id="progress-fill"></div>
+                            </div>
+                            <p class="text-[10px] text-gray-400 mt-1 text-center italic" id="progress-subtext">Adicione itens para desbloquear descontos.</p>
+                        </div>
+
                         <div class="space-y-2 mb-6 text-sm">
                             <div class="flex justify-between text-gray-400"><span>Itens:</span><span id="count-items" class="font-bold text-white">0</span></div>
                             <div class="flex justify-between text-gray-400"><span>Subtotal:</span><span id="subtotal-price" class="font-bold text-white">R$ 0,00</span></div>
@@ -675,19 +675,16 @@
                                 <div class="text-right"><span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span></div>
                             </div>
                         </div>
-
                         <div class="space-y-3 mb-4">
                             <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
                             <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
                             <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
                         </div>
-
                         <button onclick="finalizarPedido()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
                             <i class="fab fa-whatsapp text-xl"></i> ORÇAR NO WHATS
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -720,23 +717,56 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- LÓGICA DE VÍDEOS (LAZY PLAY) ---
-        function lazyPlayVideos() {
-            var videos = document.querySelectorAll('video');
-            videos.forEach(function(video) {
-                video.setAttribute('playsinline', '');
-                video.setAttribute('muted', '');
-                video.muted = true; // Força via JS também
-                var promise = video.play();
-                if (promise !== undefined) {
-                    promise.catch(error => {
-                        console.log('Autoplay prevent');
+        // --- SISTEMA AVANÇADO DE LAZY LOAD DE VÍDEOS ---
+        function initLazyVideos() {
+            var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy-video"));
+
+            if ("IntersectionObserver" in window) {
+                var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(video) {
+                        if (video.isIntersecting) {
+                            for (var source in video.target.children) {
+                                var videoSource = video.target.children[source];
+                                if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+                                    videoSource.src = videoSource.dataset.src;
+                                }
+                            }
+                            
+                            // Carrega o vídeo principal
+                            if(video.target.dataset.src) {
+                                video.target.src = video.target.dataset.src;
+                            }
+
+                            video.target.load();
+                            video.target.classList.remove("lazy-video");
+                            
+                            // Promise para evitar erros de play()
+                            var playPromise = video.target.play();
+                            if (playPromise !== undefined) {
+                                playPromise.then(_ => {
+                                    video.target.classList.add('is-playing');
+                                    video.target.parentElement.classList.add('loaded'); // Remove loader
+                                }).catch(error => {
+                                    console.log('Autoplay impedido pelo browser');
+                                    video.target.classList.add('is-playing'); 
+                                    video.target.parentElement.classList.add('loaded');
+                                });
+                            }
+
+                            lazyVideoObserver.unobserve(video.target);
+                        }
                     });
-                }
-            });
+                }, {
+                    rootMargin: "200px 0px"
+                });
+
+                lazyVideos.forEach(function(lazyVideo) {
+                    lazyVideoObserver.observe(lazyVideo);
+                });
+            }
         }
         
-        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT CLEAN) ---
+        // --- LÓGICA DO MONTE SEU COMBO ---
         const widgets = [
             { id: 1, nome: "Redesign Visual App", preco: 497, icon: "fa-mobile-alt" },
             { id: 2, nome: "Barra + Menu 3D", preco: 422, icon: "fa-bars" },
@@ -753,14 +783,13 @@
 
         function renderWidgets() {
             const container = document.getElementById('lista-widgets');
-            // Checkbox limpo, sem firulas, funcionando
+            // ADICIONADO: peer-checked styles para ficar verde
             container.innerHTML = widgets.map(w => `
-                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 group select-none hover:bg-white/5 peer-checked:border-vizzu-green">
+                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 group select-none hover:bg-white/5 peer-checked:border-[#c6ff00] peer-checked:bg-[#c6ff00]/10">
                     <input type="checkbox" class="peer sr-only focus:outline-none" 
                            onchange="toggleWidget(${w.id}, this)" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
                     
                     <div class="flex items-center gap-3 z-10">
-                        <!-- O quadradinho do Check -->
                         <div class="w-5 h-5 rounded border-2 border-gray-500 flex items-center justify-center transition-colors checkbox-box">
                             <i class="fas fa-check text-[10px] opacity-0 transition-opacity font-black text-vizzu-dark"></i>
                         </div>
@@ -775,13 +804,15 @@
         }
 
         function toggleWidget(id, checkbox) {
-            // Atualiza array sem re-renderizar tudo
+            // Recarrega o visual verde ao clicar, forçando re-render ou apenas toggle class (o CSS peer já cuida, mas aqui atualizamos o array)
             if (checkbox.checked) {
                 if (!selectedWidgets.includes(id)) selectedWidgets.push(id);
+                // Adiciona classe visual manual se necessário (o CSS peer-checked faz o trabalho pesado)
+                checkbox.parentElement.classList.add('border-[#c6ff00]', 'bg-[#c6ff00]/10');
             } else {
                 selectedWidgets = selectedWidgets.filter(wId => wId !== id);
+                checkbox.parentElement.classList.remove('border-[#c6ff00]', 'bg-[#c6ff00]/10');
             }
-            // Apenas atualiza totais
             updateSummary();
         }
 
@@ -803,7 +834,56 @@
             document.getElementById('discount-label').innerText = discountPercent > 0 ? `${discountPercent}% OFF` : '0%';
             document.getElementById('final-price').innerText = formatarMoeda(finalPrice);
             
-            // LÓGICA DO CARRINHO FLUTUANTE VS MENU MOBILE
+            // LÓGICA DA BARRA DE PROGRESSO (GAMIFICAÇÃO)
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const progressSubtext = document.getElementById('progress-subtext');
+            const progressPercent = document.getElementById('progress-percent');
+            
+            let percent = 0;
+            let message = "";
+            let submessage = "";
+
+            if (count === 0) {
+                percent = 0;
+                message = "Comece a economizar";
+                submessage = "Adicione 3 itens para liberar 25% OFF";
+            } else if (count < 3) {
+                // Meta: 3 itens (25%)
+                // 1 item = 33%, 2 itens = 66% da meta inicial
+                percent = (count / 3) * 100; // Escala relativa à primeira meta
+                // Ajuste visual para não ficar cheio antes da hora
+                percent = percent * 0.6; // Ocupa até 60% da barra visualmente
+                
+                const faltam = 3 - count;
+                message = `Falta${faltam > 1 ? 'm' : ''} ${faltam} item${faltam > 1 ? 'ns' : ''}`;
+                submessage = "para ganhar 25% de desconto!";
+            } else if (count >= 3 && count < 9) {
+                // Meta: 9 itens (50%)
+                // Já tem 25% garantido. Agora escala de 3 a 9.
+                // 3 itens = 60% visual (ponto de partida)
+                // 9 itens = 100% visual
+                const itemsAlemDaMeta1 = count - 3;
+                const totalPassos = 6; // de 3 até 9
+                const progressoExtra = (itemsAlemDaMeta1 / totalPassos) * 40; // os 40% restantes da barra
+                
+                percent = 60 + progressoExtra;
+                
+                const faltam = 9 - count;
+                message = "25% GARANTIDO! 🔓";
+                submessage = `Falta${faltam > 1 ? 'm' : ''} ${faltam} para o DESCONTO MÁXIMO (50%)`;
+            } else {
+                percent = 100;
+                message = "COMBO ELITE ATIVADO 👑";
+                submessage = "Você garantiu o melhor preço possível!";
+            }
+
+            progressFill.style.width = `${percent}%`;
+            progressText.innerText = message;
+            progressSubtext.innerText = submessage;
+            progressPercent.innerText = `${Math.round(percent)}%`; // Valor simbólico de progresso
+            
+            
             const floatingCart = document.getElementById('floating-cart');
             const mobileMenu = document.getElementById('mobile-bottom-menu');
             const floatCount = document.getElementById('float-count');
@@ -811,27 +891,32 @@
 
             if (count > 0) {
                 floatingCart.classList.remove('translate-y-[150%]');
-                mobileMenu.classList.add('translate-y-[150%]'); // Esconde menu
+                mobileMenu.classList.add('translate-y-[150%]');
                 floatCount.innerText = count;
                 floatTotal.innerText = formatarMoeda(finalPrice);
             } else {
                 floatingCart.classList.add('translate-y-[150%]');
-                mobileMenu.classList.remove('translate-y-[150%]'); // Mostra menu
+                mobileMenu.classList.remove('translate-y-[150%]');
             }
+        }
+
+        // Calculadora
+        function updateCalculadora(lucro) {
+            const custo = 35.00;
+            const porcentagem = parseInt(lucro);
+            const venda = custo * (1 + (porcentagem / 100));
+            const lucroReal = venda - custo;
+
+            document.getElementById('margem-display').innerText = porcentagem + '%';
+            document.getElementById('venda-display').innerText = venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('lucro-display').innerText = lucroReal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
 
         // Inicializa
         window.onload = function() {
             renderWidgets(); 
-            lazyPlayVideos(); // Tenta rodar vídeos
-            
-            // Timer do topo (se existir)
-            // ...
+            initLazyVideos(); 
         };
-        
-        // Listener extra para interação (desbloqueia áudio/vídeo em browsers restritos)
-        document.addEventListener('touchstart', lazyPlayVideos, {once:true});
-        document.addEventListener('click', lazyPlayVideos, {once:true});
     </script>
 </body>
 </html>
