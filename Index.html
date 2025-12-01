@@ -127,12 +127,12 @@
 </head>
 <body class="antialiased pb-20 md:pb-0">
 
-    <!-- BARRA DE VAGAS (DEGRADÊ ROXO > AMARELO) -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-vizzu-purple to-yellow-400 text-white py-3 px-2 text-center border-b-2 border-white/20 shadow-2xl flex justify-center items-center">
-        <p class="text-sm md:text-sm font-black flex justify-center items-center gap-2 uppercase tracking-wide drop-shadow-md">
-            <i class="fas fa-exclamation-triangle text-white animate-pulse"></i>
-            <span>Apenas <span class="text-white text-lg underline decoration-vizzu-dark">3 VAGAS</span> este mês!</span>
-            <span class="bg-vizzu-dark text-yellow-400 px-2 py-0.5 rounded text-[10px] font-bold shadow-sm animate-pulse ml-1">80% OFF</span>
+    <!-- BARRA DE VAGAS (CORRIGIDA - VERMELHO ALERTA) -->
+    <div class="fixed top-0 left-0 w-full z-50 bg-[#cc0000] text-white py-3 px-2 text-center border-b border-white/10 shadow-xl flex justify-center items-center">
+        <p class="text-sm md:text-base font-bold flex justify-center items-center gap-2 uppercase tracking-wide">
+            <i class="fas fa-fire text-yellow-300 animate-pulse"></i>
+            <span>Apenas <span class="text-yellow-300 font-black text-lg">3 VAGAS</span> este mês!</span>
+            <span class="bg-white text-[#cc0000] px-2 py-0.5 rounded text-xs font-black shadow-sm ml-1">CORRA</span>
         </p>
     </div>
 
@@ -157,7 +157,7 @@
             </h1>
 
             <p class="font-sans text-gray-300 text-lg md:text-xl mb-8 leading-relaxed">
-                Transforme sua loja FácilZap genérica em um <strong>APP Nível Shein</strong>. Sem agência, sem mensalidade, sem código.
+                Transforme sua loja FácilZap genérica em um <strong>APP Nível Shein</strong>. Sem agência, sem mensalidade, sem precisar programar.
             </p>
 
             <a href="#planos" class="inline-flex items-center justify-center gap-3 bg-[#c6ff00] text-[#1a0b2e] px-8 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(198,255,0,0.6)] animate-pulse-fast w-full md:w-auto">
@@ -172,7 +172,7 @@
         </div>
     </header>
 
-    <!-- AGITAÇÃO (ANTES E DEPOIS - CORRIGIDO CENTRALIZADO) -->
+    <!-- AGITAÇÃO (ANTES E DEPOIS - CORRIGIDO) -->
     <section class="py-12 bg-vizzu-surface relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-2xl md:text-4xl font-bold text-center mb-10">
@@ -187,14 +187,16 @@
                     
                     <!-- Container Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-gray-700">
-                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl flex items-center justify-center bg-white">
+                        <!-- CONTAINER IDENTICO AO DO VIDEO PARA GARANTIR ALINHAMENTO -->
+                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
                             <!-- 
-                                CORREÇÃO DEFINITIVA: object-center
-                                Centraliza a imagem perfeitamente, eliminando a faixa branca na lateral.
+                                IMAGEM PREENCHENDO TUDO IGUAL AO VÍDEO
+                                object-cover: Preenche tudo sem bordas brancas
+                                object-top: Alinha no topo (mostra o cabeçalho)
                             -->
                             <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" 
                                  alt="Antes - Loja Genérica" 
-                                 class="w-full h-full object-cover object-center">
+                                 class="w-full h-full object-cover object-top">
                         </div>
                     </div>
                     
@@ -222,18 +224,58 @@
         </div>
     </section>
 
+    <!-- NOVA SEÇÃO: ESTATÍSTICAS (POR QUE VOCÊ PERDE VENDAS) -->
+    <section class="py-16 bg-gradient-to-b from-vizzu-surface to-vizzu-dark">
+        <div class="container mx-auto px-4 text-center max-w-4xl">
+            <h2 class="font-display text-3xl md:text-4xl font-bold mb-12">
+                Por que você <span class="text-red-500 underline decoration-wavy">perde clientes</span> todos os dias?
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Stat 1 -->
+                <div class="glass-panel p-6 border-t-4 border-red-500 hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="text-5xl font-black text-white mb-2">52%</div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        dos consumidores <strong class="text-red-400">não voltam</strong> a uma loja se não gostarem da estética visual.
+                    </p>
+                </div>
+                
+                <!-- Stat 2 -->
+                <div class="glass-panel p-6 border-t-4 border-red-500 hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="text-5xl font-black text-white mb-2">3s</div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        é o tempo que você tem para passar <strong class="text-red-400">credibilidade</strong> antes do cliente fechar a aba.
+                    </p>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="glass-panel p-6 border-t-4 border-vizzu-green hover:transform hover:-translate-y-2 transition duration-300">
+                    <div class="text-5xl font-black text-vizzu-green mb-2">+200%</div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        é o aumento na percepção de valor quando sua loja parece um <strong class="text-vizzu-green">APP Oficial</strong>.
+                    </p>
+                </div>
+            </div>
+            
+            <p class="mt-12 text-lg text-gray-300">
+                Não deixe sua loja parecer amadora. Veja o que preparamos para você:
+            </p>
+            <div class="mt-6 animate-bounce text-vizzu-green text-2xl"><i class="fas fa-chevron-down"></i></div>
+        </div>
+    </section>
+
     <!-- SOLUÇÃO (WIDGETS DEMO) -->
     <section class="py-16 container mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="font-display text-3xl md:text-5xl font-black mb-4 neon-text">
                 Veja como fica <span class="text-vizzu-pink">na Prática</span>
             </h2>
-            <p class="text-gray-400">Recriamos abaixo uma demonstração de como cada widget se comporta.</p>
+            <p class="text-gray-400">Soluções reais para transformar visitantes em compradores.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <!-- Redesign -->
+            <!-- (WIDGETS MANTIDOS IGUAIS AO APROVADO ANTERIORMENTE) -->
+            <!-- 1. Redesign -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-vizzu-green">1. Redesign Visual App</h3>
@@ -255,7 +297,7 @@
                 <p class="text-sm text-gray-400 mt-3">Visual limpo, cartões flutuantes e layout nativo de app.</p>
             </div>
 
-            <!-- Stories -->
+            <!-- 2. Stories -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-pink-400">2. Stories Shop-the-Look</h3>
@@ -271,7 +313,6 @@
                             <video src="https://files.catbox.moe/ldvflh.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
                              <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 89</div>
                         </div>
-                         <!-- 3º VÍDEO -->
                          <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200">
                             <video src="https://files.catbox.moe/61okrt.mp4" class="w-full h-full object-cover" loop muted playsinline autoplay preload="auto"></video>
                              <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded">R$ 59</div>
@@ -281,7 +322,7 @@
                 <p class="text-sm text-gray-400 mt-3">Carrossel de vídeos no topo. O cliente clica no story e compra.</p>
             </div>
 
-             <!-- Institucional -->
+             <!-- 3. Institucional -->
              <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
@@ -302,7 +343,7 @@
                 <p class="text-sm text-gray-400 mt-3">Gere confiança mostrando sua fábrica e estoque em vídeo.</p>
             </div>
 
-            <!-- Calculadora -->
+            <!-- 4. Calculadora -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-vizzu-green">4. Calculadora B2B</h3>
@@ -337,7 +378,7 @@
                 <p class="text-sm text-gray-400 mt-3">Arraste a régua. Mostre ao revendedor o lucro real na hora.</p>
             </div>
 
-            <!-- Oferta Relâmpago -->
+            <!-- 5. Oferta Relâmpago -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-red-400">5. Oferta Relâmpago</h3>
@@ -416,14 +457,13 @@
                 <p class="text-sm text-gray-400 mt-3">Facilita a busca por grade. Essencial para atacado.</p>
             </div>
 
-            <!-- 8. Cupom (GRANDE E ROBUSTO) -->
+            <!-- 8. Cupom -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-teal-400">8. Cupom One-Click</h3>
                     <i class="fas fa-ticket-alt text-2xl text-gray-500"></i>
                 </div>
                 <div class="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-xl h-52 flex flex-col items-center justify-center p-4 relative overflow-hidden shadow-inner border border-white/10 group">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                     <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#c6ff00] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(198,255,0,0.3)] animate-float">🎁</div>
                     <h4 class="text-white font-black text-xl uppercase italic tracking-tighter mb-1">PRIMEIRA COMPRA</h4>
                     <span class="text-[#c6ff00] font-bold text-2xl mb-3 drop-shadow-sm">5% OFF</span>
@@ -449,7 +489,6 @@
                         <div class="inline-block animate-scroll-left text-[10px] text-gray-300">
                             <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
                             <span class="mx-4"><i class="fas fa-map-marker-alt text-[#c6ff00]"></i> Goiânia - GO</span>
-                            <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
                         </div>
                     </div>
                 </div>
@@ -459,7 +498,7 @@
         </div>
     </section>
 
-    <!-- PROVA SOCIAL ATUALIZADA (CJ Rasteirinhas) -->
+    <!-- PROVA SOCIAL -->
     <section class="py-12 bg-black/30 border-y border-vizzu-purple/30">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center justify-between gap-8">
@@ -469,42 +508,49 @@
                     </h3>
                     <p class="text-gray-400 italic mb-4">- A loja que mais vende rasteirinhas no atacado</p>
                     <div class="flex gap-2">
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                        <i class="fas fa-star text-yellow-400"></i>
-                    </div>
-                    <div class="mt-6 flex gap-4 text-center">
-                         <div>
-                             <span class="block text-3xl font-black text-vizzu-green">100+</span>
-                             <span class="text-xs text-gray-400">Lojas Transformadas</span>
-                         </div>
-                         <div>
-                             <span class="block text-3xl font-black text-vizzu-green">300%</span>
-                             <span class="text-xs text-gray-400">Aumento Médio</span>
-                         </div>
+                        <i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i>
                     </div>
                 </div>
                 <div class="md:w-1/2 grid grid-cols-2 gap-4">
                     <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
-                        <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                        <video class="w-full h-full object-cover" muted loop playsinline autoplay preload="auto">
                              <source src="https://files.catbox.moe/f64qpi.mp4" type="video/mp4">
                         </video>
-                        <div class="absolute bottom-0 w-full bg-black/60 text-xs p-1 text-center">Bastidores Fábrica</div>
                     </div>
                     <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group">
-                        <video class="w-full h-full object-cover" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+                        <video class="w-full h-full object-cover" muted loop playsinline autoplay preload="auto">
                              <source src="https://files.catbox.moe/qdnl00.mp4" type="video/mp4">
                         </video>
-                         <div class="absolute bottom-0 w-full bg-black/60 text-xs p-1 text-center">Estoque Lotado</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- COMBOS ESTRATÉGICOS (PRONTOS + OPÇÃO DE MONTAR DINÂMICA) -->
+    <!-- CTA DECISIVA -->
+    <section class="py-16 text-center bg-gradient-to-b from-vizzu-dark to-black border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="font-display text-3xl md:text-5xl font-black mb-6">
+                A Escolha é Sua:
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
+                <div class="p-6 border border-red-900/50 rounded-xl bg-red-900/10 opacity-70">
+                    <h3 class="text-xl font-bold text-red-500 mb-2">❌ Continuar na Mesmice</h3>
+                    <p class="text-gray-400 text-sm">Loja sem graça, cliente desconfiado, vendas perdidas todo dia.</p>
+                </div>
+                <div class="p-6 border border-vizzu-green rounded-xl bg-vizzu-green/10">
+                    <h3 class="text-xl font-bold text-vizzu-green mb-2">✅ Ter uma Loja Incrível</h3>
+                    <p class="text-gray-300 text-sm">Design magnético, autoridade imediata e cliente comprando feliz.</p>
+                </div>
+            </div>
+            <a href="#planos" class="inline-flex items-center gap-3 bg-[#c6ff00] text-[#1a0b2e] px-10 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(198,255,0,0.4)] animate-pulse-fast">
+                QUERO UMA LOJA INCRÍVEL
+                <i class="fas fa-arrow-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- COMBOS ESTRATÉGICOS -->
     <section id="planos" class="py-16 relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-3xl md:text-5xl font-black text-center mb-4">
@@ -512,10 +558,9 @@
             </h2>
             <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Escolha um combo pronto ou personalize o seu logo abaixo.</p>
 
-            <!-- 1. COMBOS PRONTOS (DESTAQUE) -->
+            <!-- 1. COMBOS PRONTOS -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end mb-20">
-                
-                <!-- COMBO VISUAL -->
+                <!-- Visual -->
                 <div class="glass-panel p-6 flex flex-col h-full hover:border-pink-500/50 transition duration-300">
                     <div class="mb-4">
                         <div class="bg-pink-900/30 text-pink-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">🎨 Foco em Design</div>
@@ -531,11 +576,10 @@
                         <div class="text-gray-500 line-through text-xs">R$ 1.341,00</div>
                         <div class="text-2xl font-black text-white">R$ 1.005,75</div>
                         <div class="text-xs text-pink-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Quero%20o%20*Combo%20Visual*%20para%20minha%20loja%20por%20R$%201.005,75." class="block w-full border border-pink-500 text-white hover:bg-pink-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                        <a href="https://wa.me/62982237075" class="block w-full border border-pink-500 text-white hover:bg-pink-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
-
-                <!-- COMBO VENDAS -->
+                <!-- Vendas -->
                 <div class="glass-panel p-6 flex flex-col h-full hover:border-yellow-500/50 transition duration-300">
                     <div class="mb-4">
                         <div class="bg-yellow-900/30 text-yellow-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">💰 Foco em Conversão</div>
@@ -551,11 +595,10 @@
                         <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
                         <div class="text-2xl font-black text-white">R$ 743,25</div>
                         <div class="text-xs text-yellow-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Quero%20o%20*Combo%20Vendas*%20para%20acelerar%20meus%20pedidos%20por%20R$%20743,25." class="block w-full border border-yellow-500 text-white hover:bg-yellow-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                        <a href="https://wa.me/62982237075" class="block w-full border border-yellow-500 text-white hover:bg-yellow-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
-
-                <!-- COMBO ATACADO -->
+                <!-- Atacado -->
                 <div class="glass-panel p-6 flex flex-col h-full hover:border-blue-500/50 transition duration-300">
                     <div class="mb-4">
                         <div class="bg-blue-900/30 text-blue-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">📦 Foco B2B</div>
@@ -571,11 +614,10 @@
                         <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
                         <div class="text-2xl font-black text-white">R$ 743,25</div>
                         <div class="text-xs text-blue-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20Sou%20Atacadista%20e%20quero%20o%20*Combo%20Atacado*%20por%20R$%20743,25." class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
+                        <a href="https://wa.me/62982237075" class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
-
-                <!-- COMBO ELITE -->
+                <!-- Elite -->
                 <div class="card-elite p-6 flex flex-col h-full transform scale-105 md:-translate-y-4 z-10 rounded-xl">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-vizzu-dark font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
                         👑 O MAIS VENDIDO
@@ -595,7 +637,7 @@
                         <div class="text-4xl font-black text-white mb-1">R$ 1.661,50</div>
                         <div class="text-sm text-vizzu-green mb-6 font-bold">50% OFF SÓ HOJE</div>
                         
-                        <a href="https://wa.me/62982237075?text=Ol%C3%A1!%20N%C3%A3o%20quero%20perder%20tempo.%20Quero%20o%20*COMBO%20ELITE%20TOTAL*%20com%2050%25%20OFF%20e%20Instala%C3%A7%C3%A3o%20VIP!" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 px-4 rounded-full text-center transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2">
+                        <a href="https://wa.me/62982237075" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 px-4 rounded-full text-center transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2">
                             <i class="fab fa-whatsapp text-2xl"></i> QUERO TUDO
                         </a>
                     </div>
@@ -609,49 +651,35 @@
                 <div class="h-px bg-gray-700 w-1/4"></div>
             </div>
 
-            <!-- 2. MONTE SEU COMBO (SECUNDÁRIO - DINÂMICO LIMPO) -->
+            <!-- 2. MONTE SEU COMBO (CHECKBOX CORRIGIDO E LIMPO) -->
             <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
-                <!-- COLUNA 1 & 2: SELEÇÃO DE ITENS -->
                 <div class="lg:col-span-2 glass-panel p-6">
                     <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
-                        <!-- Itens gerados via JS com EFEITO LIMPO -->
+                        <!-- Gerado via JS com checkbox corrigido -->
                     </div>
                 </div>
 
-                <!-- COLUNA 3: RESUMO E FORMULÁRIO -->
                 <div class="lg:col-span-1">
                     <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(198,255,0,0.1)]">
                         <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
                         
                         <div class="space-y-2 mb-6 text-sm">
-                            <div class="flex justify-between text-gray-400">
-                                <span>Itens:</span>
-                                <span id="count-items" class="font-bold text-white">0</span>
-                            </div>
-                            <div class="flex justify-between text-gray-400">
-                                <span>Subtotal:</span>
-                                <span id="subtotal-price" class="font-bold text-white">R$ 0,00</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-vizzu-green/10 p-2 rounded text-vizzu-green">
-                                <span>Desconto:</span>
-                                <span id="discount-label" class="font-bold">0%</span>
-                            </div>
+                            <div class="flex justify-between text-gray-400"><span>Itens:</span><span id="count-items" class="font-bold text-white">0</span></div>
+                            <div class="flex justify-between text-gray-400"><span>Subtotal:</span><span id="subtotal-price" class="font-bold text-white">R$ 0,00</span></div>
+                            <div class="flex justify-between items-center bg-vizzu-green/10 p-2 rounded text-vizzu-green"><span>Desconto:</span><span id="discount-label" class="font-bold">0%</span></div>
                             <div class="border-t border-gray-700 my-2 pt-2 flex justify-between items-end">
                                 <span class="text-lg font-bold">TOTAL:</span>
-                                <div class="text-right">
-                                    <span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span>
-                                </div>
+                                <div class="text-right"><span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span></div>
                             </div>
                         </div>
 
-                        <!-- Formulário de Captação -->
                         <div class="space-y-3 mb-4">
-                            <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
-                            <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
-                            <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white focus:border-vizzu-green outline-none text-sm">
+                            <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
+                            <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
+                            <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
                         </div>
 
                         <button onclick="finalizarPedido()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
@@ -677,88 +705,9 @@
         </div>
     </div>
 
-    <!-- FAQ -->
-    <section class="py-12 bg-vizzu-dark">
-        <div class="container mx-auto px-4 max-w-2xl">
-            <h3 class="text-2xl font-bold text-center mb-8">Dúvidas Frequentes</h3>
-            <div class="space-y-4">
-                <details class="group glass-panel p-4 cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center list-none text-white">
-                        <span>Preciso saber programação?</span>
-                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
-                        Não. Nós criamos o código personalizado para sua marca e <strong>nós aplicamos</strong> tudo dentro da sua loja. Você não precisa mexer em uma linha de código sequer.
-                    </p>
-                </details>
-                
-                <details class="group glass-panel p-4 cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center list-none text-white">
-                        <span>O código é meu? Posso alterar?</span>
-                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
-                        Sim, o código é 100% seu. Você tem liberdade para alterar, porém, caso não saiba programação, nossa equipe pode realizar ajustes futuros mediante orçamento.
-                    </p>
-                </details>
-
-                <details class="group glass-panel p-4 cursor-pointer">
-                    <summary class="font-bold flex justify-between items-center list-none text-white">
-                        <span>E se eu não gostar do resultado?</span>
-                        <span class="transition group-open:rotate-180"><i class="fas fa-chevron-down"></i></span>
-                    </summary>
-                    <p class="text-gray-400 mt-3 text-sm border-l-2 border-vizzu-green pl-3">
-                        Risco Zero. Antes de aplicar na sua loja, enviamos uma prévia em nosso <strong>site demonstrativo</strong>. Se você não aprovar o visual, nós devolvemos o seu dinheiro integralmente e encerramos o projeto.
-                    </p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER ANIMADO (ANO ATUALIZADO) -->
-    <footer class="bg-black py-8 border-t border-gray-800 overflow-hidden">
-        <div class="w-full overflow-hidden mb-8">
-            <div class="whitespace-nowrap animate-scroll-left">
-                <span class="text-2xl font-black text-gray-700 mx-4">VIZZU DIGITAL</span>
-                <span class="text-2xl font-black text-vizzu-purple mx-4">MAIS VENDAS</span>
-                <span class="text-2xl font-black text-gray-700 mx-4">DESIGN PREMIUM</span>
-                <span class="text-2xl font-black text-vizzu-green mx-4">SEM MENSALIDADE</span>
-                <span class="text-2xl font-black text-gray-700 mx-4">VIZZU DIGITAL</span>
-                <span class="text-2xl font-black text-vizzu-purple mx-4">MAIS VENDAS</span>
-                <span class="text-2xl font-black text-gray-700 mx-4">DESIGN PREMIUM</span>
-                <span class="text-2xl font-black text-vizzu-green mx-4">SEM MENSALIDADE</span>
-            </div>
-        </div>
-        
-        <div class="container mx-auto px-4 text-center">
-            <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Logo Footer" class="h-10 mx-auto mb-4 grayscale opacity-50">
-            <p class="text-gray-600 text-sm mb-4">© 2025 Vizzu Digital. Todos os direitos reservados.</p>
-            <div class="flex justify-center gap-4 text-2xl text-gray-500">
-                <i class="fab fa-instagram hover:text-vizzu-pink cursor-pointer"></i>
-                <i class="fab fa-whatsapp hover:text-green-500 cursor-pointer"></i>
-            </div>
-        </div>
-    </footer>
-
-    <!-- CUPOM FLUTUANTE -->
-    <div id="cupom-float" class="fixed bottom-24 right-4 z-40 animate-float hidden md:block">
-        <div class="bg-white text-black p-1 rounded-lg shadow-xl border-2 border-vizzu-purple flex items-center gap-2 pr-3">
-            <div class="bg-vizzu-purple text-white p-2 rounded animate-pulse">
-                <i class="fas fa-gift"></i>
-            </div>
-            <div>
-                <span class="block text-[10px] font-bold uppercase text-gray-500">Cupom Extra</span>
-                <span class="font-black text-lg">VIZZU5</span>
-            </div>
-            <button onclick="copyCupom()" class="bg-gray-200 hover:bg-gray-300 p-2 rounded-full transition">
-                <i class="far fa-copy"></i>
-            </button>
-        </div>
-    </div>
-
     <!-- MENU MOBILE -->
-    <div class="md:hidden fixed bottom-0 left-0 w-full bg-vizzu-dark/95 backdrop-blur border-t border-gray-700 p-3 z-50 grid grid-cols-2 gap-3">
-        <a href="https://wa.me/62982237075?text=Ana,%20tenho%20uma%20dúvida%20sobre%20os%20Widgets!" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
+    <div id="mobile-bottom-menu" class="md:hidden fixed bottom-0 left-0 w-full bg-vizzu-dark/95 backdrop-blur border-t border-gray-700 p-3 z-40 grid grid-cols-2 gap-3 transition-transform duration-300">
+        <a href="https://wa.me/62982237075" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
             <i class="fab fa-whatsapp"></i> Dúvidas
         </a>
         <a href="#planos" class="flex items-center justify-center gap-2 bg-vizzu-green text-vizzu-dark font-black rounded text-sm py-3 shadow-[0_0_15px_rgba(198,255,0,0.4)]">
@@ -771,84 +720,23 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // CONFIGURAÇÃO SUPABASE (COLOQUE SUAS CHAVES AQUI)
-        const SUPABASE_URL = 'SUA_URL_SUPABASE';
-        const SUPABASE_ANON_KEY = 'SUA_KEY_SUPABASE';
-        
-        // Inicializa cliente apenas se as chaves estiverem presentes
-        let supabase;
-        try {
-            if(SUPABASE_URL !== 'SUA_URL_SUPABASE') {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
-        } catch(e) { console.log('Supabase não configurado'); }
-
-        function copyCupom() {
-            navigator.clipboard.writeText("VIZZU5");
-            alert("Cupom VIZZU5 copiado! Cole no WhatsApp para +5% OFF.");
-        }
-
-        // --- LÓGICA DE VÍDEOS (OTIMIZADA PARA AUTOPLAY) ---
-        function initVideoHandling() {
-            const videos = document.querySelectorAll('video');
-            
-            // Configuração do Observer para tocar apenas quando visível
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const video = entry.target;
-                        // Tenta tocar
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(() => {
-                                // Se falhar (bloqueio), garante mudo e tenta de novo
-                                video.muted = true;
-                                video.play().catch(e => console.log("Autoplay bloqueado pelo navegador"));
-                            });
-                        }
-                    } else {
-                        // Pausa quando sai da tela para economizar recursos
-                        entry.target.pause();
-                    }
-                });
-            }, { threshold: 0.1 }); // 10% visível
-
-            videos.forEach(video => {
-                // Garante atributos essenciais via JS também
-                video.muted = true;
-                video.playsInline = true;
-                video.loop = true;
+        // --- LÓGICA DE VÍDEOS (LAZY PLAY) ---
+        function lazyPlayVideos() {
+            var videos = document.querySelectorAll('video');
+            videos.forEach(function(video) {
                 video.setAttribute('playsinline', '');
                 video.setAttribute('muted', '');
-                
-                observer.observe(video);
+                video.muted = true; // Força via JS também
+                var promise = video.play();
+                if (promise !== undefined) {
+                    promise.catch(error => {
+                        console.log('Autoplay prevent');
+                    });
+                }
             });
-            
-            // Fallback para interação do usuário (desbloqueio geral)
-            const unlockAudio = () => {
-                videos.forEach(v => {
-                    if(v.paused) v.play().catch(e=>{});
-                });
-                document.removeEventListener('touchstart', unlockAudio);
-                document.removeEventListener('click', unlockAudio);
-            };
-            document.addEventListener('touchstart', unlockAudio, {once:true});
-            document.addEventListener('click', unlockAudio, {once:true});
         }
-
-        // --- LÓGICA DA CALCULADORA DE LUCRO (WIDGET DEMO) ---
-        function updateCalculadora(porcentagem) {
-            const custo = 35.00;
-            const perc = parseInt(porcentagem);
-            const lucro = custo * (perc / 100);
-            const precoVenda = custo + lucro;
-            const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            document.getElementById('margem-display').innerText = perc + "%";
-            document.getElementById('venda-display').innerText = formatarMoeda(precoVenda);
-            document.getElementById('lucro-display').innerText = formatarMoeda(lucro);
-        }
-
-        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT CLEAN E FUNCIONAL) ---
+        
+        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT CLEAN) ---
         const widgets = [
             { id: 1, nome: "Redesign Visual App", preco: 497, icon: "fa-mobile-alt" },
             { id: 2, nome: "Barra + Menu 3D", preco: 422, icon: "fa-bars" },
@@ -874,7 +762,7 @@
                     <div class="flex items-center gap-3 z-10">
                         <!-- O quadradinho do Check -->
                         <div class="w-5 h-5 rounded border-2 border-gray-500 flex items-center justify-center transition-colors checkbox-box">
-                            <i class="fas fa-check text-[10px] opacity-0 transition-opacity font-black"></i>
+                            <i class="fas fa-check text-[10px] opacity-0 transition-opacity font-black text-vizzu-dark"></i>
                         </div>
                         <div class="group-hover:text-white transition-colors text-gray-300 font-bold flex items-center gap-2">
                             <i class="fas ${w.icon} group-hover:text-vizzu-green text-sm"></i> ${w.nome}
@@ -917,61 +805,33 @@
             
             // LÓGICA DO CARRINHO FLUTUANTE VS MENU MOBILE
             const floatingCart = document.getElementById('floating-cart');
-            const mobileMenu = document.querySelector('.md\\:hidden.fixed.bottom-0'); // Seletor genérico para o menu
+            const mobileMenu = document.getElementById('mobile-bottom-menu');
             const floatCount = document.getElementById('float-count');
             const floatTotal = document.getElementById('float-total');
 
             if (count > 0) {
                 floatingCart.classList.remove('translate-y-[150%]');
-                if(mobileMenu) mobileMenu.classList.add('translate-y-[150%]'); // Esconde menu
+                mobileMenu.classList.add('translate-y-[150%]'); // Esconde menu
                 floatCount.innerText = count;
                 floatTotal.innerText = formatarMoeda(finalPrice);
             } else {
                 floatingCart.classList.add('translate-y-[150%]');
-                if(mobileMenu) mobileMenu.classList.remove('translate-y-[150%]'); // Mostra menu
+                mobileMenu.classList.remove('translate-y-[150%]'); // Mostra menu
             }
-        }
-
-        async function finalizarPedido() {
-            const name = document.getElementById('input-name').value;
-            const store = document.getElementById('input-store').value;
-            const phone = document.getElementById('input-phone').value;
-            
-            if (!name || !store || !phone) {
-                alert("Por favor, preencha todos os campos (Nome, Loja e WhatsApp) para continuar.");
-                return;
-            }
-
-            if (selectedWidgets.length === 0) {
-                alert("Selecione pelo menos um item para montar seu combo.");
-                return;
-            }
-
-            const itensNomes = selectedWidgets.map(id => widgets.find(w => w.id === id).nome).join(', ');
-            const totalText = document.getElementById('final-price').innerText;
-            const descontoText = document.getElementById('discount-label').innerText;
-
-            // 1. Salvar no Supabase (Se configurado)
-            if (supabase) {
-                const { error } = await supabase
-                    .from('leads_vizzu')
-                    .insert([{ nome: name, loja: store, telefone: phone, itens: itensNomes, total: totalText }]);
-                
-                if (error) console.error('Erro ao salvar:', error);
-            }
-
-            // 2. Redirecionar para WhatsApp
-            const msg = `Olá! Sou ${name}, da loja *${store}*.\n\nMontei meu combo personalizado VIZZU:\n\n${selectedWidgets.map(id => `✅ ${widgets.find(w => w.id === id).nome}`).join('\n')}\n\n*Desconto:* ${descontoText}\n*Valor Final:* ${totalText}\n\nQuero fechar agora!`;
-            
-            const link = `https://wa.me/62982237075?text=${encodeURIComponent(msg)}`;
-            window.open(link, '_blank');
         }
 
         // Inicializa
         window.onload = function() {
             renderWidgets(); 
-            initVideoHandling(); // Nova função de vídeo
+            lazyPlayVideos(); // Tenta rodar vídeos
+            
+            // Timer do topo (se existir)
+            // ...
         };
+        
+        // Listener extra para interação (desbloqueia áudio/vídeo em browsers restritos)
+        document.addEventListener('touchstart', lazyPlayVideos, {once:true});
+        document.addEventListener('click', lazyPlayVideos, {once:true});
     </script>
 </body>
 </html>
