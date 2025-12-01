@@ -316,14 +316,13 @@
                 <p class="text-sm text-gray-400 mt-3">Carrossel de vídeos no topo. O cliente clica no story e compra.</p>
             </div>
 
-             <!-- 3. Institucional (CORRIGIDO: ALINHAMENTO) -->
+             <!-- 3. Institucional -->
              <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
                     <i class="fas fa-building text-2xl text-gray-500"></i>
                 </div>
                  <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
-                    <!-- ADICIONADO justify-center PARA CENTRALIZAR OS VIDEOS -->
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x justify-center">
                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
@@ -547,7 +546,7 @@
             </h2>
             <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Escolha um combo pronto ou personalize o seu logo abaixo.</p>
 
-            <!-- 1. COMBOS PRONTOS (CORRIGIDO: ELITE CARD COM MD: PREFIX) -->
+            <!-- 1. COMBOS PRONTOS -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end mb-20">
                 <!-- Visual -->
                 <div class="glass-panel p-6 flex flex-col h-full hover:border-pink-500/50 transition duration-300 mb-8 md:mb-0">
@@ -606,7 +605,7 @@
                         <a href="https://wa.me/62982237075" class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
                     </div>
                 </div>
-                <!-- Elite (CORRIGIDO: MD:SCALE-105) -->
+                <!-- Elite -->
                 <div class="card-elite p-6 flex flex-col h-full md:transform md:scale-105 md:-translate-y-4 z-10 rounded-xl">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-vizzu-dark font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
                         👑 O MAIS VENDIDO
@@ -654,7 +653,7 @@
                     <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(198,255,0,0.1)]">
                         <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
                         
-                        <!-- NOVA BARRA DE GAMIFICAÇÃO -->
+                        <!-- BARRA DE GAMIFICAÇÃO (DESKTOP) -->
                         <div class="mb-6 bg-black/30 p-3 rounded-lg border border-gray-700" id="gamification-box">
                             <div class="flex justify-between items-center mb-1">
                                 <span class="text-[10px] font-bold text-gray-300 uppercase" id="progress-text">Inicie sua seleção</span>
@@ -689,16 +688,30 @@
         </div>
     </section>
 
-    <!-- FLOATING CART -->
+    <!-- FLOATING CART COM PROGRESS BAR INTEGRADA -->
     <div id="floating-cart" class="fixed bottom-4 left-4 right-4 z-50 transform translate-y-[150%] transition-transform duration-300 md:hidden">
-        <div class="glass-panel p-4 border border-vizzu-green flex justify-between items-center bg-vizzu-dark/95 backdrop-blur-xl shadow-2xl">
-            <div class="flex flex-col">
-                <span class="text-xs text-gray-400"><span id="float-count">0</span> itens selecionados</span>
-                <span class="text-xl font-black text-vizzu-green" id="float-total">R$ 0,00</span>
+        <div class="glass-panel border border-vizzu-green bg-vizzu-dark/95 backdrop-blur-xl shadow-2xl overflow-hidden rounded-xl">
+            <!-- BARRA DE PROGRESSO MOBILE INTEGRADA -->
+            <div class="bg-black/40 px-4 py-2 border-b border-white/10">
+                 <div class="flex justify-between items-center mb-1">
+                    <span class="text-[10px] font-bold text-gray-300 uppercase" id="float-progress-text">Inicie sua seleção</span>
+                    <span class="text-[10px] font-black text-[#c6ff00]" id="float-progress-percent">0%</span>
+                </div>
+                <div class="progress-bar-container h-1.5"> <!-- Barra mais fina para mobile -->
+                    <div class="progress-fill" style="width: 0%" id="float-progress-fill"></div>
+                </div>
             </div>
-            <a href="#planos" class="bg-vizzu-green text-vizzu-dark font-bold py-2 px-6 rounded-full shadow-lg text-sm">
-                CONCLUIR
-            </a>
+
+            <!-- CONTEÚDO DO CARRINHO -->
+            <div class="p-4 flex justify-between items-center">
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-400"><span id="float-count">0</span> itens selecionados</span>
+                    <span class="text-xl font-black text-vizzu-green" id="float-total">R$ 0,00</span>
+                </div>
+                <a href="#planos" class="bg-vizzu-green text-vizzu-dark font-bold py-2 px-6 rounded-full shadow-lg text-sm">
+                    CONCLUIR
+                </a>
+            </div>
         </div>
     </div>
 
@@ -878,10 +891,20 @@
                 submessage = "Você garantiu o melhor preço possível!";
             }
 
+            // ATUALIZA DESKTOP
             progressFill.style.width = `${percent}%`;
             progressText.innerText = message;
             progressSubtext.innerText = submessage;
-            progressPercent.innerText = `${Math.round(percent)}%`; // Valor simbólico de progresso
+            progressPercent.innerText = `${Math.round(percent)}%`;
+
+            // ATUALIZA MOBILE (FLOATING CART)
+            const floatFill = document.getElementById('float-progress-fill');
+            const floatText = document.getElementById('float-progress-text');
+            const floatPercent = document.getElementById('float-progress-percent');
+
+            if(floatFill) floatFill.style.width = `${percent}%`;
+            if(floatText) floatText.innerText = message;
+            if(floatPercent) floatPercent.innerText = `${Math.round(percent)}%`;
             
             
             const floatingCart = document.getElementById('floating-cart');
