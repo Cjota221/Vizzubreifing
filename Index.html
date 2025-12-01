@@ -78,44 +78,19 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Utilitários de Vídeo Otimizados */
+        /* Utilitários de Vídeo SIMPLES (Sem loaders) */
         .video-wrapper {
             position: relative;
             background-color: #000;
             overflow: hidden;
         }
         
-        /* Loader sutil enquanto o vídeo baixa */
-        .video-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top-color: #c6ff00;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-        }
-
-        .video-wrapper.loaded::before {
-            display: none;
-        }
-
+        /* Vídeo sempre visível, sem transição de opacidade */
         video {
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-
-        video.is-playing {
-            opacity: 1;
-        }
-
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Checkbox Customizado */
@@ -227,7 +202,8 @@
                      
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
                         <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl video-wrapper">
-                            <video class="lazy-video w-full h-full object-cover object-top" muted loop playsinline preload="none" data-src="https://files.catbox.moe/yav5jo.mp4"></video>
+                            <!-- Preload Auto + Src Direto -->
+                            <video class="w-full h-full object-cover object-top" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/yav5jo.mp4"></video>
                             <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow z-10">💎 MODO APP</div>
                         </div>
                     </div>
@@ -300,15 +276,15 @@
                 <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
                      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md video-wrapper">
-                            <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/0rz45y.mp4"></video>
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/0rz45y.mp4"></video>
                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 49</div>
                         </div>
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
-                            <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/ldvflh.mp4"></video>
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/ldvflh.mp4"></video>
                              <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 89</div>
                         </div>
                          <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
-                            <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/61okrt.mp4"></video>
+                            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/61okrt.mp4"></video>
                              <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 59</div>
                         </div>
                      </div>
@@ -326,11 +302,11 @@
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x justify-center">
                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
-                           <video class="lazy-video w-full h-full object-cover opacity-90" muted loop playsinline preload="none" data-src="https://files.catbox.moe/f64qpi.mp4"></video>
+                           <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/f64qpi.mp4"></video>
                        </div>
                         <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
                             <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
-                            <video class="lazy-video w-full h-full object-cover opacity-90" muted loop playsinline preload="none" data-src="https://files.catbox.moe/qdnl00.mp4"></video>
+                            <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/qdnl00.mp4"></video>
                         </div>
                     </div>
                </div>
@@ -505,10 +481,10 @@
                 </div>
                 <div class="md:w-1/2 grid grid-cols-2 gap-4">
                     <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group video-wrapper">
-                        <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/f64qpi.mp4"></video>
+                        <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/f64qpi.mp4"></video>
                     </div>
                     <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group video-wrapper">
-                        <video class="lazy-video w-full h-full object-cover" muted loop playsinline preload="none" data-src="https://files.catbox.moe/qdnl00.mp4"></video>
+                        <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/qdnl00.mp4"></video>
                     </div>
                 </div>
             </div>
@@ -729,55 +705,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-
-        // --- SISTEMA AVANÇADO DE LAZY LOAD DE VÍDEOS ---
-        function initLazyVideos() {
-            var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy-video"));
-
-            if ("IntersectionObserver" in window) {
-                var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(function(video) {
-                        if (video.isIntersecting) {
-                            for (var source in video.target.children) {
-                                var videoSource = video.target.children[source];
-                                if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
-                                    videoSource.src = videoSource.dataset.src;
-                                }
-                            }
-                            
-                            // Carrega o vídeo principal
-                            if(video.target.dataset.src) {
-                                video.target.src = video.target.dataset.src;
-                            }
-
-                            video.target.load();
-                            video.target.classList.remove("lazy-video");
-                            
-                            // Promise para evitar erros de play()
-                            var playPromise = video.target.play();
-                            if (playPromise !== undefined) {
-                                playPromise.then(_ => {
-                                    video.target.classList.add('is-playing');
-                                    video.target.parentElement.classList.add('loaded'); // Remove loader
-                                }).catch(error => {
-                                    console.log('Autoplay impedido pelo browser');
-                                    video.target.classList.add('is-playing'); 
-                                    video.target.parentElement.classList.add('loaded');
-                                });
-                            }
-
-                            lazyVideoObserver.unobserve(video.target);
-                        }
-                    });
-                }, {
-                    rootMargin: "200px 0px"
-                });
-
-                lazyVideos.forEach(function(lazyVideo) {
-                    lazyVideoObserver.observe(lazyVideo);
-                });
-            }
-        }
         
         // --- LÓGICA DO MONTE SEU COMBO ---
         const widgets = [
@@ -938,7 +865,7 @@
         // Inicializa
         window.onload = function() {
             renderWidgets(); 
-            initLazyVideos(); 
+            // REMOVIDO initLazyVideos()
         };
     </script>
 </body>
