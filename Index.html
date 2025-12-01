@@ -1,868 +1,1082 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VIZZU | Transforme seu FácilZap em um APP de Atacado</title>
-    <meta name="description" content="Customizações oficiais para FácilZap. Tenha uma loja estilo Shein e aumente suas vendas em 300%.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO -->
+  <title>VIZZU Digital | Transforme sua Loja FácilZap em Máquina de Vendas</title>
+  <meta name="description" content="Especialistas em otimização FácilZap. Aumente sua conversão em +200% com 10 widgets profissionais. Instalação completa em 7 dias (Vagas Semanais).">
+  <meta property="og:title" content="VIZZU Digital - Especialistas FácilZap">
+  <meta property="og:image" content="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
 
-    <!-- CDNs OBRIGATÓRIOS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CONFIGURAÇÃO DE CORES E ESTILOS TAILWIND -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        vizzu: {
-                            purple: '#4a148c',
-                            dark: '#3A015E',
-                            pink: '#d500f9',
-                            green: '#FFC300',
-                            surface: '#4a1f65'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Poppins', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 3s ease-in-out infinite',
-                        'scroll-left': 'scrollLeft 10s linear infinite',
-                        'scroll-left-fast': 'scrollLeft 5s linear infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        scrollLeft: {
-                            '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-100%)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+  <style>
+    /* --- VARIÁVEIS CSS --- */
+    :root {
+      --roxo-dark: #4a148c;
+      --bg-deep: #0f0518;
+      --bg-panel: #1a0b2e;
+      --pink-neon: #d500f9;
+      --green-electric: #ccff00; /* Tom limão dos prints */
+      --roxo-vizzu: #9d00e0;
+      --text-white: #ffffff;
+      --text-gray: #b0b0b0;
 
-    <style>
-        /* ESTILOS GERAIS */
-        body {
-            background-color: #3A015E;
-            color: #ffffff;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+      /* Glassmorphism */
+      --glass-subtle: rgba(255, 255, 255, 0.03);
+      --glass-medium: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --backdrop: blur(12px);
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
+      /* Sombras Neon */
+      --shadow-pink: 0 0 25px rgba(213, 0, 249, 0.4);
+      --shadow-green: 0 0 25px rgba(198, 255, 0, 0.4);
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
 
-        .neon-text { text-shadow: 0 0 10px rgba(213, 0, 249, 0.7); }
-        .card-elite { border: 2px solid #FFC300; box-shadow: 0 0 30px rgba(255, 195, 0, 0.2); position: relative; background: rgba(74, 20, 140, 0.4); }
-        
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      /* Gradientes */
+      --gradient-hero: linear-gradient(135deg, #4a148c 0%, #d500f9 100%);
+      --gradient-purple-card: linear-gradient(135deg, #b600ee, #5e007e);
+      --gradient-text: linear-gradient(to right, #ccff00, #a0ff00);
+    }
 
-        .video-wrapper {
-            position: relative;
-            background-color: #000;
-            overflow: hidden;
-        }
-        
-        video {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    /* --- RESET & BASE --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-white);
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+    h1, h2, h3, h4, .btn-text { font-family: 'Poppins', sans-serif; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
 
-        /* Checkbox Customizado */
-        .peer:checked ~ .checkbox-box {
-            background-color: #FFC300;
-            border-color: #FFC300;
-        }
-        .peer:checked ~ .checkbox-box i {
-            opacity: 1;
-            color: #3A015E;
-        }
-        
-        input[type="checkbox"], label { -webkit-tap-highlight-color: transparent; }
-        input[type="checkbox"]:focus { outline: none; box-shadow: none; }
-        
-        /* Slider Calculadora */
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #FFC300; cursor: pointer; margin-top: -8px; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px; }
+    /* --- UTILITIES --- */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .text-center { text-align: center; }
+    .text-gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .neon-pink { color: var(--pink-neon); text-shadow: 0 0 10px rgba(213,0,249,0.3); }
+    .neon-green { color: var(--green-electric); text-shadow: 0 0 10px rgba(198,255,0,0.3); }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+    .grid { display: grid; gap: 20px; }
+    
+    /* --- COMPONENTS --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .btn-primary {
+      background: var(--green-electric);
+      color: #000;
+      box-shadow: var(--shadow-green);
+    }
+    .btn-primary:hover {
+      background: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(198,255,0,0.6);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--pink-neon);
+      color: #fff;
+    }
+    .btn-secondary:hover {
+      background: var(--pink-neon);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-pulse { animation: pulse 2s infinite; }
 
-        /* Barra de Progresso Animada */
-        .progress-bar-container {
-            width: 100%;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 999px;
-            height: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #d500f9, #FFC300);
-            border-radius: 999px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-    </style>
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(198, 255, 0, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(198, 255, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(198, 255, 0, 0); }
+    }
+
+    /* --- HEADER --- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(15, 5, 24, 0.8);
+      backdrop-filter: var(--backdrop);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 15px 0;
+    }
+    .header-content { display: flex; justify-content: space-between; align-items: center; }
+    .logo img { height: 40px; }
+    .header-cta { display: flex; align-items: center; gap: 15px; }
+    .badge-top {
+      background: rgba(213,0,249,0.2);
+      color: var(--pink-neon);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--pink-neon);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      z-index: -1;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, var(--bg-deep), transparent, var(--bg-deep));
+      z-index: -1;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-text h1 {
+      font-size: 3.5rem;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .hero-text h2 {
+      font-size: 2rem;
+      color: var(--pink-neon);
+      margin-bottom: 20px;
+    }
+    .hero-text h3 {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+    .hero-buttons { 
+      display: flex; 
+      gap: 15px; 
+      margin-bottom: 30px; 
+      align-items: center; /* Alinha botões verticalmente */
+    }
+    .hero-buttons .btn {
+      height: 54px; /* Garante altura igual */
+    }
+    .trust-badges { font-size: 0.9rem; color: #ccc; }
+    
+    /* Comparison Slider (Hero & Widget) */
+    .comparison-container {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 9/16;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 4px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      margin: 0 auto;
+      background: #000;
+    }
+    
+    .comp-img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .comp-img-before {
+      z-index: 1;
+      width: 50%;
+      border-right: 3px solid var(--green-electric);
+    }
+    .comp-slider {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 40px;
+      background: var(--green-electric);
+      border-radius: 50%;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    .comp-label {
+      position: absolute;
+      top: 20px;
+      padding: 5px 10px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: bold;
+      z-index: 2;
+    }
+    .label-before { left: 20px; }
+    .label-after { right: 20px; }
+
+    /* --- COMO FUNCIONA (CORRIGIDO) --- */
+    .process-section { padding: 80px 0; position: relative; }
+    .process-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .process-card {
+      background: var(--glass-subtle);
+      border: 1px solid var(--glass-border);
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
+      transition: 0.3s;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .process-card:hover { background: var(--glass-medium); transform: translateY(-5px); border-color: var(--pink-neon); }
+    .process-icon {
+      font-size: 2.5rem;
+      color: var(--pink-neon);
+      margin-bottom: 20px;
+    }
+    .arrow-next {
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--green-electric);
+      font-size: 1.5rem;
+      z-index: 2;
+    }
+
+    /* --- GALERIA DE WIDGETS --- */
+    .widgets-section { padding: 80px 0; background: #120620; }
+    .section-title { font-size: 2.5rem; margin-bottom: 10px; text-align: center; }
+    .section-subtitle { text-align: center; color: var(--text-gray); margin-bottom: 50px; }
+    
+    .widgets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      align-items: start;
+    }
+    
+    .widget-card {
+      background: var(--glass-subtle);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .widget-card:hover {
+      border-color: var(--pink-neon);
+      box-shadow: var(--shadow-pink);
+    }
+    .widget-header {
+      padding: 15px;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .widget-badge { font-size: 0.8rem; color: var(--green-electric); font-weight: 700; }
+    
+    .widget-demo {
+      min-height: 380px;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .widget-demo-purple { background: var(--gradient-purple-card); color: #fff; }
+    .widget-demo-tall { height: auto; padding: 20px; background: #000; }
+
+    .widget-footer { padding: 15px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; background: var(--glass-subtle); color: #fff;}
+    .price-tag { color: #fff; font-weight: 600; }
+    .price-check { color: var(--green-electric); margin-left: 5px; }
+
+    /* --- MARQUEE STYLES (Usado para Vantagens e Info) --- */
+    .marquee-purple { background: #aa00ff; padding: 15px 0; border-top: 1px solid #d500f9; border-bottom: 1px solid #d500f9; overflow: hidden; white-space: nowrap; width: 100%; }
+    .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    
+    .marquee-item { display: inline-flex; align-items: center; gap: 10px; margin: 0 40px; color: #fff; }
+    .marquee-icon { font-size: 1.8rem; color: #ccff00; }
+    .marquee-text h4 { color: #ccff00; font-weight: 900; font-size: 0.9rem; margin: 0; text-transform: uppercase; }
+    .marquee-text p { font-size: 0.75rem; font-style: italic; opacity: 0.9; margin: 0; }
+
+    /* --- OUTROS WIDGETS --- */
+    .calc-box-white { width: 100%; height: 100%; padding: 20px; background: #fff; color: #333; display: flex; flex-direction: column; justify-content: space-between; }
+    .calc-title { font-family: 'Poppins'; font-weight: 800; color: #4a0072; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .calc-subtitle { font-size: 0.8rem; color: #666; margin-bottom: 15px; line-height: 1.3; }
+    .calc-subtitle strong { color: #d500f9; }
+    .calc-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; display: block; }
+    .calc-input-field { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; color: #d500f9; font-weight: 700; margin-bottom: 15px; outline: none; }
+    .margin-buttons { display: flex; justify-content: space-between; gap: 5px; margin-bottom: 20px; }
+    .margin-btn { flex: 1; padding: 8px 0; font-size: 0.8rem; border: 1px solid #d500f9; background: transparent; color: #333; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .margin-btn.active { background: #d500f9; color: #fff; }
+    .calc-result-box { background: linear-gradient(135deg, #a000e0, #6a00a0); border: 2px dashed #ccff00; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 10px; color: #fff; }
+    .calc-res-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+    .calc-res-value { font-size: 2rem; font-weight: 900; color: #ccff00; margin: 5px 0; font-family: 'Poppins'; }
+    .calc-footer-text { text-align: center; font-size: 0.85rem; color: #fff; margin-bottom: 15px; }
+    .btn-calc-action { background: #ccff00; color: #000; width: 100%; padding: 12px; border: none; border-radius: 50px; font-weight: 800; text-transform: uppercase; cursor: pointer; font-size: 0.9rem; }
+
+    .offer-box { padding: 25px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .offer-header { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+    .offer-title { font-family: 'Poppins'; font-weight: 900; font-size: 1.3rem; margin: 0; }
+    .offer-sub { font-size: 0.85rem; opacity: 0.9; margin-bottom: 20px; }
+    .progress-labels { width: 100%; display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; }
+    .progress-bar-track { width: 100%; height: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: repeating-linear-gradient(45deg, #ccff00, #ccff00 10px, #b2df00 10px, #b2df00 20px); width: 85%; }
+    .timer-container { display: flex; gap: 10px; margin-bottom: 25px; }
+    .timer-box { background: rgba(255,255,255,0.15); border-radius: 10px; padding: 10px; min-width: 60px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .timer-val { font-family: 'Poppins'; font-weight: 700; font-size: 1.5rem; line-height: 1; }
+
+    .coupon-box { padding: 20px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+    .gift-circle { width: 60px; height: 60px; border: 2px solid #ccff00; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; background: rgba(204, 255, 0, 0.1); box-shadow: 0 0 15px rgba(204,255,0,0.3); }
+    .gift-circle i { font-size: 1.8rem; color: #ccff00; }
+    .coupon-input-group { background: #3e0061; border: 1px solid #ccff00; border-radius: 8px; padding: 5px; display: flex; justify-content: space-between; width: 100%; max-width: 300px; align-items: center; }
+    .btn-copy-small { background: #ccff00; color: #000; border: none; padding: 8px 15px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+
+    /* --- CASE STUDY (CORRIGIDO - LAYOUT LADO A LADO) --- */
+    .case-section { padding: 80px 0; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Volta para o layout lado a lado */
+      gap: 40px;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Mantém os stats em grade */
+      gap: 20px;
+    }
+    .stat-card {
+      background: var(--glass-medium);
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+    }
+    .stat-num { font-size: 2rem; color: var(--green-electric); font-weight: 900; }
+    
+    .btn-live-store {
+      display: inline-block;
+      margin-top: 20px;
+      background: transparent;
+      border: 2px solid var(--green-electric);
+      color: var(--green-electric);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.3s;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-live-store:hover {
+      background: var(--green-electric);
+      color: #000;
+      box-shadow: 0 0 20px rgba(198,255,0,0.4);
+    }
+
+    /* --- PRICING & FOOTER --- */
+    .pricing-section { padding: 80px 0; background: #0f0518; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; align-items: center; }
+    .price-card { background: var(--glass-subtle); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; text-align: center; position: relative; }
+    .card-elite { background: rgba(74, 20, 140, 0.3); border: 2px solid var(--green-electric); transform: scale(1.1); z-index: 10; box-shadow: var(--shadow-green); }
+    .price-amount { font-size: 2.5rem; font-weight: 800; margin: 20px 0; font-family: 'Poppins'; }
+    .price-features li { margin: 15px 0; color: #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .price-features i { color: var(--green-electric); }
+    
+    .calc-wrapper { margin-top: 40px; padding: 20px; background: var(--glass-subtle); border-radius: 10px; border: 1px dashed #555; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: left; }
+
+    .urgency-section { background: linear-gradient(135deg, #b71c1c, #880e4f); padding: 60px 0; text-align: center; }
+    .lead-form { max-width: 600px; margin: 0 auto; display: grid; gap: 15px; }
+    .lead-form input { padding: 15px; border-radius: 8px; border: none; font-size: 1rem; }
+    .lead-form button { width: 100%; border-radius: 8px; font-size: 1.2rem; }
+    
+    footer { background: #05020a; padding: 60px 0 20px; font-size: 0.9rem; color: #888; border-top: 1px solid #222; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 40px; }
+    
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green-electric); color: #000; padding: 10px 20px; border-radius: 30px; font-weight: 700; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 2000; }
+    .toast.show { opacity: 1; bottom: 40px; }
+    
+    .exit-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+    .popup-content { background: var(--bg-panel); border: 2px solid var(--pink-neon); padding: 40px; border-radius: 20px; max-width: 400px; text-align: center; position: relative; box-shadow: var(--shadow-pink); }
+    .close-popup { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
+
+    .mobile-only { display: none; }
+    
+    /* --- RESPONSIVIDADE --- */
+    @media (max-width: 1024px) {
+      .card-elite { transform: scale(1); border-width: 4px; }
+      .process-grid { flex-direction: column; } /* Empilha no tablet/mobile */
+      .arrow-next { display: none; } /* Esconde setas no mobile */
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-grid .comparison-container { margin-top: 30px; }
+      .hero-buttons { justify-content: center; }
+      
+      .case-grid { grid-template-columns: 1fr; } /* Empilha Case no Mobile */
+    }
+
+    @media (max-width: 768px) {
+      .header-cta .badge-top { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .mobile-only { display: block; }
+      .sticky-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.9); padding: 12px; z-index: 999; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--green-electric); }
+    }
+  </style>
 </head>
-<body class="antialiased pb-20 md:pb-0">
+<body>
 
-    <!-- BARRA DE VAGAS -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-[#C0392B] text-white py-1.5 px-2 text-center border-b border-white/10 shadow-xl flex justify-center items-center">
-        <p class="text-xs md:text-sm font-bold flex justify-center items-center gap-2 uppercase tracking-wide">
-            <i class="fas fa-fire text-[#FFC300] animate-pulse"></i>
-            <span>Apenas <span class="text-[#FFC300] font-black">3 VAGAS</span> este mês!</span>
-            <span class="bg-white text-[#C0392B] px-1.5 py-0.5 rounded-[2px] text-[10px] font-black shadow-sm ml-1">CORRA</span>
-        </p>
+  <div id="toast" class="toast">Cupom VIZZU5 copiado! ✅</div>
+
+  <div id="exitPopup" class="exit-popup">
+    <div class="popup-content">
+      <div class="close-popup" onclick="closePopup()">&times;</div>
+      <h3 class="neon-pink">ESPERE! ✋</h3>
+      <p style="margin: 15px 0;">Não vá embora sem saber como dobrar suas vendas.</p>
+      <h2 style="color: var(--green-electric);">GANHE UMA ANÁLISE GRÁTIS</h2>
+      <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 20px;">Deixe seu WhatsApp e analisaremos sua loja em 24h.</p>
+      <form class="lead-form" onsubmit="handleFormSubmit(event)">
+        <input type="tel" placeholder="Seu WhatsApp" required>
+        <button type="submit" class="btn btn-primary">QUERO ANÁLISE GRÁTIS</button>
+      </form>
     </div>
+  </div>
 
-    <!-- HERO SECTION (Espaçamento Aumentado) -->
-    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-[#4a1f65] to-vizzu-dark"></div>
-            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#6a1b9a 1px, transparent 1px); background-size: 30px 30px;"></div>
-        </div>
-
-        <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-            <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Vizzu Logo" class="h-16 mx-auto mb-6 animate-float">
-            
-            <div class="inline-block bg-vizzu-purple/50 px-4 py-1 rounded-full border border-vizzu-pink/30 mb-4 backdrop-blur-sm">
-                <span class="text-vizzu-pink text-xs font-bold tracking-wider uppercase">⚠ Exclusivo para Lojistas B2B</span>
-            </div>
-
-            <h1 class="font-display text-4xl md:text-6xl font-black leading-tight mb-4 text-white">
-                Lojista, cansada de perder vendas por ter uma loja com <span class="text-transparent bg-clip-text bg-gradient-to-r from-vizzu-pink to-purple-400">"cara de amadora"?</span>
-            </h1>
-
-            <p class="font-sans text-gray-300 text-lg md:text-xl mb-8 leading-relaxed">
-                Transforme sua loja FácilZap genérica em um <strong>APP Nível Shein</strong>. Sem agência, sem mensalidade, sem precisar programar.
-            </p>
-
-            <a href="#planos" class="inline-flex items-center justify-center gap-3 bg-[#FFC300] text-[#3A015E] px-8 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(255,195,0,0.6)] animate-pulse-fast w-full md:w-auto">
-                QUERO O COMBO ELITE
-                <i class="fas fa-arrow-right"></i>
-            </a>
-
-            <div class="mt-4 text-sm text-gray-400 flex justify-center items-center gap-4">
-                <span><i class="fas fa-check text-vizzu-green"></i> Garantia de Aprovação</span>
-                <span><i class="fas fa-check text-vizzu-green"></i> Instalação VIP</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- AGITAÇÃO (Espaçamento Aumentado) -->
-    <section class="py-16 md:py-28 bg-vizzu-surface relative">
-        <div class="container mx-auto px-4">
-            <h2 class="font-display text-2xl md:text-4xl font-bold text-center mb-10">
-                A Diferença entre <span class="text-red-500">Amadorismo</span> e <span class="text-vizzu-green">Profissionalismo</span>
-            </h2>
-
-            <div class="grid md:grid-cols-2 gap-8 items-stretch">
-                <!-- O Lado Feio -->
-                <div class="glass-panel p-6 border-red-500/30 border opacity-90 relative flex flex-col" data-aos="fade-right">
-                     <div class="absolute -top-4 left-4 bg-red-600 text-white font-bold px-3 py-1 rounded shadow-lg text-sm z-10">SUA LOJA HOJE</div>
-                    <h3 class="text-red-400 font-bold mb-4 text-xl mt-2"><i class="fas fa-times-circle"></i> FácilZap Padrão</h3>
-                    
-                    <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-gray-700">
-                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
-                            <img src="https://i.ibb.co/VYfVBQ2Y/PAGINA-INICIAL-ANTES-1.png" alt="Antes" class="w-full h-full object-cover object-top">
-                        </div>
-                    </div>
-                    
-                    <p class="text-gray-400 text-sm mt-4 text-center">Visual poluído, botões pequenos, sem identidade.</p>
-                </div>
-
-                <!-- A Promessa -->
-                <div class="glass-panel p-6 border-vizzu-green border relative flex flex-col shadow-[0_0_20px_rgba(255,195,0,0.1)]" data-aos="fade-left">
-                    <div class="absolute -top-4 right-4 bg-vizzu-green text-[#3A015E] font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
-                    <h3 class="text-vizzu-green font-bold mb-4 text-xl mt-2"><i class="fas fa-check-circle"></i> APP Vendas B2B</h3>
-                     
-                    <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
-                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl video-wrapper">
-                            <video class="w-full h-full object-cover object-top" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/yav5jo.mp4"></video>
-                            <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow z-10">💎 MODO APP</div>
-                        </div>
-                    </div>
-
-                    <p class="text-white text-sm mt-4 text-center">Design nível Shein, vídeos e gatilhos de compra.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ESTATÍSTICAS (Espaçamento Aumentado) -->
-    <section class="py-16 md:py-28 bg-gradient-to-b from-vizzu-surface to-vizzu-dark">
-        <div class="container mx-auto px-4 text-center max-w-4xl">
-            <h2 class="font-display text-3xl md:text-4xl font-bold mb-12">
-                Por que você <span class="text-red-500 underline decoration-wavy">perde clientes</span> todos os dias?
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="glass-panel p-6 border-t-4 border-red-500 hover:transform hover:-translate-y-2 transition duration-300">
-                    <div class="text-5xl font-black text-white mb-2">52%</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">dos consumidores <strong class="text-red-400">não voltam</strong> se não gostarem da estética visual.</p>
-                </div>
-                <div class="glass-panel p-6 border-t-4 border-red-500 hover:transform hover:-translate-y-2 transition duration-300">
-                    <div class="text-5xl font-black text-white mb-2">3s</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">é o tempo que você tem para passar <strong class="text-red-400">credibilidade</strong>.</p>
-                </div>
-                <div class="glass-panel p-6 border-t-4 border-vizzu-green hover:transform hover:-translate-y-2 transition duration-300">
-                    <div class="text-5xl font-black text-vizzu-green mb-2">+200%</div>
-                    <p class="text-gray-400 text-sm leading-relaxed">aumento na percepção de valor com aparência de <strong class="text-vizzu-green">APP Oficial</strong>.</p>
-                </div>
-            </div>
-            
-            <p class="mt-12 text-lg text-gray-300">Não deixe sua loja parecer amadora. Veja o que preparamos:</p>
-            <div class="mt-6 animate-bounce text-vizzu-green text-2xl"><i class="fas fa-chevron-down"></i></div>
-        </div>
-    </section>
-
-    <!-- SOLUÇÃO (WIDGETS DEMO) (Espaçamento e Gap Aumentados) -->
-    <section class="py-16 md:py-28 container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="font-display text-3xl md:text-5xl font-black mb-4 neon-text">
-                Veja como fica <span class="text-vizzu-pink">na Prática</span>
-            </h2>
-            <p class="text-gray-400">Soluções reais para transformar visitantes em compradores.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            <!-- 1. Redesign -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-vizzu-green">1. Redesign Visual App</h3>
-                    <i class="fas fa-mobile-alt text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-gray-100 p-4 rounded-xl flex justify-center items-center h-52">
-                    <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
-                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden"><img src="https://i.ibb.co/35ntjbps/Captura-de-tela-2025-11-30-224053.png" class="w-full h-full object-cover"></div>
-                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden"><img src="https://i.ibb.co/rfpz65dq/Captura-de-tela-2025-11-30-224105.png" class="w-full h-full object-cover"></div>
-                        <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden"><img src="https://i.ibb.co/Z60kSYg5/Captura-de-tela-2025-11-30-224150.png" class="w-full h-full object-cover"></div>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Visual limpo, cartões flutuantes e layout nativo de app.</p>
-            </div>
-
-            <!-- 2. Stories -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-pink-400">2. Stories Shop-the-Look</h3>
-                    <i class="fas fa-camera text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
-                     <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
-                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md video-wrapper">
-                            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/0rz45y.mp4"></video>
-                            <div class="absolute bottom-1 left-1 bg-[#FFC300] text-black text-[8px] font-bold px-1 rounded z-10">R$ 49</div>
-                        </div>
-                        <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
-                            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/ldvflh.mp4"></video>
-                             <div class="absolute bottom-1 left-1 bg-[#FFC300] text-black text-[8px] font-bold px-1 rounded z-10">R$ 89</div>
-                        </div>
-                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
-                            <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/61okrt.mp4"></video>
-                             <div class="absolute bottom-1 left-1 bg-[#FFC300] text-black text-[8px] font-bold px-1 rounded z-10">R$ 59</div>
-                        </div>
-                     </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Carrossel de vídeos no topo. O cliente clica no story e compra.</p>
-            </div>
-
-             <!-- 3. Institucional -->
-             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
-                    <i class="fas fa-building text-2xl text-gray-500"></i>
-                </div>
-                 <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
-                    <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x justify-center">
-                       <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
-                           <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#FFC300] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
-                           <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/f64qpi.mp4"></video>
-                       </div>
-                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
-                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#FFC300] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
-                            <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/qdnl00.mp4"></video>
-                        </div>
-                    </div>
-               </div>
-                <p class="text-sm text-gray-400 mt-3">Gere confiança mostrando sua fábrica e estoque em vídeo.</p>
-            </div>
-
-            <!-- 4. Calculadora -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-vizzu-green">4. Calculadora B2B</h3>
-                    <i class="fas fa-calculator text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col shadow-inner relative">
-                    <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                        <div class="flex flex-col">
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Preço Atacado</span>
-                            <span class="text-sm font-black text-gray-800">R$ 35,00</span>
-                        </div>
-                        <div class="flex flex-col text-right">
-                             <span class="text-[9px] font-bold text-gray-400 uppercase">Margem: <span id="margem-display" class="text-purple-600">100%</span></span>
-                        </div>
-                    </div>
-                    <div class="px-4 py-2 bg-gray-50">
-                        <input type="range" min="0" max="200" value="100" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="lucro-slider" oninput="updateCalculadora(this.value)">
-                    </div>
-                    <div class="flex-1 bg-gradient-to-br from-[#d500f9] to-[#4a148c] p-2 flex flex-col items-center justify-center text-center">
-                        <div class="grid grid-cols-2 gap-4 w-full px-2">
-                             <div class="flex flex-col">
-                                <span class="text-[9px] text-white/70 uppercase">Venda Sugerida</span>
-                                <span class="text-lg font-bold text-white" id="venda-display">R$ 70,00</span>
-                             </div>
-                             <div class="flex flex-col">
-                                <span class="text-[9px] text-white/70 uppercase">Seu Lucro</span>
-                                <span class="text-lg font-black text-[#FFC300]" id="lucro-display">R$ 35,00</span>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Arraste a régua. Mostre ao revendedor o lucro real na hora.</p>
-            </div>
-
-            <!-- 5. Oferta Relâmpago -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-red-400">5. Oferta Relâmpago</h3>
-                    <i class="fas fa-bolt text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-gradient-to-r from-purple-900 to-pink-900 rounded-xl p-4 h-52 flex flex-col justify-center relative overflow-hidden shadow-inner border border-white/10">
-                    <div class="flex justify-between items-center mb-2 z-10">
-                        <span class="font-black text-white italic text-lg tracking-tighter">OFERTA<br><span class="text-[#FFC300]">RELÂMPAGO</span></span>
-                        <i class="fas fa-bolt text-2xl text-[#FFC300] animate-pulse"></i>
-                    </div>
-                    <div class="flex gap-1 justify-center my-2 z-10">
-                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">04</span></div>
-                        <div class="text-white font-bold">:</div>
-                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">35</span></div>
-                        <div class="text-white font-bold">:</div>
-                        <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">12</span></div>
-                    </div>
-                    <div class="w-full bg-black/40 h-3 rounded-full mt-2 overflow-hidden border border-white/10 z-10">
-                        <div class="bg-[#FFC300] h-full w-[85%] rounded-full"></div>
-                    </div>
-                    <p class="text-[10px] text-right text-gray-300 mt-1 z-10">85% Vendido</p>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Barra de escassez com timer. Acelera o fechamento.</p>
-            </div>
-
-            <!-- 6. Barra + Menu -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-indigo-400">6. Barra 3D Infinita</h3>
-                    <i class="fas fa-bars text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col relative shadow-inner">
-                    <div class="bg-gradient-to-r from-purple-600 to-pink-600 py-2 overflow-hidden whitespace-nowrap relative z-10 shadow-md">
-                        <div class="inline-block animate-scroll-left-fast">
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#FFC300] mr-1"></i> FRETE GRÁTIS</span>
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-credit-card text-[#FFC300] mr-1"></i> 12X SEM JUROS</span>
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-star text-[#FFC300] mr-1"></i> 5% NO PIX</span>
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#FFC300] mr-1"></i> FRETE GRÁTIS</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-around items-center h-full bg-gray-50">
-                        <div class="flex flex-col items-center gap-1">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fab fa-whatsapp"></i></div>
-                            <span class="text-[9px] font-bold text-purple-900">Contato</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fas fa-crown"></i></div>
-                            <span class="text-[9px] font-bold text-purple-900">Grupo VIP</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"><i class="fas fa-image"></i></div>
-                            <span class="text-[9px] font-bold text-purple-900">Mídia</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Animação infinita no topo destacando benefícios e menu rápido.</p>
-            </div>
-
-            <!-- 7. Filtro Tamanhos -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-yellow-400">7. Filtro de Tamanhos</h3>
-                    <i class="fas fa-filter text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-white rounded-xl h-52 flex flex-col justify-center items-center shadow-inner gap-3">
-                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Selecione o Tamanho</span>
-                    <div class="flex gap-2">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">P</div>
-                        <div class="w-8 h-8 rounded-full border-2 border-[#FFC300] text-purple-900 flex items-center justify-center text-xs font-bold cursor-pointer bg-[#FFC300]/10">M</div>
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">G</div>
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">GG</div>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Facilita a busca por grade. Essencial para atacado.</p>
-            </div>
-
-            <!-- 8. Cupom -->
-            <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-teal-400">8. Cupom One-Click</h3>
-                    <i class="fas fa-ticket-alt text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-xl h-52 flex flex-col items-center justify-center p-4 relative overflow-hidden shadow-inner border border-white/10 group">
-                    <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#FFC300] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(255,195,0,0.3)] animate-float">🎁</div>
-                    <h4 class="text-white font-black text-xl uppercase italic tracking-tighter mb-1">PRIMEIRA COMPRA</h4>
-                    <span class="text-[#FFC300] font-bold text-2xl mb-3 drop-shadow-sm">5% OFF</span>
-                    <div class="w-full bg-black/40 border border-white/20 rounded-full px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-black/60 transition">
-                        <span class="font-mono text-white font-bold tracking-widest text-sm">VIZZU5</span>
-                        <i class="far fa-copy text-[#FFC300]"></i>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Botão flutuante robusto. O cliente clica, copia e ganha.</p>
-            </div>
-
-             <!-- 9. Rodapé Animado -->
-             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-lg text-gray-400">9. Rodapé Animado</h3>
-                    <i class="fas fa-arrow-down text-2xl text-gray-500"></i>
-                </div>
-                <div class="bg-gradient-to-br from-purple-900 to-black rounded-xl h-52 flex flex-col justify-end overflow-hidden border-b-4 border-[#FFC300] relative">
-                    <div class="absolute inset-0 flex items-center justify-center opacity-20">
-                        <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" class="w-20 grayscale">
-                    </div>
-                    <div class="w-full bg-black/50 backdrop-blur py-2 overflow-hidden whitespace-nowrap">
-                        <div class="inline-block animate-scroll-left text-[10px] text-gray-300">
-                            <span class="mx-4"><i class="fab fa-whatsapp text-[#FFC300]"></i> (62) 9999-9999</span>
-                            <span class="mx-4"><i class="fas fa-map-marker-alt text-[#FFC300]"></i> Goiânia - GO</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-3">Finalização profissional com movimento e dados claros.</p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- PROVA SOCIAL (Espaçamento Aumentado) -->
-    <section class="py-16 md:py-28 bg-black/30 border-y border-vizzu-purple/30">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-                <div class="md:w-1/2">
-                    <h3 class="font-display text-2xl font-bold mb-4">
-                        "CJ Rasteirinhas já está usando o novo layout desenvolvido pela VIZZU."
-                    </h3>
-                    <p class="text-gray-400 italic mb-4">- A loja que mais vende rasteirinhas no atacado</p>
-                    <div class="flex gap-2">
-                        <i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i>
-                    </div>
-                </div>
-                <div class="md:w-1/2 grid grid-cols-2 gap-4">
-                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group video-wrapper">
-                        <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/f64qpi.mp4"></video>
-                    </div>
-                    <div class="rounded-xl overflow-hidden border border-gray-700 h-48 relative group video-wrapper">
-                        <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/qdnl00.mp4"></video>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA DECISIVA (Espaçamento Aumentado) -->
-    <section class="py-16 md:py-28 text-center bg-gradient-to-b from-vizzu-dark to-black border-b border-gray-800">
-        <div class="container mx-auto px-4">
-            <h2 class="font-display text-3xl md:text-5xl font-black mb-6">
-                A Escolha é Sua:
-            </h2>
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-8">
-                <div class="p-6 border border-red-900/50 rounded-xl bg-red-900/10 opacity-70">
-                    <h3 class="text-xl font-bold text-red-500 mb-2">❌ Continuar na Mesmice</h3>
-                    <p class="text-gray-400 text-sm">Loja sem graça, cliente desconfiado, vendas perdidas todo dia.</p>
-                </div>
-                <div class="p-6 border border-vizzu-green rounded-xl bg-vizzu-green/10">
-                    <h3 class="text-xl font-bold text-vizzu-green mb-2">✅ Ter uma Loja Incrível</h3>
-                    <p class="text-gray-300 text-sm">Design magnético, autoridade imediata e cliente comprando feliz.</p>
-                </div>
-            </div>
-            <a href="#planos" class="inline-flex items-center gap-3 bg-[#FFC300] text-[#3A015E] px-10 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,195,0,0.4)] animate-pulse-fast">
-                QUERO UMA LOJA INCRÍVEL
-                <i class="fas fa-arrow-down"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- COMBOS ESTRATÉGICOS (Espaçamento Aumentado) -->
-    <section id="planos" class="py-16 md:py-28 relative">
-        <div class="container mx-auto px-4">
-            <h2 class="font-display text-3xl md:text-5xl font-black text-center mb-4">
-                Planos Oficiais <span class="text-vizzu-green">VIZZU</span>
-            </h2>
-            <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Escolha um combo pronto ou personalize o seu logo abaixo.</p>
-
-            <!-- 1. COMBOS PRONTOS -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end mb-20">
-                <!-- Visual -->
-                <div class="glass-panel p-6 flex flex-col h-full hover:border-pink-500/50 transition duration-300 mb-8 md:mb-0">
-                    <div class="mb-4">
-                        <div class="bg-pink-900/30 text-pink-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">🎨 Foco em Design</div>
-                        <h3 class="font-bold text-xl">Combo Visual</h3>
-                        <p class="text-xs text-gray-400 mt-2 h-10">Para quem quer acabar com a "cara de amador" hoje.</p>
-                    </div>
-                    <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
-                        <li><i class="fas fa-check text-pink-500 mr-2"></i> Redesign Visual App</li>
-                        <li><i class="fas fa-check text-pink-500 mr-2"></i> Barra + Menu 3D</li>
-                        <li><i class="fas fa-check text-pink-500 mr-2"></i> Rodapé Animado</li>
-                    </ul>
-                    <div class="border-t border-gray-700 pt-4">
-                        <div class="text-gray-500 line-through text-xs">R$ 1.341,00</div>
-                        <div class="text-2xl font-black text-white">R$ 1.005,75</div>
-                        <div class="text-xs text-pink-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075" class="block w-full border border-pink-500 text-white hover:bg-pink-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
-                    </div>
-                </div>
-                <!-- Vendas -->
-                <div class="glass-panel p-6 flex flex-col h-full hover:border-yellow-500/50 transition duration-300 mb-8 md:mb-0">
-                    <div class="mb-4">
-                        <div class="bg-yellow-900/30 text-yellow-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">💰 Foco em Conversão</div>
-                        <h3 class="font-bold text-xl">Combo Vendas</h3>
-                        <p class="text-xs text-gray-400 mt-2 h-10">Para acelerar o fechamento de pedidos no WhatsApp.</p>
-                    </div>
-                    <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
-                        <li><i class="fas fa-check text-yellow-500 mr-2"></i> Shop the Look (Stories)</li>
-                        <li><i class="fas fa-check text-yellow-500 mr-2"></i> Oferta Relâmpago</li>
-                        <li><i class="fas fa-check text-yellow-500 mr-2"></i> Cupom One-Click</li>
-                    </ul>
-                    <div class="border-t border-gray-700 pt-4">
-                        <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
-                        <div class="text-2xl font-black text-white">R$ 743,25</div>
-                        <div class="text-xs text-yellow-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075" class="block w-full border border-yellow-500 text-white hover:bg-yellow-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
-                    </div>
-                </div>
-                <!-- Atacado -->
-                <div class="glass-panel p-6 flex flex-col h-full hover:border-blue-500/50 transition duration-300 mb-8 md:mb-0">
-                    <div class="mb-4">
-                        <div class="bg-blue-900/30 text-blue-300 text-xs font-bold px-2 py-1 inline-block rounded uppercase mb-2">📦 Foco B2B</div>
-                        <h3 class="font-bold text-xl">Combo Atacado</h3>
-                        <p class="text-xs text-gray-400 mt-2 h-10">Ferramentas essenciais para quem vende em grade.</p>
-                    </div>
-                    <ul class="text-sm text-gray-300 space-y-2 mb-6 flex-grow">
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Institucional (Vídeos)</li>
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Calculadora de Lucro</li>
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Filtro de Tamanhos</li>
-                    </ul>
-                    <div class="border-t border-gray-700 pt-4">
-                        <div class="text-gray-500 line-through text-xs">R$ 991,00</div>
-                        <div class="text-2xl font-black text-white">R$ 743,25</div>
-                        <div class="text-xs text-blue-400 mb-4">25% OFF</div>
-                        <a href="https://wa.me/62982237075" class="block w-full border border-blue-500 text-white hover:bg-blue-600 font-bold py-2 rounded text-center transition">ESCOLHER ESTE</a>
-                    </div>
-                </div>
-                <!-- Elite -->
-                <div class="card-elite p-6 flex flex-col h-full md:transform md:scale-105 md:-translate-y-4 z-10 rounded-xl">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-[#3A015E] font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
-                        👑 O MAIS VENDIDO
-                    </div>
-                    <div class="mb-4 mt-2">
-                        <h3 class="font-black text-2xl text-vizzu-green">COMBO ELITE</h3>
-                        <p class="text-sm text-gray-200 mt-2">A transformação completa. Sua loja vira uma máquina.</p>
-                    </div>
-                    <ul class="text-sm text-white space-y-3 mb-6 flex-grow font-medium">
-                        <li class="flex items-center"><i class="fas fa-check-circle text-vizzu-green mr-2"></i> <span class="font-bold">TODOS OS 9 WIDGETS</span></li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-vizzu-green mr-2"></i> Instalação VIP Inclusa</li>
-                        <li class="flex items-center"><i class="fas fa-check-circle text-vizzu-green mr-2"></i> Suporte Prioritário</li>
-                        <li class="flex items-center opacity-75 text-xs ml-6">Economia de R$ 1.661,50</li>
-                    </ul>
-                    <div class="border-t border-vizzu-green/30 pt-4">
-                        <div class="text-gray-400 line-through text-sm">R$ 3.323,00</div>
-                        <div class="text-4xl font-black text-white mb-1">R$ 1.661,50</div>
-                        <div class="text-sm text-vizzu-green mb-6 font-bold">50% OFF SÓ HOJE</div>
-                        
-                        <a href="https://wa.me/62982237075" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold text-lg py-4 px-4 rounded-full text-center transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp text-2xl"></i> QUERO TUDO
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DIVISÓRIA -->
-            <div class="flex items-center justify-center gap-4 mb-16">
-                <div class="h-px bg-gray-700 w-1/4"></div>
-                <span class="text-gray-500 uppercase font-bold text-sm">OU PREFERE MONTAR DO SEU JEITO?</span>
-                <div class="h-px bg-gray-700 w-1/4"></div>
-            </div>
-
-            <!-- 2. MONTE SEU COMBO -->
-            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <div class="lg:col-span-2 glass-panel p-6">
-                    <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
-                        <!-- Gerado via JS (CHECKBOX COM EFEITO AMARELO MOSTARDA) -->
-                    </div>
-                </div>
-
-                <div class="lg:col-span-1">
-                    <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(255,195,0,0.1)]">
-                        <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
-                        
-                        <!-- BARRA DE GAMIFICAÇÃO (DESKTOP) -->
-                        <div class="mb-6 bg-black/30 p-3 rounded-lg border border-gray-700" id="gamification-box">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-[10px] font-bold text-gray-300 uppercase" id="progress-text">Inicie sua seleção</span>
-                                <span class="text-xs font-black text-[#FFC300]" id="progress-percent">0%</span>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-fill" style="width: 0%" id="progress-fill"></div>
-                            </div>
-                            <p class="text-[10px] text-gray-400 mt-1 text-center italic" id="progress-subtext">Adicione itens para desbloquear descontos.</p>
-                        </div>
-
-                        <div class="space-y-2 mb-6 text-sm">
-                            <div class="flex justify-between text-gray-400"><span>Itens:</span><span id="count-items" class="font-bold text-white">0</span></div>
-                            <div class="flex justify-between text-gray-400"><span>Subtotal:</span><span id="subtotal-price" class="font-bold text-white">R$ 0,00</span></div>
-                            <div class="flex justify-between items-center bg-vizzu-green/10 p-2 rounded text-vizzu-green"><span>Desconto:</span><span id="discount-label" class="font-bold">0%</span></div>
-                            <div class="border-t border-gray-700 my-2 pt-2 flex justify-between items-end">
-                                <span class="text-lg font-bold">TOTAL:</span>
-                                <div class="text-right"><span id="final-price" class="text-3xl font-black text-vizzu-green">R$ 0,00</span></div>
-                            </div>
-                        </div>
-                        <div class="space-y-3 mb-4">
-                            <input type="text" id="input-name" placeholder="Seu Nome" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
-                            <input type="text" id="input-store" placeholder="Nome da Loja" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
-                            <input type="tel" id="input-phone" placeholder="WhatsApp" class="w-full bg-black/40 border border-gray-600 rounded p-3 text-white text-sm">
-                        </div>
-                        <button onclick="finalizarPedido()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp text-xl"></i> ORÇAR NO WHATS
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FLOATING CART COM PROGRESS BAR INTEGRADA -->
-    <div id="floating-cart" class="fixed bottom-4 left-4 right-4 z-50 transform translate-y-[150%] transition-transform duration-300 md:hidden">
-        <div class="glass-panel border border-vizzu-green bg-vizzu-dark/95 backdrop-blur-xl shadow-2xl overflow-hidden rounded-xl">
-            <!-- BARRA DE PROGRESSO MOBILE INTEGRADA -->
-            <div class="bg-black/40 px-4 py-2 border-b border-white/10">
-                 <div class="flex justify-between items-center mb-1">
-                    <span class="text-[10px] font-bold text-gray-300 uppercase" id="float-progress-text">Inicie sua seleção</span>
-                    <span class="text-[10px] font-black text-[#FFC300]" id="float-progress-percent">0%</span>
-                </div>
-                <div class="progress-bar-container h-1.5"> <!-- Barra mais fina para mobile -->
-                    <div class="progress-fill" style="width: 0%" id="float-progress-fill"></div>
-                </div>
-            </div>
-
-            <!-- CONTEÚDO DO CARRINHO -->
-            <div class="p-4 flex justify-between items-center">
-                <div class="flex flex-col">
-                    <span class="text-xs text-gray-400"><span id="float-count">0</span> itens selecionados</span>
-                    <span class="text-xl font-black text-vizzu-green" id="float-total">R$ 0,00</span>
-                </div>
-                <a href="#planos" class="bg-vizzu-green text-vizzu-dark font-bold py-2 px-6 rounded-full shadow-lg text-sm">
-                    CONCLUIR
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- MENU MOBILE -->
-    <div id="mobile-bottom-menu" class="md:hidden fixed bottom-0 left-0 w-full bg-vizzu-dark/95 backdrop-blur border-t border-gray-700 p-3 z-40 grid grid-cols-2 gap-3 transition-transform duration-300">
-        <a href="https://wa.me/62982237075" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
-            <i class="fab fa-whatsapp"></i> Dúvidas
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="VIZZU Digital Logo">
+      </div>
+      <div class="header-cta">
+        <span class="badge-top">⭐ Indicado FácilZap</span>
+        <a href="#precos" class="btn btn-primary btn-pulse" style="padding: 10px 20px; font-size: 0.9rem;">
+          COMBO ELITE R$1.661 👑
         </a>
-        <a href="#planos" class="flex items-center justify-center gap-2 bg-vizzu-green text-vizzu-dark font-black rounded text-sm py-3 shadow-[0_0_15px_rgba(255,195,0,0.4)]">
-            COMPRAR AGORA
-        </a>
+      </div>
     </div>
+  </header>
 
-    <!-- SCRIPTS -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
+  <section class="hero">
+    <video class="video-bg" autoplay muted loop playsinline>
+      <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 class="text-gradient">TRANSFORME SUA LOJA FÁCILZAP PADRÃO</h1>
+        <h2 class="neon-pink">em Máquina de Vendas +200% Conversão</h2>
+        <h3>10 Widgets Profissionais | Case CJ Rasteirinhas</h3>
         
-        // --- LÓGICA DO MONTE SEU COMBO ---
-        const widgets = [
-            { id: 1, nome: "Redesign Visual App", preco: 497, icon: "fa-mobile-alt" },
-            { id: 2, nome: "Barra + Menu 3D", preco: 422, icon: "fa-bars" },
-            { id: 3, nome: "Rodapé Animado", preco: 422, icon: "fa-arrow-down" },
-            { id: 4, nome: "Stories Shop-the-Look", preco: 397, icon: "fa-camera" },
-            { id: 5, nome: "Oferta Relâmpago", preco: 297, icon: "fa-bolt" },
-            { id: 6, nome: "Cupom One-Click", preco: 297, icon: "fa-ticket-alt" },
-            { id: 7, nome: "Institucional B2B", preco: 397, icon: "fa-building" },
-            { id: 8, nome: "Calculadora de Lucro", preco: 297, icon: "fa-calculator" },
-            { id: 9, nome: "Filtro de Tamanhos", preco: 297, icon: "fa-filter" }
-        ];
+        <div class="hero-buttons">
+          <a href="#precos" class="btn btn-primary btn-pulse">COMBO ELITE PIX 👑</a>
+          <a href="https://wa.me/5562982237075" target="_blank" class="btn btn-secondary">Análise Grátis</a>
+        </div>
+        
+        <div class="trust-badges">
+          ⭐⭐⭐⭐⭐ 4.9/5 | 50+ Lojas Ativas | Suporte Especializado
+        </div>
+      </div>
 
-        let selectedWidgets = [];
+      <div class="comparison-container" id="hero-slider" onmousemove="moveSlider(event, 'hero-slider')" ontouchmove="moveSlider(event, 'hero-slider')">
+        <img src="https://i.ibb.co/ZRJCvPgd/PAGINA-INICIAL-DEPOIS.png" class="comp-img" alt="Depois">
+        <div class="comp-img comp-img-before" style="width: 50%;">
+          <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" class="comp-img" alt="Antes">
+        </div>
+        <div class="comp-slider" style="left: 50%;"><i class="fas fa-arrows-alt-h"></i></div>
+        <span class="comp-label label-before">ANTES</span>
+        <span class="comp-label label-after">DEPOIS</span>
+      </div>
+    </div>
+  </section>
 
-        function renderWidgets() {
-            const container = document.getElementById('lista-widgets');
-            // ADICIONADO: peer-checked styles para ficar verde
-            container.innerHTML = widgets.map(w => `
-                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 group select-none hover:bg-white/5 peer-checked:border-[#FFC300] peer-checked:bg-[#FFC300]/10">
-                    <input type="checkbox" class="peer sr-only focus:outline-none" 
-                           onchange="toggleWidget(${w.id}, this)" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
-                    
-                    <div class="flex items-center gap-3 z-10">
-                        <div class="w-5 h-5 rounded border-2 border-gray-500 flex items-center justify-center transition-colors checkbox-box">
-                            <i class="fas fa-check text-[10px] opacity-0 transition-opacity font-black text-vizzu-dark"></i>
-                        </div>
-                        <div class="group-hover:text-white transition-colors text-gray-300 font-bold flex items-center gap-2">
-                            <i class="fas ${w.icon} group-hover:text-vizzu-green text-sm"></i> ${w.nome}
-                        </div>
-                    </div>
-                    <div class="font-mono text-vizzu-pink font-bold text-sm">R$ ${w.preco}</div>
-                </label>
-            `).join('');
-            updateSummary();
-        }
+  <section class="process-section">
+    <div class="container">
+      <h2 class="text-center neon-pink">COMO FUNCIONA?</h2>
+      <div class="process-grid">
+        <div class="process-card">
+          <i class="fas fa-link process-icon"></i>
+          <h3>1. Envie sua URL</h3>
+          <p>Informe o link da sua loja FácilZap padrão.</p>
+          <div class="arrow-next">→</div>
+        </div>
+        <div class="process-card">
+          <i class="fas fa-check-circle process-icon"></i>
+          <h3>2. Escolha o Combo</h3>
+          <p>Defina o pacote ideal para o seu momento.</p>
+          <div class="arrow-next">→</div>
+        </div>
+        <div class="process-card">
+          <i class="fas fa-rocket process-icon"></i>
+          <h3>3. Loja Pronta!</h3>
+          <p>Entrega em 7 Dias (Vagas Semanais).</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        function toggleWidget(id, checkbox) {
-            // Recarrega o visual verde ao clicar, forçando re-render ou apenas toggle class (o CSS peer já cuida, mas aqui atualizamos o array)
-            if (checkbox.checked) {
-                if (!selectedWidgets.includes(id)) selectedWidgets.push(id);
-                // Adiciona classe visual manual se necessário (o CSS peer-checked faz o trabalho pesado)
-                checkbox.parentElement.classList.add('border-[#FFC300]', 'bg-[#FFC300]/10');
-            } else {
-                selectedWidgets = selectedWidgets.filter(wId => wId !== id);
-                checkbox.parentElement.classList.remove('border-[#FFC300]', 'bg-[#FFC300]/10');
-            }
-            updateSummary();
-        }
+  <section class="widgets-section" id="widgets">
+    <div class="container">
+      <h2 class="section-title">10 WIDGETS <span class="neon-green">PODEROSOS</span></h2>
+      <p class="section-subtitle">Teste a interatividade de cada funcionalidade incluída no Combo Elite</p>
 
-        function updateSummary() {
-            const count = selectedWidgets.length;
-            const subtotal = selectedWidgets.reduce((sum, id) => sum + widgets.find(w => w.id === id).preco, 0);
-            
-            let discountPercent = 0;
-            if (count === 9) discountPercent = 50; 
-            else if (count >= 3) discountPercent = 25;
+      <div class="widgets-grid">
+        
+        <!-- Widget 1: Redesign -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Redesign Visual</span>
+            <span class="widget-badge">+45% Conv.</span>
+          </div>
+          <div class="widget-demo-tall">
+            <div class="comparison-container" id="w1-slider" onmousemove="moveSlider(event, 'w1-slider')" ontouchmove="moveSlider(event, 'w1-slider')">
+              <img src="https://i.ibb.co/JWj3tbnS/PAGINA-DE-PRODUTO-DEPOIS.png" class="comp-img" alt="Depois">
+              <div class="comp-img comp-img-before" style="width: 50%;">
+                <img src="https://i.ibb.co/8nF9Ld83/PAGINA-DE-PRODUTO-ANTESINA-DO-PRODUTO-ANTES.png" class="comp-img" alt="Antes">
+              </div>
+              <div class="comp-slider" style="left: 50%; width: 30px; height: 30px;"><i class="fas fa-arrows-alt-h" style="font-size:12px;"></i></div>
+            </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$450</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
 
-            const discountValue = subtotal * (discountPercent / 100);
-            const finalPrice = subtotal - discountValue;
+        <!-- Widget 2: Carrossel Vitrine (Stories) -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Carrossel Vitrine/Provador</span>
+            <span class="widget-badge">+35% Conv.</span>
+          </div>
+          <div class="widget-demo-tall" style="background: #111;">
+             <div class="comparison-container" style="border-color: var(--pink-neon);">
+               <video src="https://files.catbox.moe/ldvflh.mp4" autoplay muted loop style="width:100%; height:100%; object-fit: cover;"></video>
+               <div style="position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; background: linear-gradient(transparent, #000); padding: 10px;">
+                 <span style="font-size: 0.8rem; font-weight: bold; color: #fff;">VITRINE VIRTUAL</span>
+               </div>
+             </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$280</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
 
-            const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        <!-- Widget 3: Carrossel Institucional -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Carrossel Institucional</span>
+            <span class="widget-badge">+25% Conv.</span>
+          </div>
+          <div class="widget-demo-tall" style="background: #111;">
+             <div class="comparison-container" style="border-color: var(--green-electric);">
+               <video src="https://files.catbox.moe/f64qpi.mp4" autoplay muted loop style="width:100%; height:100%; object-fit: cover;"></video>
+               <div style="position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; background: linear-gradient(transparent, #000); padding: 10px;">
+                 <span style="font-size: 0.8rem; font-weight: bold; color: #fff;">QUEM SOMOS</span>
+               </div>
+             </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$280</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
 
-            document.getElementById('count-items').innerText = count;
-            document.getElementById('subtotal-price').innerText = formatarMoeda(subtotal);
-            document.getElementById('discount-label').innerText = discountPercent > 0 ? `${discountPercent}% OFF` : '0%';
-            document.getElementById('final-price').innerText = formatarMoeda(finalPrice);
-            
-            // LÓGICA DA BARRA DE PROGRESSO (GAMIFICAÇÃO)
-            const progressFill = document.getElementById('progress-fill');
-            const progressText = document.getElementById('progress-text');
-            const progressSubtext = document.getElementById('progress-subtext');
-            const progressPercent = document.getElementById('progress-percent');
-            
-            let percent = 0;
-            let message = "";
-            let submessage = "";
+        <!-- Widget 4: Calculadora Lucro -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Calc. Lucro B2B</span>
+            <span class="widget-badge">+55% Conv.</span>
+          </div>
+          <div class="widget-demo">
+            <div class="calc-box-white">
+              <div>
+                <div class="calc-title"><i class="fas fa-calculator"></i> SIMULE SEU LUCRO</div>
+                <div class="calc-subtitle">Veja quanto <strong>DINHEIRO</strong> você coloca no bolso <strong>REVENDENDO!</strong></div>
+                <label class="calc-label">PREÇO DE ATACADO (R$)</label>
+                <input type="number" id="calc-price" class="calc-input-field" value="35.00" oninput="updateProfit()">
+                <label class="calc-label">SUA MARGEM DE LUCRO: <span id="margin-display" style="color:#d500f9">100%</span></label>
+                <div class="margin-buttons">
+                  <button class="margin-btn" onclick="setMargin(50)">50%</button>
+                  <button class="margin-btn active" onclick="setMargin(100)">100%</button>
+                  <button class="margin-btn" onclick="setMargin(150)">150%</button>
+                </div>
+              </div>
+              <div>
+                <div class="calc-result-box">
+                  <div class="calc-res-label">LUCRO LÍQUIDO ESTIMADO:</div>
+                  <div class="calc-res-value" id="profit-res">R$ 35,00</div>
+                </div>
+                <div class="calc-footer-text">Preço sugerido: <span id="sell-price" style="color:#ccff00">R$ 70,00</span></div>
+                <button class="btn-calc-action">QUERO LUCRAR →</button>
+              </div>
+            </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$380</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
 
-            if (count === 0) {
-                percent = 0;
-                message = "Comece a economizar";
-                submessage = "Adicione 3 itens para liberar 25% OFF";
-            } else if (count < 3) {
-                // Meta: 3 itens (25%)
-                // 1 item = 33%, 2 itens = 66% da meta inicial
-                percent = (count / 3) * 100; // Escala relativa à primeira meta
-                // Ajuste visual para não ficar cheio antes da hora
-                percent = percent * 0.6; // Ocupa até 60% da barra visualmente
+        <!-- Widget 5: Oferta Relâmpago -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Oferta Scarcity</span>
+            <span class="widget-badge">+68% Conv.</span>
+          </div>
+          <div class="widget-demo-purple widget-demo">
+            <div class="offer-box">
+              <div class="offer-header">
+                <i class="fas fa-bolt" style="color: #ccff00; font-size: 1.5rem;"></i>
+                <h4 class="offer-title">OFERTA RELÂMPAGO</h4>
+              </div>
+              <p class="offer-sub">Oportunidade única. Acaba logo!</p>
+              <div class="progress-labels"><span>Vendido: 85%</span><span style="color:#fff">Restam: 15%</span></div>
+              <div class="progress-bar-track"><div class="progress-bar-fill"></div></div>
+              <div class="timer-container">
+                <div class="timer-box"><div class="timer-val">04</div><div class="timer-lbl">Horas</div></div>
+                <div class="timer-val">:</div>
+                <div class="timer-box"><div class="timer-val" id="min-val">59</div><div class="timer-lbl">Min</div></div>
+                <div class="timer-val">:</div>
+                <div class="timer-box"><div class="timer-val" id="sec-val">13</div><div class="timer-lbl">Seg</div></div>
+              </div>
+              <button class="btn-calc-action">EU QUERO AGORA →</button>
+            </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$310</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
+
+        <!-- Widget 8: Cupom -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Cupom One-Click</span>
+            <span class="widget-badge">+38% Conv.</span>
+          </div>
+          <div class="widget-demo-purple widget-demo">
+            <div class="coupon-box">
+              <div class="gift-circle"><i class="fas fa-gift"></i></div>
+              <div class="coupon-title">PRESENTE DE BOAS-VINDAS</div>
+              <p class="coupon-desc">Faça sua primeira compra e ganhe <strong>5% DE DESCONTO</strong> agora!</p>
+              <div class="coupon-input-group">
+                <span class="coupon-code-text">PRIMEIRACOMPRA</span>
+                <button onclick="copyCoupon()" class="btn-copy-small"><i class="far fa-copy"></i> COPIAR</button>
+              </div>
+            </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$180</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
+
+        <!-- Widget 6: Barra Vantagens -->
+        <div class="widget-card" style="grid-column: 1 / -1;">
+          <div class="widget-header">
+            <span>Barra de Vantagens (Marquee)</span>
+            <span class="widget-badge">+28% Conv.</span>
+          </div>
+          <div class="widget-demo" style="background: #1a0b2e; height: 120px; min-height: auto;">
+            <div class="marquee-container marquee-purple">
+              <div class="marquee-content">
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-truck"></i></div><div class="marquee-text"><h4>ENVIAMOS PARA TODO O BRASIL</h4><p>Envio do pedido em até 72h úteis</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-box-open"></i></div><div class="marquee-text"><h4>FRETE GRÁTIS</h4><p>em compras acima de R$ 2.000</p></div></div>
+                <!-- Duplicado para loop perfeito -->
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-truck"></i></div><div class="marquee-text"><h4>ENVIAMOS PARA TODO O BRASIL</h4><p>Envio do pedido em até 72h úteis</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-box-open"></i></div><div class="marquee-text"><h4>FRETE GRÁTIS</h4><p>em compras acima de R$ 2.000</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-truck"></i></div><div class="marquee-text"><h4>ENVIAMOS PARA TODO O BRASIL</h4><p>Envio do pedido em até 72h úteis</p></div></div>
+                <div class="marquee-item"><div class="marquee-icon"><i class="fas fa-box-open"></i></div><div class="marquee-text"><h4>FRETE GRÁTIS</h4><p>em compras acima de R$ 2.000</p></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$150</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
+
+        <!-- Widget 9: Barra Informativa (A "Barra de Baixo") - AGORA EM MARQUEE -->
+        <div class="widget-card" style="grid-column: 1 / -1;">
+          <div class="widget-header">
+            <span>Barra Informativa (Rodapé)</span>
+            <span class="widget-badge">+15% Conv.</span>
+          </div>
+          <div class="widget-demo" style="background: #1a0b2e; height: 120px; min-height: auto;">
+            <div class="marquee-container marquee-purple">
+              <div class="marquee-content">
                 
-                const faltam = 3 - count;
-                message = `Falta${faltam > 1 ? 'm' : ''} ${faltam} item${faltam > 1 ? 'ns' : ''}`;
-                submessage = "para ganhar 25% de desconto!";
-            } else if (count >= 3 && count < 9) {
-                // Meta: 9 itens (50%)
-                // Já tem 25% garantido. Agora escala de 3 a 9.
-                // 3 itens = 60% visual (ponto de partida)
-                // 9 itens = 100% visual
-                const itemsAlemDaMeta1 = count - 3;
-                const totalPassos = 6; // de 3 até 9
-                const progressoExtra = (itemsAlemDaMeta1 / totalPassos) * 40; // os 40% restantes da barra
+                <div class="marquee-item">
+                  <div class="marquee-icon"><i class="fas fa-map-marker-alt"></i></div>
+                  <div class="marquee-text"><h4>NOSSA LOJA</h4><p>Shopping Centro Oeste Outlet</p></div>
+                </div>
                 
-                percent = 60 + progressoExtra;
+                <div class="marquee-item">
+                  <div class="marquee-icon"><i class="fab fa-whatsapp"></i></div>
+                  <div class="marquee-text"><h4>FALE CONOSCO</h4><p>(62) 98148-0687</p></div>
+                </div>
+
+                <div class="marquee-item">
+                  <div class="marquee-icon"><i class="far fa-clock"></i></div>
+                  <div class="marquee-text"><h4>HORÁRIOS</h4><p>Seg. a Sex: 09:30 às 17:00</p></div>
+                </div>
+
+                <!-- Duplicado para loop -->
+                <div class="marquee-item">
+                  <div class="marquee-icon"><i class="fas fa-map-marker-alt"></i></div>
+                  <div class="marquee-text"><h4>NOSSA LOJA</h4><p>Shopping Centro Oeste Outlet</p></div>
+                </div>
                 
-                const faltam = 9 - count;
-                message = "25% GARANTIDO! 🔓";
-                submessage = `Falta${faltam > 1 ? 'm' : ''} ${faltam} para o DESCONTO MÁXIMO (50%)`;
-            } else {
-                percent = 100;
-                message = "COMBO ELITE ATIVADO 👑";
-                submessage = "Você garantiu o melhor preço possível!";
-            }
+                <div class="marquee-item">
+                  <div class="marquee-icon"><i class="fab fa-whatsapp"></i></div>
+                  <div class="marquee-text"><h4>FALE CONOSCO</h4><p>(62) 98148-0687</p></div>
+                </div>
 
-            // ATUALIZA DESKTOP
-            progressFill.style.width = `${percent}%`;
-            progressText.innerText = message;
-            progressSubtext.innerText = submessage;
-            progressPercent.innerText = `${Math.round(percent)}%`;
+                <div class="marquee-item">
+                  <div class="marquee-icon"><i class="far fa-clock"></i></div>
+                  <div class="marquee-text"><h4>HORÁRIOS</h4><p>Seg. a Sex: 09:30 às 17:00</p></div>
+                </div>
 
-            // ATUALIZA MOBILE (FLOATING CART)
-            const floatFill = document.getElementById('float-progress-fill');
-            const floatText = document.getElementById('float-progress-text');
-            const floatPercent = document.getElementById('float-progress-percent');
+              </div>
+            </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$120</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
 
-            if(floatFill) floatFill.style.width = `${percent}%`;
-            if(floatText) floatText.innerText = message;
-            if(floatPercent) floatPercent.innerText = `${Math.round(percent)}%`;
-            
-            
-            const floatingCart = document.getElementById('floating-cart');
-            const mobileMenu = document.getElementById('mobile-bottom-menu');
-            const floatCount = document.getElementById('float-count');
-            const floatTotal = document.getElementById('float-total');
+      </div>
+    </div>
+  </section>
 
-            if (count > 0) {
-                floatingCart.classList.remove('translate-y-[150%]');
-                mobileMenu.classList.add('translate-y-[150%]');
-                floatCount.innerText = count;
-                floatTotal.innerText = formatarMoeda(finalPrice);
-            } else {
-                floatingCart.classList.add('translate-y-[150%]');
-                mobileMenu.classList.remove('translate-y-[150%]');
-            }
+  <section class="case-section container">
+    <h2 class="text-center">CASE DE SUCESSO: <span class="neon-pink">CJ RASTEIRINHAS</span></h2>
+    <p class="text-center" style="color:#ccc;">Loja padrão transformada em referência de mercado</p>
+    
+    <!-- Link para a loja real -->
+    <div class="text-center">
+      <a href="https://cjotarasteirinhas.com.br" target="_blank" class="btn-live-store btn-pulse">
+        VER LOJA AO VIVO <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
+      </a>
+    </div>
+
+    <div class="case-grid">
+      <div>
+        <h4 class="text-center" style="margin-bottom:10px;">ANTES vs DEPOIS (Carrinho)</h4>
+        <div class="comparison-container" id="case-slider" onmousemove="moveSlider(event, 'case-slider')" ontouchmove="moveSlider(event, 'case-slider')">
+          <img src="https://i.ibb.co/TxkcWrtS/CARRINHO-DEPOIS.png" class="comp-img" alt="Depois">
+          <div class="comp-img comp-img-before" style="width: 50%;">
+            <img src="https://i.ibb.co/ZRcX5R8p/CARRINHO-ANTES.png" class="comp-img" alt="Antes">
+          </div>
+          <div class="comp-slider" style="left: 50%;"><i class="fas fa-arrows-alt-h"></i></div>
+        </div>
+      </div>
+      
+      <!-- Stats Container (Lado a Lado / Grid) -->
+      <div class="stats-container">
+        <div class="stat-card"><div class="stat-num">+237%</div><p>Aumento na Conversão</p></div>
+        <div class="stat-card"><div class="stat-num">+52%</div><p>Ticket Médio</p></div>
+        <div class="stat-card"><div class="stat-num">50+</div><p>Lojas Ativas Hoje</p></div>
+        <div class="stat-card"><div class="stat-num">4.9/5</div><p>Nota dos Clientes</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section" id="precos">
+    <div class="container">
+      <h2 class="text-center" style="font-size:2.5rem; margin-bottom:50px;">INVESTIMENTO INTELIGENTE</h2>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>INICIANTE</h3>
+          <div class="price-amount">R$ 797</div>
+          <ul class="price-features">
+            <li><i class="fas fa-check"></i> 4 Widgets Essenciais</li>
+            <li><i class="fas fa-check"></i> Instalação Padrão</li>
+            <li><i class="fas fa-check"></i> Suporte Básico</li>
+          </ul>
+          <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Quero%20o%20plano%20INICIANTE" class="btn btn-secondary" style="width:100%">ESCOLHER</a>
+        </div>
+
+        <div class="price-card card-elite">
+          <div class="popular-badge">👑 92% ESCOLHEM ESTE</div>
+          <h3 class="neon-green">ELITE TOTAL</h3>
+          <div class="price-amount neon-green">R$ 1.661</div>
+          <p style="font-size:0.8rem; margin-top:-15px; opacity:0.7;">ou 12x no cartão</p>
+          <div class="economy-alert">VOCÊ ECONOMIZA R$ 860,00</div>
+          <ul class="price-features">
+            <li style="color:#fff; font-weight:bold;"><i class="fas fa-check-double"></i> 2 CARROSSÉIS (Vitrine/Inst.)</li>
+            <li><i class="fas fa-check"></i> 10 Widgets Completos</li>
+            <li><i class="fas fa-check"></i> Entrega em 7 Dias (Agendada)</li>
+            <li><i class="fas fa-check"></i> Suporte VIP Prioritário</li>
+          </ul>
+          <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Quero%20o%20COMBO%20ELITE%20de%20R$1661" class="btn btn-primary btn-pulse" style="width:100%">PIX AGORA</a>
+        </div>
+
+        <div class="price-card">
+          <h3>PERSONALIZADO</h3>
+          <div class="price-amount">R$ 2.999</div>
+          <ul class="price-features">
+            <li><i class="fas fa-check"></i> Projeto Sob Medida</li>
+            <li><i class="fas fa-check"></i> Pesquisa de Mercado</li>
+            <li><i class="fas fa-check"></i> Suporte Ilimitado</li>
+          </ul>
+          <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Quero%20projeto%20PERSONALIZADO" class="btn btn-secondary" style="width:100%">CONSULTAR</a>
+        </div>
+      </div>
+
+      <div class="calc-wrapper">
+        <h4 class="text-center neon-pink">CALCULADORA DE ECONOMIA</h4>
+        <p class="text-center" style="font-size:0.9rem; margin-bottom:20px;">Selecione os widgets avulsos e veja quanto pagaria:</p>
+        <div class="checkbox-grid">
+          <label class="check-item"><input type="checkbox" class="w-check" value="450" checked disabled> Redesign Visual (R$450)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="280" onclick="calcTotal()"> Carrossel Vitrine (R$280)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="280" onclick="calcTotal()"> Carrossel Institucional (R$280)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="380" onclick="calcTotal()"> Calculadora Lucro (R$380)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="310" onclick="calcTotal()"> Oferta Relâmpago (R$310)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="150" onclick="calcTotal()"> Barra Vantagens (R$150)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="120" onclick="calcTotal()"> Barra Informativa (R$120)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="180" onclick="calcTotal()"> Cupom One-Click (R$180)</label>
+        </div>
+        <div style="margin-top:20px; text-align:center; padding-top:20px; border-top:1px solid #444;">
+          <div style="font-size:1.2rem;">Total Avulso: <span id="total-avulso" style="color:#aaa; text-decoration: line-through;">R$ 450</span></div>
+          <div style="font-size:1.5rem; font-weight:bold; color:var(--green-electric);">COMBO ELITE: R$ 1.661</div>
+          <p id="total-economy" style="color:var(--pink-neon); font-weight:bold;">Economia: R$ 0,00</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="urgency-section">
+    <div class="container">
+      <h2>🚨 ÚLTIMOS 3 SLOTS DEZEMBRO 2025</h2>
+      <div id="countdown-main" class="countdown-timer">00:00:00</div>
+      <form class="lead-form" onsubmit="handleFormSubmit(event)">
+        <input type="text" placeholder="Seu Nome" required>
+        <input type="tel" placeholder="Seu WhatsApp (com DDD)" required>
+        <input type="url" placeholder="URL da sua loja FácilZap" required>
+        <button type="submit" class="btn btn-primary btn-pulse" style="color:var(--roxo-dark);">GARANTIR MINHA VAGA AGORA</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Logo" style="height:30px; margin-bottom:15px; opacity:0.8;">
+          <p>Transformamos lojas comuns em máquinas de venda.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <p>(62) 98223-7075</p>
+          <p>contato@vizzudigital.com</p>
+        </div>
+        <div class="footer-col">
+          <h4>Links</h4>
+          <p><a href="#widgets">Widgets</a></p>
+          <p><a href="#precos">Planos</a></p>
+        </div>
+        <div class="footer-col">
+          <h4>Social</h4>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="font-size:0.8rem; border-top:1px solid #222; padding-top:20px;">
+        © 2025 VIZZU Digital | CNPJ 00.000.000/0001-00
+      </div>
+    </div>
+  </footer>
+
+  <div class="sticky-bar mobile-only">
+    <div class="sticky-text">
+      👑 92% ESCOLHEM ELITE<br>
+      <span style="color:var(--green-electric); font-size:1.1rem;">R$ 1.661</span>
+    </div>
+    <a href="https://wa.me/5562982237075?text=Quero%20o%20Combo%20Elite" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">PIX AGORA</a>
+  </div>
+
+  <script>
+    function moveSlider(e, id) {
+      const container = document.getElementById(id);
+      if (!container) return;
+      const rect = container.getBoundingClientRect();
+      const slider = container.querySelector('.comp-slider');
+      const imgBefore = container.querySelector('.comp-img-before');
+      let clientX;
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+      } else {
+        clientX = e.clientX;
+      }
+      let x = clientX - rect.left;
+      x = Math.max(0, Math.min(x, rect.width));
+      const percent = (x / rect.width) * 100;
+      if(slider) slider.style.left = percent + '%';
+      if(imgBefore) imgBefore.style.width = percent + '%';
+    }
+
+    let currentMargin = 100;
+    function setMargin(margin) {
+      currentMargin = margin;
+      document.querySelectorAll('.margin-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.innerText.includes(margin)) btn.classList.add('active');
+      });
+      document.getElementById('margin-display').innerText = margin + '%';
+      updateProfit();
+    }
+    function updateProfit() {
+      const price = parseFloat(document.getElementById('calc-price').value) || 0;
+      const profit = (price * currentMargin) / 100;
+      const sellPrice = price + profit;
+      document.getElementById('profit-res').innerText = 'R$ ' + profit.toFixed(2).replace('.', ',');
+      document.getElementById('sell-price').innerText = 'R$ ' + sellPrice.toFixed(2).replace('.', ',');
+    }
+
+    function copyCoupon() {
+      navigator.clipboard.writeText('PRIMEIRACOMPRA').then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      });
+    }
+
+    function startTimer(duration) {
+      let timer = duration, minutes, seconds;
+      setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        const minEl = document.getElementById('min-val');
+        const secEl = document.getElementById('sec-val');
+        if(minEl) minEl.textContent = minutes;
+        if(secEl) secEl.textContent = seconds;
+        if (--timer < 0) {
+          timer = duration; 
         }
+      }, 1000);
+    }
 
-        // Calculadora
-        function updateCalculadora(lucro) {
-            const custo = 35.00;
-            const porcentagem = parseInt(lucro);
-            const venda = custo * (1 + (porcentagem / 100));
-            const lucroReal = venda - custo;
-
-            document.getElementById('margem-display').innerText = porcentagem + '%';
-            document.getElementById('venda-display').innerText = venda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            document.getElementById('lucro-display').innerText = lucroReal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    function startGlobalTimer() {
+      const end = new Date();
+      end.setHours(23, 59, 59);
+      setInterval(() => {
+        const current = new Date();
+        const diff = end - current;
+        if (diff > 0) {
+          const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
+          document.getElementById('countdown-main').innerText = (h<10?'0'+h:h) + ":" + (m<10?'0'+m:m) + ":" + (s<10?'0'+s:s);
         }
+      }, 1000);
+    }
 
-        // Inicializa
-        window.onload = function() {
-            renderWidgets(); 
-            // REMOVIDO initLazyVideos()
-        };
-    </script>
+    function calcTotal() {
+      const checks = document.querySelectorAll('.w-check');
+      let total = 0;
+      checks.forEach(c => {
+        if(c.checked) total += parseFloat(c.value);
+      });
+      const elitePrice = 1661;
+      const savings = total > elitePrice ? total - elitePrice : 0;
+      document.getElementById('total-avulso').innerText = 'R$ ' + total.toFixed(2);
+      const economyEl = document.getElementById('total-economy');
+      if (savings > 0) {
+        economyEl.style.display = 'block';
+        economyEl.innerText = 'Economia potencial vs Avulso: R$ ' + savings.toFixed(2);
+      } else {
+        economyEl.style.display = 'none';
+      }
+    }
+
+    let popupShown = false;
+    document.addEventListener('mouseleave', (e) => {
+      if (e.clientY < 0 && !popupShown) {
+        showPopup();
+      }
+    });
+    function showPopup() { document.getElementById('exitPopup').style.display = 'flex'; popupShown = true; }
+    function closePopup() { document.getElementById('exitPopup').style.display = 'none'; }
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const inputs = e.target.querySelectorAll('input');
+      const name = inputs[0].value;
+      const phone = inputs[1].value;
+      const url = inputs.length > 2 ? inputs[2].value : 'N/A';
+      const msg = `Olá VIZZU! Meu nome é ${name}. Minha loja é ${url}. Quero garantir minha vaga no Combo Elite!`;
+      const waLink = `https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`;
+      window.open(waLink, '_blank');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      startTimer(3553);
+      startGlobalTimer();
+      calcTotal(); 
+    });
+  </script>
 </body>
 </html>
