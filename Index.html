@@ -114,29 +114,30 @@
             border-radius: 2px;
         }
 
-        /* Checkbox Customizado */
-        .custom-checkbox:checked {
-            background-color: #c6ff00;
-            border-color: #c6ff00;
+        /* Checkbox Customizado - CORRIGIDO */
+        input[type="checkbox"]:checked + div {
+            background-color: #c6ff00 !important;
+            border-color: #c6ff00 !important;
         }
-        .custom-checkbox:checked + div {
-            color: #c6ff00;
+        input[type="checkbox"]:checked + div i {
+            opacity: 1 !important;
+            color: #1a0b2e !important; /* Cor do check preto/roxo escuro */
         }
     </style>
 </head>
 <body class="antialiased pb-20 md:pb-0">
 
-    <!-- BARRA DE VAGAS -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-vizzu-purple bg-opacity-95 backdrop-blur text-white py-2 px-2 text-center border-b border-vizzu-pink shadow-lg">
-        <p class="text-xs md:text-sm font-bold flex justify-center items-center gap-2">
-            <span class="animate-pulse text-vizzu-green"><i class="fas fa-exclamation-triangle"></i> ATENÇÃO:</span>
-            <span>Temos apenas <span class="text-vizzu-green font-black">3 VAGAS</span> para este mês.</span>
-            <span class="bg-red-600 px-2 py-0.5 rounded text-[10px] animate-pulse-fast">80% PREENCHIDAS</span>
+    <!-- BARRA DE VAGAS (IMPACTANTE NO MOBILE) -->
+    <div class="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-red-600 to-purple-900 text-white py-3 px-2 text-center border-b-2 border-yellow-400 shadow-2xl flex justify-center items-center">
+        <p class="text-sm md:text-sm font-black flex justify-center items-center gap-2 uppercase tracking-wide">
+            <i class="fas fa-exclamation-triangle text-yellow-400 animate-pulse"></i>
+            <span>Apenas <span class="text-yellow-400 text-lg">3 VAGAS</span> este mês!</span>
+            <span class="bg-white text-red-600 px-2 py-0.5 rounded text-[10px] font-bold shadow-sm animate-pulse ml-1">80% OFF</span>
         </p>
     </div>
 
     <!-- HERO SECTION -->
-    <header class="relative pt-20 pb-12 overflow-hidden">
+    <header class="relative pt-24 pb-12 overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-40">
             <video class="w-full h-full object-cover" autoplay loop muted playsinline poster="https://i.ibb.co/7dZ9GK5M/VIZZU.png">
                 <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
@@ -179,23 +180,35 @@
             </h2>
 
             <div class="grid md:grid-cols-2 gap-8 items-stretch">
-                <!-- O Lado Feio (IMAGEM GRANDE EM MOCKUP) -->
+                <!-- O Lado Feio (IMAGEM CENTRALIZADA) -->
                 <div class="glass-panel p-6 border-red-500/30 border opacity-90 relative flex flex-col" data-aos="fade-right">
                      <div class="absolute -top-4 left-4 bg-red-600 text-white font-bold px-3 py-1 rounded shadow-lg text-sm z-10">SUA LOJA HOJE</div>
                     <h3 class="text-red-400 font-bold mb-4 text-xl mt-2"><i class="fas fa-times-circle"></i> FácilZap Padrão</h3>
                     
                     <!-- Mockup Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-gray-700">
-                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
-                            <!-- Imagem contida no mockup -->
-                            <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" alt="Antes - Loja Genérica" class="w-full h-full object-contain bg-white">
+                        <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl flex items-center justify-center bg-white">
+                            
+                            <!-- 
+                                =========================================================================
+                                ⚠ ATENÇÃO: PARA ALINHAR A IMAGEM ⚠
+                                Mude a classe 'object-center' abaixo para:
+                                - 'object-top' (Alinhar no topo)
+                                - 'object-bottom' (Alinhar no rodapé)
+                                - 'object-center' (Centralizar - Atual)
+                                =========================================================================
+                            -->
+                            <img src="https://i.ibb.co/pj6mgvTw/PAGINA-INICIAL-ANTES.png" 
+                                 alt="Antes - Loja Genérica" 
+                                 class="w-full h-full object-cover object-center">
+                        
                         </div>
                     </div>
                     
                     <p class="text-gray-400 text-sm mt-4 text-center">Visual poluído, botões pequenos, sem identidade.</p>
                 </div>
 
-                <!-- A Promessa (VIDEO NO TAMANHO CORRETO) -->
+                <!-- A Promessa -->
                 <div class="glass-panel p-6 border-vizzu-green border relative flex flex-col shadow-[0_0_20px_rgba(198,255,0,0.1)]" data-aos="fade-left">
                     <div class="absolute -top-4 right-4 bg-vizzu-green text-vizzu-dark font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
                     <h3 class="text-vizzu-green font-bold mb-4 text-xl mt-2"><i class="fas fa-check-circle"></i> APP Vendas B2B</h3>
@@ -203,7 +216,7 @@
                     <!-- Mockup Celular -->
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
                         <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl">
-                            <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+                            <video class="w-full h-full object-cover object-center" autoplay loop muted playsinline>
                                 <source src="https://files.catbox.moe/yav5jo.mp4" type="video/mp4">
                             </video>
                             <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow">💎 MODO APP</div>
@@ -216,7 +229,7 @@
         </div>
     </section>
 
-    <!-- SOLUÇÃO (VISUALIZAÇÃO ADAPTADA DOS WIDGETS - ÍCONE CORRIGIDO) -->
+    <!-- SOLUÇÃO (VISUALIZAÇÃO ADAPTADA DOS WIDGETS) -->
     <section class="py-16 container mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="font-display text-3xl md:text-5xl font-black mb-4 neon-text">
@@ -233,7 +246,6 @@
                     <h3 class="font-bold text-lg text-vizzu-green">1. Redesign Visual App</h3>
                     <i class="fas fa-mobile-alt text-2xl text-gray-500"></i>
                 </div>
-                <!-- Miniatura APP (Imagens Reais) -->
                 <div class="bg-gray-100 p-4 rounded-xl flex justify-center items-center h-52">
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
                         <div class="snap-center shrink-0 w-32 h-44 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transform hover:scale-105 transition duration-300">
@@ -256,7 +268,6 @@
                     <h3 class="font-bold text-lg text-pink-400">2. Stories Shop-the-Look</h3>
                     <i class="fas fa-camera text-2xl text-gray-500"></i>
                 </div>
-                <!-- Container Horizontal -->
                 <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
                      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md">
@@ -282,7 +293,6 @@
                     <h3 class="font-bold text-lg text-purple-400">3. Institucional B2B</h3>
                     <i class="fas fa-building text-2xl text-gray-500"></i>
                 </div>
-                 <!-- Container Institucional -->
                  <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x">
                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group">
@@ -298,13 +308,12 @@
                 <p class="text-sm text-gray-400 mt-3">Gere confiança mostrando sua fábrica e estoque em vídeo.</p>
             </div>
 
-            <!-- 4. Calculadora de Lucro (INTERATIVA) -->
+            <!-- 4. Calculadora de Lucro -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-vizzu-green">4. Calculadora B2B</h3>
                     <i class="fas fa-calculator text-2xl text-gray-500"></i>
                 </div>
-                <!-- Mini App Calculadora Interativa -->
                 <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col shadow-inner relative">
                     <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50">
                         <div class="flex flex-col">
@@ -315,7 +324,6 @@
                              <span class="text-[9px] font-bold text-gray-400 uppercase">Margem: <span id="margem-display" class="text-purple-600">100%</span></span>
                         </div>
                     </div>
-                    
                     <div class="px-4 py-2 bg-gray-50">
                         <input type="range" min="0" max="200" value="100" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="lucro-slider" oninput="updateCalculadora(this.value)">
                         <div class="flex justify-between text-[8px] text-gray-400 font-bold mt-1">
@@ -324,7 +332,6 @@
                             <span>200%</span>
                         </div>
                     </div>
-
                     <div class="flex-1 bg-gradient-to-br from-[#d500f9] to-[#4a148c] p-2 flex flex-col items-center justify-center text-center">
                         <div class="grid grid-cols-2 gap-4 w-full px-2">
                              <div class="flex flex-col">
@@ -367,7 +374,7 @@
                 <p class="text-sm text-gray-400 mt-3">Barra de escassez com timer. Acelera o fechamento.</p>
             </div>
 
-            <!-- 6. Barra + Menu 3D (ÍCONE CORRIGIDO) -->
+            <!-- 6. Barra + Menu 3D -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-lg text-indigo-400">6. Barra 3D Infinita</h3>
@@ -426,7 +433,6 @@
                     <h3 class="font-bold text-lg text-teal-400">8. Cupom One-Click</h3>
                     <i class="fas fa-ticket-alt text-2xl text-gray-500"></i>
                 </div>
-                <!-- Cupom Expandido -->
                 <div class="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-xl h-52 flex flex-col items-center justify-center p-4 relative overflow-hidden shadow-inner border border-white/10 group">
                     <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                     <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#c6ff00] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(198,255,0,0.3)] animate-float">🎁</div>
@@ -509,7 +515,7 @@
         </div>
     </section>
 
-    <!-- COMBOS ESTRATÉGICOS (PRONTOS + OPÇÃO DE MONTAR) -->
+    <!-- COMBOS ESTRATÉGICOS (PRONTOS + OPÇÃO DE MONTAR DINÂMICA) -->
     <section id="planos" class="py-16 relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-3xl md:text-5xl font-black text-center mb-4">
@@ -614,7 +620,7 @@
                 <div class="h-px bg-gray-700 w-1/4"></div>
             </div>
 
-            <!-- 2. MONTE SEU COMBO (SECUNDÁRIO) -->
+            <!-- 2. MONTE SEU COMBO (SECUNDÁRIO - DINÂMICO LIMPO) -->
             <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
                 <!-- COLUNA 1 & 2: SELEÇÃO DE ITENS -->
@@ -622,7 +628,7 @@
                     <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
-                        <!-- Itens gerados via JS -->
+                        <!-- Itens gerados via JS com EFEITO LIMPO -->
                     </div>
                 </div>
 
@@ -707,7 +713,7 @@
         </div>
     </section>
 
-    <!-- FOOTER ANIMADO -->
+    <!-- FOOTER ANIMADO (ANO ATUALIZADO) -->
     <footer class="bg-black py-8 border-t border-gray-800 overflow-hidden">
         <div class="w-full overflow-hidden mb-8">
             <div class="whitespace-nowrap animate-scroll-left">
@@ -724,7 +730,7 @@
         
         <div class="container mx-auto px-4 text-center">
             <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" alt="Logo Footer" class="h-10 mx-auto mb-4 grayscale opacity-50">
-            <p class="text-gray-600 text-sm mb-4">© 2024 Vizzu Digital. Todos os direitos reservados.</p>
+            <p class="text-gray-600 text-sm mb-4">© 2025 Vizzu Digital. Todos os direitos reservados.</p>
             <div class="flex justify-center gap-4 text-2xl text-gray-500">
                 <i class="fab fa-instagram hover:text-vizzu-pink cursor-pointer"></i>
                 <i class="fab fa-whatsapp hover:text-green-500 cursor-pointer"></i>
@@ -792,7 +798,7 @@
             document.getElementById('lucro-display').innerText = formatarMoeda(lucro);
         }
 
-        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT) ---
+        // --- LÓGICA DO MONTE SEU COMBO (CHECKOUT DINÂMICO) ---
         const widgets = [
             { id: 1, nome: "Redesign Visual App", preco: 497, icon: "fa-mobile-alt" },
             { id: 2, nome: "Barra + Menu 3D", preco: 422, icon: "fa-bars" },
@@ -809,16 +815,20 @@
 
         function renderWidgets() {
             const container = document.getElementById('lista-widgets');
+            // GERAÇÃO DOS CHECKBOXES COM CLASSES DINÂMICAS (peer-checked) - ATUALIZADO LIMPO
             container.innerHTML = widgets.map(w => `
-                <label class="flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer hover:border-vizzu-green/50 transition group select-none">
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" class="w-5 h-5 rounded accent-vizzu-green custom-checkbox" 
-                               onchange="toggleWidget(${w.id})" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
-                        <div class="group-hover:text-white transition-colors">
-                            <div class="font-bold flex items-center gap-2"><i class="fas ${w.icon} text-gray-500 group-hover:text-vizzu-green"></i> ${w.nome}</div>
+                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer hover:border-vizzu-green/50 transition-all duration-300 group select-none overflow-hidden">
+                    <input type="checkbox" class="peer sr-only" 
+                           onchange="toggleWidget(${w.id})" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
+                    <div class="flex items-center gap-3 z-10">
+                        <div class="w-5 h-5 rounded border-2 border-gray-500 flex items-center justify-center transition-colors checkbox-box">
+                            <i class="fas fa-check text-xs opacity-0 transition-opacity checkbox-icon"></i>
+                        </div>
+                        <div class="group-hover:text-white transition-colors peer-checked:text-vizzu-green">
+                            <div class="font-bold flex items-center gap-2"><i class="fas ${w.icon} text-gray-500 group-hover:text-vizzu-green peer-checked:text-vizzu-green"></i> ${w.nome}</div>
                         </div>
                     </div>
-                    <div class="font-mono text-vizzu-pink font-bold">R$ ${w.preco}</div>
+                    <div class="font-mono text-vizzu-pink font-bold z-10 peer-checked:text-white">R$ ${w.preco}</div>
                 </label>
             `).join('');
             updateSummary();
@@ -830,7 +840,8 @@
             } else {
                 selectedWidgets.push(id);
             }
-            updateSummary();
+            // Re-renderiza para aplicar os estilos corretos baseados no estado 'checked'
+            renderWidgets();
         }
 
         function updateSummary() {
