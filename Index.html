@@ -338,6 +338,16 @@
     
     .widget-demo-purple { background: var(--gradient-purple-card); color: #fff; }
     .widget-demo-tall { height: auto; padding: 20px; background: #000; }
+    /* Compact demo for small widgets */
+    .widget-demo-compact {
+      background: #fff;
+      padding: 20px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
     .widget-footer { padding: 15px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; background: var(--glass-subtle); color: #fff;}
     .price-tag { color: #fff; font-weight: 600; }
@@ -385,6 +395,16 @@
     .gift-circle i { font-size: 1.8rem; color: #ccff00; }
     .coupon-input-group { background: #3e0061; border: 1px solid #ccff00; border-radius: 8px; padding: 5px; display: flex; justify-content: space-between; width: 100%; max-width: 300px; align-items: center; }
     .btn-copy-small { background: #ccff00; color: #000; border: none; padding: 8px 15px; border-radius: 6px; font-weight: 800; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+
+    /* New Widgets: Filter & Central Links */
+    .filter-size-title { color: #d500f9; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+    .size-circle { width: 45px; height: 45px; background: #9d00e0; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
+    .size-circle:hover { background: #fff; color: #9d00e0; border-color: #9d00e0; transform: scale(1.1); }
+    
+    .link-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .link-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #b600ee, #5e007e); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(157, 0, 224, 0.3); }
+    .link-icon:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(157, 0, 224, 0.5); }
+    .link-text { color: #330066; font-weight: 800; font-size: 0.8rem; }
 
     /* --- CASE STUDY (CORRIGIDO - LAYOUT LADO A LADO) --- */
     .case-section { padding: 80px 0; }
@@ -456,6 +476,40 @@
     .popup-content { background: var(--bg-panel); border: 2px solid var(--pink-neon); padding: 40px; border-radius: 20px; max-width: 400px; text-align: center; position: relative; box-shadow: var(--shadow-pink); }
     .close-popup { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
 
+    /* FLOATING WHATSAPP BUTTON */
+    .float-wa {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #25d366;
+      color: #FFF;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .float-wa:hover { background-color: #128C7E; transform: scale(1.1); }
+    .float-tooltip {
+      position: absolute;
+      right: 70px;
+      background: #fff;
+      color: #333;
+      padding: 8px 12px;
+      border-radius: 20px 20px 0 20px;
+      width: max-content;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border: 1px solid #eee;
+    }
+
     .mobile-only { display: none; }
     
     /* --- RESPONSIVIDADE --- */
@@ -476,6 +530,9 @@
       .footer-grid { grid-template-columns: 1fr; text-align: center; }
       .mobile-only { display: block; }
       .sticky-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.9); padding: 12px; z-index: 999; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid var(--green-electric); }
+      
+      .float-wa { bottom: 85px; right: 15px; width: 50px; height: 50px; font-size: 24px; }
+      .float-tooltip { display: none; } /* Esconde texto em telas muito pequenas para não poluir */
     }
   </style>
 </head>
@@ -496,6 +553,12 @@
       </form>
     </div>
   </div>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Tenho%20uma%20duvida%20sobre%20a%20transformacao%20da%20loja." class="float-wa" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+    <span class="float-tooltip">Tem dúvida? Entre em contato conosco!</span>
+  </a>
 
   <header>
     <div class="container header-content">
@@ -728,6 +791,58 @@
           </div>
         </div>
 
+        <!-- Widget 7: Filtro Inteligente (Compre por Tamanho) -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Filtro Inteligente</span>
+            <span class="widget-badge">+42% Conv.</span>
+          </div>
+          <div class="widget-demo-compact">
+             <h4 class="filter-size-title">COMPRE POR TAMANHO</h4>
+             <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+               <div class="size-circle">33</div>
+               <div class="size-circle">34</div>
+               <div class="size-circle">35</div>
+               <div class="size-circle">36</div>
+               <div class="size-circle">37</div>
+               <div class="size-circle">38</div>
+               <div class="size-circle">39</div>
+             </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$190</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
+
+        <!-- Widget 10: Central de Links (Menu de Apoio) -->
+        <div class="widget-card">
+          <div class="widget-header">
+            <span>Central de Links</span>
+            <span class="widget-badge">+30% Conv.</span>
+          </div>
+          <div class="widget-demo-compact">
+             <div style="display: flex; gap: 20px; text-align: center; justify-content: center;">
+               <div class="link-item">
+                 <div class="link-icon"><i class="fab fa-whatsapp"></i></div>
+                 <p class="link-text">Fale Conosco</p>
+               </div>
+               <div class="link-item">
+                 <div class="link-icon"><i class="fas fa-crown"></i></div>
+                 <p class="link-text">Grupo VIP</p>
+               </div>
+               <div class="link-item">
+                 <div class="link-icon"><i class="fab fa-google-drive"></i></div>
+                 <p class="link-text">Material de<br>Divulgação</p>
+               </div>
+             </div>
+          </div>
+          <div class="widget-footer">
+            <span class="price-tag">R$150</span>
+            <span class="price-check">✓ Incluso Elite</span>
+          </div>
+        </div>
+
         <!-- Widget 6: Barra Vantagens -->
         <div class="widget-card" style="grid-column: 1 / -1;">
           <div class="widget-header">
@@ -852,7 +967,7 @@
             <li><i class="fas fa-check"></i> Instalação Padrão</li>
             <li><i class="fas fa-check"></i> Suporte Básico</li>
           </ul>
-          <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Quero%20o%20plano%20INICIANTE" class="btn btn-secondary" style="width:100%">ESCOLHER</a>
+          <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20INICIANTE%0A%E2%9C%85%20Valor:%20R$%20797,00" class="btn btn-secondary" style="width:100%">ESCOLHER</a>
         </div>
 
         <div class="price-card card-elite">
@@ -867,7 +982,7 @@
             <li><i class="fas fa-check"></i> Entrega em 7 Dias (Agendada)</li>
             <li><i class="fas fa-check"></i> Suporte VIP Prioritário</li>
           </ul>
-          <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Quero%20o%20COMBO%20ELITE%20de%20R$1661" class="btn btn-primary btn-pulse" style="width:100%">PIX AGORA</a>
+          <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20ELITE%20TOTAL%20%F0%9F%91%91%0A%E2%9C%85%20Valor:%20R$%201.661,00" class="btn btn-primary btn-pulse" style="width:100%">PIX AGORA</a>
         </div>
 
         <div class="price-card">
@@ -878,7 +993,7 @@
             <li><i class="fas fa-check"></i> Pesquisa de Mercado</li>
             <li><i class="fas fa-check"></i> Suporte Ilimitado</li>
           </ul>
-          <a href="https://wa.me/5562982237075?text=Ola%20VIZZU!%20Quero%20projeto%20PERSONALIZADO" class="btn btn-secondary" style="width:100%">CONSULTAR</a>
+          <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20PERSONALIZADO%0A%E2%9C%85%20Valor:%20R$%202.999,00" class="btn btn-secondary" style="width:100%">CONSULTAR</a>
         </div>
       </div>
 
@@ -894,6 +1009,8 @@
           <label class="check-item"><input type="checkbox" class="w-check" value="150" onclick="calcTotal()"> Barra Vantagens (R$150)</label>
           <label class="check-item"><input type="checkbox" class="w-check" value="120" onclick="calcTotal()"> Barra Informativa (R$120)</label>
           <label class="check-item"><input type="checkbox" class="w-check" value="180" onclick="calcTotal()"> Cupom One-Click (R$180)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="190" onclick="calcTotal()"> Filtro Inteligente (R$190)</label>
+          <label class="check-item"><input type="checkbox" class="w-check" value="150" onclick="calcTotal()"> Central de Links (R$150)</label>
         </div>
         <div style="margin-top:20px; text-align:center; padding-top:20px; border-top:1px solid #444;">
           <div style="font-size:1.2rem;">Total Avulso: <span id="total-avulso" style="color:#aaa; text-decoration: line-through;">R$ 450</span></div>
@@ -954,7 +1071,7 @@
       👑 92% ESCOLHEM ELITE<br>
       <span style="color:var(--green-electric); font-size:1.1rem;">R$ 1.661</span>
     </div>
-    <a href="https://wa.me/5562982237075?text=Quero%20o%20Combo%20Elite" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">PIX AGORA</a>
+    <a href="https://wa.me/5562982237075?text=Ol%C3%A1%20VIZZU!%20%F0%9F%9A%80%0AQuero%20transformar%20minha%20loja!%0A%0A%F0%9F%93%8B%20*MEU%20PEDIDO:*%0A%E2%9C%85%20Combo:%20ELITE%20TOTAL%20%F0%9F%91%91%0A%E2%9C%85%20Valor:%20R$%201.661,00" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">PIX AGORA</a>
   </div>
 
   <script>
@@ -1061,13 +1178,17 @@
     });
     function showPopup() { document.getElementById('exitPopup').style.display = 'flex'; popupShown = true; }
     function closePopup() { document.getElementById('exitPopup').style.display = 'none'; }
+    
+    // ATUALIZADO: Formatação de Mensagem Tipo Checklist
     function handleFormSubmit(e) {
       e.preventDefault();
       const inputs = e.target.querySelectorAll('input');
       const name = inputs[0].value;
       const phone = inputs[1].value;
       const url = inputs.length > 2 ? inputs[2].value : 'N/A';
-      const msg = `Olá VIZZU! Meu nome é ${name}. Minha loja é ${url}. Quero garantir minha vaga no Combo Elite!`;
+      
+      const msg = `Olá VIZZU! 🚀\nQuero transformar minha loja!\n\n📋 *MEU PEDIDO:*\n✅ Combo: ELITE TOTAL\n✅ Valor: R$ 1.661,00\n\n👤 *Meus Dados:*\nNome: ${name}\nLoja: ${url}`;
+      
       const waLink = `https://wa.me/5562982237075?text=${encodeURIComponent(msg)}`;
       window.open(waLink, '_blank');
     }
