@@ -22,10 +22,10 @@
                     colors: {
                         vizzu: {
                             purple: '#4a148c',
-                            dark: '#1a0b2e',
+                            dark: '#3A015E',
                             pink: '#d500f9',
-                            green: '#c6ff00',
-                            surface: '#2d1b4e'
+                            green: '#FFC300',
+                            surface: '#4a1f65'
                         }
                     },
                     fontFamily: {
@@ -56,7 +56,7 @@
     <style>
         /* ESTILOS GERAIS */
         body {
-            background-color: #1a0b2e;
+            background-color: #3A015E;
             color: #ffffff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -72,20 +72,17 @@
         }
 
         .neon-text { text-shadow: 0 0 10px rgba(213, 0, 249, 0.7); }
-        .card-elite { border: 2px solid #c6ff00; box-shadow: 0 0 30px rgba(198, 255, 0, 0.2); position: relative; background: rgba(74, 20, 140, 0.4); }
+        .card-elite { border: 2px solid #FFC300; box-shadow: 0 0 30px rgba(255, 195, 0, 0.2); position: relative; background: rgba(74, 20, 140, 0.4); }
         
-        /* Scrollbar fina para os widgets de scroll horizontal */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Utilitários de Vídeo SIMPLES (Sem loaders) */
         .video-wrapper {
             position: relative;
             background-color: #000;
             overflow: hidden;
         }
         
-        /* Vídeo sempre visível, sem transição de opacidade */
         video {
             display: block;
             width: 100%;
@@ -95,12 +92,12 @@
 
         /* Checkbox Customizado */
         .peer:checked ~ .checkbox-box {
-            background-color: #c6ff00;
-            border-color: #c6ff00;
+            background-color: #FFC300;
+            border-color: #FFC300;
         }
         .peer:checked ~ .checkbox-box i {
             opacity: 1;
-            color: #1a0b2e;
+            color: #3A015E;
         }
         
         input[type="checkbox"], label { -webkit-tap-highlight-color: transparent; }
@@ -108,7 +105,7 @@
         
         /* Slider Calculadora */
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #c6ff00; cursor: pointer; margin-top: -8px; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #FFC300; cursor: pointer; margin-top: -8px; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px; }
 
         /* Barra de Progresso Animada */
@@ -122,7 +119,7 @@
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #d500f9, #c6ff00);
+            background: linear-gradient(90deg, #d500f9, #FFC300);
             border-radius: 999px;
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -131,19 +128,19 @@
 <body class="antialiased pb-20 md:pb-0">
 
     <!-- BARRA DE VAGAS -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-[#cc0000] text-white py-3 px-2 text-center border-b border-white/10 shadow-xl flex justify-center items-center">
-        <p class="text-sm md:text-base font-bold flex justify-center items-center gap-2 uppercase tracking-wide">
-            <i class="fas fa-fire text-yellow-300 animate-pulse"></i>
-            <span>Apenas <span class="text-yellow-300 font-black text-lg">3 VAGAS</span> este mês!</span>
-            <span class="bg-white text-[#cc0000] px-2 py-0.5 rounded text-xs font-black shadow-sm ml-1">CORRA</span>
+    <div class="fixed top-0 left-0 w-full z-50 bg-[#C0392B] text-white py-1.5 px-2 text-center border-b border-white/10 shadow-xl flex justify-center items-center">
+        <p class="text-xs md:text-sm font-bold flex justify-center items-center gap-2 uppercase tracking-wide">
+            <i class="fas fa-fire text-[#FFC300] animate-pulse"></i>
+            <span>Apenas <span class="text-[#FFC300] font-black">3 VAGAS</span> este mês!</span>
+            <span class="bg-white text-[#C0392B] px-1.5 py-0.5 rounded-[2px] text-[10px] font-black shadow-sm ml-1">CORRA</span>
         </p>
     </div>
 
-    <!-- HERO SECTION -->
-    <header class="relative pt-24 pb-12 overflow-hidden">
+    <!-- HERO SECTION (Espaçamento Aumentado) -->
+    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-[#2d1b4e] to-vizzu-dark"></div>
-            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#4a148c 1px, transparent 1px); background-size: 30px 30px;"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-vizzu-dark via-[#4a1f65] to-vizzu-dark"></div>
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#6a1b9a 1px, transparent 1px); background-size: 30px 30px;"></div>
         </div>
 
         <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
@@ -161,7 +158,7 @@
                 Transforme sua loja FácilZap genérica em um <strong>APP Nível Shein</strong>. Sem agência, sem mensalidade, sem precisar programar.
             </p>
 
-            <a href="#planos" class="inline-flex items-center justify-center gap-3 bg-[#c6ff00] text-[#1a0b2e] px-8 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(198,255,0,0.6)] animate-pulse-fast w-full md:w-auto">
+            <a href="#planos" class="inline-flex items-center justify-center gap-3 bg-[#FFC300] text-[#3A015E] px-8 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(255,195,0,0.6)] animate-pulse-fast w-full md:w-auto">
                 QUERO O COMBO ELITE
                 <i class="fas fa-arrow-right"></i>
             </a>
@@ -173,8 +170,8 @@
         </div>
     </header>
 
-    <!-- AGITAÇÃO -->
-    <section class="py-12 bg-vizzu-surface relative">
+    <!-- AGITAÇÃO (Espaçamento Aumentado) -->
+    <section class="py-16 md:py-28 bg-vizzu-surface relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-2xl md:text-4xl font-bold text-center mb-10">
                 A Diferença entre <span class="text-red-500">Amadorismo</span> e <span class="text-vizzu-green">Profissionalismo</span>
@@ -196,13 +193,12 @@
                 </div>
 
                 <!-- A Promessa -->
-                <div class="glass-panel p-6 border-vizzu-green border relative flex flex-col shadow-[0_0_20px_rgba(198,255,0,0.1)]" data-aos="fade-left">
-                    <div class="absolute -top-4 right-4 bg-vizzu-green text-vizzu-dark font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
+                <div class="glass-panel p-6 border-vizzu-green border relative flex flex-col shadow-[0_0_20px_rgba(255,195,0,0.1)]" data-aos="fade-left">
+                    <div class="absolute -top-4 right-4 bg-vizzu-green text-[#3A015E] font-black px-3 py-1 rounded shadow-lg text-sm z-10">COM VIZZU</div>
                     <h3 class="text-vizzu-green font-bold mb-4 text-xl mt-2"><i class="fas fa-check-circle"></i> APP Vendas B2B</h3>
                      
                     <div class="flex-grow flex items-center justify-center bg-black/20 rounded-xl p-2 border border-vizzu-green/20">
                         <div class="relative w-[300px] h-[600px] bg-black border-4 border-gray-800 rounded-[30px] overflow-hidden shadow-2xl video-wrapper">
-                            <!-- Preload Auto + Src Direto -->
                             <video class="w-full h-full object-cover object-top" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/yav5jo.mp4"></video>
                             <div class="absolute top-4 left-4 bg-white/20 backdrop-blur rounded px-2 py-1 text-[10px] font-bold text-white shadow z-10">💎 MODO APP</div>
                         </div>
@@ -214,8 +210,8 @@
         </div>
     </section>
 
-    <!-- ESTATÍSTICAS -->
-    <section class="py-16 bg-gradient-to-b from-vizzu-surface to-vizzu-dark">
+    <!-- ESTATÍSTICAS (Espaçamento Aumentado) -->
+    <section class="py-16 md:py-28 bg-gradient-to-b from-vizzu-surface to-vizzu-dark">
         <div class="container mx-auto px-4 text-center max-w-4xl">
             <h2 class="font-display text-3xl md:text-4xl font-bold mb-12">
                 Por que você <span class="text-red-500 underline decoration-wavy">perde clientes</span> todos os dias?
@@ -241,16 +237,16 @@
         </div>
     </section>
 
-    <!-- SOLUÇÃO (WIDGETS DEMO) -->
-    <section class="py-16 container mx-auto px-4">
-        <div class="text-center mb-12">
+    <!-- SOLUÇÃO (WIDGETS DEMO) (Espaçamento e Gap Aumentados) -->
+    <section class="py-16 md:py-28 container mx-auto px-4">
+        <div class="text-center mb-16">
             <h2 class="font-display text-3xl md:text-5xl font-black mb-4 neon-text">
                 Veja como fica <span class="text-vizzu-pink">na Prática</span>
             </h2>
             <p class="text-gray-400">Soluções reais para transformar visitantes em compradores.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             <!-- 1. Redesign -->
             <div class="glass-panel p-5 hover:border-vizzu-green/50 transition duration-300">
                 <div class="flex justify-between items-center mb-3">
@@ -277,15 +273,15 @@
                      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border-2 border-pink-500 shadow-md video-wrapper">
                             <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/0rz45y.mp4"></video>
-                            <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 49</div>
+                            <div class="absolute bottom-1 left-1 bg-[#FFC300] text-black text-[8px] font-bold px-1 rounded z-10">R$ 49</div>
                         </div>
                         <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
                             <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/ldvflh.mp4"></video>
-                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 89</div>
+                             <div class="absolute bottom-1 left-1 bg-[#FFC300] text-black text-[8px] font-bold px-1 rounded z-10">R$ 89</div>
                         </div>
                          <div class="snap-center shrink-0 w-24 h-40 bg-black rounded-lg overflow-hidden relative border border-gray-200 video-wrapper">
                             <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/61okrt.mp4"></video>
-                             <div class="absolute bottom-1 left-1 bg-[#c6ff00] text-black text-[8px] font-bold px-1 rounded z-10">R$ 59</div>
+                             <div class="absolute bottom-1 left-1 bg-[#FFC300] text-black text-[8px] font-bold px-1 rounded z-10">R$ 59</div>
                         </div>
                      </div>
                 </div>
@@ -301,11 +297,11 @@
                  <div class="bg-white rounded-xl p-3 h-52 flex flex-col justify-center">
                     <div class="flex gap-3 overflow-x-auto hide-scrollbar snap-x justify-center">
                        <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
-                           <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
+                           <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#FFC300] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ONDE ESTAMOS</div>
                            <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/f64qpi.mp4"></video>
                        </div>
                         <div class="snap-center shrink-0 w-32 h-44 bg-black rounded-lg overflow-hidden relative group video-wrapper">
-                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#c6ff00] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
+                            <div class="absolute top-2 left-1/2 -translate-x-1/2 bg-[#FFC300] text-purple-900 text-[8px] font-bold px-2 py-0.5 rounded-full z-10 whitespace-nowrap shadow-sm">ESTOQUE</div>
                             <video class="w-full h-full object-cover opacity-90" autoplay muted loop playsinline preload="auto" src="https://files.catbox.moe/qdnl00.mp4"></video>
                         </div>
                     </div>
@@ -340,7 +336,7 @@
                              </div>
                              <div class="flex flex-col">
                                 <span class="text-[9px] text-white/70 uppercase">Seu Lucro</span>
-                                <span class="text-lg font-black text-[#c6ff00]" id="lucro-display">R$ 35,00</span>
+                                <span class="text-lg font-black text-[#FFC300]" id="lucro-display">R$ 35,00</span>
                              </div>
                         </div>
                     </div>
@@ -356,8 +352,8 @@
                 </div>
                 <div class="bg-gradient-to-r from-purple-900 to-pink-900 rounded-xl p-4 h-52 flex flex-col justify-center relative overflow-hidden shadow-inner border border-white/10">
                     <div class="flex justify-between items-center mb-2 z-10">
-                        <span class="font-black text-white italic text-lg tracking-tighter">OFERTA<br><span class="text-[#c6ff00]">RELÂMPAGO</span></span>
-                        <i class="fas fa-bolt text-2xl text-[#c6ff00] animate-pulse"></i>
+                        <span class="font-black text-white italic text-lg tracking-tighter">OFERTA<br><span class="text-[#FFC300]">RELÂMPAGO</span></span>
+                        <i class="fas fa-bolt text-2xl text-[#FFC300] animate-pulse"></i>
                     </div>
                     <div class="flex gap-1 justify-center my-2 z-10">
                         <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">04</span></div>
@@ -367,7 +363,7 @@
                         <div class="bg-white/10 rounded p-1 w-10 text-center border border-white/20"><span class="block text-xl font-bold text-white leading-none">12</span></div>
                     </div>
                     <div class="w-full bg-black/40 h-3 rounded-full mt-2 overflow-hidden border border-white/10 z-10">
-                        <div class="bg-[#c6ff00] h-full w-[85%] rounded-full"></div>
+                        <div class="bg-[#FFC300] h-full w-[85%] rounded-full"></div>
                     </div>
                     <p class="text-[10px] text-right text-gray-300 mt-1 z-10">85% Vendido</p>
                 </div>
@@ -383,10 +379,10 @@
                 <div class="bg-white rounded-xl overflow-hidden h-52 flex flex-col relative shadow-inner">
                     <div class="bg-gradient-to-r from-purple-600 to-pink-600 py-2 overflow-hidden whitespace-nowrap relative z-10 shadow-md">
                         <div class="inline-block animate-scroll-left-fast">
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-credit-card text-[#c6ff00] mr-1"></i> 12X SEM JUROS</span>
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-star text-[#c6ff00] mr-1"></i> 5% NO PIX</span>
-                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#c6ff00] mr-1"></i> FRETE GRÁTIS</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#FFC300] mr-1"></i> FRETE GRÁTIS</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-credit-card text-[#FFC300] mr-1"></i> 12X SEM JUROS</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-star text-[#FFC300] mr-1"></i> 5% NO PIX</span>
+                            <span class="mx-2 text-[10px] font-bold text-white inline-flex items-center"><i class="fas fa-truck text-[#FFC300] mr-1"></i> FRETE GRÁTIS</span>
                         </div>
                     </div>
                     <div class="flex justify-around items-center h-full bg-gray-50">
@@ -417,7 +413,7 @@
                     <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Selecione o Tamanho</span>
                     <div class="flex gap-2">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">P</div>
-                        <div class="w-8 h-8 rounded-full border-2 border-[#c6ff00] text-purple-900 flex items-center justify-center text-xs font-bold cursor-pointer bg-[#c6ff00]/10">M</div>
+                        <div class="w-8 h-8 rounded-full border-2 border-[#FFC300] text-purple-900 flex items-center justify-center text-xs font-bold cursor-pointer bg-[#FFC300]/10">M</div>
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">G</div>
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-white flex items-center justify-center text-xs font-bold shadow-md cursor-pointer">GG</div>
                     </div>
@@ -432,12 +428,12 @@
                     <i class="fas fa-ticket-alt text-2xl text-gray-500"></i>
                 </div>
                 <div class="bg-gradient-to-br from-indigo-900 to-purple-800 rounded-xl h-52 flex flex-col items-center justify-center p-4 relative overflow-hidden shadow-inner border border-white/10 group">
-                    <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#c6ff00] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(198,255,0,0.3)] animate-float">🎁</div>
+                    <div class="w-16 h-16 rounded-full bg-white/10 border-2 border-[#FFC300] flex items-center justify-center text-3xl mb-3 shadow-[0_0_15px_rgba(255,195,0,0.3)] animate-float">🎁</div>
                     <h4 class="text-white font-black text-xl uppercase italic tracking-tighter mb-1">PRIMEIRA COMPRA</h4>
-                    <span class="text-[#c6ff00] font-bold text-2xl mb-3 drop-shadow-sm">5% OFF</span>
+                    <span class="text-[#FFC300] font-bold text-2xl mb-3 drop-shadow-sm">5% OFF</span>
                     <div class="w-full bg-black/40 border border-white/20 rounded-full px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-black/60 transition">
                         <span class="font-mono text-white font-bold tracking-widest text-sm">VIZZU5</span>
-                        <i class="far fa-copy text-[#c6ff00]"></i>
+                        <i class="far fa-copy text-[#FFC300]"></i>
                     </div>
                 </div>
                 <p class="text-sm text-gray-400 mt-3">Botão flutuante robusto. O cliente clica, copia e ganha.</p>
@@ -449,14 +445,14 @@
                     <h3 class="font-bold text-lg text-gray-400">9. Rodapé Animado</h3>
                     <i class="fas fa-arrow-down text-2xl text-gray-500"></i>
                 </div>
-                <div class="bg-gradient-to-br from-purple-900 to-black rounded-xl h-52 flex flex-col justify-end overflow-hidden border-b-4 border-[#c6ff00] relative">
+                <div class="bg-gradient-to-br from-purple-900 to-black rounded-xl h-52 flex flex-col justify-end overflow-hidden border-b-4 border-[#FFC300] relative">
                     <div class="absolute inset-0 flex items-center justify-center opacity-20">
                         <img src="https://i.ibb.co/7dZ9GK5M/VIZZU.png" class="w-20 grayscale">
                     </div>
                     <div class="w-full bg-black/50 backdrop-blur py-2 overflow-hidden whitespace-nowrap">
                         <div class="inline-block animate-scroll-left text-[10px] text-gray-300">
-                            <span class="mx-4"><i class="fab fa-whatsapp text-[#c6ff00]"></i> (62) 9999-9999</span>
-                            <span class="mx-4"><i class="fas fa-map-marker-alt text-[#c6ff00]"></i> Goiânia - GO</span>
+                            <span class="mx-4"><i class="fab fa-whatsapp text-[#FFC300]"></i> (62) 9999-9999</span>
+                            <span class="mx-4"><i class="fas fa-map-marker-alt text-[#FFC300]"></i> Goiânia - GO</span>
                         </div>
                     </div>
                 </div>
@@ -466,8 +462,8 @@
         </div>
     </section>
 
-    <!-- PROVA SOCIAL -->
-    <section class="py-12 bg-black/30 border-y border-vizzu-purple/30">
+    <!-- PROVA SOCIAL (Espaçamento Aumentado) -->
+    <section class="py-16 md:py-28 bg-black/30 border-y border-vizzu-purple/30">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div class="md:w-1/2">
@@ -491,8 +487,8 @@
         </div>
     </section>
 
-    <!-- CTA DECISIVA -->
-    <section class="py-16 text-center bg-gradient-to-b from-vizzu-dark to-black border-b border-gray-800">
+    <!-- CTA DECISIVA (Espaçamento Aumentado) -->
+    <section class="py-16 md:py-28 text-center bg-gradient-to-b from-vizzu-dark to-black border-b border-gray-800">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-3xl md:text-5xl font-black mb-6">
                 A Escolha é Sua:
@@ -507,15 +503,15 @@
                     <p class="text-gray-300 text-sm">Design magnético, autoridade imediata e cliente comprando feliz.</p>
                 </div>
             </div>
-            <a href="#planos" class="inline-flex items-center gap-3 bg-[#c6ff00] text-[#1a0b2e] px-10 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(198,255,0,0.4)] animate-pulse-fast">
+            <a href="#planos" class="inline-flex items-center gap-3 bg-[#FFC300] text-[#3A015E] px-10 py-5 rounded-full font-black text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_40px_rgba(255,195,0,0.4)] animate-pulse-fast">
                 QUERO UMA LOJA INCRÍVEL
                 <i class="fas fa-arrow-down"></i>
             </a>
         </div>
     </section>
 
-    <!-- COMBOS ESTRATÉGICOS -->
-    <section id="planos" class="py-16 relative">
+    <!-- COMBOS ESTRATÉGICOS (Espaçamento Aumentado) -->
+    <section id="planos" class="py-16 md:py-28 relative">
         <div class="container mx-auto px-4">
             <h2 class="font-display text-3xl md:text-5xl font-black text-center mb-4">
                 Planos Oficiais <span class="text-vizzu-green">VIZZU</span>
@@ -583,7 +579,7 @@
                 </div>
                 <!-- Elite -->
                 <div class="card-elite p-6 flex flex-col h-full md:transform md:scale-105 md:-translate-y-4 z-10 rounded-xl">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-vizzu-dark font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-vizzu-green text-[#3A015E] font-black px-4 py-1 rounded-full shadow-lg text-sm whitespace-nowrap animate-pulse">
                         👑 O MAIS VENDIDO
                     </div>
                     <div class="mb-4 mt-2">
@@ -621,19 +617,19 @@
                 <div class="lg:col-span-2 glass-panel p-6">
                     <h3 class="font-bold text-xl mb-6 flex items-center gap-2"><i class="fas fa-tools text-vizzu-pink"></i> Monte seu Pacote</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lista-widgets">
-                        <!-- Gerado via JS (CHECKBOX COM EFEITO VERDE) -->
+                        <!-- Gerado via JS (CHECKBOX COM EFEITO AMARELO MOSTARDA) -->
                     </div>
                 </div>
 
                 <div class="lg:col-span-1">
-                    <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(198,255,0,0.1)]">
+                    <div class="glass-panel p-6 sticky top-24 border-2 border-vizzu-green/30 shadow-[0_0_30px_rgba(255,195,0,0.1)]">
                         <h3 class="font-bold text-xl mb-4 text-center text-white">Resumo Personalizado</h3>
                         
                         <!-- BARRA DE GAMIFICAÇÃO (DESKTOP) -->
                         <div class="mb-6 bg-black/30 p-3 rounded-lg border border-gray-700" id="gamification-box">
                             <div class="flex justify-between items-center mb-1">
                                 <span class="text-[10px] font-bold text-gray-300 uppercase" id="progress-text">Inicie sua seleção</span>
-                                <span class="text-xs font-black text-[#c6ff00]" id="progress-percent">0%</span>
+                                <span class="text-xs font-black text-[#FFC300]" id="progress-percent">0%</span>
                             </div>
                             <div class="progress-bar-container">
                                 <div class="progress-fill" style="width: 0%" id="progress-fill"></div>
@@ -671,7 +667,7 @@
             <div class="bg-black/40 px-4 py-2 border-b border-white/10">
                  <div class="flex justify-between items-center mb-1">
                     <span class="text-[10px] font-bold text-gray-300 uppercase" id="float-progress-text">Inicie sua seleção</span>
-                    <span class="text-[10px] font-black text-[#c6ff00]" id="float-progress-percent">0%</span>
+                    <span class="text-[10px] font-black text-[#FFC300]" id="float-progress-percent">0%</span>
                 </div>
                 <div class="progress-bar-container h-1.5"> <!-- Barra mais fina para mobile -->
                     <div class="progress-fill" style="width: 0%" id="float-progress-fill"></div>
@@ -696,7 +692,7 @@
         <a href="https://wa.me/62982237075" class="flex items-center justify-center gap-2 text-gray-300 font-bold text-sm">
             <i class="fab fa-whatsapp"></i> Dúvidas
         </a>
-        <a href="#planos" class="flex items-center justify-center gap-2 bg-vizzu-green text-vizzu-dark font-black rounded text-sm py-3 shadow-[0_0_15px_rgba(198,255,0,0.4)]">
+        <a href="#planos" class="flex items-center justify-center gap-2 bg-vizzu-green text-vizzu-dark font-black rounded text-sm py-3 shadow-[0_0_15px_rgba(255,195,0,0.4)]">
             COMPRAR AGORA
         </a>
     </div>
@@ -725,7 +721,7 @@
             const container = document.getElementById('lista-widgets');
             // ADICIONADO: peer-checked styles para ficar verde
             container.innerHTML = widgets.map(w => `
-                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 group select-none hover:bg-white/5 peer-checked:border-[#c6ff00] peer-checked:bg-[#c6ff00]/10">
+                <label class="relative flex items-center justify-between p-4 bg-vizzu-dark/50 border border-gray-700 rounded-lg cursor-pointer transition-all duration-200 group select-none hover:bg-white/5 peer-checked:border-[#FFC300] peer-checked:bg-[#FFC300]/10">
                     <input type="checkbox" class="peer sr-only focus:outline-none" 
                            onchange="toggleWidget(${w.id}, this)" ${selectedWidgets.includes(w.id) ? 'checked' : ''}>
                     
@@ -748,10 +744,10 @@
             if (checkbox.checked) {
                 if (!selectedWidgets.includes(id)) selectedWidgets.push(id);
                 // Adiciona classe visual manual se necessário (o CSS peer-checked faz o trabalho pesado)
-                checkbox.parentElement.classList.add('border-[#c6ff00]', 'bg-[#c6ff00]/10');
+                checkbox.parentElement.classList.add('border-[#FFC300]', 'bg-[#FFC300]/10');
             } else {
                 selectedWidgets = selectedWidgets.filter(wId => wId !== id);
-                checkbox.parentElement.classList.remove('border-[#c6ff00]', 'bg-[#c6ff00]/10');
+                checkbox.parentElement.classList.remove('border-[#FFC300]', 'bg-[#FFC300]/10');
             }
             updateSummary();
         }
