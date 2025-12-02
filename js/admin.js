@@ -112,19 +112,20 @@ async function createNewBriefingProject() {
         const newBriefingId = data[0].id;
         
         // Generate link to briefing.html
-        // If running locally with file://, we need to be careful. 
-        // We assume the user will open briefing.html in the same folder.
-        // For a real deployment, this would be the domain.
+        // Robust URL generation for both local file:// and server http://
+        let currentUrl = window.location.href;
+        let newUrl;
         
-        let baseUrl = window.location.href;
-        // Remove index.html or trailing slash
-        if (baseUrl.endsWith('index.html')) {
-            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/'));
-        } else if (baseUrl.endsWith('/')) {
-            baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+        if (currentUrl.indexOf('index.html') > -1) {
+            newUrl = currentUrl.replace('index.html', 'briefing.html');
+        } else {
+            // Assume we are at root
+            let path = currentUrl.split('?')[0];
+            if (!path.endsWith('/')) path += '/';
+            newUrl = path + 'briefing.html';
         }
         
-        const newLink = `${baseUrl}/briefing.html?id=${newBriefingId}`;
+        const newLink = `${newUrl}?id=${newBriefingId}`;
         
         document.getElementById('clientName').value = '';
         document.getElementById('driveLink').value = '';
@@ -166,13 +167,17 @@ async function loadBriefings() {
         let html = '';
         projects.forEach(project => {
             // Reconstruct link
-            let baseUrl = window.location.href;
-            if (baseUrl.endsWith('index.html')) {
-                baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/'));
-            } else if (baseUrl.endsWith('/')) {
-                baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+            let currentUrl = window.location.href;
+            let newUrl;
+            
+            if (currentUrl.indexOf('index.html') > -1) {
+                newUrl = currentUrl.replace('index.html', 'briefing.html');
+            } else {
+                let path = currentUrl.split('?')[0];
+                if (!path.endsWith('/')) path += '/';
+                newUrl = path + 'briefing.html';
             }
-            const link = `${baseUrl}/briefing.html?id=${project.id}`;
+            const link = `${newUrl}?id=${project.id}`;
             
             const isCompleted = project.status === 'Concluído';
             
