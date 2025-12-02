@@ -135,18 +135,27 @@
 
                 <form id="briefingForm" onsubmit="return false;">
                     
-                    <!-- SEÇÃO 1: ACESSOS & ARQUIVOS -->
+                    <!-- SEÇÃO 1: DADOS, ACESSOS & ARQUIVOS -->
                     <div class="form-step active" data-step="1">
                         <div class="glass-card">
                             <div class="section-header">
-                                <h2><i class="fas fa-lock"></i> Acessos & Arquivos</h2>
-                                <p class="section-desc">Vamos preparar o terreno para a transformação.</p>
+                                <h2><i class="fas fa-user-check"></i> Dados Iniciais & Acessos</h2>
+                                <p class="section-desc">Primeiro, precisamos saber quem está preenchendo e os dados da loja.</p>
                             </div>
-        
-                            <div class="input-group"><label>1. Link da Loja FácilZap/Plataforma *</label><input type="url" name="loja_url" placeholder="https://..." required></div>
-                            <div class="input-group"><label>2. Login Criado (E-mail de Colaborador) *</label><input type="email" name="login_email" placeholder="ex: equipe@vizzu.com" required></div>
+
+                            <!-- Dados Pessoais -->
+                            <div class="input-group"><label>1. Nome Completo (Responsável) *</label><input type="text" name="responsavel_nome" placeholder="Seu nome completo" required></div>
+                            <div class="input-group"><label>2. Nome da Loja *</label><input type="text" name="nome_loja" placeholder="Nome da sua loja" required></div>
+                            <div class="input-group"><label>3. Seu WhatsApp (Contato) *</label><input type="tel" name="responsavel_whatsapp" class="phone-mask" placeholder="(XX) XXXXX-XXXX" required></div>
+                            <div class="input-group"><label>4. Seu E-mail (Contato) *</label><input type="email" name="responsavel_email" placeholder="seuemail@exemplo.com" required></div>
+
+                            <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 30px 0;">
+
+                            <!-- Acessos -->
+                            <div class="input-group"><label>5. Link da Loja FácilZap/Plataforma *</label><input type="url" name="loja_url" placeholder="https://..." required></div>
+                            <div class="input-group"><label>6. Login Criado (E-mail de Colaborador) *</label><input type="email" name="login_email" placeholder="ex: equipe@vizzu.com" required></div>
                             <div class="input-group">
-                                <label>3. Senha Provisória *</label>
+                                <label>7. Senha Provisória *</label>
                                 <input type="text" name="senha_provisoria" placeholder="Digite a senha para conferência" required>
                                 <p class="input-helper" style="color: var(--neon-green); margin-top: 5px;">
                                     <i class="fas fa-exclamation-circle"></i> Importante: Este usuário precisa ter permissão para acessar <strong>Produtos</strong> e <strong>Aparência/Tema</strong> da loja.
@@ -154,7 +163,7 @@
                             </div>
         
                             <div class="input-group" style="margin-top: 30px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
-                                <label style="margin-bottom: 15px;">4. Upload de Arquivos</label>
+                                <label style="margin-bottom: 15px;">8. Upload de Arquivos</label>
                                 <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.9rem;">
                                     Acesse nossa pasta segura no Drive (botão abaixo), crie uma pasta com seu nome e suba seu Logo (PNG), Vídeos e Fotos.
                                 </p>
@@ -181,7 +190,7 @@
                                 <p class="section-desc">O estilo que vai encantar seus clientes.</p>
                             </div>
                             <div class="input-group">
-                                <label>5. Paleta de Cores (Adicione quantas quiser) *</label>
+                                <label>9. Paleta de Cores (Adicione quantas quiser) *</label>
                                 <div class="color-picker-wrapper" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
                                     <input type="color" id="colorPickerInput" value="#000000" style="height: 45px; width: 60px; cursor: pointer; border: none; background: none;">
                                     <input type="text" id="hexInput" placeholder="#000000" maxlength="7" style="width: 120px; text-transform: uppercase;">
@@ -193,7 +202,7 @@
                                 <input type="hidden" name="cores" id="finalColorsInput" required>
                             </div>
                             <div class="input-group">
-                                <label>6. Logo em Alta Resolução *</label>
+                                <label>10. Logo em Alta Resolução *</label>
                                 <select name="logo_status" required>
                                     <option value="" disabled selected>Selecione uma opção</option>
                                     <option value="drive">Sim, já está no Drive em alta qualidade</option>
@@ -201,7 +210,7 @@
                                 </select>
                             </div>
                             <div class="input-group">
-                                <label>7. Sensação da Loja (Vibe) *</label>
+                                <label>11. Sensação da Loja (Vibe) *</label>
                                 <div class="selection-grid">
                                     <label class="selection-card"><input type="radio" name="vibe" value="luxo" required><div class="card-content"><i class="fas fa-crown"></i><span>Luxo & Sofisticação</span></div></label>
                                     <label class="selection-card"><input type="radio" name="vibe" value="preco"><div class="card-content"><i class="fas fa-tags"></i><span>Preço & Oportunidade</span></div></label>
@@ -210,7 +219,7 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label>8. Referências Visuais (Upload)</label>
+                                <label>12. Referências Visuais (Upload)</label>
                                 <div class="upload-area">
                                     <input type="file" id="refUpload" multiple accept="image/*" style="display: none;">
                                     <label for="refUpload" class="upload-btn">
@@ -234,11 +243,11 @@
                                 <h2><i class="fas fa-bullseye"></i> Estratégia Comercial</h2>
                                 <p class="section-desc">Regras claras vendem mais no atacado.</p>
                             </div>
-                            <div class="input-group"><label>9. Valor do Pedido Mínimo (R$) *</label><input type="text" name="pedido_minimo" class="money-mask" placeholder="R$ 0,00" required></div>
-                            <div class="input-group"><label>10. Regras de Frete *</label><textarea name="regras_frete" placeholder="Ex: Frete grátis acima de R$ 1000, Envio via Excursão, Correios..." required></textarea></div>
-                            <div class="input-group"><label>11. Facilidades de Pagamento</label><input type="text" name="pagamento" placeholder="Ex: 5% no Pix, 3x sem juros" required></div>
-                            <div class="input-group"><label>12. Produto Estrela (Oferta Relâmpago)</label><input type="text" name="produto_estrela" placeholder="Qual produto vai ter destaque no timer/topo?"></div>
-                            <div class="input-group"><label>13. Cupom de Primeira Compra</label><input type="text" name="cupom" placeholder="Ex: PRIMEIRACOMPRA (Deixe em branco se não tiver)"></div>
+                            <div class="input-group"><label>13. Valor do Pedido Mínimo (R$) *</label><input type="text" name="pedido_minimo" class="money-mask" placeholder="R$ 0,00" required></div>
+                            <div class="input-group"><label>14. Regras de Frete *</label><textarea name="regras_frete" placeholder="Ex: Frete grátis acima de R$ 1000, Envio via Excursão, Correios..." required></textarea></div>
+                            <div class="input-group"><label>15. Facilidades de Pagamento</label><input type="text" name="pagamento" placeholder="Ex: 5% no Pix, 3x sem juros" required></div>
+                            <div class="input-group"><label>16. Produto Estrela (Oferta Relâmpago)</label><input type="text" name="produto_estrela" placeholder="Qual produto vai ter destaque no timer/topo?"></div>
+                            <div class="input-group"><label>17. Cupom de Primeira Compra</label><input type="text" name="cupom" placeholder="Ex: PRIMEIRACOMPRA (Deixe em branco se não tiver)"></div>
                             
                             <!-- Variações e Filtros -->
                             <div class="input-group" style="margin-top: 30px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
@@ -263,9 +272,9 @@
                                 <h2><i class="fas fa-video"></i> Conteúdo dos Widgets</h2>
                                 <p class="section-desc">Preenchendo a vitrine com autoridade.</p>
                             </div>
-                            <div class="input-group"><label>14. Destaque do Carrossel Vitrine *</label><input type="text" name="destaque_carrossel" placeholder="Ex: Coleção Nova, Queima de Estoque, Lançamento" required></div>
+                            <div class="input-group"><label>18. Destaque do Carrossel Vitrine *</label><input type="text" name="destaque_carrossel" placeholder="Ex: Coleção Nova, Queima de Estoque, Lançamento" required></div>
                             <div class="input-group">
-                                <label>15. Vídeos Institucionais Disponíveis</label>
+                                <label>19. Vídeos Institucionais Disponíveis</label>
                                 <p class="input-helper" style="margin-bottom: 10px;">Marque o que você consegue enviar ou já enviou:</p>
                                 <label class="custom-check-container">Fachada da Loja / Estoque Cheio<input type="checkbox" name="video_fachada"><span class="checkmark"></span></label>
                                 <label class="custom-check-container">Equipe separando pedidos (Bastidores)<input type="checkbox" name="video_equipe"><span class="checkmark"></span></label>
@@ -273,7 +282,7 @@
                                 <label class="custom-check-container">Apresentação da Dona / História<input type="checkbox" name="video_dona"><span class="checkmark"></span></label>
                             </div>
                             <div class="input-group">
-                                <label>16. Prova Social (Feedback de Clientes) *</label>
+                                <label>20. Prova Social (Feedback de Clientes) *</label>
                                 <select name="prova_social" required>
                                     <option value="sim">Sim, coloquei prints de clientes no Drive</option>
                                     <option value="nao">Não tenho prints ainda</option>
@@ -293,9 +302,9 @@
                                 <h2><i class="fas fa-headset"></i> Suporte & Rodapé</h2>
                                 <p class="section-desc">Segurança para quem compra.</p>
                             </div>
-                            <div class="input-group"><label>17. WhatsApp de Atendimento *</label><input type="tel" name="whatsapp" class="phone-mask" placeholder="(XX) XXXXX-XXXX" required></div>
-                            <div class="input-group"><label>18. Endereço Físico Completo *</label><textarea name="endereco" placeholder="Rua, Número, Bairro, Cidade - Estado" required></textarea></div>
-                            <div class="input-group"><label>19. Horário de Atendimento *</label><input type="text" name="horario" placeholder="Ex: Seg a Sex das 8h às 18h" required></div>
+                            <div class="input-group"><label>21. WhatsApp de Atendimento *</label><input type="tel" name="whatsapp" class="phone-mask" placeholder="(XX) XXXXX-XXXX" required></div>
+                            <div class="input-group"><label>22. Endereço Físico Completo *</label><textarea name="endereco" placeholder="Rua, Número, Bairro, Cidade - Estado" required></textarea></div>
+                            <div class="input-group"><label>23. Horário de Atendimento *</label><input type="text" name="horario" placeholder="Ex: Seg a Sex das 8h às 18h" required></div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-prev" onclick="prevStep(5)"><i class="fas fa-arrow-left"></i> Voltar</button>
                                 <button type="button" class="btn btn-next" onclick="nextStep(5)">Próximo <i class="fas fa-arrow-right"></i></button>
@@ -311,7 +320,7 @@
                                 <p class="section-desc">O toque final para o sucesso.</p>
                             </div>
                             <div class="input-group">
-                                <label>20. O Fator UAU (Importante) *</label>
+                                <label>24. O Fator UAU (Importante) *</label>
                                 <textarea name="fator_uau" placeholder="Para você, o que faria você olhar para o site pronto e dizer: 'Valew cada centavo!'? Seja sincero." required style="min-height: 150px;"></textarea>
                             </div>
                             <div class="btn-group">
@@ -335,7 +344,7 @@
                 <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--neon-green); margin-bottom: 20px;"></i>
                 <h3 style="font-family: var(--font-title); font-size: 1.8rem; color: var(--text-white); margin-bottom: 15px;">Briefing Salvo com Sucesso!</h3>
                 <p style="color: var(--text-gray); margin-bottom: 30px;">Nossa equipe já recebeu seus dados. O prazo de 7 dias começa a contar agora!</p>
-                <a href="#" class="btn" style="background: #25D366; color: white; text-decoration: none; font-weight: 700; justify-content: center;">
+                <a href="https://wa.me/5562982237075?text=Ol%C3%A1%2C%20preenchi%20o%20meu%20briefing%21" target="_blank" class="btn" style="background: #25D366; color: white; text-decoration: none; font-weight: 700; justify-content: center;">
                     <i class="fab fa-whatsapp"></i> Voltar para WhatsApp
                 </a>
             </div>
