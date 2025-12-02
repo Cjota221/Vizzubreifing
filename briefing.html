@@ -145,7 +145,13 @@
         
                             <div class="input-group"><label>1. Link da Loja FácilZap/Plataforma *</label><input type="url" name="loja_url" placeholder="https://..." required></div>
                             <div class="input-group"><label>2. Login Criado (E-mail de Colaborador) *</label><input type="email" name="login_email" placeholder="ex: equipe@vizzu.com" required></div>
-                            <div class="input-group"><label>3. Senha Provisória *</label><input type="text" name="senha_provisoria" placeholder="Digite a senha para conferência" required></div>
+                            <div class="input-group">
+                                <label>3. Senha Provisória *</label>
+                                <input type="text" name="senha_provisoria" placeholder="Digite a senha para conferência" required>
+                                <p class="input-helper" style="color: var(--neon-green); margin-top: 5px;">
+                                    <i class="fas fa-exclamation-circle"></i> Importante: Este usuário precisa ter permissão para acessar <strong>Produtos</strong> e <strong>Aparência/Tema</strong> da loja.
+                                </p>
+                            </div>
         
                             <div class="input-group" style="margin-top: 30px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
                                 <label style="margin-bottom: 15px;">4. Upload de Arquivos</label>
@@ -175,10 +181,16 @@
                                 <p class="section-desc">O estilo que vai encantar seus clientes.</p>
                             </div>
                             <div class="input-group">
-                                <label>5. Paleta de Cores (Escolha até 3) *</label>
-                                <div id="colorPaletteGrid" class="color-grid"></div>
-                                <input type="hidden" name="cores" id="selectedColorsInput" required>
-                                <p class="input-helper" id="colorCount" style="text-align: right; margin-top: 5px;">0/3 selecionadas</p>
+                                <label>5. Paleta de Cores (Adicione quantas quiser) *</label>
+                                <div class="color-picker-wrapper" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                                    <input type="color" id="colorPickerInput" value="#000000" style="height: 45px; width: 60px; cursor: pointer; border: none; background: none;">
+                                    <input type="text" id="hexInput" placeholder="#000000" maxlength="7" style="width: 120px; text-transform: uppercase;">
+                                    <button type="button" class="btn-small" onclick="addColorFromPicker()" style="padding: 10px 20px; background: var(--neon-purple); border: none; color: white; border-radius: 5px; cursor: pointer;">
+                                        <i class="fas fa-plus"></i> Adicionar
+                                    </button>
+                                </div>
+                                <div id="selectedColorsList" class="selected-colors-list" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                                <input type="hidden" name="cores" id="finalColorsInput" required>
                             </div>
                             <div class="input-group">
                                 <label>6. Logo em Alta Resolução *</label>
@@ -227,6 +239,20 @@
                             <div class="input-group"><label>11. Facilidades de Pagamento</label><input type="text" name="pagamento" placeholder="Ex: 5% no Pix, 3x sem juros" required></div>
                             <div class="input-group"><label>12. Produto Estrela (Oferta Relâmpago)</label><input type="text" name="produto_estrela" placeholder="Qual produto vai ter destaque no timer/topo?"></div>
                             <div class="input-group"><label>13. Cupom de Primeira Compra</label><input type="text" name="cupom" placeholder="Ex: PRIMEIRACOMPRA (Deixe em branco se não tiver)"></div>
+                            
+                            <!-- Variações e Filtros -->
+                            <div class="input-group" style="margin-top: 30px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                                <label><i class="fas fa-filter"></i> Variações de Produtos (Filtros)</label>
+                                <p class="section-desc" style="font-size: 0.9rem; margin-bottom: 15px;">
+                                    Liste as variações dos seus produtos (Ex: Cor, Tamanho, Voltagem) e coloque o link (Drive ou Site) onde podemos ver as imagens/ícones para criar os filtros.
+                                </p>
+                                <div id="variationsContainer"></div>
+                                <button type="button" class="btn-small" onclick="addVariationRow()" style="margin-top: 10px; padding: 8px 15px; background: rgba(255,255,255,0.1); border: 1px solid var(--text-gray); color: var(--text-white); border-radius: 5px; cursor: pointer;">
+                                    <i class="fas fa-plus"></i> Adicionar Variação
+                                </button>
+                                <input type="hidden" name="variacoes_json" id="variationsJson">
+                            </div>
+
                             <div class="btn-group">
                                 <button type="button" class="btn btn-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Voltar</button>
                                 <button type="button" class="btn btn-next" onclick="nextStep(3)">Próximo <i class="fas fa-arrow-right"></i></button>

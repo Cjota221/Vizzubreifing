@@ -19,8 +19,10 @@ window.onload = async function() {
     }
 
     await loadProjectData(currentBriefingId);
-    renderColorPalette();
+    // renderColorPalette(); // Removed old palette
+    setupColorPicker(); // New Color Picker
     setupFileUpload();
+    addVariationRow(); // Add first row by default
 };
 
 async function loadProjectData(id) {
@@ -110,6 +112,15 @@ async function submitBriefing() {
         formData.forEach((value, key) => {
             // Skip file input as we handled it manually
             if (key === 'refUpload') return;
+            // Skip variations inputs as we handle them via JSON
+            if (key === 'variacoes_json') {
+                try {
+                    dataObj['variacoes'] = JSON.parse(value);
+                } catch (e) {
+                    dataObj['variacoes'] = [];
+                }
+                return;
+            }
 
             if (dataObj[key]) {
                 if (!Array.isArray(dataObj[key])) { dataObj[key] = [dataObj[key]]; }
@@ -225,52 +236,129 @@ function validateCurrentStep() {
     return isValid;
 }
 
-// --- COLOR PALETTE LOGIC ---
-const PALETTE_COLORS = [
-    '#FF0000', '#FF4500', '#FF8C00', '#FFD700', '#FFFF00', '#ADFF2F', '#32CD32', '#008000',
-    '#00FA9A', '#00FFFF', '#00BFFF', '#1E90FF', '#0000FF', '#8A2BE2', '#FF00FF', '#FF1493',
-    '#C71585', '#800000', '#A52A2A', '#D2691E', '#F4A460', '#F5DEB3', '#FFF8DC', '#F0FFF0',
-    '#F0FFFF', '#E6E6FA', '#FFF0F5', '#D3D3D3', '#808080', '#000000', '#FFFFFF', '#2F4F4F', '#4B0082'
-];
+// --- COLOR PICKER LOGIC ---
 let selectedColors = [];
 
-function renderColorPalette() {
-    const grid = document.getElementById('colorPaletteGrid');
-    if (!grid) return;
+function setupColorPicker() {
+    const picker = document.getElementById('colorPickerInput');
+    const hexInput = document.getElementById('hexInput');
 
-    grid.innerHTML = '';
-    PALETTE_COLORS.forEach(color => {
-        const div = document.createElement('div');
-        div.className = 'color-option';
-        div.style.backgroundColor = color;
-        div.onclick = () => toggleColor(color, div);
-        grid.appendChild(div);
-    });
-}
-
-function toggleColor(color, element) {
-    const index = selectedColors.indexOf(color);
-    
-    if (index > -1) {
-        // Remove
-        selectedColors.splice(index, 1);
-        element.classList.remove('selected');
-    } else {
-        // Add (max 3)
-        if (selectedColors.length >= 3) {
-            alert('Você só pode escolher 3 cores.');
-            return;
-        }
-        selectedColors.push(color);
-        element.classList.add('selected');
+    if(picker && hexInput) {
+        picker.addEventListener('input', (e) => {
+            hexInput.value = e.target.value.toUpperCase();
+        });
+        hexInput.addEventListener('input', (e) => {
+            if(e.target.value.match(/^#[0-9A-F]{6}$/i)) {
+                picker.value = e.target.value;
+            }
+        });
     }
-    
-    updateColorInput();
 }
 
-function updateColorInput() {
-    document.getElementById('selectedColorsInput').value = selectedColors.join(', ');
-    document.getElementById('colorCount').textContent = `${selectedColors.length}/3 selecionadas`;
+function addColorFromPicker() {
+    const hexInput = document.getElementById('hexInput');
+    const color = hexInput.value;
+
+    if (!color.match(/^#[0-9A-Fa-f]{6}$/)) {
+        alert('Por favor, selecione uma cor válida ou digite o código HEX (ex: #FF0000).');
+        return;
+    }
+
+    if (selectedColors.includes(color)) {
+        alert('Esta cor já foi adicionada.');
+        return;
+    }
+
+    selectedColors.push(color);
+    renderSelectedColors();
+    hexInput.value = ''; // Clear input
+}
+
+function removeColor(color) {
+    selectedColors = selectedColors.filter(c => c !== color);
+    renderSelectedColors();
+}
+
+function renderSelectedColors() {
+    const list = document.getElementById('selectedColorsList');
+    const input = document.getElementById('finalColorsInput');
+    
+    list.innerHTML = '';
+    selectedColors.forEach(color => {
+        const item = document.createElement('div');
+        item.style.cssText = `
+            display: flex; align-items: center; gap: 8px; 
+            background: rgba(255,255,255,0.1); padding: 5px 10px; 
+            border-radius: 20px; border: 1px solid ${color};
+        `;
+        item.innerHTML = `
+            <div style="width: 20px; height: 20px; background-color: ${color}; border-radius: 50%;"></div>
+            <span style="color: var(--text-white); font-size: 0.9rem;">${color}</span>
+            <i class="fas fa-times" onclick="removeColor('${color}')" style="cursor: pointer; color: #ff4444; margin-left: 5px;"></i>
+        `;
+        list.appendChild(item);
+    });
+
+    input.value = selectedColors.join(', ');
+}
+
+// --- VARIATIONS LOGIC ---
+function addVariationRow() {
+    const container = document.getElementById('variationsContainer');
+    const id = Date.now();
+    
+    const row = document.createElement('div');
+    row.className = 'variation-row';
+    row.dataset.id = id;
+    row.style.cssText = `
+        background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; 
+        margin-bottom: 10px; border: 1px solid var(--glass-border);
+        position: relative;
+    `;
+    
+    row.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div>
+                <label style="font-size: 0.8rem; color: var(--text-gray);">Tipo (ex: Cor, Tamanho)</label>
+                <input type="text" class="var-type" placeholder="Digite o tipo" oninput="updateVariationsJson()">
+            </div>
+            <div>
+                <label style="font-size: 0.8rem; color: var(--text-gray);">Opções (ex: P, M, G)</label>
+                <input type="text" class="var-options" placeholder="Digite as opções" oninput="updateVariationsJson()">
+            </div>
+        </div>
+        <div>
+            <label style="font-size: 0.8rem; color: var(--text-gray);">Link das Imagens/Ícones (Drive ou Site)</label>
+            <input type="url" class="var-link" placeholder="https://..." oninput="updateVariationsJson()">
+        </div>
+        <i class="fas fa-trash" onclick="removeVariationRow(this)" style="
+            position: absolute; top: 10px; right: 10px; color: #ff4444; cursor: pointer;
+        " title="Remover variação"></i>
+    `;
+    
+    container.appendChild(row);
+}
+
+function removeVariationRow(btn) {
+    btn.closest('.variation-row').remove();
+    updateVariationsJson();
+}
+
+function updateVariationsJson() {
+    const rows = document.querySelectorAll('.variation-row');
+    const data = [];
+    
+    rows.forEach(row => {
+        const type = row.querySelector('.var-type').value;
+        const options = row.querySelector('.var-options').value;
+        const link = row.querySelector('.var-link').value;
+        
+        if (type || options || link) {
+            data.push({ type, options, link });
+        }
+    });
+    
+    document.getElementById('variationsJson').value = JSON.stringify(data);
 }
 
 // --- FILE UPLOAD UI LOGIC ---
