@@ -3,6 +3,27 @@ const SUPABASE_URL = 'https://khoyztycmrryrkbsvhja.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// --- CONSTANTS ---
+const PLANS = {
+    'iniciante': { name: 'Iniciante', price: 797, items: ['Redesign Visual', 'Filtro Inteligente', 'Barra Vantagens', 'Cupom One-Click'] },
+    'elite': { name: 'Elite Total', price: 1661, items: ['2 Carrosséis (12 Vídeos)', '10 Widgets Completos', 'Entrega 7 Dias', 'Suporte VIP'] },
+    'personalizado': { name: 'Personalizado', price: 2999, items: ['Projeto Sob Medida', 'Pesquisa de Mercado', 'Suporte Ilimitado'] },
+    'avulso': { name: 'Itens Avulsos', price: 0, items: [] }
+};
+
+const WIDGETS = {
+    'Redesign Visual': 450,
+    'Carrossel Vitrine': 280,
+    'Carrossel Institucional': 280,
+    'Calc. Lucro': 380,
+    'Oferta Scarcity': 310,
+    'Cupom One-Click': 180,
+    'Filtro Inteligente': 190,
+    'Central de Links': 150,
+    'Barra Vantagens': 150,
+    'Barra Informativa': 120
+};
+
 // --- STATE ---
 let allProjects = [];
 let currentProject = null;
@@ -51,6 +72,7 @@ function renderProjectList(projects) {
         const clientName = p.client_name || data.responsavel_nome || 'Cliente Sem Nome';
         const storeName = data.nome_loja || 'Loja Sem Nome';
         const status = p.status || 'Pendente';
+        const planName = admin.plan_details?.name || 'Sem Plano';
         
         const card = document.createElement('div');
         card.className = 'project-card';
@@ -61,6 +83,7 @@ function renderProjectList(projects) {
             <div class="card-info">
                 <h3>${storeName}</h3>
                 <p>${clientName}</p>
+                <div style="font-size:0.8rem; color:#666; margin-bottom:5px;">${planName}</div>
                 <span class="status-badge ${status.toLowerCase().replace(' ', '-')}">${status}</span>
             </div>
             <div class="card-meta">
@@ -71,6 +94,20 @@ function renderProjectList(projects) {
     });
 }
 
+// --- NAVIGATION ---
+function showDashboard() {
+    document.getElementById('dashboardView').style.display = 'block';
+    document.getElementById('plansView').style.display = 'none';
+    document.getElementById('projectDetailView').style.display = 'none';
+    loadProjects();
+}
+
+function showPlans() {
+    document.getElementById('dashboardView').style.display = 'none';
+    document.getElementById('plansView').style.display = 'block';
+    document.getElementById('projectDetailView').style.display = 'none';
+}
+
 // --- OPEN PROJECT ---
 async function openProject(id) {
     currentProject = allProjects.find(p => p.id === id);
@@ -78,6 +115,7 @@ async function openProject(id) {
 
     // Hide List, Show Detail
     document.getElementById('dashboardView').style.display = 'none';
+    document.getElementById('plansView').style.display = 'none';
     document.getElementById('projectDetailView').style.display = 'block';
 
     renderProjectDetails();
@@ -85,9 +123,7 @@ async function openProject(id) {
 
 function closeProject() {
     currentProject = null;
-    document.getElementById('projectDetailView').style.display = 'none';
-    document.getElementById('dashboardView').style.display = 'block';
-    loadProjects(); // Refresh list
+    showDashboard();
 }
 
 // --- RENDER DETAILS ---
@@ -97,23 +133,24 @@ function renderProjectDetails() {
     const admin = p.admin_data || {};
 
     // Header
-    document.getElementById('detailTitle').textContent = data.nome_loja || 'Projeto Sem Nome';
+    document.getElementById('detailTitle').textContent = data.nome_loja || p.client_name || 'Projeto Sem Nome';
     document.getElementById('detailSubtitle').textContent = p.client_name || data.responsavel_nome || 'Cliente';
     
     // Generate Briefing Link
     const link = `${window.location.href.replace('index.html', '').replace(/\/$/, '')}/briefing.html?id=${p.id}`;
     document.getElementById('briefingLinkInput').value = link;
 
-    // Client Info
-    document.getElementById('infoName').value = data.responsavel_nome || '';
+    // Client Info (Editable)
+    document.getElementById('infoName').value = p.client_name || data.responsavel_nome || '';
     document.getElementById('infoStore').value = data.nome_loja || '';
     document.getElementById('infoPhone').value = data.responsavel_whatsapp || '';
     document.getElementById('infoEmail').value = data.responsavel_email || '';
     
     // WhatsApp Link
     const waLink = document.getElementById('waLink');
-    if (data.responsavel_whatsapp) {
-        const num = data.responsavel_whatsapp.replace(/\D/g, '');
+    const phone = data.responsavel_whatsapp || '';
+    if (phone) {
+        const num = phone.replace(/\D/g, '');
         waLink.href = `https://wa.me/55${num}`;
         waLink.style.display = 'inline-flex';
     } else {
@@ -121,10 +158,20 @@ function renderProjectDetails() {
     }
 
     // Admin Fields
-    document.getElementById('adminPlan').value = admin.plan || '';
     document.getElementById('adminPayment').value = admin.payment || '';
     document.getElementById('adminStartDate').value = admin.start_date || '';
     document.getElementById('adminStatus').value = p.status || 'Pendente';
+
+    // Plan Display
+    const planDetails = admin.plan_details || { name: 'Nenhum', price: 0, items: [] };
+    let planHtml = `<strong>${planDetails.name}</strong>`;
+    if (planDetails.items && planDetails.items.length > 0) {
+        planHtml += `<ul style="margin-top:5px; padding-left:20px; font-size:0.85rem; color:#555;">`;
+        planDetails.items.forEach(i => planHtml += `<li>${i}</li>`);
+        planHtml += `</ul>`;
+    }
+    document.getElementById('selectedPlanDisplay').innerHTML = planHtml;
+    document.getElementById('adminValue').value = `R$ ${planDetails.price.toFixed(2)}`;
 
     // Briefing Content (Read Only)
     renderBriefingContent(data);
@@ -230,17 +277,34 @@ function renderReferenceFiles(data) {
 async function saveAdminInfo() {
     if (!currentProject) return;
 
-    const plan = document.getElementById('adminPlan').value;
     const payment = document.getElementById('adminPayment').value;
     const startDate = document.getElementById('adminStartDate').value;
     const status = document.getElementById('adminStatus').value;
+    
+    // Editable Client Info
+    const clientName = document.getElementById('infoName').value;
+    const storeName = document.getElementById('infoStore').value;
+    const phone = document.getElementById('infoPhone').value;
+    const email = document.getElementById('infoEmail').value;
 
     const newAdminData = {
         ...currentProject.admin_data,
-        plan,
         payment,
         start_date: startDate,
         snippets: currentProject.admin_data?.snippets || []
+    };
+    
+    // Update briefing data locally to reflect changes in UI immediately if needed, 
+    // but ideally we should update the JSONB column too if we want to persist these changes in briefing_data
+    // For now, we update the top-level client_name and the admin_data.
+    // If we want to update briefing_data, we need to merge it.
+    
+    const newBriefingData = {
+        ...currentProject.briefing_data,
+        responsavel_nome: clientName,
+        nome_loja: storeName,
+        responsavel_whatsapp: phone,
+        responsavel_email: email
     };
 
     const btn = document.getElementById('btnSaveAdmin');
@@ -252,7 +316,9 @@ async function saveAdminInfo() {
             .from('projects')
             .update({
                 status: status,
-                admin_data: newAdminData
+                client_name: clientName, // Update top level name
+                admin_data: newAdminData,
+                briefing_data: newBriefingData
             })
             .eq('id', currentProject.id);
 
@@ -260,9 +326,12 @@ async function saveAdminInfo() {
 
         // Update local state
         currentProject.status = status;
+        currentProject.client_name = clientName;
         currentProject.admin_data = newAdminData;
+        currentProject.briefing_data = newBriefingData;
         
         alert('Dados atualizados com sucesso!');
+        renderProjectDetails(); // Refresh view
 
     } catch (error) {
         console.error(error);
@@ -270,6 +339,27 @@ async function saveAdminInfo() {
     } finally {
         btn.innerHTML = '<i class="fas fa-save"></i> Salvar Alterações';
         btn.disabled = false;
+    }
+}
+
+async function deleteProject() {
+    if (!currentProject) return;
+    if (!confirm('Tem certeza que deseja EXCLUIR este projeto? Esta ação não pode ser desfeita.')) return;
+
+    try {
+        const { error } = await supabase
+            .from('projects')
+            .delete()
+            .eq('id', currentProject.id);
+
+        if (error) throw error;
+
+        alert('Projeto excluído.');
+        closeProject();
+
+    } catch (error) {
+        console.error(error);
+        alert('Erro ao excluir projeto.');
     }
 }
 
@@ -355,22 +445,141 @@ function copyLink() {
     alert('Link copiado!');
 }
 
-// --- NEW PROJECT ---
-async function createNewProject() {
-    const clientName = prompt("Nome do Cliente (para gerar link):");
-    if(!clientName) return;
+// --- NEW PROJECT & LINKING ---
+
+function openNewProjectModal() {
+    document.getElementById('newProjectModal').style.display = 'flex';
+    document.getElementById('newClientName').value = '';
+    document.getElementById('newStoreName').value = '';
+    document.getElementById('newPlanSelect').value = '';
+    document.querySelectorAll('.new-item-check').forEach(c => c.checked = false);
+    updateNewProjectTotal();
+}
+
+function closeNewProjectModal() {
+    document.getElementById('newProjectModal').style.display = 'none';
+}
+
+function updateNewProjectTotal() {
+    const planKey = document.getElementById('newPlanSelect').value;
+    let total = 0;
     
+    if (planKey && PLANS[planKey]) {
+        total += PLANS[planKey].price;
+    }
+
+    document.querySelectorAll('.new-item-check:checked').forEach(c => {
+        total += parseFloat(c.value);
+    });
+
+    document.getElementById('newProjectTotal').textContent = `R$ ${total.toFixed(2)}`;
+}
+
+async function confirmCreateProject() {
+    const clientName = document.getElementById('newClientName').value;
+    const storeName = document.getElementById('newStoreName').value;
+    const planKey = document.getElementById('newPlanSelect').value;
+    
+    if (!clientName) return alert('Nome do cliente é obrigatório');
+
+    // Build Plan Details
+    let planDetails = { name: 'Personalizado/Avulso', price: 0, items: [] };
+    
+    if (planKey && PLANS[planKey]) {
+        planDetails.name = PLANS[planKey].name;
+        planDetails.price += PLANS[planKey].price;
+        planDetails.items = [...PLANS[planKey].items];
+    }
+
+    document.querySelectorAll('.new-item-check:checked').forEach(c => {
+        planDetails.price += parseFloat(c.value);
+        planDetails.items.push(c.getAttribute('data-name'));
+    });
+
+    // Initial Briefing Data (to show store name immediately)
+    const initialBriefingData = {
+        nome_loja: storeName,
+        responsavel_nome: clientName
+    };
+
+    const initialAdminData = {
+        plan_details: planDetails,
+        payment: '',
+        start_date: '',
+        snippets: []
+    };
+
     try {
         const { data, error } = await supabase
             .from('projects')
-            .insert([{ client_name: clientName, status: 'Link Gerado' }])
+            .insert([{ 
+                client_name: clientName, 
+                status: 'Link Gerado',
+                briefing_data: initialBriefingData,
+                admin_data: initialAdminData
+            }])
             .select();
             
         if(error) throw error;
         
-        alert('Projeto criado! Atualizando lista...');
+        alert('Projeto criado com sucesso!');
+        closeNewProjectModal();
         loadProjects();
     } catch(e) {
+        console.error(e);
         alert('Erro ao criar projeto.');
     }
+}
+
+// --- LINK EXISTING ID ---
+
+function openLinkProjectModal() {
+    document.getElementById('linkIdModal').style.display = 'flex';
+    document.getElementById('linkProjectId').value = '';
+}
+
+function closeLinkIdModal() {
+    document.getElementById('linkIdModal').style.display = 'none';
+}
+
+async function confirmLinkProject() {
+    const id = document.getElementById('linkProjectId').value.trim();
+    if (!id) return alert('Digite um ID válido');
+
+    try {
+        // Check if exists
+        const { data, error } = await supabase
+            .from('projects')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error || !data) {
+            alert('Projeto não encontrado com este ID.');
+            return;
+        }
+
+        // If found, we just reload the list (it should be there) and open it
+        // If it wasn't showing up, maybe it was a RLS issue or filter issue, but loadProjects fetches all.
+        // We will force open it.
+        
+        // If it's not in our local list yet (e.g. pagination in future), add it
+        if (!allProjects.find(p => p.id === id)) {
+            allProjects.push(data);
+            renderProjectList(allProjects);
+        }
+
+        closeLinkIdModal();
+        openProject(id);
+        alert('Projeto encontrado! Você pode editar os dados agora.');
+
+    } catch (e) {
+        console.error(e);
+        alert('Erro ao buscar projeto.');
+    }
+}
+
+// --- EDIT PLAN (Placeholder for future expansion) ---
+function openEditPlanModal() {
+    alert('Para alterar o plano, use a seção de "Novo Projeto" para criar um novo ou edite manualmente os valores no banco de dados por enquanto. (Funcionalidade completa em breve)');
 }
