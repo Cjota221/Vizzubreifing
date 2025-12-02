@@ -18,6 +18,78 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Color Palette Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        .color-option.selected {
+            border-color: var(--text-white);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            transition: border-color 0.3s;
+        }
+        .upload-area:hover {
+            border-color: var(--neon-purple);
+        }
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--neon-purple);
+            color: var(--text-white);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-btn:hover {
+            background: var(--neon-purple);
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+        .file-list {
+            margin-top: 15px;
+            text-align: left;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .file-remove {
+            color: #ff4444;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -102,7 +174,12 @@
                                 <h2><i class="fas fa-gem"></i> Identidade & Visual</h2>
                                 <p class="section-desc">O estilo que vai encantar seus clientes.</p>
                             </div>
-                            <div class="input-group"><label>5. Paleta de Cores *</label><textarea name="cores" placeholder="Descreva as cores principais ou cole códigos HEX." required></textarea></div>
+                            <div class="input-group">
+                                <label>5. Paleta de Cores (Escolha até 3) *</label>
+                                <div id="colorPaletteGrid" class="color-grid"></div>
+                                <input type="hidden" name="cores" id="selectedColorsInput" required>
+                                <p class="input-helper" id="colorCount" style="text-align: right; margin-top: 5px;">0/3 selecionadas</p>
+                            </div>
                             <div class="input-group">
                                 <label>6. Logo em Alta Resolução *</label>
                                 <select name="logo_status" required>
@@ -121,9 +198,15 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label>8. Referências Visuais</label>
-                                <textarea name="referencias" placeholder="Cite 2 instas ou sites que você ama o design."></textarea>
-                                <span class="input-helper">Dica: Se preferir, tire prints e suba na pasta do Drive.</span>
+                                <label>8. Referências Visuais (Upload)</label>
+                                <div class="upload-area">
+                                    <input type="file" id="refUpload" multiple accept="image/*" style="display: none;">
+                                    <label for="refUpload" class="upload-btn">
+                                        <i class="fas fa-cloud-upload-alt"></i> Escolher Fotos/Prints
+                                    </label>
+                                    <div id="fileList" class="file-list"></div>
+                                </div>
+                                <textarea name="referencias_obs" placeholder="Observações sobre as referências (opcional)" style="margin-top: 10px; height: 80px;"></textarea>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Voltar</button>

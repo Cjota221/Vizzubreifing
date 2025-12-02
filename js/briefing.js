@@ -19,6 +19,8 @@ window.onload = async function() {
     }
 
     await loadProjectData(currentBriefingId);
+    renderColorPalette();
+    setupFileUpload();
 };
 
 async function loadProjectData(id) {
@@ -72,10 +74,33 @@ async function submitBriefing() {
     const btn = document.querySelector('.btn-submit');
     const originalText = btn.innerHTML;
     
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando Briefing...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando (pode demorar)...';
     btn.disabled = true;
 
     try {
+        // 1. Upload Files if any
+        let uploadedUrls = [];
+        if (selectedFiles.length > 0) {
+            for (const file of selectedFiles) {
+                const fileName = `${currentBriefingId}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+                const { data, error } = await supabase.storage
+                    .from('briefing-files')
+                    .upload(fileName, file);
+                
+                if (error) {
+                    console.warn('Falha no upload de arquivo:', file.name, error);
+                    continue; 
+                }
+
+                const { data: publicData } = supabase.storage
+                    .from('briefing-files')
+                    .getPublicUrl(fileName);
+                
+                if (publicData) uploadedUrls.push(publicData.publicUrl);
+            }
+        }
+
+        // 2. Prepare Form Data
         const form = document.getElementById('briefingForm');
         const formData = new FormData(form);
         
@@ -83,6 +108,9 @@ async function submitBriefing() {
         const dataObj = projectData.briefing_data || {};
         
         formData.forEach((value, key) => {
+            // Skip file input as we handled it manually
+            if (key === 'refUpload') return;
+
             if (dataObj[key]) {
                 if (!Array.isArray(dataObj[key])) { dataObj[key] = [dataObj[key]]; }
                 dataObj[key].push(value);
@@ -90,7 +118,13 @@ async function submitBriefing() {
                 dataObj[key] = value;
             }
         });
+
+        // Add uploaded file URLs
+        if (uploadedUrls.length > 0) {
+            dataObj['referencias_arquivos'] = uploadedUrls;
+        }
         
+        // 3. Update Project in Supabase
         const { error } = await supabase
             .from('projects')
             .update({ 
@@ -107,7 +141,7 @@ async function submitBriefing() {
 
     } catch (error) {
         console.error('Erro ao enviar briefing:', error);
-        alert('Ocorreu um erro ao salvar o briefing.');
+        alert('Ocorreu um erro ao salvar o briefing. Tente novamente ou contate o suporte.');
         btn.innerHTML = originalText;
         btn.disabled = false;
     }
@@ -188,6 +222,88 @@ function validateCurrentStep() {
     }
 
     return isValid;
+}
+
+// --- COLOR PALETTE LOGIC ---
+const PALETTE_COLORS = [
+    '#FF0000', '#FF4500', '#FF8C00', '#FFD700', '#FFFF00', '#ADFF2F', '#32CD32', '#008000',
+    '#00FA9A', '#00FFFF', '#00BFFF', '#1E90FF', '#0000FF', '#8A2BE2', '#FF00FF', '#FF1493',
+    '#C71585', '#800000', '#A52A2A', '#D2691E', '#F4A460', '#F5DEB3', '#FFF8DC', '#F0FFF0',
+    '#F0FFFF', '#E6E6FA', '#FFF0F5', '#D3D3D3', '#808080', '#000000', '#FFFFFF', '#2F4F4F', '#4B0082'
+];
+let selectedColors = [];
+
+function renderColorPalette() {
+    const grid = document.getElementById('colorPaletteGrid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+    PALETTE_COLORS.forEach(color => {
+        const div = document.createElement('div');
+        div.className = 'color-option';
+        div.style.backgroundColor = color;
+        div.onclick = () => toggleColor(color, div);
+        grid.appendChild(div);
+    });
+}
+
+function toggleColor(color, element) {
+    const index = selectedColors.indexOf(color);
+    
+    if (index > -1) {
+        // Remove
+        selectedColors.splice(index, 1);
+        element.classList.remove('selected');
+    } else {
+        // Add (max 3)
+        if (selectedColors.length >= 3) {
+            alert('Você só pode escolher 3 cores.');
+            return;
+        }
+        selectedColors.push(color);
+        element.classList.add('selected');
+    }
+    
+    updateColorInput();
+}
+
+function updateColorInput() {
+    document.getElementById('selectedColorsInput').value = selectedColors.join(', ');
+    document.getElementById('colorCount').textContent = `${selectedColors.length}/3 selecionadas`;
+}
+
+// --- FILE UPLOAD UI LOGIC ---
+let selectedFiles = [];
+
+function setupFileUpload() {
+    const input = document.getElementById('refUpload');
+    if (!input) return;
+
+    input.addEventListener('change', (e) => {
+        const newFiles = Array.from(e.target.files);
+        selectedFiles = [...selectedFiles, ...newFiles];
+        renderFileList();
+    });
+}
+
+function renderFileList() {
+    const list = document.getElementById('fileList');
+    list.innerHTML = '';
+    
+    selectedFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.innerHTML = `
+            <span><i class="fas fa-image"></i> ${file.name}</span>
+            <i class="fas fa-times file-remove" onclick="removeFile(${index})"></i>
+        `;
+        list.appendChild(item);
+    });
+}
+
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    renderFileList();
 }
 
 // Input Masks
