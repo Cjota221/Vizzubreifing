@@ -8,8 +8,11 @@ CREATE TABLE IF NOT EXISTS projects (
     completed_at TIMESTAMP WITH TIME ZONE
 );
 
--- 1.1 GARANTIR que a coluna completed_at exista (caso a tabela já tenha sido criada antes sem ela)
+-- 1.1 GARANTIR que a coluna completed_at exista
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP WITH TIME ZONE;
+
+-- 1.2 Adicionar coluna para dados administrativos (Plano, Pagamento, Códigos)
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS admin_data JSONB DEFAULT '{}'::jsonb;
 
 -- 2. Habilitar Row Level Security (Segurança)
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;

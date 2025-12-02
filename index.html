@@ -3,131 +3,445 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIZZU | Painel Administrativo</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Supabase Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Vizzu - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #000000;
+            --accent: #2563eb;
+            --bg: #f3f4f6;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #eff6ff;
+            color: var(--accent);
+        }
+
+        .btn-new {
+            margin-top: auto;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        /* DASHBOARD VIEW */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: #eff6ff;
+            color: var(--accent);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-info h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .card-info p { color: var(--text-light); font-size: 0.875rem; margin-bottom: 1rem; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.pendente { background: #fef3c7; color: #d97706; }
+        .status-badge.em-andamento { background: #dbeafe; color: #2563eb; }
+        .status-badge.concluido { background: #d1fae5; color: #059669; }
+
+        /* DETAIL VIEW */
+        .detail-view { display: none; }
+        
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .btn-back {
+            background: none;
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel h3 { margin-bottom: 1.5rem; font-size: 1.1rem; }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.875rem; color: var(--text-light); margin-bottom: 0.5rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+        }
+
+        .briefing-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .briefing-item:last-child { border-bottom: none; }
+        .briefing-item label { font-weight: 600; font-size: 0.85rem; color: var(--text-light); }
+        .briefing-item .value { margin-top: 0.25rem; font-size: 0.95rem; white-space: pre-wrap; }
+
+        .file-preview {
+            display: block;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .file-preview img { width: 40px; height: 40px; object-fit: cover; border-radius: 0.25rem; }
+
+        /* CODE SNIPPETS */
+        .snippet-item {
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+        .snippet-header {
+            padding: 0.75rem;
+            background: #f9fafb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .snippet-body {
+            padding: 0.75rem;
+            border-top: 1px solid var(--border);
+            background: #1e1e1e;
+        }
+        .snippet-body textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #d4d4d4;
+            font-family: monospace;
+            height: 100px;
+            resize: vertical;
+        }
+        .btn-copy {
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 500px;
+            max-width: 90%;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 0.375rem; cursor: pointer; }
+        .btn-secondary { background: white; border: 1px solid var(--border); padding: 0.6rem 1.2rem; border-radius: 0.375rem; cursor: pointer; }
+
+    </style>
 </head>
 <body>
 
-    <!-- Main Container -->
-    <div class="container">
-        
-        <header>
-            <div class="logo">VIZZU <span>.</span></div>
-            <h1 id="mainTitle">PAINEL ADMINISTRATIVO</h1>
-        </header>
-
-        <!-- 1. LOGIN VIEW -->
-        <div id="loginView" class="main-view">
-            <div class="glass-card">
-                <h2 style="font-family: var(--font-title); color: var(--neon-purple); margin-bottom: 20px; text-align: center;">Acesso Restrito</h2>
-                <div class="input-group">
-                    <label for="adminEmail"><i class="fas fa-envelope"></i> E-mail</label>
-                    <input type="email" id="adminEmail" placeholder="seu.email@vizzu.com" required>
-                </div>
-                <div class="input-group">
-                    <label for="adminPassword"><i class="fas fa-key"></i> Senha</label>
-                    <input type="password" id="adminPassword" placeholder="******" required>
-                </div>
-                <button class="btn btn-primary-neon" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Entrar no Painel</button>
-                <p id="authMessage" style="color: red; text-align: center; margin-top: 15px; font-size: 0.9rem;"></p>
-            </div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-layer-group"></i> Vizzu Admin
         </div>
-
-        <!-- 2. ADMIN DASHBOARD VIEW -->
-        <div id="dashboardView" class="main-view" style="display: none;">
-            <div id="dashboardContent">
-                <!-- User Info and Controls -->
-                <div class="dashboard-controls">
-                    <div class="user-info">
-                        Bem-vindo, <strong id="adminUsername">VIZZU Team</strong>.
-                    </div>
-                    <div>
-                        <button class="btn btn-secondary" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
-                    </div>
-                </div>
-
-                <!-- Project Creation -->
-                <div class="project-creation glass-card">
-                    <h2 style="font-family: var(--font-title); color: var(--neon-green); font-size: 1.4rem; margin-bottom: 10px;"><i class="fas fa-plus-circle"></i> Novo Projeto de Otimização</h2>
-                    
-                    <div class="input-group">
-                        <label for="clientName">Nome do Cliente/Loja</label>
-                        <input type="text" id="clientName" placeholder="Ex: Loja Atacado Fashion" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="driveLink">Link da Pasta do Drive (Para o Cliente)</label>
-                        <input type="url" id="driveLink" placeholder="https://drive.google.com/..." required>
-                        <span class="input-helper">Este link aparecerá no botão "ACESSAR DRIVE SEGURO" do briefing.</span>
-                    </div>
-
-                    <button class="btn btn-submit" onclick="createNewBriefingProject()">
-                        <i class="fas fa-link"></i> Gerar Link Único de Briefing
-                    </button>
-                    <p id="creationMessage" style="color: var(--neon-purple); text-align: center; font-size: 0.9rem; margin-top: 10px;"></p>
-                </div>
-
-                <!-- Briefings List -->
-                <h2 style="font-family: var(--font-title); color: var(--text-white); font-size: 1.6rem; margin-bottom: 20px;"><i class="fas fa-list-alt"></i> Briefings Gerados</h2>
-                <div class="briefing-list" id="briefingsList">
-                    <p style="text-align: center; color: var(--text-gray);">Carregando projetos...</p>
-                </div>
+        <nav>
+            <div class="nav-item active" onclick="closeProject()">
+                <i class="fas fa-th-large"></i> Projetos
             </div>
-        </div>
-
-        <!-- MODAL: Briefing Details Modal (Admin) -->
-        <div class="modal-overlay" id="briefingDetailsModal" style="display: none;">
-            <div class="modal-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--neon-purple); padding-bottom: 10px; margin-bottom: 20px;">
-                    <h2 style="font-family: var(--font-title); color: var(--text-white); font-size: 1.6rem;"><i class="fas fa-eye"></i> Detalhes do Briefing: <span id="modalClientName" style="color: var(--neon-green);"></span></h2>
-                    <button class="btn btn-secondary" style="padding: 5px 15px;" onclick="closeModal('briefingDetailsModal')"><i class="fas fa-times"></i> Fechar</button>
-                </div>
-                <div id="briefingDataContainer">
-                    <!-- Conteúdo dinâmico do briefing será inserido aqui -->
-                    <p style="text-align: center; color: var(--text-gray);"><i class="fas fa-spinner fa-spin"></i> Carregando dados...</p>
-                </div>
-            </div>
-        </div>
-
+        </nav>
+        <button class="btn-new" onclick="createNewProject()">
+            <i class="fas fa-plus"></i> Novo Projeto
+        </button>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>VIZZU Digital &copy; 2024 - Painel Administrativo (v2.0)</p>
-    </footer>
+    <!-- MAIN -->
+    <div class="main">
+        
+        <!-- DASHBOARD VIEW -->
+        <div id="dashboardView">
+            <div class="header">
+                <h2>Projetos Recentes</h2>
+            </div>
+            <div id="projectList" class="project-grid">
+                <!-- Projects will be loaded here -->
+            </div>
+        </div>
 
-    <!-- Safety Redirect Check -->
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('id')) {
-            // If we are in index.html but have an ID, it might be a mistake or redirect
-            const correctUrl = window.location.href.replace('index.html', 'briefing.html').replace(window.location.pathname, window.location.pathname.replace('index.html', '') + 'briefing.html');
-            
-            // Simple heuristic to fix path if replace failed (e.g. root path)
-            let targetUrl = 'briefing.html' + window.location.search;
-            
-            const msg = document.createElement('div');
-            msg.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:red;color:white;padding:20px;text-align:center;z-index:9999;';
-            msg.innerHTML = `⚠️ Parece que você está tentando acessar um Briefing, mas caiu no Painel Admin.<br>
-                             <a href="${targetUrl}" style="color:yellow;font-weight:bold;font-size:1.2rem;">CLIQUE AQUI PARA ABRIR O BRIEFING CORRETO</a>`;
-            document.body.prepend(msg);
-        }
-    </script>
+        <!-- DETAIL VIEW -->
+        <div id="projectDetailView" class="detail-view">
+            <div class="detail-header">
+                <button class="btn-back" onclick="closeProject()"><i class="fas fa-arrow-left"></i></button>
+                <div>
+                    <h2 id="detailTitle">Nome da Loja</h2>
+                    <p id="detailSubtitle" style="color: var(--text-light)">Cliente</p>
+                </div>
+                <div style="margin-left: auto; display: flex; gap: 1rem;">
+                    <a id="waLink" href="#" target="_blank" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <button id="btnSaveAdmin" class="btn-primary" onclick="saveAdminInfo()">
+                        <i class="fas fa-save"></i> Salvar Alterações
+                    </button>
+                </div>
+            </div>
 
-    <!-- Admin Logic -->
-    <script src="js/admin.js"></script>
+            <div class="detail-grid">
+                <!-- LEFT COLUMN: BRIEFING DATA -->
+                <div class="left-col">
+                    <div class="panel">
+                        <h3><i class="fas fa-clipboard-list"></i> Respostas do Briefing</h3>
+                        <div id="briefingAnswers">
+                            <!-- Briefing content -->
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <h3><i class="fas fa-paperclip"></i> Arquivos de Referência</h3>
+                        <div id="refFilesContainer"></div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: ADMIN TOOLS -->
+                <div class="right-col">
+                    <div class="panel">
+                        <h3><i class="fas fa-cog"></i> Gestão do Projeto</h3>
+                        
+                        <div class="form-group">
+                            <label>Link do Briefing (Enviar para Cliente)</label>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <input type="text" id="briefingLinkInput" readonly>
+                                <button class="btn-secondary" onclick="copyLink()"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="adminStatus">
+                                <option value="Link Gerado">Link Gerado</option>
+                                <option value="Briefing Preenchido">Briefing Preenchido</option>
+                                <option value="Em Produção">Em Produção</option>
+                                <option value="Aguardando Aprovação">Aguardando Aprovação</option>
+                                <option value="Concluído">Concluído</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Plano Contratado</label>
+                            <input type="text" id="adminPlan" placeholder="Ex: Landing Page Pro">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Forma de Pagamento</label>
+                            <input type="text" id="adminPayment" placeholder="Ex: 50% Entrada + 50% Entrega">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Data de Início</label>
+                            <input type="date" id="adminStartDate">
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <h3><i class="fas fa-user"></i> Dados do Cliente</h3>
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input type="text" id="infoName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Loja</label>
+                            <input type="text" id="infoStore" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <input type="text" id="infoPhone" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" id="infoEmail" readonly>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3 style="margin:0"><i class="fas fa-code"></i> Snippets</h3>
+                            <button class="btn-secondary" style="padding: 0.25rem 0.5rem;" onclick="showAddSnippetModal()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div id="codeSnippetsList">
+                            <!-- Snippets list -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SNIPPET MODAL -->
+    <div id="snippetModal" class="modal">
+        <div class="modal-content">
+            <h3>Adicionar Código</h3>
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" id="snipTitle" placeholder="Ex: Botão WhatsApp">
+            </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <select id="snipType">
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="JS">JavaScript</option>
+                    <option value="Liquid">Liquid</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Código</label>
+                <textarea id="snipCode" rows="5" style="font-family: monospace;"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeSnippetModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveSnippet()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/admin.js?v=2"></script>
 </body>
 </html>
