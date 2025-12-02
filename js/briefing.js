@@ -141,7 +141,8 @@ async function submitBriefing() {
 
     } catch (error) {
         console.error('Erro ao enviar briefing:', error);
-        alert('Ocorreu um erro ao salvar o briefing. Tente novamente ou contate o suporte.');
+        // Show detailed error to help debugging
+        alert(`Ocorreu um erro ao salvar: ${error.message || JSON.stringify(error)}`);
         btn.innerHTML = originalText;
         btn.disabled = false;
     }
