@@ -22,7 +22,7 @@ window.onload = async function() {
     // renderColorPalette(); // Removed old palette
     setupColorPicker(); // New Color Picker
     setupFileUpload();
-    addVariationRow(); // Add first row by default
+    // addVariationRow(); // Removed complex variations
 };
 
 async function loadProjectData(id) {
@@ -112,15 +112,6 @@ async function submitBriefing() {
         formData.forEach((value, key) => {
             // Skip file input as we handled it manually
             if (key === 'refUpload') return;
-            // Skip variations inputs as we handle them via JSON
-            if (key === 'variacoes_json') {
-                try {
-                    dataObj['variacoes'] = JSON.parse(value);
-                } catch (e) {
-                    dataObj['variacoes'] = [];
-                }
-                return;
-            }
 
             if (dataObj[key]) {
                 if (!Array.isArray(dataObj[key])) { dataObj[key] = [dataObj[key]]; }
@@ -300,65 +291,6 @@ function renderSelectedColors() {
     });
 
     input.value = selectedColors.join(', ');
-}
-
-// --- VARIATIONS LOGIC ---
-function addVariationRow() {
-    const container = document.getElementById('variationsContainer');
-    const id = Date.now();
-    
-    const row = document.createElement('div');
-    row.className = 'variation-row';
-    row.dataset.id = id;
-    row.style.cssText = `
-        background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; 
-        margin-bottom: 10px; border: 1px solid var(--glass-border);
-        position: relative;
-    `;
-    
-    row.innerHTML = `
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-            <div>
-                <label style="font-size: 0.8rem; color: var(--text-gray);">Tipo (ex: Cor, Tamanho)</label>
-                <input type="text" class="var-type" placeholder="Digite o tipo" oninput="updateVariationsJson()">
-            </div>
-            <div>
-                <label style="font-size: 0.8rem; color: var(--text-gray);">Opções (ex: P, M, G)</label>
-                <input type="text" class="var-options" placeholder="Digite as opções" oninput="updateVariationsJson()">
-            </div>
-        </div>
-        <div>
-            <label style="font-size: 0.8rem; color: var(--text-gray);">Link das Imagens/Ícones (Drive ou Site)</label>
-            <input type="url" class="var-link" placeholder="https://..." oninput="updateVariationsJson()">
-        </div>
-        <i class="fas fa-trash" onclick="removeVariationRow(this)" style="
-            position: absolute; top: 10px; right: 10px; color: #ff4444; cursor: pointer;
-        " title="Remover variação"></i>
-    `;
-    
-    container.appendChild(row);
-}
-
-function removeVariationRow(btn) {
-    btn.closest('.variation-row').remove();
-    updateVariationsJson();
-}
-
-function updateVariationsJson() {
-    const rows = document.querySelectorAll('.variation-row');
-    const data = [];
-    
-    rows.forEach(row => {
-        const type = row.querySelector('.var-type').value;
-        const options = row.querySelector('.var-options').value;
-        const link = row.querySelector('.var-link').value;
-        
-        if (type || options || link) {
-            data.push({ type, options, link });
-        }
-    });
-    
-    document.getElementById('variationsJson').value = JSON.stringify(data);
 }
 
 // --- FILE UPLOAD UI LOGIC ---
