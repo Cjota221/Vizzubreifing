@@ -388,15 +388,21 @@ async function saveAdminInfo() {
         currentProject.admin_data = newAdminData;
         currentProject.briefing_data = newBriefingData;
         
+        // Update the item in the main list array
+        const index = allProjects.findIndex(p => p.id === currentProject.id);
+        if (index !== -1) {
+            allProjects[index] = currentProject;
+        }
+
         alert('Dados atualizados com sucesso!');
         
-        // Refresh Details View
+        // Refresh UI
         renderProjectDetails(); 
+        renderProjectList(allProjects); // Refresh sidebar list immediately
         
-        // Refresh List in Background (so when user goes back, it's updated)
-        // We can manually update the list item if we want, but reloading is safer
-        // Let's just update the specific item in allProjects array if needed, 
-        // but loadProjects() is called on showDashboard().
+        // Update Header Titles immediately
+        document.getElementById('detailTitle').textContent = storeName || 'Loja Sem Nome';
+        document.getElementById('detailSubtitle').textContent = clientName || 'Cliente';
         
     } catch (error) {
         console.error(error);

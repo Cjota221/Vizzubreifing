@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #000000;
-            --accent: #2563eb;
-            --bg: #f3f4f6;
-            --surface: #ffffff;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --border: #e5e7eb;
+            --primary: #8b5cf6; /* Neon Purple */
+            --primary-hover: #7c3aed;
+            --accent: #06b6d4; /* Cyan/Neon Blue */
+            --bg: #0f172a; /* Dark Slate */
+            --surface: #1e293b; /* Darker Slate */
+            --surface-hover: #334155;
+            --text: #f8fafc;
+            --text-light: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -359,56 +364,63 @@
         <!-- DETAIL VIEW -->
         <div id="projectDetailView" class="detail-view">
             <div class="detail-header">
-                <button class="btn-back" onclick="closeProject()"><i class="fas fa-arrow-left"></i></button>
-                <div>
-                    <h2 id="detailTitle">Nome da Loja</h2>
-                    <p id="detailSubtitle" style="color: var(--text-light)">Cliente</p>
+                <div style="display:flex; align-items:center; gap:1rem;">
+                    <button class="btn-back" onclick="closeProject()"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    <div class="detail-title-group">
+                        <h2 id="detailTitle">Nome da Loja</h2>
+                        <p id="detailSubtitle">Cliente</p>
+                    </div>
                 </div>
-                <div style="margin-left: auto; display: flex; gap: 1rem;">
-                    <button class="btn-secondary" onclick="deleteProject()" style="color: red; border-color: red;">
-                        <i class="fas fa-trash"></i> Excluir
-                    </button>
+                <div style="display: flex; gap: 1rem;">
                     <a id="waLink" href="#" target="_blank" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
                     <button id="btnSaveAdmin" class="btn-primary" onclick="saveAdminInfo()">
                         <i class="fas fa-save"></i> Salvar Alterações
                     </button>
+                    <button class="btn-secondary" onclick="deleteProject()" style="color: var(--danger); border-color: var(--danger);">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             </div>
 
             <div class="detail-grid">
-                <!-- LEFT COLUMN: BRIEFING DATA -->
-                <div class="left-col">
+                <!-- LEFT COLUMN: ADMIN & EDIT -->
+                <div class="col-left">
                     <div class="panel">
-                        <h3><i class="fas fa-clipboard-list"></i> Respostas do Briefing</h3>
-                        <div id="briefingAnswers">
-                            <!-- Briefing content -->
+                        <h3><i class="fas fa-user-edit"></i> Dados do Cliente</h3>
+                        <div class="form-group">
+                            <label>Nome do Cliente</label>
+                            <input type="text" id="infoName" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Nome da Loja</label>
+                            <input type="text" id="infoStore" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <input type="text" id="infoPhone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" id="infoEmail" class="form-control">
                         </div>
                     </div>
 
                     <div class="panel">
-                        <h3><i class="fas fa-paperclip"></i> Arquivos de Referência</h3>
-                        <div id="refFilesContainer"></div>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN: ADMIN TOOLS -->
-                <div class="right-col">
-                    <div class="panel">
                         <h3><i class="fas fa-cog"></i> Gestão do Projeto</h3>
                         
                         <div class="form-group">
-                            <label>Link do Briefing (Enviar para Cliente)</label>
+                            <label>Link do Briefing</label>
                             <div style="display: flex; gap: 0.5rem;">
-                                <input type="text" id="briefingLinkInput" readonly>
+                                <input type="text" id="briefingLinkInput" class="form-control" readonly style="font-size:0.8rem;">
                                 <button class="btn-secondary" onclick="copyLink()"><i class="fas fa-copy"></i></button>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label>Status</label>
-                            <select id="adminStatus">
+                            <select id="adminStatus" class="form-control">
                                 <option value="Link Gerado">Link Gerado</option>
                                 <option value="Briefing Preenchido">Briefing Preenchido</option>
                                 <option value="Em Produção">Em Produção</option>
@@ -418,7 +430,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Plano & Escopo (Editável)</label>
+                            <label>Plano & Escopo</label>
                             <select id="editPlanSelect" class="form-control" onchange="updateEditProjectTotal()">
                                 <option value="">Selecione um Plano...</option>
                                 <option value="iniciante">Iniciante (R$ 797)</option>
@@ -429,58 +441,54 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Itens / Widgets (Marque o que incluir)</label>
-                            <div id="editPlanItems" class="checkbox-group" style="max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 4px; background: #fff;">
+                            <label>Itens / Widgets</label>
+                            <div id="editPlanItems" class="checkbox-group" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); padding: 10px; border-radius: 4px; background: var(--bg);">
                                 <!-- Checkboxes generated via JS -->
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label>Valor Total (R$)</label>
-                            <input type="text" id="editProjectTotal" class="form-control" style="font-weight: bold; color: #2ecc71;" readonly>
+                            <label>Valor Total</label>
+                            <input type="text" id="editProjectTotal" class="form-control" style="font-weight: bold; color: var(--success);" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label>Forma de Pagamento</label>
-                            <input type="text" id="adminPayment" placeholder="Ex: 50% Entrada + 50% Entrega">
+                            <label>Pagamento</label>
+                            <input type="text" id="adminPayment" class="form-control" placeholder="Ex: 50% Entrada...">
                         </div>
 
                         <div class="form-group">
                             <label>Data de Início</label>
-                            <input type="date" id="adminStartDate">
+                            <input type="date" id="adminStartDate" class="form-control">
                         </div>
                     </div>
+                </div>
 
-                    <div class="panel">
-                        <h3><i class="fas fa-user"></i> Dados do Cliente (Editável)</h3>
-                        <div class="form-group">
-                            <label>Nome do Cliente</label>
-                            <input type="text" id="infoName">
-                        </div>
-                        <div class="form-group">
-                            <label>Nome da Loja</label>
-                            <input type="text" id="infoStore">
-                        </div>
-                        <div class="form-group">
-                            <label>WhatsApp</label>
-                            <input type="text" id="infoPhone">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" id="infoEmail">
-                        </div>
-                    </div>
-
-                    <div class="panel">
+                <!-- RIGHT COLUMN: CONTENT & SNIPPETS -->
+                <div class="col-right">
+                    <!-- SNIPPETS SECTION (Prominent) -->
+                    <div class="panel" style="border-color: var(--primary);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                            <h3 style="margin:0"><i class="fas fa-code"></i> Snippets</h3>
-                            <button class="btn-secondary" style="padding: 0.25rem 0.5rem;" onclick="showAddSnippetModal()">
-                                <i class="fas fa-plus"></i>
+                            <h3 style="margin:0; color: var(--primary); border:none;"><i class="fas fa-terminal"></i> Code Snippets / Entregáveis</h3>
+                            <button class="btn-secondary" style="padding: 0.4rem 0.8rem;" onclick="showAddSnippetModal()">
+                                <i class="fas fa-plus"></i> Adicionar Código
                             </button>
                         </div>
                         <div id="codeSnippetsList">
                             <!-- Snippets list -->
                         </div>
+                    </div>
+
+                    <div class="panel">
+                        <h3><i class="fas fa-clipboard-list"></i> Respostas do Briefing</h3>
+                        <div id="briefingAnswers" class="briefing-grid">
+                            <!-- Briefing content -->
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <h3><i class="fas fa-paperclip"></i> Arquivos de Referência</h3>
+                        <div id="refFilesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;"></div>
                     </div>
                 </div>
             </div>
