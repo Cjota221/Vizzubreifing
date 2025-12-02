@@ -162,16 +162,41 @@ function renderProjectDetails() {
     document.getElementById('adminStartDate').value = admin.start_date || '';
     document.getElementById('adminStatus').value = p.status || 'Pendente';
 
-    // Plan Display
+    // --- PLAN EDITING SETUP ---
     const planDetails = admin.plan_details || { name: 'Nenhum', price: 0, items: [] };
-    let planHtml = `<strong>${planDetails.name}</strong>`;
-    if (planDetails.items && planDetails.items.length > 0) {
-        planHtml += `<ul style="margin-top:5px; padding-left:20px; font-size:0.85rem; color:#555;">`;
-        planDetails.items.forEach(i => planHtml += `<li>${i}</li>`);
-        planHtml += `</ul>`;
+    
+    // 1. Set Select Value (Try to match name to key)
+    const planSelect = document.getElementById('editPlanSelect');
+    let foundKey = '';
+    for (const [key, val] of Object.entries(PLANS)) {
+        if (val.name === planDetails.name) foundKey = key;
     }
-    document.getElementById('selectedPlanDisplay').innerHTML = planHtml;
-    document.getElementById('adminValue').value = `R$ ${planDetails.price.toFixed(2)}`;
+    // If not found but has name, maybe it was custom or legacy. Default to 'avulso' or 'personalizado' if price is high?
+    // Let's just try to set it. If empty, user selects.
+    planSelect.value = foundKey || (planDetails.name ? 'personalizado' : '');
+
+    // 2. Generate Checkboxes
+    const itemsContainer = document.getElementById('editPlanItems');
+    itemsContainer.innerHTML = '';
+    
+    // Helper to check if item is in current plan
+    const hasItem = (itemName) => planDetails.items && planDetails.items.includes(itemName);
+
+    for (const [wName, wPrice] of Object.entries(WIDGETS)) {
+        const isChecked = hasItem(wName);
+        const div = document.createElement('div');
+        div.style.marginBottom = '5px';
+        div.innerHTML = `
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; cursor:pointer;">
+                <input type="checkbox" class="edit-item-check" value="${wPrice}" data-name="${wName}" ${isChecked ? 'checked' : ''} onchange="updateEditProjectTotal()">
+                ${wName} (+ R$ ${wPrice})
+            </label>
+        `;
+        itemsContainer.appendChild(div);
+    }
+
+    // 3. Update Total Display
+    updateEditProjectTotal();
 
     // Briefing Content (Read Only)
     renderBriefingContent(data);
@@ -181,6 +206,23 @@ function renderProjectDetails() {
 
     // Code Snippets
     renderCodeSnippets(admin.snippets || []);
+}
+
+function updateEditProjectTotal() {
+    const planKey = document.getElementById('editPlanSelect').value;
+    let total = 0;
+    
+    // Base Plan Price
+    if (planKey && PLANS[planKey]) {
+        total += PLANS[planKey].price;
+    }
+
+    // Add checked items
+    document.querySelectorAll('.edit-item-check:checked').forEach(c => {
+        total += parseFloat(c.value);
+    });
+
+    document.getElementById('editProjectTotal').value = `R$ ${total.toFixed(2)}`;
 }
 
 function renderBriefingContent(data) {
@@ -287,17 +329,33 @@ async function saveAdminInfo() {
     const phone = document.getElementById('infoPhone').value;
     const email = document.getElementById('infoEmail').value;
 
+    // --- BUILD PLAN DETAILS ---
+    const planKey = document.getElementById('editPlanSelect').value;
+    let planDetails = { name: 'Personalizado/Avulso', price: 0, items: [] };
+
+    if (planKey && PLANS[planKey]) {
+        planDetails.name = PLANS[planKey].name;
+        planDetails.price += PLANS[planKey].price;
+        // Add base items from plan
+        planDetails.items = [...PLANS[planKey].items];
+    }
+
+    // Add checked items (avoid duplicates if they are already in base plan)
+    document.querySelectorAll('.edit-item-check:checked').forEach(c => {
+        const itemName = c.getAttribute('data-name');
+        planDetails.price += parseFloat(c.value);
+        if (!planDetails.items.includes(itemName)) {
+            planDetails.items.push(itemName);
+        }
+    });
+
     const newAdminData = {
         ...currentProject.admin_data,
         payment,
         start_date: startDate,
+        plan_details: planDetails, // Save the new plan structure
         snippets: currentProject.admin_data?.snippets || []
     };
-    
-    // Update briefing data locally to reflect changes in UI immediately if needed, 
-    // but ideally we should update the JSONB column too if we want to persist these changes in briefing_data
-    // For now, we update the top-level client_name and the admin_data.
-    // If we want to update briefing_data, we need to merge it.
     
     const newBriefingData = {
         ...currentProject.briefing_data,
@@ -316,7 +374,7 @@ async function saveAdminInfo() {
             .from('projects')
             .update({
                 status: status,
-                client_name: clientName, // Update top level name
+                client_name: clientName, 
                 admin_data: newAdminData,
                 briefing_data: newBriefingData
             })
@@ -331,11 +389,18 @@ async function saveAdminInfo() {
         currentProject.briefing_data = newBriefingData;
         
         alert('Dados atualizados com sucesso!');
-        renderProjectDetails(); // Refresh view
-
+        
+        // Refresh Details View
+        renderProjectDetails(); 
+        
+        // Refresh List in Background (so when user goes back, it's updated)
+        // We can manually update the list item if we want, but reloading is safer
+        // Let's just update the specific item in allProjects array if needed, 
+        // but loadProjects() is called on showDashboard().
+        
     } catch (error) {
         console.error(error);
-        alert('Erro ao salvar.');
+        alert('Erro ao salvar: ' + error.message);
     } finally {
         btn.innerHTML = '<i class="fas fa-save"></i> Salvar Alterações';
         btn.disabled = false;

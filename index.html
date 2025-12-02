@@ -418,16 +418,26 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Plano Selecionado</label>
-                            <div id="selectedPlanDisplay" style="padding: 10px; background: #f9fafb; border: 1px solid #eee; border-radius: 5px; margin-bottom: 10px;">
-                                Nenhum plano selecionado
-                            </div>
-                            <button class="btn-secondary" style="width:100%; font-size:0.8rem;" onclick="openEditPlanModal()">Alterar Plano/Itens</button>
+                            <label>Plano & Escopo (Editável)</label>
+                            <select id="editPlanSelect" class="form-control" onchange="updateEditProjectTotal()">
+                                <option value="">Selecione um Plano...</option>
+                                <option value="iniciante">Iniciante (R$ 797)</option>
+                                <option value="elite">Elite Total (R$ 1.661)</option>
+                                <option value="personalizado">Personalizado</option>
+                                <option value="avulso">Apenas Itens Avulsos</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label>Valor Total</label>
-                            <input type="text" id="adminValue" readonly style="font-weight:bold; color:var(--accent);">
+                            <label>Itens / Widgets (Marque o que incluir)</label>
+                            <div id="editPlanItems" class="checkbox-group" style="max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 4px; background: #fff;">
+                                <!-- Checkboxes generated via JS -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Valor Total (R$)</label>
+                            <input type="text" id="editProjectTotal" class="form-control" style="font-weight: bold; color: #2ecc71;" readonly>
                         </div>
 
                         <div class="form-group">
