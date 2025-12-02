@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIZZU | Painel Administrativo</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <header>
+            <div class="logo">VIZZU <span>.</span></div>
+            <h1 id="mainTitle">PAINEL ADMINISTRATIVO</h1>
+        </header>
+
+        <!-- 1. LOGIN VIEW -->
+        <div id="loginView" class="main-view">
+            <div class="glass-card">
+                <h2 style="font-family: var(--font-title); color: var(--neon-purple); margin-bottom: 20px; text-align: center;">Acesso Restrito</h2>
+                <div class="input-group">
+                    <label for="adminEmail"><i class="fas fa-envelope"></i> E-mail</label>
+                    <input type="email" id="adminEmail" placeholder="seu.email@vizzu.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="adminPassword"><i class="fas fa-key"></i> Senha</label>
+                    <input type="password" id="adminPassword" placeholder="******" required>
+                </div>
+                <button class="btn btn-primary-neon" onclick="handleLogin()"><i class="fas fa-sign-in-alt"></i> Entrar no Painel</button>
+                <p id="authMessage" style="color: red; text-align: center; margin-top: 15px; font-size: 0.9rem;"></p>
+            </div>
+        </div>
+
+        <!-- 2. ADMIN DASHBOARD VIEW -->
+        <div id="dashboardView" class="main-view" style="display: none;">
+            <div id="dashboardContent">
+                <!-- User Info and Controls -->
+                <div class="dashboard-controls">
+                    <div class="user-info">
+                        Bem-vindo, <strong id="adminUsername">VIZZU Team</strong>.
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                    </div>
+                </div>
+
+                <!-- Project Creation -->
+                <div class="project-creation glass-card">
+                    <h2 style="font-family: var(--font-title); color: var(--neon-green); font-size: 1.4rem; margin-bottom: 10px;"><i class="fas fa-plus-circle"></i> Novo Projeto de Otimização</h2>
+                    
+                    <div class="input-group">
+                        <label for="clientName">Nome do Cliente/Loja</label>
+                        <input type="text" id="clientName" placeholder="Ex: Loja Atacado Fashion" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="driveLink">Link da Pasta do Drive (Para o Cliente)</label>
+                        <input type="url" id="driveLink" placeholder="https://drive.google.com/..." required>
+                        <span class="input-helper">Este link aparecerá no botão "ACESSAR DRIVE SEGURO" do briefing.</span>
+                    </div>
+
+                    <button class="btn btn-submit" onclick="createNewBriefingProject()">
+                        <i class="fas fa-link"></i> Gerar Link Único de Briefing
+                    </button>
+                    <p id="creationMessage" style="color: var(--neon-purple); text-align: center; font-size: 0.9rem; margin-top: 10px;"></p>
+                </div>
+
+                <!-- Briefings List -->
+                <h2 style="font-family: var(--font-title); color: var(--text-white); font-size: 1.6rem; margin-bottom: 20px;"><i class="fas fa-list-alt"></i> Briefings Gerados</h2>
+                <div class="briefing-list" id="briefingsList">
+                    <p style="text-align: center; color: var(--text-gray);">Carregando projetos...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: Briefing Details Modal (Admin) -->
+        <div class="modal-overlay" id="briefingDetailsModal" style="display: none;">
+            <div class="modal-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--neon-purple); padding-bottom: 10px; margin-bottom: 20px;">
+                    <h2 style="font-family: var(--font-title); color: var(--text-white); font-size: 1.6rem;"><i class="fas fa-eye"></i> Detalhes do Briefing: <span id="modalClientName" style="color: var(--neon-green);"></span></h2>
+                    <button class="btn btn-secondary" style="padding: 5px 15px;" onclick="closeModal('briefingDetailsModal')"><i class="fas fa-times"></i> Fechar</button>
+                </div>
+                <div id="briefingDataContainer">
+                    <!-- Conteúdo dinâmico do briefing será inserido aqui -->
+                    <p style="text-align: center; color: var(--text-gray);"><i class="fas fa-spinner fa-spin"></i> Carregando dados...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>VIZZU Digital &copy; 2024 - Painel Administrativo</p>
+    </footer>
+
+    <!-- Admin Logic -->
+    <script src="js/admin.js"></script>
+</body>
+</html>

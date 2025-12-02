@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIZZU | Briefing de Start</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <header>
+            <div class="logo">VIZZU <span>.</span></div>
+            <h1 id="mainTitle">BRIEFING DE START</h1>
+        </header>
+
+        <!-- CLIENT BRIEFING FORM VIEW -->
+        <div id="briefingView" class="main-view" style="display: block;">
+            <h1 style="text-align: center; margin-bottom: 20px;" id="briefingTitle">Projeto Elite</h1>
+            
+            <!-- Loading State -->
+            <div id="loadingBriefing" style="text-align: center; padding: 50px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--neon-purple);"></i>
+                <p style="margin-top: 15px; color: var(--text-gray);">Carregando seu projeto...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorBriefing" style="display: none; text-align: center; padding: 50px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: red;"></i>
+                <p style="margin-top: 15px; color: var(--text-white);">Projeto não encontrado ou link inválido.</p>
+            </div>
+
+            <!-- Form Content (Hidden until loaded) -->
+            <div id="briefingContent" style="display: none;">
+                <div id="progressWrapper">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <div class="steps-count">
+                        <span id="stepLabel1" class="step-label active">01. Acessos</span>
+                        <span id="stepLabel2" class="step-label">02. Identidade</span>
+                        <span id="stepLabel3" class="step-label">03. Estratégia</span>
+                        <span id="stepLabel4" class="step-label">04. Widgets</span>
+                        <span id="stepLabel5" class="step-label">05. Suporte</span>
+                        <span id="stepLabel6" class="step-label">06. Final</span>
+                    </div>
+                </div>
+
+                <form id="briefingForm" onsubmit="return false;">
+                    
+                    <!-- SEÇÃO 1: ACESSOS & ARQUIVOS -->
+                    <div class="form-step active" data-step="1">
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h2><i class="fas fa-lock"></i> Acessos & Arquivos</h2>
+                                <p class="section-desc">Vamos preparar o terreno para a transformação.</p>
+                            </div>
+        
+                            <div class="input-group"><label>1. Link da Loja FácilZap/Plataforma *</label><input type="url" name="loja_url" placeholder="https://..." required></div>
+                            <div class="input-group"><label>2. Login Criado (E-mail de Colaborador) *</label><input type="email" name="login_email" placeholder="ex: equipe@vizzu.com" required></div>
+                            <div class="input-group"><label>3. Senha Provisória *</label><input type="text" name="senha_provisoria" placeholder="Digite a senha para conferência" required></div>
+        
+                            <div class="input-group" style="margin-top: 30px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                                <label style="margin-bottom: 15px;">4. Upload de Arquivos</label>
+                                <p style="color: var(--text-gray); margin-bottom: 15px; font-size: 0.9rem;">
+                                    Acesse nossa pasta segura no Drive (botão abaixo), crie uma pasta com seu nome e suba seu Logo (PNG), Vídeos e Fotos.
+                                </p>
+                                
+                                <!-- Dynamic Drive Button -->
+                                <a href="#" id="driveBtn" class="drive-btn" target="_blank"><i class="fab fa-google-drive"></i> ACESSAR DRIVE SEGURO</a>
+                                
+                                <label class="custom-check-container" style="margin-top: 15px;">
+                                    Já fiz o upload de todos os arquivos no Drive (Logo, Fotos, Vídeos).
+                                    <input type="checkbox" name="upload_check" required><span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-next" onclick="nextStep(1)">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- SEÇÃO 2: IDENTIDADE & VISUAL -->
+                    <div class="form-step" data-step="2">
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h2><i class="fas fa-gem"></i> Identidade & Visual</h2>
+                                <p class="section-desc">O estilo que vai encantar seus clientes.</p>
+                            </div>
+                            <div class="input-group"><label>5. Paleta de Cores *</label><textarea name="cores" placeholder="Descreva as cores principais ou cole códigos HEX." required></textarea></div>
+                            <div class="input-group">
+                                <label>6. Logo em Alta Resolução *</label>
+                                <select name="logo_status" required>
+                                    <option value="" disabled selected>Selecione uma opção</option>
+                                    <option value="drive">Sim, já está no Drive em alta qualidade</option>
+                                    <option value="instagram">Não, podem pegar do Instagram</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>7. Sensação da Loja (Vibe) *</label>
+                                <div class="selection-grid">
+                                    <label class="selection-card"><input type="radio" name="vibe" value="luxo" required><div class="card-content"><i class="fas fa-crown"></i><span>Luxo & Sofisticação</span></div></label>
+                                    <label class="selection-card"><input type="radio" name="vibe" value="preco"><div class="card-content"><i class="fas fa-tags"></i><span>Preço & Oportunidade</span></div></label>
+                                    <label class="selection-card"><input type="radio" name="vibe" value="tradicional"><div class="card-content"><i class="fas fa-handshake"></i><span>Confiança & Tradicional</span></div></label>
+                                    <label class="selection-card"><input type="radio" name="vibe" value="moderno"><div class="card-content"><i class="fas fa-bolt"></i><span>Moderno & Jovem</span></div></label>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>8. Referências Visuais</label>
+                                <textarea name="referencias" placeholder="Cite 2 instas ou sites que você ama o design."></textarea>
+                                <span class="input-helper">Dica: Se preferir, tire prints e suba na pasta do Drive.</span>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(2)">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- SEÇÃO 3: ESTRATÉGIA COMERCIAL -->
+                    <div class="form-step" data-step="3">
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h2><i class="fas fa-bullseye"></i> Estratégia Comercial</h2>
+                                <p class="section-desc">Regras claras vendem mais no atacado.</p>
+                            </div>
+                            <div class="input-group"><label>9. Valor do Pedido Mínimo (R$) *</label><input type="text" name="pedido_minimo" class="money-mask" placeholder="R$ 0,00" required></div>
+                            <div class="input-group"><label>10. Regras de Frete *</label><textarea name="regras_frete" placeholder="Ex: Frete grátis acima de R$ 1000, Envio via Excursão, Correios..." required></textarea></div>
+                            <div class="input-group"><label>11. Facilidades de Pagamento</label><input type="text" name="pagamento" placeholder="Ex: 5% no Pix, 3x sem juros" required></div>
+                            <div class="input-group"><label>12. Produto Estrela (Oferta Relâmpago)</label><input type="text" name="produto_estrela" placeholder="Qual produto vai ter destaque no timer/topo?"></div>
+                            <div class="input-group"><label>13. Cupom de Primeira Compra</label><input type="text" name="cupom" placeholder="Ex: PRIMEIRACOMPRA (Deixe em branco se não tiver)"></div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(3)">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- SEÇÃO 4: CONTEÚDO DOS WIDGETS -->
+                    <div class="form-step" data-step="4">
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h2><i class="fas fa-video"></i> Conteúdo dos Widgets</h2>
+                                <p class="section-desc">Preenchendo a vitrine com autoridade.</p>
+                            </div>
+                            <div class="input-group"><label>14. Destaque do Carrossel Vitrine *</label><input type="text" name="destaque_carrossel" placeholder="Ex: Coleção Nova, Queima de Estoque, Lançamento" required></div>
+                            <div class="input-group">
+                                <label>15. Vídeos Institucionais Disponíveis</label>
+                                <p class="input-helper" style="margin-bottom: 10px;">Marque o que você consegue enviar ou já enviou:</p>
+                                <label class="custom-check-container">Fachada da Loja / Estoque Cheio<input type="checkbox" name="video_fachada"><span class="checkmark"></span></label>
+                                <label class="custom-check-container">Equipe separando pedidos (Bastidores)<input type="checkbox" name="video_equipe"><span class="checkmark"></span></label>
+                                <label class="custom-check-container">Processo de Fabricação / Detalhes<input type="checkbox" name="video_processo"><span class="checkmark"></span></label>
+                                <label class="custom-check-container">Apresentação da Dona / História<input type="checkbox" name="video_dona"><span class="checkmark"></span></label>
+                            </div>
+                            <div class="input-group">
+                                <label>16. Prova Social (Feedback de Clientes) *</label>
+                                <select name="prova_social" required>
+                                    <option value="sim">Sim, coloquei prints de clientes no Drive</option>
+                                    <option value="nao">Não tenho prints ainda</option>
+                                </select>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(4)">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- SEÇÃO 5: SUPORTE & RODAPÉ -->
+                    <div class="form-step" data-step="5">
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h2><i class="fas fa-headset"></i> Suporte & Rodapé</h2>
+                                <p class="section-desc">Segurança para quem compra.</p>
+                            </div>
+                            <div class="input-group"><label>17. WhatsApp de Atendimento *</label><input type="tel" name="whatsapp" class="phone-mask" placeholder="(XX) XXXXX-XXXX" required></div>
+                            <div class="input-group"><label>18. Endereço Físico Completo *</label><textarea name="endereco" placeholder="Rua, Número, Bairro, Cidade - Estado" required></textarea></div>
+                            <div class="input-group"><label>19. Horário de Atendimento *</label><input type="text" name="horario" placeholder="Ex: Seg a Sex das 8h às 18h" required></div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(5)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                                <button type="button" class="btn btn-next" onclick="nextStep(5)">Próximo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- SEÇÃO 6: EXPECTATIVA FINAL -->
+                    <div class="form-step" data-step="6">
+                        <div class="glass-card">
+                            <div class="section-header">
+                                <h2><i class="fas fa-rocket"></i> Expectativa Final</h2>
+                                <p class="section-desc">O toque final para o sucesso.</p>
+                            </div>
+                            <div class="input-group">
+                                <label>20. O Fator UAU (Importante) *</label>
+                                <textarea name="fator_uau" placeholder="Para você, o que faria você olhar para o site pronto e dizer: 'Valew cada centavo!'? Seja sincero." required style="min-height: 150px;"></textarea>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-prev" onclick="prevStep(6)"><i class="fas fa-arrow-left"></i> Voltar</button>
+                            </div>
+                            <div style="margin-top: 30px;">
+                                <button type="button" class="btn btn-submit" onclick="submitBriefing()">
+                                    Enviar Briefing e Iniciar Projeto <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+        
+                </form>
+            </div>
+        </div>
+
+        <!-- MODAL: Success Modal (Cliente) -->
+        <div class="modal-overlay" id="successModal" style="display: none;">
+            <div class="glass-card" style="padding: 50px; text-align: center; max-width: 400px; border-color: var(--neon-green);">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--neon-green); margin-bottom: 20px;"></i>
+                <h3 style="font-family: var(--font-title); font-size: 1.8rem; color: var(--text-white); margin-bottom: 15px;">Briefing Salvo com Sucesso!</h3>
+                <p style="color: var(--text-gray); margin-bottom: 30px;">Nossa equipe já recebeu seus dados. O prazo de 7 dias começa a contar agora!</p>
+                <a href="#" class="btn" style="background: #25D366; color: white; text-decoration: none; font-weight: 700; justify-content: center;">
+                    <i class="fab fa-whatsapp"></i> Voltar para WhatsApp
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>VIZZU Digital &copy; 2024 - Transformamos lojas comuns em máquinas de vendas</p>
+    </footer>
+
+    <!-- Client Logic -->
+    <script src="js/briefing.js"></script>
+</body>
+</html>
