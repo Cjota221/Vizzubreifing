@@ -83,11 +83,11 @@ function renderProjectList(projects) {
             <div class="card-info">
                 <h3>${storeName}</h3>
                 <p>${clientName}</p>
-                <div style="font-size:0.8rem; color:#666; margin-bottom:5px;">${planName}</div>
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:5px;">${planName}</div>
                 <span class="status-badge ${status.toLowerCase().replace(' ', '-')}">${status}</span>
             </div>
-            <div class="card-meta">
-                <small>${new Date(p.created_at).toLocaleDateString()}</small>
+            <div class="card-meta" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.5rem;">
+                <small style="color: var(--text-muted);">${new Date(p.created_at).toLocaleDateString()}</small>
             </div>
         `;
         listEl.appendChild(card);
