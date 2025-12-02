@@ -73,13 +73,19 @@ function renderProjectList(projects) {
         const storeName = data.nome_loja || 'Loja Sem Nome';
         const status = p.status || 'Pendente';
         const planName = admin.plan_details?.name || 'Sem Plano';
+        const logoUrl = data.logo_url;
         
         const card = document.createElement('div');
         card.className = 'project-card';
         card.onclick = () => openProject(p.id);
         
+        let iconHtml = '<div class="card-icon"><i class="fas fa-folder"></i></div>';
+        if (logoUrl) {
+            iconHtml = `<div class="card-icon" style="padding:0; overflow:hidden;"><img src="${logoUrl}" style="width:100%; height:100%; object-fit:cover;"></div>`;
+        }
+
         card.innerHTML = `
-            <div class="card-icon"><i class="fas fa-folder"></i></div>
+            ${iconHtml}
             <div class="card-info">
                 <h3>${storeName}</h3>
                 <p>${clientName}</p>
@@ -106,6 +112,7 @@ function showPlans() {
     document.getElementById('dashboardView').style.display = 'none';
     document.getElementById('plansView').style.display = 'block';
     document.getElementById('projectDetailView').style.display = 'none';
+    initPvCreator();
 }
 
 // --- OPEN PROJECT ---
@@ -145,6 +152,7 @@ function renderProjectDetails() {
     document.getElementById('infoStore').value = data.nome_loja || '';
     document.getElementById('infoPhone').value = data.responsavel_whatsapp || '';
     document.getElementById('infoEmail').value = data.responsavel_email || '';
+    document.getElementById('infoLogo').value = data.logo_url || '';
     
     // WhatsApp Link
     const waLink = document.getElementById('waLink');
@@ -328,6 +336,7 @@ async function saveAdminInfo() {
     const storeName = document.getElementById('infoStore').value;
     const phone = document.getElementById('infoPhone').value;
     const email = document.getElementById('infoEmail').value;
+    const logoUrl = document.getElementById('infoLogo').value;
 
     // --- BUILD PLAN DETAILS ---
     const planKey = document.getElementById('editPlanSelect').value;
@@ -362,7 +371,8 @@ async function saveAdminInfo() {
         responsavel_nome: clientName,
         nome_loja: storeName,
         responsavel_whatsapp: phone,
-        responsavel_email: email
+        responsavel_email: email,
+        logo_url: logoUrl
     };
 
     const btn = document.getElementById('btnSaveAdmin');
@@ -650,7 +660,112 @@ async function confirmLinkProject() {
     }
 }
 
-// --- EDIT PLAN (Placeholder for future expansion) ---
-function openEditPlanModal() {
-    alert('Para alterar o plano, use a seção de "Novo Projeto" para criar um novo ou edite manualmente os valores no banco de dados por enquanto. (Funcionalidade completa em breve)');
+// --- PV / ORDER CREATOR LOGIC ---
+
+function initPvCreator() {
+    // Generate Checkboxes for PV
+    const itemsContainer = document.getElementById('pvItemsContainer');
+    itemsContainer.innerHTML = '';
+    
+    for (const [wName, wPrice] of Object.entries(WIDGETS)) {
+        const div = document.createElement('div');
+        div.style.marginBottom = '5px';
+        div.innerHTML = `
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; cursor:pointer; color: var(--text-main);">
+                <input type="checkbox" class="pv-item-check" value="${wPrice}" data-name="${wName}" onchange="updatePvTotal()">
+                ${wName} (+ R$ ${wPrice})
+            </label>
+        `;
+        itemsContainer.appendChild(div);
+    }
+    updatePvTotal();
+}
+
+function updatePvTotal() {
+    const planKey = document.getElementById('pvPlanSelect').value;
+    let planPrice = 0;
+    let addonsPrice = 0;
+    
+    // Base Plan Price
+    if (planKey && PLANS[planKey]) {
+        planPrice = PLANS[planKey].price;
+    }
+
+    // Addons Price
+    document.querySelectorAll('.pv-item-check:checked').forEach(c => {
+        addonsPrice += parseFloat(c.value);
+    });
+
+    const total = planPrice + addonsPrice;
+
+    // Update UI
+    document.getElementById('pvSummaryPlan').textContent = `R$ ${planPrice.toFixed(2)}`;
+    document.getElementById('pvSummaryAddons').textContent = `R$ ${addonsPrice.toFixed(2)}`;
+    document.getElementById('pvTotalDisplay').textContent = `R$ ${total.toFixed(2)}`;
+}
+
+function sendPvToWhatsApp() {
+    const name = document.getElementById('pvName').value;
+    const phone = document.getElementById('pvPhone').value;
+    const email = document.getElementById('pvEmail').value;
+    const payment = document.getElementById('pvPayment').value;
+    const planKey = document.getElementById('pvPlanSelect').value;
+    
+    if (!name || !planKey) {
+        alert('Por favor, preencha pelo menos o Nome e selecione um Plano.');
+        return;
+    }
+
+    const planName = PLANS[planKey].name;
+    const planPrice = PLANS[planKey].price;
+    
+    let itemsList = [];
+    // Add Plan Items
+    if (PLANS[planKey].items.length > 0) {
+        itemsList.push(`*Plano ${planName}:*`);
+        PLANS[planKey].items.forEach(i => itemsList.push(`- ${i}`));
+    }
+
+    // Add Addons
+    const addons = [];
+    let addonsTotal = 0;
+    document.querySelectorAll('.pv-item-check:checked').forEach(c => {
+        const n = c.getAttribute('data-name');
+        const p = parseFloat(c.value);
+        addons.push(`${n} (R$ ${p})`);
+        addonsTotal += p;
+    });
+
+    if (addons.length > 0) {
+        itemsList.push(``);
+        itemsList.push(`*Adicionais:*`);
+        addons.forEach(a => itemsList.push(`- ${a}`));
+    }
+
+    const total = planPrice + addonsTotal;
+
+    // Format Message
+    let msg = `Olá *${name}*, tudo bem?%0A%0A`;
+    msg += `Aqui está o resumo do seu pedido na *Vizzu*: %0A%0A`;
+    msg += `--------------------------------%0A`;
+    msg += itemsList.join('%0A');
+    msg += `%0A--------------------------------%0A%0A`;
+    msg += `*Valor Total:* R$ ${total.toFixed(2)}%0A`;
+    
+    if (payment) {
+        msg += `*Forma de Pagamento:* ${payment}%0A`;
+    }
+    
+    msg += `%0AFico no aguardo para darmos início! 🚀`;
+
+    // Open WhatsApp
+    let targetUrl = `https://wa.me/`;
+    if (phone) {
+        const cleanPhone = phone.replace(/\D/g, '');
+        targetUrl += `55${cleanPhone}?text=${msg}`;
+    } else {
+        targetUrl += `?text=${msg}`;
+    }
+    
+    window.open(targetUrl, '_blank');
 }
