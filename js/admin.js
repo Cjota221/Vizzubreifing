@@ -152,7 +152,17 @@ function renderProjectDetails() {
     document.getElementById('infoStore').value = data.nome_loja || '';
     document.getElementById('infoPhone').value = data.responsavel_whatsapp || '';
     document.getElementById('infoEmail').value = data.responsavel_email || '';
-    document.getElementById('infoLogo').value = data.logo_url || '';
+    
+    // Logo Handling
+    const logoUrl = data.logo_url || '';
+    document.getElementById('infoLogoUrl').value = logoUrl;
+    const logoPreview = document.getElementById('logoPreview');
+    if (logoUrl) {
+        logoPreview.innerHTML = `<img src="${logoUrl}" style="max-width: 100px; border-radius: 8px; border: 1px solid var(--border);">`;
+    } else {
+        logoPreview.innerHTML = '';
+    }
+    document.getElementById('infoLogoFile').value = ''; // Reset file input
     
     // WhatsApp Link
     const waLink = document.getElementById('waLink');
@@ -336,7 +346,31 @@ async function saveAdminInfo() {
     const storeName = document.getElementById('infoStore').value;
     const phone = document.getElementById('infoPhone').value;
     const email = document.getElementById('infoEmail').value;
-    const logoUrl = document.getElementById('infoLogo').value;
+    
+    // Handle Logo Upload
+    let logoUrl = document.getElementById('infoLogoUrl').value;
+    const logoFile = document.getElementById('infoLogoFile').files[0];
+
+    if (logoFile) {
+        try {
+            const fileName = `${currentProject.id}/${Date.now()}_${logoFile.name}`;
+            const { data, error } = await supabase.storage
+                .from('logos')
+                .upload(fileName, logoFile);
+            
+            if (error) throw error;
+            
+            const { data: publicData } = supabase.storage
+                .from('logos')
+                .getPublicUrl(fileName);
+                
+            logoUrl = publicData.publicUrl;
+        } catch (uploadError) {
+            console.error('Erro upload logo:', uploadError);
+            alert('Erro ao fazer upload da logo. Verifique se o bucket "logos" existe e é público.');
+            // Continue saving other data even if upload fails
+        }
+    }
 
     // --- BUILD PLAN DETAILS ---
     const planKey = document.getElementById('editPlanSelect').value;
@@ -460,8 +494,13 @@ function renderCodeSnippets(snippets) {
         div.className = 'snippet-item';
         div.innerHTML = `
             <div class="snippet-header" onclick="toggleSnippet(${index})">
-                <strong>${snip.title}</strong>
-                <small>${snip.type}</small>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <strong>${snip.title}</strong>
+                    <small>${snip.type}</small>
+                </div>
+                <div onclick="event.stopPropagation()">
+                    <button class="btn-secondary" style="padding: 2px 8px; font-size: 0.7rem;" onclick="editSnippet(${index})"><i class="fas fa-edit"></i></button>
+                </div>
             </div>
             <div class="snippet-body" id="snip-${index}" style="display:none;">
                 <textarea readonly>${snip.code}</textarea>
@@ -472,12 +511,32 @@ function renderCodeSnippets(snippets) {
     });
 }
 
+let editingSnippetIndex = -1;
+
 function toggleSnippet(index) {
     const el = document.getElementById(`snip-${index}`);
     el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
 function showAddSnippetModal() {
+    editingSnippetIndex = -1;
+    document.getElementById('snipTitle').value = '';
+    document.getElementById('snipType').value = 'HTML';
+    document.getElementById('snipCode').value = '';
+    document.querySelector('#snippetModal h3').textContent = 'Adicionar Código';
+    document.getElementById('snippetModal').style.display = 'flex';
+}
+
+function editSnippet(index) {
+    const snippets = currentProject.admin_data?.snippets || [];
+    const snip = snippets[index];
+    if (!snip) return;
+
+    editingSnippetIndex = index;
+    document.getElementById('snipTitle').value = snip.title;
+    document.getElementById('snipType').value = snip.type;
+    document.getElementById('snipCode').value = snip.code;
+    document.querySelector('#snippetModal h3').textContent = 'Editar Código';
     document.getElementById('snippetModal').style.display = 'flex';
 }
 
@@ -493,7 +552,14 @@ async function saveSnippet() {
     if (!title || !code) return alert('Preencha título e código');
 
     const snippets = currentProject.admin_data?.snippets || [];
-    snippets.push({ title, type, code, date: new Date().toISOString() });
+    
+    if (editingSnippetIndex >= 0) {
+        // Update existing
+        snippets[editingSnippetIndex] = { ...snippets[editingSnippetIndex], title, type, code, updated_at: new Date().toISOString() };
+    } else {
+        // Add new
+        snippets.push({ title, type, code, date: new Date().toISOString() });
+    }
 
     const newAdminData = {
         ...currentProject.admin_data,
