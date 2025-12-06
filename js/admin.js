@@ -526,6 +526,10 @@ function renderCodeSnippets(snippets) {
         categories[cat].forEach(snip => {
             const div = document.createElement('div');
             div.className = 'snippet-item';
+            
+            // Verificar se é HTML/CSS/JS para mostrar preview
+            const hasPreview = ['HTML', 'CSS', 'JavaScript'].includes(snip.type);
+            
             div.innerHTML = `
                 <div class="snippet-header" onclick="toggleSnippet(${snip.originalIndex})">
                     <div style="display:flex; align-items:center; gap:10px;">
@@ -538,8 +542,33 @@ function renderCodeSnippets(snippets) {
                     </div>
                 </div>
                 <div class="snippet-body" id="snip-${snip.originalIndex}" style="display:none;">
-                    <textarea readonly>${snip.code}</textarea>
-                    <button class="btn-copy" onclick="copyCode(this)">Copiar</button>
+                    ${hasPreview ? `
+                    <div class="snippet-tabs">
+                        <button class="snippet-tab active" onclick="switchSnippetTab(${snip.originalIndex}, 'code')">
+                            <i class="fas fa-code"></i> Ver Código
+                        </button>
+                        <button class="snippet-tab" onclick="switchSnippetTab(${snip.originalIndex}, 'preview')">
+                            <i class="fas fa-eye"></i> Ver Resultado
+                        </button>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="snippet-content active" id="snip-code-${snip.originalIndex}">
+                        <textarea readonly>${snip.code}</textarea>
+                        <button class="btn-copy" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    
+                    ${hasPreview ? `
+                    <div class="snippet-content" id="snip-preview-${snip.originalIndex}">
+                        <div class="preview-container">
+                            <div class="preview-info">
+                                <i class="fas fa-info-circle"></i>
+                                <strong>Preview Isolado:</strong> Este código está renderizado em um ambiente isolado (iframe) para não interferir nos estilos da página.
+                            </div>
+                            <iframe class="snippet-preview" srcdoc="${escapeHtml(snip.code)}"></iframe>
+                        </div>
+                    </div>
+                    ` : ''}
                 </div>
             `;
             categoryDiv.appendChild(div);
@@ -898,4 +927,36 @@ function sendPvToWhatsApp() {
     }
     
     window.open(targetUrl, '_blank');
+}
+
+// ============================================
+// PREVIEW SYSTEM - Tab Switching & HTML Escape
+// ============================================
+
+function switchSnippetTab(index, tab) {
+    // Remove active class from all tabs and contents for this snippet
+    const tabButtons = document.querySelectorAll(`#snip-${index} .snippet-tab`);
+    const contents = document.querySelectorAll(`#snip-${index} .snippet-content`);
+    
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    contents.forEach(content => content.classList.remove('active'));
+    
+    // Activate selected tab
+    if (tab === 'code') {
+        tabButtons[0].classList.add('active');
+        document.getElementById(`snip-code-${index}`).classList.add('active');
+    } else if (tab === 'preview') {
+        tabButtons[1].classList.add('active');
+        document.getElementById(`snip-preview-${index}`).classList.add('active');
+    }
+}
+
+function escapeHtml(text) {
+    // Escape HTML para uso seguro em atributos
+    // Mas mantém o código executável no iframe
+    const map = {
+        '"': '&quot;',
+        "'": '&#39;'
+    };
+    return text.replace(/["']/g, m => map[m]);
 }

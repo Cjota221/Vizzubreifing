@@ -361,6 +361,46 @@
             background: #050505;
             position: relative;
         }
+
+        /* Tabs para alternar entre código e preview */
+        .snippet-tabs {
+            display: flex;
+            gap: 0;
+            background: #050505;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .snippet-tab {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .snippet-tab:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+        }
+        .snippet-tab.active {
+            color: var(--primary);
+            background: rgba(198, 255, 0, 0.1);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Conteúdo do snippet (código ou preview) */
+        .snippet-content {
+            display: none;
+        }
+        .snippet-content.active {
+            display: block;
+        }
+
         .snippet-body textarea {
             width: 100%;
             background: transparent;
@@ -372,6 +412,34 @@
             height: 120px;
             resize: vertical;
             line-height: 1.5;
+        }
+
+        /* Preview iframe */
+        .snippet-preview {
+            width: 100%;
+            min-height: 200px;
+            border: none;
+            background: white;
+            padding: 0;
+        }
+
+        .preview-container {
+            padding: 1rem;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .preview-info {
+            padding: 0.75rem 1rem;
+            background: rgba(198, 255, 0, 0.1);
+            border-left: 3px solid var(--primary);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .preview-info i {
+            color: var(--primary);
+            margin-right: 0.5rem;
         }
         .btn-copy {
             position: absolute;

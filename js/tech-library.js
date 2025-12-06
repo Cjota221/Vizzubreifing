@@ -54,6 +54,10 @@ function renderTechLibrary() {
         categories[cat].forEach(snip => {
             const card = document.createElement('div');
             card.className = 'snippet-item';
+            
+            // Verificar se é HTML/CSS/JS para mostrar preview
+            const hasPreview = ['HTML', 'CSS', 'JavaScript'].includes(snip.type);
+            
             card.innerHTML = `
                 <div class="snippet-header" onclick="toggleGlobalSnippet('${snip.id}')">
                     <div style="display:flex; align-items:center; gap:10px; flex: 1;">
@@ -67,8 +71,34 @@ function renderTechLibrary() {
                 </div>
                 <div class="snippet-body" id="global-snip-${snip.id}" style="display:none;">
                     ${snip.description ? `<p style="color: var(--text-muted); margin-bottom: 1rem; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 4px;">${snip.description}</p>` : ''}
-                    <textarea readonly>${snip.code}</textarea>
-                    <button class="btn-copy" onclick="copyCode(this)">Copiar</button>
+                    
+                    ${hasPreview ? `
+                    <div class="snippet-tabs">
+                        <button class="snippet-tab active" onclick="switchGlobalSnippetTab('${snip.id}', 'code')">
+                            <i class="fas fa-code"></i> Ver Código
+                        </button>
+                        <button class="snippet-tab" onclick="switchGlobalSnippetTab('${snip.id}', 'preview')">
+                            <i class="fas fa-eye"></i> Ver Resultado
+                        </button>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="snippet-content active" id="global-snip-code-${snip.id}">
+                        <textarea readonly>${snip.code}</textarea>
+                        <button class="btn-copy" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    
+                    ${hasPreview ? `
+                    <div class="snippet-content" id="global-snip-preview-${snip.id}">
+                        <div class="preview-container">
+                            <div class="preview-info">
+                                <i class="fas fa-info-circle"></i>
+                                <strong>Preview Isolado:</strong> Este código está renderizado em um ambiente isolado (iframe) para não interferir nos estilos da página.
+                            </div>
+                            <iframe class="snippet-preview" srcdoc="${escapeHtmlForTechLib(snip.code)}"></iframe>
+                        </div>
+                    </div>
+                    ` : ''}
                 </div>
             `;
             categoryDiv.appendChild(card);
@@ -183,4 +213,36 @@ async function deleteGlobalSnippet(id) {
         console.error('Erro ao excluir:', e);
         alert('Erro ao excluir código');
     }
+}
+
+// ============================================
+// PREVIEW SYSTEM - Tab Switching & HTML Escape
+// ============================================
+
+function switchGlobalSnippetTab(id, tab) {
+    // Remove active class from all tabs and contents for this snippet
+    const tabButtons = document.querySelectorAll(`#global-snip-${id} .snippet-tab`);
+    const contents = document.querySelectorAll(`#global-snip-${id} .snippet-content`);
+    
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    contents.forEach(content => content.classList.remove('active'));
+    
+    // Activate selected tab
+    if (tab === 'code') {
+        tabButtons[0].classList.add('active');
+        document.getElementById(`global-snip-code-${id}`).classList.add('active');
+    } else if (tab === 'preview') {
+        tabButtons[1].classList.add('active');
+        document.getElementById(`global-snip-preview-${id}`).classList.add('active');
+    }
+}
+
+function escapeHtmlForTechLib(text) {
+    // Escape HTML para uso seguro em atributos
+    // Mas mantém o código executável no iframe
+    const map = {
+        '"': '&quot;',
+        "'": '&#39;'
+    };
+    return text.replace(/["']/g, m => map[m]);
 }
