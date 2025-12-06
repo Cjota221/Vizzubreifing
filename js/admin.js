@@ -103,15 +103,31 @@ function renderProjectList(projects) {
 // --- NAVIGATION ---
 function showDashboard() {
     document.getElementById('dashboardView').style.display = 'block';
+    document.getElementById('techLibraryView').style.display = 'none';
     document.getElementById('plansView').style.display = 'none';
     document.getElementById('projectDetailView').style.display = 'none';
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[0].classList.add('active');
     loadProjects();
+}
+
+function showTechLibrary() {
+    document.getElementById('dashboardView').style.display = 'none';
+    document.getElementById('techLibraryView').style.display = 'block';
+    document.getElementById('plansView').style.display = 'none';
+    document.getElementById('projectDetailView').style.display = 'none';
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[1].classList.add('active');
+    loadTechLibrary();
 }
 
 function showPlans() {
     document.getElementById('dashboardView').style.display = 'none';
+    document.getElementById('techLibraryView').style.display = 'none';
     document.getElementById('plansView').style.display = 'block';
     document.getElementById('projectDetailView').style.display = 'none';
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[2].classList.add('active');
     initPvCreator();
 }
 

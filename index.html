@@ -473,6 +473,9 @@
             <div class="nav-item active" onclick="showDashboard()">
                 <i class="fas fa-th-large"></i> Projetos
             </div>
+            <div class="nav-item" onclick="showTechLibrary()">
+                <i class="fas fa-code"></i> Biblioteca TI
+            </div>
             <div class="nav-item" onclick="showPlans()">
                 <i class="fas fa-calculator"></i> Criar Pedido (PV)
             </div>
@@ -498,7 +501,59 @@
             </div>
         </div>
 
-        <!-- PLANS VIEW (Novo PV / Criador de Pedidos) -->
+        <!-- TECH LIBRARY VIEW -->
+        <div id="techLibraryView" style="display:none;">
+            <div class="header">
+                <div>
+                    <h2>📚 Biblioteca Técnica</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Códigos reutilizáveis organizados por categoria</p>
+                </div>
+                <button class="btn-primary" onclick="showAddGlobalSnippetModal()">
+                    <i class="fas fa-plus"></i> Novo Código
+                </button>
+            </div>
+
+            <div class="panel">
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <button class="btn-secondary" onclick="filterTechLibrary('all')" id="filter-all">
+                        <i class="fas fa-th"></i> Todos
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Carrinho')" id="filter-Carrinho">
+                        🛒 Carrinho
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Página do Produto')" id="filter-Página do Produto">
+                        📦 Produto
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Checkout')" id="filter-Checkout">
+                        💳 Checkout
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Home')" id="filter-Home">
+                        🏠 Home
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Coleção/Vitrine')" id="filter-Coleção/Vitrine">
+                        🏪 Vitrine
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Menu/Header')" id="filter-Menu/Header">
+                        📋 Menu
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Footer')" id="filter-Footer">
+                        📄 Footer
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Popup/Modal')" id="filter-Popup/Modal">
+                        🔔 Popup
+                    </button>
+                    <button class="btn-secondary" onclick="filterTechLibrary('Integração')" id="filter-Integração">
+                        🔌 Integração
+                    </button>
+                </div>
+
+                <div id="techLibraryList">
+                    <!-- Global snippets will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- PLANS VIEW -->
         <div id="plansView" style="display:none;">
             <div class="header">
                 <h2>Novo Pedido (PV)</h2>
@@ -835,7 +890,57 @@
         </div>
     </div>
 
+    <!-- GLOBAL SNIPPET MODAL (for Tech Library) -->
+    <div id="globalSnippetModal" class="modal">
+        <div class="modal-content">
+            <h3>Adicionar Código Global</h3>
+            <div class="form-group">
+                <label>Categoria</label>
+                <select id="globalSnipCategory" class="form-control">
+                    <option value="Carrinho">🛒 Carrinho</option>
+                    <option value="Página do Produto">📦 Página do Produto</option>
+                    <option value="Checkout">💳 Checkout</option>
+                    <option value="Home">🏠 Home / Landing</option>
+                    <option value="Coleção/Vitrine">🏪 Coleção / Vitrine</option>
+                    <option value="Menu/Header">📋 Menu / Header</option>
+                    <option value="Footer">📄 Footer</option>
+                    <option value="Popup/Modal">🔔 Popup / Modal</option>
+                    <option value="Integração">🔌 Integração (API/3rd Party)</option>
+                    <option value="Outros">⚙️ Outros</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text" id="globalSnipTitle" class="form-control" placeholder="Ex: Botão WhatsApp Flutuante">
+            </div>
+            <div class="form-group">
+                <label>Descrição (Opcional)</label>
+                <textarea id="globalSnipDescription" class="form-control" rows="2" placeholder="Descreva para que serve este código..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Tipo de Código</label>
+                <select id="globalSnipType" class="form-control">
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="JS">JavaScript</option>
+                    <option value="Liquid">Liquid (Shopify)</option>
+                    <option value="Python">Python</option>
+                    <option value="JSON">JSON</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Código</label>
+                <textarea id="globalSnipCode" class="form-control" rows="10" style="font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem;"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeGlobalSnippetModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveGlobalSnippet()">Salvar na Biblioteca</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/admin.js?v=2"></script>
+    <script src="js/admin.js?v=3"></script>
+    <script src="js/tech-library.js"></script>
 </body>
 </html>
