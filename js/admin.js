@@ -485,29 +485,51 @@ function renderCodeSnippets(snippets) {
     container.innerHTML = '';
 
     if (!snippets || snippets.length === 0) {
-        container.innerHTML = '<p class="text-muted">Nenhum código salvo.</p>';
+        container.innerHTML = '<p style="color: var(--text-muted);">Nenhum código salvo.</p>';
         return;
     }
 
+    // Organizar por categoria
+    const categories = {};
     snippets.forEach((snip, index) => {
-        const div = document.createElement('div');
-        div.className = 'snippet-item';
-        div.innerHTML = `
-            <div class="snippet-header" onclick="toggleSnippet(${index})">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <strong>${snip.title}</strong>
-                    <small>${snip.type}</small>
+        const cat = snip.category || 'Outros';
+        if (!categories[cat]) categories[cat] = [];
+        categories[cat].push({ ...snip, originalIndex: index });
+    });
+
+    // Renderizar por categoria
+    Object.keys(categories).sort().forEach(cat => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.style.marginBottom = '2rem';
+        
+        const categoryHeader = document.createElement('h4');
+        categoryHeader.style.cssText = 'color: var(--secondary); font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem;';
+        categoryHeader.innerHTML = `<i class="fas fa-folder-open"></i> ${cat} (${categories[cat].length})`;
+        categoryDiv.appendChild(categoryHeader);
+
+        categories[cat].forEach(snip => {
+            const div = document.createElement('div');
+            div.className = 'snippet-item';
+            div.innerHTML = `
+                <div class="snippet-header" onclick="toggleSnippet(${snip.originalIndex})">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <strong>${snip.title}</strong>
+                        <small style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem;">${snip.type}</small>
+                    </div>
+                    <div onclick="event.stopPropagation()">
+                        <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="editSnippet(${snip.originalIndex})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-danger" style="padding: 4px 10px; font-size: 0.75rem; margin-left: 5px;" onclick="deleteSnippet(${snip.originalIndex})"><i class="fas fa-trash"></i></button>
+                    </div>
                 </div>
-                <div onclick="event.stopPropagation()">
-                    <button class="btn-secondary" style="padding: 2px 8px; font-size: 0.7rem;" onclick="editSnippet(${index})"><i class="fas fa-edit"></i></button>
+                <div class="snippet-body" id="snip-${snip.originalIndex}" style="display:none;">
+                    <textarea readonly>${snip.code}</textarea>
+                    <button class="btn-copy" onclick="copyCode(this)">Copiar</button>
                 </div>
-            </div>
-            <div class="snippet-body" id="snip-${index}" style="display:none;">
-                <textarea readonly>${snip.code}</textarea>
-                <button class="btn-copy" onclick="copyCode(this)">Copiar</button>
-            </div>
-        `;
-        container.appendChild(div);
+            `;
+            categoryDiv.appendChild(div);
+        });
+
+        container.appendChild(categoryDiv);
     });
 }
 
@@ -520,6 +542,7 @@ function toggleSnippet(index) {
 
 function showAddSnippetModal() {
     editingSnippetIndex = -1;
+    document.getElementById('snipCategory').value = 'Carrinho';
     document.getElementById('snipTitle').value = '';
     document.getElementById('snipType').value = 'HTML';
     document.getElementById('snipCode').value = '';
@@ -533,6 +556,7 @@ function editSnippet(index) {
     if (!snip) return;
 
     editingSnippetIndex = index;
+    document.getElementById('snipCategory').value = snip.category || 'Outros';
     document.getElementById('snipTitle').value = snip.title;
     document.getElementById('snipType').value = snip.type;
     document.getElementById('snipCode').value = snip.code;
@@ -545,6 +569,7 @@ function closeSnippetModal() {
 }
 
 async function saveSnippet() {
+    const category = document.getElementById('snipCategory').value;
     const title = document.getElementById('snipTitle').value;
     const type = document.getElementById('snipType').value;
     const code = document.getElementById('snipCode').value;
@@ -555,10 +580,10 @@ async function saveSnippet() {
     
     if (editingSnippetIndex >= 0) {
         // Update existing
-        snippets[editingSnippetIndex] = { ...snippets[editingSnippetIndex], title, type, code, updated_at: new Date().toISOString() };
+        snippets[editingSnippetIndex] = { ...snippets[editingSnippetIndex], category, title, type, code, updated_at: new Date().toISOString() };
     } else {
         // Add new
-        snippets.push({ title, type, code, date: new Date().toISOString() });
+        snippets.push({ category, title, type, code, date: new Date().toISOString() });
     }
 
     const newAdminData = {
@@ -571,10 +596,33 @@ async function saveSnippet() {
         currentProject.admin_data = newAdminData;
         renderCodeSnippets(snippets);
         closeSnippetModal();
+        document.getElementById('snipCategory').value = 'Carrinho';
         document.getElementById('snipTitle').value = '';
         document.getElementById('snipCode').value = '';
+        alert('Código salvo com sucesso!');
     } catch (e) {
         alert('Erro ao salvar snippet');
+    }
+}
+
+async function deleteSnippet(index) {
+    if (!confirm('Tem certeza que deseja EXCLUIR este código?')) return;
+    
+    const snippets = currentProject.admin_data?.snippets || [];
+    snippets.splice(index, 1);
+    
+    const newAdminData = {
+        ...currentProject.admin_data,
+        snippets
+    };
+    
+    try {
+        await supabase.from('projects').update({ admin_data: newAdminData }).eq('id', currentProject.id);
+        currentProject.admin_data = newAdminData;
+        renderCodeSnippets(snippets);
+        alert('Código excluído!');
+    } catch (e) {
+        alert('Erro ao excluir snippet');
     }
 }
 

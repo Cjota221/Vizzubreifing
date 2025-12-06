@@ -795,21 +795,38 @@
         <div class="modal-content">
             <h3>Adicionar Código</h3>
             <div class="form-group">
-                <label>Título</label>
-                <input type="text" id="snipTitle" placeholder="Ex: Botão WhatsApp">
+                <label>Categoria</label>
+                <select id="snipCategory" class="form-control">
+                    <option value="Carrinho">🛒 Carrinho</option>
+                    <option value="Página do Produto">📦 Página do Produto</option>
+                    <option value="Checkout">💳 Checkout</option>
+                    <option value="Home">🏠 Home / Landing</option>
+                    <option value="Coleção/Vitrine">🏪 Coleção / Vitrine</option>
+                    <option value="Menu/Header">📋 Menu / Header</option>
+                    <option value="Footer">📄 Footer</option>
+                    <option value="Popup/Modal">🔔 Popup / Modal</option>
+                    <option value="Integração">🔌 Integração (API/3rd Party)</option>
+                    <option value="Outros">⚙️ Outros</option>
+                </select>
             </div>
             <div class="form-group">
-                <label>Tipo</label>
-                <select id="snipType">
+                <label>Título</label>
+                <input type="text" id="snipTitle" class="form-control" placeholder="Ex: Botão WhatsApp Flutuante">
+            </div>
+            <div class="form-group">
+                <label>Tipo de Código</label>
+                <select id="snipType" class="form-control">
                     <option value="HTML">HTML</option>
                     <option value="CSS">CSS</option>
                     <option value="JS">JavaScript</option>
-                    <option value="Liquid">Liquid</option>
+                    <option value="Liquid">Liquid (Shopify)</option>
+                    <option value="Python">Python</option>
+                    <option value="JSON">JSON</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Código</label>
-                <textarea id="snipCode" rows="5" style="font-family: monospace;"></textarea>
+                <textarea id="snipCode" class="form-control" rows="8" style="font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem;"></textarea>
             </div>
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeSnippetModal()">Cancelar</button>
