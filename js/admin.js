@@ -960,3 +960,105 @@ function escapeHtml(text) {
     };
     return text.replace(/["']/g, m => map[m]);
 }
+
+// ============================================
+// CUSTOM CATEGORIES MANAGEMENT
+// ============================================
+
+// Array global para armazenar categorias customizadas
+let customCategories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+
+function showNewCategoryInput(type) {
+    const inputDiv = document.getElementById(`newCategory${type === 'snip' ? 'Snip' : 'Global'}`);
+    inputDiv.style.display = 'block';
+    document.getElementById(`newCategoryName${type === 'snip' ? 'Snip' : 'Global'}`).focus();
+}
+
+function cancelNewCategory(type) {
+    const inputDiv = document.getElementById(`newCategory${type === 'snip' ? 'Snip' : 'Global'}`);
+    const inputField = document.getElementById(`newCategoryName${type === 'snip' ? 'Snip' : 'Global'}`);
+    inputDiv.style.display = 'none';
+    inputField.value = '';
+}
+
+function addNewCategory(type) {
+    const inputField = document.getElementById(`newCategoryName${type === 'snip' ? 'Snip' : 'Global'}`);
+    const categoryName = inputField.value.trim();
+    
+    if (!categoryName) {
+        alert('Por favor, digite o nome da categoria');
+        return;
+    }
+    
+    // Verificar se já existe
+    const selectId = type === 'snip' ? 'snipCategory' : 'globalSnipCategory';
+    const select = document.getElementById(selectId);
+    const existingOptions = Array.from(select.options).map(opt => opt.value.toLowerCase());
+    
+    if (existingOptions.includes(categoryName.toLowerCase())) {
+        alert('Esta categoria já existe!');
+        return;
+    }
+    
+    // Adicionar ao array de categorias customizadas
+    if (!customCategories.includes(categoryName)) {
+        customCategories.push(categoryName);
+        localStorage.setItem('customCategories', JSON.stringify(customCategories));
+    }
+    
+    // Adicionar ao select (antes da opção "Outros")
+    const newOption = document.createElement('option');
+    newOption.value = categoryName;
+    newOption.textContent = `📁 ${categoryName}`;
+    
+    // Inserir antes da última opção (Outros)
+    const lastOption = select.options[select.options.length - 1];
+    select.insertBefore(newOption, lastOption);
+    
+    // Selecionar a nova categoria
+    select.value = categoryName;
+    
+    // Atualizar também o outro select se existir
+    const otherSelectId = type === 'snip' ? 'globalSnipCategory' : 'snipCategory';
+    const otherSelect = document.getElementById(otherSelectId);
+    if (otherSelect) {
+        const otherNewOption = document.createElement('option');
+        otherNewOption.value = categoryName;
+        otherNewOption.textContent = `📁 ${categoryName}`;
+        const otherLastOption = otherSelect.options[otherSelect.options.length - 1];
+        otherSelect.insertBefore(otherNewOption, otherLastOption);
+    }
+    
+    // Limpar e esconder input
+    cancelNewCategory(type);
+    
+    alert(`Categoria "${categoryName}" criada com sucesso!`);
+}
+
+// Carregar categorias customizadas ao iniciar
+function loadCustomCategories() {
+    const selects = ['snipCategory', 'globalSnipCategory'];
+    
+    selects.forEach(selectId => {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        
+        customCategories.forEach(categoryName => {
+            // Verificar se já existe
+            const existingOptions = Array.from(select.options).map(opt => opt.value);
+            if (existingOptions.includes(categoryName)) return;
+            
+            // Adicionar antes da última opção (Outros)
+            const newOption = document.createElement('option');
+            newOption.value = categoryName;
+            newOption.textContent = `📁 ${categoryName}`;
+            const lastOption = select.options[select.options.length - 1];
+            select.insertBefore(newOption, lastOption);
+        });
+    });
+}
+
+// Chamar ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(loadCustomCategories, 100);
+});
