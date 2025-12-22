@@ -1,14 +1,19 @@
 // --- SUPABASE CONFIGURATION ---
 const SUPABASE_URL = 'https://khoyztycmrryrkbsvhja.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Usar inst\u00e2ncia global do Supabase
+if (typeof window.supabaseClient === 'undefined') {
+    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+const supabase = window.supabaseClient;
 
 let currentBriefingId = null;
 let projectData = null;
 
 // --- INIT ---
 
-window.onload = async function() {
+// Inicializar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', async function() {
     // Get ID from URL query params: briefing.html?id=XYZ
     const urlParams = new URLSearchParams(window.location.search);
     currentBriefingId = urlParams.get('id');
@@ -23,7 +28,7 @@ window.onload = async function() {
     setupColorPicker(); // New Color Picker
     setupFileUpload();
     // addVariationRow(); // Removed complex variations
-};
+});
 
 async function loadProjectData(id) {
     try {

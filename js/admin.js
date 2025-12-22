@@ -1,7 +1,11 @@
 // --- SUPABASE CONFIGURATION ---
 const SUPABASE_URL = 'https://khoyztycmrryrkbsvhja.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Criar instância global única do Supabase
+if (typeof window.supabaseClient === 'undefined') {
+    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+const supabase = window.supabaseClient;
 
 // --- CONSTANTS ---
 const PLANS = {
@@ -29,9 +33,10 @@ let allProjects = [];
 let currentProject = null;
 
 // --- INIT ---
-window.onload = async function() {
+// Inicializar quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', async function() {
     await loadProjects();
-};
+});
 
 // --- LOAD PROJECTS ---
 async function loadProjects() {

@@ -1,4 +1,6 @@
 // --- TECH LIBRARY (GLOBAL SNIPPETS) ---
+// Usa a instância do supabase criada em admin.js
+const supabase = window.supabaseClient;
 
 let globalSnippets = [];
 let currentFilter = 'all';
