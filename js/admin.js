@@ -5,7 +5,8 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
 if (typeof window.supabaseClient === 'undefined') {
     window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
-const supabase = window.supabaseClient;
+// Referência local (não const para evitar conflito)
+var supabase = window.supabaseClient;
 
 // --- CONSTANTS ---
 const PLANS = {

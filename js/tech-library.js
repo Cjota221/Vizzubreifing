@@ -1,6 +1,6 @@
 // --- TECH LIBRARY (GLOBAL SNIPPETS) ---
-// Usa a instância do supabase criada em admin.js
-const supabase = window.supabaseClient;
+// Usa a instância global window.supabaseClient criada em admin.js
+var supabase = window.supabaseClient;
 
 let globalSnippets = [];
 let currentFilter = 'all';
