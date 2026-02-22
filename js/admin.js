@@ -75,8 +75,8 @@ function renderProjectList(projects) {
     projects.forEach(p => {
         const data = p.briefing_data || {};
         const admin = p.admin_data || {};
-        const clientName = p.client_name || data.responsavel_nome || 'Cliente Sem Nome';
-        const storeName = data.nome_loja || 'Loja Sem Nome';
+        const clientName = p.client_name || normalizeField(data.responsavel_nome) || 'Cliente Sem Nome';
+        const storeName = normalizeField(data.nome_loja) || 'Loja Sem Nome';
         const status = p.status || 'Pendente';
         const planName = admin.plan_details?.name || 'Sem Plano';
         const logoUrl = data.logo_url;
@@ -162,18 +162,18 @@ function renderProjectDetails() {
     const admin = p.admin_data || {};
 
     // Header
-    document.getElementById('detailTitle').textContent = data.nome_loja || p.client_name || 'Projeto Sem Nome';
-    document.getElementById('detailSubtitle').textContent = p.client_name || data.responsavel_nome || 'Cliente';
+    document.getElementById('detailTitle').textContent = normalizeField(data.nome_loja) || p.client_name || 'Projeto Sem Nome';
+    document.getElementById('detailSubtitle').textContent = p.client_name || normalizeField(data.responsavel_nome) || 'Cliente';
     
     // Generate Briefing Link
     const link = `${window.location.href.replace('index.html', '').replace(/\/$/, '')}/briefing.html?id=${p.id}`;
     document.getElementById('briefingLinkInput').value = link;
 
     // Client Info (Editable)
-    document.getElementById('infoName').value = p.client_name || data.responsavel_nome || '';
-    document.getElementById('infoStore').value = data.nome_loja || '';
-    document.getElementById('infoPhone').value = data.responsavel_whatsapp || '';
-    document.getElementById('infoEmail').value = data.responsavel_email || '';
+    document.getElementById('infoName').value = p.client_name || normalizeField(data.responsavel_nome) || '';
+    document.getElementById('infoStore').value = normalizeField(data.nome_loja) || '';
+    document.getElementById('infoPhone').value = normalizeField(data.responsavel_whatsapp) || '';
+    document.getElementById('infoEmail').value = normalizeField(data.responsavel_email) || '';
     
     // Logo Handling
     const logoUrl = data.logo_url || '';
@@ -188,7 +188,7 @@ function renderProjectDetails() {
     
     // WhatsApp Link
     const waLink = document.getElementById('waLink');
-    const phone = data.responsavel_whatsapp || '';
+    const phone = normalizeField(data.responsavel_whatsapp) || '';
     if (phone) {
         const num = phone.replace(/\D/g, '');
         waLink.href = `https://wa.me/55${num}`;
@@ -265,20 +265,34 @@ function updateEditProjectTotal() {
     document.getElementById('editProjectTotal').value = `R$ ${total.toFixed(2)}`;
 }
 
+// Helper: normaliza campo que pode ser string ou array (quando cliente enviou 2x)
+function normalizeField(value) {
+    if (Array.isArray(value)) {
+        // Retorna o último valor preenchido (mais recente)
+        const filtered = value.filter(v => v && String(v).trim() !== '');
+        return filtered.length > 0 ? filtered[filtered.length - 1] : '';
+    }
+    return value;
+}
+
 function renderBriefingContent(data) {
     const container = document.getElementById('briefingAnswers');
     container.innerHTML = '';
 
-    // Helper to create fields
+    // Helper to create fields — aceita string ou array
     const createField = (label, value) => {
-        if (!value) return '';
-        let displayValue = value;
-        if (typeof value === 'object') {
-            displayValue = JSON.stringify(value, null, 2);
+        const normalized = normalizeField(value);
+        if (!normalized && normalized !== 0) return '';
+        let displayValue = normalized;
+        if (typeof displayValue === 'object') {
+            displayValue = JSON.stringify(displayValue, null, 2);
         }
+        // Mostrar aviso se foi enviado mais de uma vez
+        const isDuplicated = Array.isArray(value) && value.filter(v => v && String(v).trim() !== '').length > 1;
+        const dupBadge = isDuplicated ? `<span style="font-size:0.7rem; color:#f0a500; margin-left:6px;" title="Formulário enviado mais de uma vez">⚠️ duplicado</span>` : '';
         return `
             <div class="briefing-item">
-                <label>${label}</label>
+                <label>${label}${dupBadge}</label>
                 <div class="value">${displayValue}</div>
             </div>
         `;
