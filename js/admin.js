@@ -285,46 +285,67 @@ function renderBriefingContent(data) {
     };
 
     let html = '';
+
+    // Aviso se o briefing ainda não foi enviado
+    if (!data || Object.keys(data).filter(k => !['admin_drive_link', 'logo_url'].includes(k)).length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;"><i class="fas fa-clock"></i> Briefing ainda não foi preenchido pela cliente.</p>';
+        return;
+    }
     
-    // Section 1: Acessos
-    html += `<h4><i class="fas fa-lock"></i> Acessos</h4>`;
+    // Section 1: Dados & Acessos
+    html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-user-check"></i> Dados & Acessos</h4>`;
+    html += createField('Nome Responsável', data.responsavel_nome);
+    html += createField('Nome da Loja', data.nome_loja);
+    html += createField('WhatsApp (Contato)', data.responsavel_whatsapp);
+    html += createField('E-mail (Contato)', data.responsavel_email);
     html += createField('Link da Loja', data.loja_url);
-    html += createField('Login', data.login_email);
-    html += createField('Senha', data.senha_provisoria);
+    html += createField('Login Colaborador', data.login_email);
+    html += createField('Senha Provisória', data.senha_provisoria);
 
     // Section 2: Identidade
-    html += `<h4><i class="fas fa-gem"></i> Identidade</h4>`;
-    html += createField('Cores', data.cores);
-    html += createField('Vibe', data.vibe);
-    html += createField('Logo Status', data.logo_status);
+    html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-gem"></i> Identidade & Visual</h4>`;
+    html += createField('Paleta de Cores', data.cores);
+    html += createField('Vibe / Sensação da Loja', data.vibe);
+    html += createField('Status da Logo', data.logo_status === 'drive' ? '✅ Sim, está no Drive em alta qualidade' : data.logo_status === 'instagram' ? '📷 Não, pegar do Instagram' : data.logo_status);
+    html += createField('Obs. Referências Visuais', data.referencias_obs);
     
     // Section 3: Estratégia
-    html += `<h4><i class="fas fa-bullseye"></i> Estratégia</h4>`;
+    html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-bullseye"></i> Estratégia Comercial</h4>`;
     html += createField('Pedido Mínimo', data.pedido_minimo);
-    html += createField('Frete', data.regras_frete);
-    html += createField('Pagamento', data.pagamento);
-    
-    // Variações
-    if (data.variacoes) {
-        html += createField('Variações de Produtos', data.variacoes);
-    }
+    html += createField('Regras de Frete', data.regras_frete);
+    html += createField('Facilidades de Pagamento', data.pagamento);
+    html += createField('Produto Estrela (Oferta Relâmpago)', data.produto_estrela);
+    html += createField('Cupom de Primeira Compra', data.cupom);
+    html += createField('Variações de Produtos', data.variacoes);
 
     // Section 4: Widgets
-    html += `<h4><i class="fas fa-video"></i> Widgets</h4>`;
-    html += createField('Destaque Carrossel', data.destaque_carrossel);
-    html += createField('Prova Social', data.prova_social);
+    html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-video"></i> Conteúdo dos Widgets</h4>`;
+    html += createField('Destaque do Carrossel Vitrine', data.destaque_carrossel);
+
+    // Vídeos disponíveis
+    const videos = [];
+    if (data.video_fachada === 'on' || data.video_fachada === true) videos.push('Fachada / Estoque Cheio');
+    if (data.video_equipe === 'on' || data.video_equipe === true) videos.push('Equipe separando pedidos (Bastidores)');
+    if (data.video_processo === 'on' || data.video_processo === true) videos.push('Processo de Fabricação / Detalhes');
+    if (data.video_dona === 'on' || data.video_dona === true) videos.push('Apresentação da Dona / História');
+    if (videos.length > 0) {
+        html += createField('Vídeos Disponíveis', videos.join(', '));
+    } else {
+        html += createField('Vídeos Disponíveis', 'Nenhum vídeo marcado');
+    }
+    html += createField('Prova Social (Prints de Clientes)', data.prova_social === 'sim' ? '✅ Sim, colocou prints no Drive' : data.prova_social === 'nao' ? '❌ Não tem prints ainda' : data.prova_social);
 
     // Section 5: Suporte
-    html += `<h4><i class="fas fa-headset"></i> Suporte</h4>`;
-    html += createField('WhatsApp Loja', data.whatsapp);
-    html += createField('Endereço', data.endereco);
-    html += createField('Horário', data.horario);
+    html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-headset"></i> Suporte & Rodapé</h4>`;
+    html += createField('WhatsApp da Loja', data.whatsapp);
+    html += createField('Endereço Físico', data.endereco);
+    html += createField('Horário de Atendimento', data.horario);
 
     // Section 6: Final
-    html += `<h4><i class="fas fa-rocket"></i> Expectativa</h4>`;
+    html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-rocket"></i> Expectativa Final</h4>`;
     html += createField('Fator UAU', data.fator_uau);
 
-    container.innerHTML = html;
+    container.innerHTML = html || '<p style="color: var(--text-muted); text-align: center; padding: 20px;"><i class="fas fa-clock"></i> Briefing ainda não foi preenchido.</p>';
 }
 
 function renderReferenceFiles(data) {
