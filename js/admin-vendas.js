@@ -407,3 +407,371 @@ async function excluirCupom(id) {
         alert('Erro: ' + e.message);
     }
 }
+
+// ============================
+// CRM · PIPELINE DE LEADS
+// ============================
+
+var crmLeads = [];
+var crmSourceFilter = 'all';
+var crmSearchTerm = '';
+var crmShowLost = false;
+var crmChannel = null;
+var crmLegacySyncDone = false;
+
+const CRM_STAGES = ['Lead', 'Contatado', 'Proposta', 'Negociando', 'Convertido', 'Perdido'];
+const CRM_COLORS = {
+    Lead: '#85B7EB',
+    Contatado: '#EF9F27',
+    Proposta: '#AFA9EC',
+    Negociando: '#C8FF3D',
+    Convertido: '#5DCAA5',
+    Perdido: '#F09595'
+};
+
+function crmEscape(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[char]);
+}
+
+function crmMoney(value) {
+    return Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+async function loadCRM() {
+    const board = document.getElementById('kanbanBoard');
+    if (!board) return;
+    board.innerHTML = '<div class="loading-state">Carregando pipeline...</div>';
+
+    const { data, error } = await dbVendas
+        .from('crm_leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('[CRM] Erro ao carregar:', error);
+        board.innerHTML = '<div class="empty-state">Não foi possível carregar o CRM. Execute o arquivo crm_setup.sql no Supabase Vendas.</div>';
+        return;
+    }
+
+    crmLeads = data || [];
+    if (!crmLegacySyncDone) {
+        crmLegacySyncDone = true;
+        const imported = await syncExistingLandingLeads();
+        if (imported) return loadCRM();
+    }
+    renderCRM();
+    setupCRMRealtime();
+}
+
+async function syncExistingLandingLeads() {
+    try {
+        const { data: landingLeads, error } = await dbVendas.from('leads').select('*');
+        if (error) throw error;
+        const linkedIds = new Set(crmLeads.filter(lead => lead.lead_id != null).map(lead => String(lead.lead_id)));
+        const missing = (landingLeads || []).filter(lead => !linkedIds.has(String(lead.id))).map(lead => ({
+            lead_id: lead.id,
+            nome: lead.nome || 'Lead da landing',
+            loja: lead.loja || null,
+            telefone: lead.telefone || lead.whatsapp || null,
+            email: lead.email || null,
+            origem: 'landing',
+            estagio: 'Lead'
+        }));
+        if (!missing.length) return false;
+        const { error: insertError } = await dbVendas.from('crm_leads').insert(missing);
+        if (insertError) throw insertError;
+        return true;
+    } catch (error) {
+        console.warn('[CRM] Não foi possível importar leads antigos:', error.message);
+        return false;
+    }
+}
+
+function setupCRMRealtime() {
+    if (crmChannel || !dbVendas?.channel) return;
+    crmChannel = dbVendas
+        .channel('crm-leads-admin')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'crm_leads' }, () => loadCRM())
+        .subscribe();
+}
+
+function getFilteredCRMLeads() {
+    const query = crmSearchTerm.trim().toLocaleLowerCase('pt-BR');
+    return crmLeads.filter(lead => {
+        const haystack = [lead.nome, lead.loja, lead.telefone, lead.email].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR');
+        const matchesSearch = !query || haystack.includes(query);
+        const matchesSource = crmSourceFilter === 'all' || lead.origem === crmSourceFilter;
+        return matchesSearch && matchesSource;
+    });
+}
+
+function renderCRM() {
+    const leads = getFilteredCRMLeads();
+    renderCRMStats(leads);
+    renderKanban(leads);
+    renderFunnel(leads);
+    const updated = document.getElementById('crmLastUpdate');
+    if (updated) updated.textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function renderCRMStats(leads) {
+    const total = leads.length;
+    const converted = leads.filter(lead => lead.estagio === 'Convertido');
+    const negotiating = leads.filter(lead => lead.estagio === 'Negociando');
+    const conversionRate = total ? Math.round((converted.length / total) * 100) : 0;
+    const sevenDaysAgo = Date.now() - 7 * 86400000;
+    const recent = leads.filter(lead => new Date(lead.created_at).getTime() >= sevenDaysAgo).length;
+    const setText = (id, value) => { const element = document.getElementById(id); if (element) element.textContent = value; };
+
+    setText('statTotalLeads', total);
+    setText('statLeadsDelta', `${recent} nos últimos 7 dias`);
+    setText('statConversao', `${conversionRate}%`);
+    setText('statConversaoDelta', `${converted.length} de ${total} leads`);
+    setText('statNegociacao', crmMoney(negotiating.reduce((sum, lead) => sum + Number(lead.valor_estimado || 0), 0)));
+    setText('statNegociacaoObs', `${negotiating.length} oportunidades abertas`);
+    setText('statConvertidos', converted.length);
+    setText('statConvertidosValor', `${crmMoney(converted.reduce((sum, lead) => sum + Number(lead.valor_estimado || 0), 0))} fechado`);
+}
+
+function renderKanban(leads) {
+    const board = document.getElementById('kanbanBoard');
+    if (!board) return;
+    board.innerHTML = '';
+    const visibleStages = crmShowLost ? CRM_STAGES : CRM_STAGES.filter(stage => stage !== 'Perdido');
+
+    visibleStages.forEach(stage => {
+        const stageLeads = leads.filter(lead => (lead.estagio || 'Lead') === stage);
+        const column = document.createElement('section');
+        column.className = 'kanban-col';
+        column.dataset.stage = stage;
+        column.innerHTML = `
+            <div class="kanban-col-bar" style="background:${CRM_COLORS[stage]}"></div>
+            <div class="kanban-col-head"><span class="kanban-col-name">${stage}</span><span class="kanban-col-count">${stageLeads.length}</span></div>
+            <div class="col-cards">${stageLeads.length ? stageLeads.map(leadCardHTML).join('') : '<div class="kanban-empty">Arraste um lead para cá</div>'}</div>
+        `;
+        column.addEventListener('dragover', event => { event.preventDefault(); column.classList.add('drag-over'); });
+        column.addEventListener('dragleave', () => column.classList.remove('drag-over'));
+        column.addEventListener('drop', async event => {
+            event.preventDefault();
+            column.classList.remove('drag-over');
+            const id = event.dataTransfer.getData('text/crm-lead-id');
+            if (id) await moveLeadStage(id, stage);
+        });
+        board.appendChild(column);
+    });
+
+    board.querySelectorAll('.lead-card').forEach(card => {
+        card.addEventListener('dragstart', event => {
+            card.classList.add('dragging');
+            event.dataTransfer.setData('text/crm-lead-id', card.dataset.id);
+            event.dataTransfer.effectAllowed = 'move';
+        });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    });
+}
+
+function leadCardHTML(lead) {
+    const source = lead.origem || 'manual';
+    const sourceClass = { landing: 'src-landing', whatsapp: 'src-wpp', orcamento: 'src-orcamento', manual: 'src-manual' }[source] || 'src-manual';
+    const sourceLabel = { landing: 'Landing', whatsapp: 'WhatsApp', orcamento: 'Orçamento', manual: 'Manual' }[source] || source;
+    return `<article class="lead-card" draggable="true" data-id="${crmEscape(lead.id)}" onclick="openLeadDetail('${crmEscape(lead.id)}')">
+        <div class="lead-card-name">${crmEscape(lead.nome || 'Sem nome')}</div>
+        <div class="lead-card-store">${crmEscape(lead.loja || '—')}</div>
+        <div class="lead-card-footer"><span class="lead-src-badge ${sourceClass}">${crmEscape(sourceLabel)}</span><span class="lead-card-date">${formatTimeAgo(lead.created_at)}</span></div>
+    </article>`;
+}
+
+function renderFunnel(leads) {
+    const container = document.getElementById('funnelChart');
+    if (!container) return;
+    const total = leads.length;
+    const stages = {
+        Lead: total,
+        Contatado: leads.filter(lead => ['Contatado', 'Proposta', 'Negociando', 'Convertido'].includes(lead.estagio)).length,
+        Proposta: leads.filter(lead => ['Proposta', 'Negociando', 'Convertido'].includes(lead.estagio)).length,
+        Negociando: leads.filter(lead => ['Negociando', 'Convertido'].includes(lead.estagio)).length,
+        Convertido: leads.filter(lead => lead.estagio === 'Convertido').length
+    };
+    container.innerHTML = Object.entries(stages).map(([label, count]) => {
+        const percentage = total ? Math.round((count / total) * 100) : 0;
+        return `<div class="funnel-row"><span class="funnel-label">${label}</span><div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:0;background:${CRM_COLORS[label]}" data-width="${percentage}"></div></div><span class="funnel-count">${count}</span><span class="funnel-pct">${percentage}%</span></div>`;
+    }).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => container.querySelectorAll('.funnel-bar-fill').forEach(bar => { bar.style.width = `${bar.dataset.width}%`; })));
+}
+
+function formatTimeAgo(dateString) {
+    if (!dateString) return '—';
+    const seconds = Math.max(0, (Date.now() - new Date(dateString).getTime()) / 1000);
+    if (seconds < 60) return 'agora';
+    if (seconds < 3600) return `há ${Math.floor(seconds / 60)}min`;
+    if (seconds < 86400) return `há ${Math.floor(seconds / 3600)}h`;
+    if (seconds < 604800) return `há ${Math.floor(seconds / 86400)}d`;
+    return `há ${Math.floor(seconds / 604800)} sem.`;
+}
+
+function toggleLostColumn() {
+    crmShowLost = !crmShowLost;
+    document.getElementById('crmLostToggle').textContent = crmShowLost ? 'Ocultar perdidos' : 'Mostrar perdidos';
+    renderKanban(getFilteredCRMLeads());
+}
+
+function openNewLeadModal() {
+    ['nlNome', 'nlLoja', 'nlPhone', 'nlEmail', 'nlValor'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('nlOrigem').value = 'manual';
+    document.getElementById('newLeadModal').classList.add('open');
+    setTimeout(() => document.getElementById('nlNome').focus(), 50);
+}
+
+function closeCRMModal(id) {
+    document.getElementById(id)?.classList.remove('open');
+}
+
+async function submitManualLead() {
+    const button = document.getElementById('btnCreateLead');
+    const nome = document.getElementById('nlNome').value.trim();
+    if (!nome) return alert('Informe o nome do lead.');
+    button.disabled = true;
+    try {
+        await createManualLead(
+            nome,
+            document.getElementById('nlLoja').value.trim(),
+            document.getElementById('nlPhone').value.trim(),
+            document.getElementById('nlOrigem').value,
+            Number(document.getElementById('nlValor').value || 0),
+            document.getElementById('nlEmail').value.trim()
+        );
+        closeCRMModal('newLeadModal');
+    } catch (error) {
+        alert('Erro ao criar lead: ' + error.message);
+    } finally {
+        button.disabled = false;
+    }
+}
+
+async function createManualLead(nome, loja, telefone, origem, valorEstimado, email = '') {
+    const { error } = await dbVendas.from('crm_leads').insert([{
+        nome, loja: loja || null, telefone: telefone || null, email: email || null,
+        origem: origem || 'manual', valor_estimado: Number(valorEstimado || 0), estagio: 'Lead'
+    }]);
+    if (error) throw error;
+    await loadCRM();
+}
+
+function openLeadDetail(id) {
+    const lead = crmLeads.find(item => String(item.id) === String(id));
+    if (!lead) return;
+    document.getElementById('ldId').value = lead.id;
+    document.getElementById('ldName').textContent = lead.nome || 'Lead';
+    document.getElementById('ldMeta').textContent = `Criado ${formatTimeAgo(lead.created_at)}`;
+    document.getElementById('ldLoja').value = lead.loja || '';
+    document.getElementById('ldPhone').value = lead.telefone || '';
+    document.getElementById('ldEmail').value = lead.email || '';
+    document.getElementById('ldOrigem').value = lead.origem || 'manual';
+    document.getElementById('ldValor').value = Number(lead.valor_estimado || 0);
+    document.getElementById('ldNotas').value = lead.notas || '';
+    document.getElementById('ldStageButtons').innerHTML = CRM_STAGES.map(stage => `<button type="button" class="crm-stage-button${stage === (lead.estagio || 'Lead') ? ' active' : ''}" data-stage="${stage}" onclick="selectLeadStage(this)">${stage}</button>`).join('');
+    const convertButton = document.getElementById('btnConvertLead');
+    convertButton.disabled = Boolean(lead.projeto_id);
+    convertButton.textContent = lead.projeto_id ? 'Projeto criado' : 'Criar Projeto';
+    document.getElementById('leadDetailModal').classList.add('open');
+}
+
+function renderLeadDetailModal(lead) { openLeadDetail(lead.id); }
+
+function selectLeadStage(button) {
+    button.parentElement.querySelectorAll('.crm-stage-button').forEach(item => item.classList.remove('active'));
+    button.classList.add('active');
+}
+
+function closeLeadDetailModal() { closeCRMModal('leadDetailModal'); }
+
+async function moveLeadStage(id, newStage) {
+    const lead = crmLeads.find(item => String(item.id) === String(id));
+    if (lead?.estagio === newStage) return;
+    const { error } = await dbVendas.from('crm_leads').update({ estagio: newStage, updated_at: new Date().toISOString() }).eq('id', id);
+    if (error) return alert('Erro ao mover lead: ' + error.message);
+    if (lead) lead.estagio = newStage;
+    renderCRM();
+}
+
+async function saveCurrentLead() {
+    const id = document.getElementById('ldId').value;
+    const button = document.getElementById('btnSaveLead');
+    const stage = document.querySelector('#ldStageButtons .crm-stage-button.active')?.dataset.stage || 'Lead';
+    button.disabled = true;
+    const payload = {
+        loja: document.getElementById('ldLoja').value.trim() || null,
+        telefone: document.getElementById('ldPhone').value.trim() || null,
+        email: document.getElementById('ldEmail').value.trim() || null,
+        estagio: stage,
+        valor_estimado: Number(document.getElementById('ldValor').value || 0),
+        notas: document.getElementById('ldNotas').value.trim() || null,
+        updated_at: new Date().toISOString()
+    };
+    const { error } = await dbVendas.from('crm_leads').update(payload).eq('id', id);
+    button.disabled = false;
+    if (error) return alert('Erro ao salvar: ' + error.message);
+    closeLeadDetailModal();
+    await loadCRM();
+}
+
+async function saveLeadNotes(id, notes, valorEstimado) {
+    const { error } = await dbVendas.from('crm_leads').update({ notas: notes, valor_estimado: Number(valorEstimado || 0), updated_at: new Date().toISOString() }).eq('id', id);
+    if (error) throw error;
+    await loadCRM();
+}
+
+function wppLead() {
+    const id = document.getElementById('ldId').value;
+    const lead = crmLeads.find(item => String(item.id) === String(id));
+    const phone = (document.getElementById('ldPhone').value || lead?.telefone || '').replace(/\D/g, '');
+    if (!phone) return alert('Este lead não possui WhatsApp.');
+    const target = phone.startsWith('55') ? phone : `55${phone}`;
+    window.open(`https://wa.me/${target}`, '_blank', 'noopener');
+}
+
+async function convertLeadToProject() {
+    const id = document.getElementById('ldId').value;
+    const lead = crmLeads.find(item => String(item.id) === String(id));
+    if (!lead || lead.projeto_id) return;
+    const button = document.getElementById('btnConvertLead');
+    button.disabled = true;
+    button.textContent = 'Criando...';
+    try {
+        const { data: project, error: projectError } = await window.dbBriefing
+            .from('projects')
+            .insert([{
+                client_name: lead.nome,
+                status: 'Link Gerado',
+                briefing_data: { responsavel_nome: lead.nome, nome_loja: lead.loja || '', responsavel_whatsapp: lead.telefone || '', responsavel_email: lead.email || '' },
+                admin_data: { plan_details: { name: 'A definir', price: Number(lead.valor_estimado || 0), items: [] }, payment: '', start_date: '', snippets: [], crm_lead_id: lead.id }
+            }])
+            .select('id')
+            .single();
+        if (projectError) throw projectError;
+
+        const { error: crmError } = await dbVendas.from('crm_leads').update({ projeto_id: project.id, estagio: 'Convertido', updated_at: new Date().toISOString() }).eq('id', lead.id);
+        if (crmError) throw crmError;
+        alert('Projeto criado e lead convertido.');
+        closeLeadDetailModal();
+        await loadCRM();
+    } catch (error) {
+        alert('Erro ao criar projeto: ' + error.message);
+        button.disabled = false;
+        button.textContent = 'Criar Projeto';
+    }
+}
+
+function showCRM() { showSection('crm'); }
+
+document.getElementById('crmSearch')?.addEventListener('input', event => {
+    crmSearchTerm = event.target.value;
+    renderCRM();
+});
+
+document.getElementById('crmFilter')?.addEventListener('change', event => {
+    crmSourceFilter = event.target.value;
+    renderCRM();
+});

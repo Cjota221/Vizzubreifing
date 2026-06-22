@@ -1245,8 +1245,23 @@ async function capturarLead(e) {
   try {
     const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
     const db = createClient(SB_URL, SB_KEY);
-    await db.from('leads').insert([{ nome, telefone: tel, origem: 'landing' }]);
-  } catch {}
+    const { data: savedLead, error: leadError } = await db
+      .from('leads')
+      .insert([{ nome, telefone: tel, origem: 'landing' }])
+      .select('id')
+      .single();
+    if (leadError) throw leadError;
+    const { error: crmError } = await db.from('crm_leads').insert([{
+      lead_id: savedLead?.id || null,
+      nome,
+      telefone: tel,
+      origem: 'landing',
+      estagio: 'Lead'
+    }]);
+    if (crmError) console.warn('[VIZZU] Lead salvo, mas não sincronizado com o CRM:', crmError.message);
+  } catch (error) {
+    console.warn('[VIZZU] Não foi possível registrar o lead:', error.message);
+  }
   document.getElementById('leadForm').style.display = 'none';
   document.getElementById('leadSuccess').style.display = 'block';
 }

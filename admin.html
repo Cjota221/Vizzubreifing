@@ -6,7 +6,7 @@
     <title>VIZZU | Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin-v3.css">
 </head>
@@ -29,6 +29,10 @@
             <div class="nav-item" id="nav-leads" onclick="showSection('leads')">
                 <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 Leads
+            </div>
+            <div class="nav-item" id="nav-crm" onclick="showSection('crm')">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                CRM
             </div>
             <div class="nav-item" id="nav-cupons" onclick="showSection('cupons')">
                 <svg viewBox="0 0 24 24"><path d="M9 15 15 9M9.5 9h.01M14.5 15h.01"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
@@ -125,7 +129,49 @@
             </div>
         </div>
 
-        <!-- 4. CUPONS VIEW -->
+        <!-- 4. CRM VIEW -->
+        <div id="crmView" style="display:none;">
+            <div class="crm-header">
+                <div>
+                    <h2>CRM · Pipeline de Leads</h2>
+                    <p class="sub" id="crmLastUpdate">Carregando...</p>
+                </div>
+                <div class="crm-actions">
+                    <input type="search" id="crmSearch" class="search-input" placeholder="Buscar lead...">
+                    <select id="crmFilter" class="form-control" aria-label="Filtrar leads por origem">
+                        <option value="all">Todos os leads</option>
+                        <option value="landing">Landing Page</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="orcamento">Orçamento</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                    <button type="button" onclick="openNewLeadModal()" class="btn-primary">
+                        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                        Novo Lead
+                    </button>
+                </div>
+            </div>
+
+            <div class="crm-stats-grid">
+                <div class="crm-stat-card"><span class="stat-label">Total de leads</span><span class="stat-value" id="statTotalLeads">—</span><span class="stat-delta" id="statLeadsDelta">No filtro atual</span></div>
+                <div class="crm-stat-card"><span class="stat-label">Taxa de conversão</span><span class="stat-value" id="statConversao">—</span><span class="stat-delta" id="statConversaoDelta">Leads convertidos</span></div>
+                <div class="crm-stat-card"><span class="stat-label">Em negociação</span><span class="stat-value" id="statNegociacao">—</span><span class="stat-delta warn" id="statNegociacaoObs"></span></div>
+                <div class="crm-stat-card"><span class="stat-label">Convertidos</span><span class="stat-value" id="statConvertidos">—</span><span class="stat-delta" id="statConvertidosValor"></span></div>
+            </div>
+
+            <div class="crm-section-toolbar">
+                <h3 class="section-title">Pipeline</h3>
+                <button type="button" class="btn-secondary crm-lost-toggle" id="crmLostToggle" onclick="toggleLostColumn()">Mostrar perdidos</button>
+            </div>
+            <div class="kanban-wrap"><div class="kanban-board" id="kanbanBoard"><div class="loading-state">Carregando pipeline...</div></div></div>
+
+            <div class="crm-funnel-section">
+                <h3 class="section-title">Funil de conversão</h3>
+                <div id="funnelChart"></div>
+            </div>
+        </div>
+
+        <!-- 5. CUPONS VIEW -->
         <div id="cuponsView" style="display:none;">
             <div class="header">
                 <div>
@@ -501,6 +547,40 @@
         </div>
     </div>
 
+    <div id="newLeadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="newLeadTitle">
+        <div class="modal-content" style="max-width:520px;">
+            <div class="modal-header"><h3 id="newLeadTitle">Novo Lead</h3><button type="button" class="modal-close" onclick="closeCRMModal('newLeadModal')" aria-label="Fechar">×</button></div>
+            <div class="form-group"><label for="nlNome">Nome *</label><input id="nlNome" class="form-control" autocomplete="name"></div>
+            <div class="form-group"><label for="nlLoja">Loja</label><input id="nlLoja" class="form-control"></div>
+            <div class="form-group"><label for="nlPhone">WhatsApp</label><input id="nlPhone" class="form-control" autocomplete="tel"></div>
+            <div class="form-group"><label for="nlEmail">E-mail</label><input id="nlEmail" type="email" class="form-control" autocomplete="email"></div>
+            <div class="form-group"><label for="nlOrigem">Origem</label><select id="nlOrigem" class="form-control"><option value="manual">Manual</option><option value="whatsapp">WhatsApp</option><option value="orcamento">Orçamento</option><option value="landing">Landing Page</option></select></div>
+            <div class="form-group"><label for="nlValor">Valor estimado (R$)</label><input id="nlValor" type="number" min="0" step="0.01" class="form-control" placeholder="Ex.: 2040"></div>
+            <div class="modal-actions"><button type="button" class="btn-secondary" onclick="closeCRMModal('newLeadModal')">Cancelar</button><button type="button" class="btn-primary" id="btnCreateLead" onclick="submitManualLead()">Criar Lead</button></div>
+        </div>
+    </div>
+
+    <div id="leadDetailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="ldName">
+        <div class="modal-content" style="max-width:540px;">
+            <div class="modal-header"><div><h3 id="ldName">—</h3><p id="ldMeta" class="crm-modal-meta"></p></div><button type="button" class="modal-close" onclick="closeLeadDetailModal()" aria-label="Fechar">×</button></div>
+            <input type="hidden" id="ldId">
+            <div class="crm-detail-grid">
+                <div class="form-group"><label for="ldLoja">Loja</label><input id="ldLoja" class="form-control"></div>
+                <div class="form-group"><label for="ldPhone">WhatsApp</label><input id="ldPhone" class="form-control"></div>
+                <div class="form-group"><label for="ldEmail">E-mail</label><input id="ldEmail" type="email" class="form-control"></div>
+                <div class="form-group"><label for="ldOrigem">Origem</label><input id="ldOrigem" class="form-control" readonly></div>
+            </div>
+            <div class="form-group"><label>Estágio no pipeline</label><div class="crm-stage-buttons" id="ldStageButtons"></div></div>
+            <div class="form-group"><label for="ldValor">Valor estimado (R$)</label><input type="number" min="0" step="0.01" id="ldValor" class="form-control"></div>
+            <div class="form-group"><label for="ldNotas">Notas / observações</label><textarea id="ldNotas" class="form-control" rows="4" placeholder="Histórico da conversa, objeções e próximos passos..."></textarea></div>
+            <div class="crm-modal-actions">
+                <button type="button" onclick="wppLead()" class="btn-secondary">WhatsApp</button>
+                <button type="button" onclick="convertLeadToProject()" class="btn-secondary" id="btnConvertLead">Criar Projeto</button>
+                <button type="button" onclick="saveCurrentLead()" class="btn-primary" id="btnSaveLead">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // AUTH CHECK
@@ -519,7 +599,7 @@
         window.dbVendas = window.supabase.createClient(SB_VENDAS_URL, SB_VENDAS_KEY);
 
         // NAVIGATION
-        const SECTIONS = ['projetos', 'propostas', 'leads', 'cupons', 'biblioteca', 'pv'];
+        const SECTIONS = ['projetos', 'propostas', 'leads', 'crm', 'cupons', 'biblioteca', 'pv'];
         function showSection(name) {
             SECTIONS.forEach(s => {
                 const view = document.getElementById(s + 'View');
@@ -532,6 +612,7 @@
             if (name === 'projetos') loadProjects();
             else if (name === 'propostas') loadPropostas();
             else if (name === 'leads') loadLeads();
+            else if (name === 'crm') loadCRM();
             else if (name === 'cupons') loadCupons();
             else if (name === 'biblioteca') loadTechLibrary();
             else if (name === 'pv') initPvCreator();

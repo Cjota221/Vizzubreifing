@@ -9,6 +9,11 @@ Sistema de gerenciamento de briefings para a VIZZU Digital.
 - **Integração Supabase**: Banco de dados em tempo real.
 - **Upload direto**: Referências enviadas pelo cliente ao Supabase Storage.
 - **Automação n8n**: Notificação do briefing concluído via webhook.
+- **CRM comercial**: Pipeline kanban, métricas, funil e conversão de leads em projetos.
+
+## Configuração do CRM
+
+Execute [`crm_setup.sql`](crm_setup.sql) no SQL Editor do Supabase Vendas antes de abrir a seção CRM no painel administrativo.
 
 ## Como Fazer Deploy no Netlify
 

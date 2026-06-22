@@ -76,6 +76,8 @@
 
         .botoes-final { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .botoes-final .btn-primary, .botoes-final .btn-secondary { width: 100%; justify-content: center; }
+        .orcamento-contact { border-top: 1px solid var(--stone); display: grid; gap: 8px; margin: 0 0 18px; padding-top: 18px; }
+        .orcamento-contact label { color: var(--graphite); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
     </style>
 </head>
 <body style="background:var(--cream);">
@@ -145,6 +147,12 @@
                     <div class="resumo-linha"><span class="label">Valor dos widgets</span><span class="value" id="resumoValorWidgets">R$ 0</span></div>
                     <hr class="resumo-divider">
                     <div class="resumo-total"><span class="label">Total</span><span class="value" id="resumoTotal">R$ 1.661</span></div>
+                    <div class="orcamento-contact">
+                        <label for="orcNome">Seus dados para receber a proposta</label>
+                        <input type="text" id="orcNome" class="form-control" placeholder="Seu nome" autocomplete="name">
+                        <input type="tel" id="orcPhone" class="form-control" placeholder="WhatsApp com DDD" autocomplete="tel">
+                        <input type="email" id="orcEmail" class="form-control" placeholder="E-mail (opcional)" autocomplete="email">
+                    </div>
                     <div class="cupom-row">
                         <input type="text" id="cupomInput" class="form-control" placeholder="Cupom de desconto" oninput="aplicarCupom()">
                         <button class="btn-secondary" onclick="aplicarCupom()" style="width:auto;">Aplicar</button>
@@ -163,6 +171,8 @@
     </div>
 
     <script>
+        const SB_VENDAS_URL = 'https://kvpetrexgrpizwfomjjt.supabase.co';
+        const SB_VENDAS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2cGV0cmV4Z3JwaXp3Zm9tamp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MzkzNjUsImV4cCI6MjA4NDQxNTM2NX0.kP9TQqYIiPchtd7Y89oQdg78nZw4GBiTvLhxhz1vWs8';
         const precos = { iniciante: 797, elite: 1661, personalizado: 2999 };
         const nomes = { iniciante: 'Básico', elite: 'Elite Total', personalizado: 'Personalizado' };
         let planoAtual = 'elite';
@@ -200,7 +210,33 @@
             updateTotal();
         }
 
-        function enviarWhatsApp() {
+        async function syncOrcamentoCRM(nome, telefone, email, valor) {
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+                const db = createClient(SB_VENDAS_URL, SB_VENDAS_KEY);
+                const digits = telefone.replace(/\D/g, '');
+                const { data: existing } = await db.from('crm_leads').select('id').eq('telefone', digits).limit(1).maybeSingle();
+                const payload = { nome, telefone: digits, email: email || null, origem: 'orcamento', estagio: 'Proposta', valor_estimado: valor, updated_at: new Date().toISOString() };
+                if (existing?.id) {
+                    const { error } = await db.from('crm_leads').update(payload).eq('id', existing.id);
+                    if (error) throw error;
+                } else {
+                    const { error } = await db.from('crm_leads').insert([payload]);
+                    if (error) throw error;
+                }
+            } catch (error) {
+                console.warn('[VIZZU] Orçamento não sincronizado com o CRM:', error.message);
+            }
+        }
+
+        async function enviarWhatsApp() {
+            const nome = document.getElementById('orcNome').value.trim();
+            const telefone = document.getElementById('orcPhone').value.trim();
+            const email = document.getElementById('orcEmail').value.trim();
+            if (!nome || !telefone) {
+                alert('Informe seu nome e WhatsApp para gerar a proposta.');
+                return;
+            }
             const planoNome = nomes[planoAtual];
             const planoValor = precos[planoAtual];
             let widgetsText = '';
@@ -208,7 +244,9 @@
                 widgetsText += `\n• ${w.dataset.name} (R$ ${parseInt(w.value).toLocaleString('pt-BR')})`;
             });
             const total = document.getElementById('resumoTotal').textContent;
-            const msg = `Olá! Montei meu orçamento na VIZZU:\n\n*Plano:* ${planoNome} (R$ ${planoValor.toLocaleString('pt-BR')})${widgetsText ? '\n*Widgets:*' + widgetsText : ''}\n\n*Total:* ${total}`;
+            const totalNumerico = Number(total.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+            await syncOrcamentoCRM(nome, telefone, email, totalNumerico);
+            const msg = `Olá! Sou ${nome} e montei meu orçamento na VIZZU:\n\n*Plano:* ${planoNome} (R$ ${planoValor.toLocaleString('pt-BR')})${widgetsText ? '\n*Widgets:*' + widgetsText : ''}\n\n*Total:* ${total}`;
             window.open(`https://wa.me/5562981043763?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
