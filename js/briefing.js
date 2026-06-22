@@ -6,7 +6,7 @@ const MAX_FILE_SIZE = 10 * 1024 * 1024;
 if (typeof window.supabaseClient === 'undefined') {
     window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
-const supabase = window.supabaseClient;
+var supabase = window.supabaseClient;
 
 let currentBriefingId = null;
 let projectData = null;
