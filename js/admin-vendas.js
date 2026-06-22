@@ -444,25 +444,38 @@ async function loadCRM() {
     if (!board) return;
     board.innerHTML = '<div class="loading-state">Carregando pipeline...</div>';
 
-    const { data, error } = await dbVendas
-        .from('crm_leads')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        console.error('[CRM] Erro ao carregar:', error);
-        board.innerHTML = '<div class="empty-state">Não foi possível carregar o CRM. Execute o arquivo crm_setup.sql no Supabase Vendas.</div>';
+    if (!dbVendas) {
+        console.error('[CRM] dbVendas não inicializado');
+        board.innerHTML = '<div class="empty-state">Erro: Cliente Supabase não inicializado.<br>Verifique as credenciais no admin.html.</div>';
         return;
     }
 
-    crmLeads = data || [];
-    if (!crmLegacySyncDone) {
-        crmLegacySyncDone = true;
-        const imported = await syncExistingLandingLeads();
-        if (imported) return loadCRM();
+    try {
+        console.log('[CRM] Conectando ao Supabase Vendas...');
+        const { data, error } = await dbVendas
+            .from('crm_leads')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('[CRM] Erro ao carregar:', error);
+            board.innerHTML = '<div class="empty-state">Erro: ' + error.message + '<br><br>Verifique se o arquivo crm_setup.sql foi executado no Supabase Vendas.</div>';
+            return;
+        }
+
+        console.log('[CRM] Dados carregados:', data?.length || 0, 'leads');
+        crmLeads = data || [];
+        if (!crmLegacySyncDone) {
+            crmLegacySyncDone = true;
+            const imported = await syncExistingLandingLeads();
+            if (imported) return loadCRM();
+        }
+        renderCRM();
+        setupCRMRealtime();
+    } catch (e) {
+        console.error('[CRM] Erro de conexão:', e);
+        board.innerHTML = '<div class="empty-state">Erro de conexão com o Supabase.<br><br>Possíveis causas:<br>• CORS não configurado no Supabase<br>• Tabela crm_leads não existe<br>• Credenciais inválidas<br>• Projeto Supabase offline<br><br>Erro: ' + e.message + '</div>';
     }
-    renderCRM();
-    setupCRMRealtime();
 }
 
 async function syncExistingLandingLeads() {
