@@ -690,44 +690,47 @@ nav {
 .cta-contact a { color: var(--near-black); font-weight: 500; text-decoration: underline; }
 
 /* ═══════════════ ANNOUNCE BAR ═══════════════ */
-:root { --announce-h: 44px; }
+:root { --announce-h: 40px; }
 .announce-bar {
   position: fixed; top: 0; left: 0; width: 100%; height: var(--announce-h);
   background: var(--near-black); z-index: 1001;
   display: flex; align-items: center; justify-content: center;
-  gap: 16px; padding: 0 var(--pad-x);
-  border-bottom: 1px solid #2a2a25;
+  gap: 12px; padding: 0 40px 0 16px;
+  border-bottom: 1px solid #2a2a25; overflow: hidden;
 }
 .announce-bar.hidden { display: none; }
 .announce-text {
-  font-size: clamp(.68rem, .78rem, .82rem); color: var(--white);
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
-  text-align: center; line-height: 1.3;
+  font-size: .75rem; color: var(--white);
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap; overflow: hidden;
 }
-.announce-text .de { color: #666; text-decoration: line-through; font-size: .7em; }
+.announce-text .label { color: #aaa; }
+.announce-text .de { color: #555; text-decoration: line-through; font-size: .7em; }
 .announce-text .por { color: var(--lime); font-weight: 600; }
 .announce-timer {
   background: rgba(190,255,80,.12); border: 1px solid rgba(190,255,80,.3);
-  border-radius: 6px; padding: 3px 10px;
-  font-family: monospace; font-size: clamp(.75rem, .82rem, .86rem);
-  color: var(--lime); font-weight: 600; letter-spacing: .04em; white-space: nowrap;
+  border-radius: 4px; padding: 2px 8px;
+  font-family: monospace; font-size: .78rem;
+  color: var(--lime); font-weight: 600; letter-spacing: .04em; white-space: nowrap; flex-shrink: 0;
 }
 .announce-cta {
   background: var(--lime); color: var(--near-black);
-  border: none; border-radius: 6px; padding: 5px 14px;
-  font-family: var(--font); font-size: .72rem; font-weight: 600;
+  border: none; border-radius: 4px; padding: 4px 12px;
+  font-family: var(--font); font-size: .7rem; font-weight: 700;
   cursor: pointer; white-space: nowrap; text-decoration: none;
   transition: background .15s; flex-shrink: 0;
 }
 .announce-cta:hover { background: #a8e83a; }
 .announce-close {
-  position: absolute; right: 14px; background: none; border: none;
-  color: #555; cursor: pointer; font-size: 16px; line-height: 1; padding: 4px;
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: #555; cursor: pointer;
+  font-size: 18px; line-height: 1; padding: 4px; flex-shrink: 0;
 }
 .announce-close:hover { color: var(--white); }
 @media (max-width: 600px) {
-  :root { --announce-h: 52px; }
+  .announce-text .label { display: none; }
   .announce-text .de { display: none; }
+  .announce-text gap { gap: 6px; }
 }
 
 /* ═══════════════ WHATSAPP BUBBLE ═══════════════ */
@@ -839,9 +842,9 @@ footer {
 <!-- ANNOUNCE BAR -->
 <div class="announce-bar" id="announceBar">
   <div class="announce-text">
-    <span>⚡ OFERTA LIMITADA · Plano Completo</span>
+    <span class="label">⚡ Plano Completo</span>
     <span><span class="de">R$ 2.499</span> <span class="por">5× de R$ 432,09</span></span>
-    <span>Encerra em: <span class="announce-timer" id="announceTimer">47:59:59</span></span>
+    <span>· <span class="announce-timer" id="announceTimer">47:59:59</span></span>
   </div>
   <a href="#precos" class="announce-cta">Aproveitar →</a>
   <button class="announce-close" onclick="fecharBarra()" aria-label="Fechar">×</button>
