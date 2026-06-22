@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5eb">
 <title>VIZZU Digital — Sua loja online com identidade que vende</title>
-<link rel="icon" type="image/svg+xml" href="public/logo svg.svg">
+<link rel="icon" href="assets/logo.png" type="image/png">
 <meta name="description" content="Transformamos lojas FacilZap e Shopify com design profissional que aumenta conversões. Entrega rápida, resultado real.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,12 +235,12 @@ nav {
 }
 .logo-mark {
   width: 34px; height: 34px; flex: 0 0 34px;
-  border: 1px solid var(--near-black);
   border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  display: block;
+}
+.logo-mark img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
 }
 .nav-links {
   display: flex;
@@ -730,8 +730,11 @@ footer {
 .footer-logo-mark {
   width: 32px; height: 32px; flex: 0 0 32px;
   border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
+  display: block;
+}
+.footer-logo-mark img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
 }
 .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
 .footer-links a { color: #6e6e64; text-decoration: none; font-size: .76rem; transition: color .2s; }
@@ -812,7 +815,7 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="logo">
-    <img class="logo-mark" src="public/logo svg.svg" alt="VIZZU">
+    <img class="logo-mark" src="assets/logo.png" alt="VIZZU">
     VIZZU <span style="color:var(--graphite);">Digital</span>
   </div>
   <div class="nav-links">
@@ -1124,7 +1127,7 @@ footer {
 
 <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
 <footer>
-  <div class="footer-logo"><img class="footer-logo-mark" src="public/logo svg.svg" alt="VIZZU">VIZZU <span>Digital</span></div>
+  <div class="footer-logo"><img class="footer-logo-mark" src="assets/logo.png" alt="VIZZU">VIZZU <span>Digital</span></div>
   <div class="footer-links">
     <a href="#problema">Problema</a>
     <a href="#solucao">Solução</a>
