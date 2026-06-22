@@ -474,7 +474,7 @@ async function loadCRM() {
         setupCRMRealtime();
     } catch (e) {
         console.error('[CRM] Erro de conexão:', e);
-        board.innerHTML = '<div class="empty-state">Erro de conexão com o Supabase.<br><br>Possíveis causas:<br>• CORS não configurado no Supabase<br>• Tabela crm_leads não existe<br>• Credenciais inválidas<br>• Projeto Supabase offline<br><br>Erro: ' + e.message + '</div>';
+        board.innerHTML = '<div class="empty-state">Erro de conexão com o Supabase.<br><br><strong>Para resolver:</strong><br>1. Acesse o Supabase Vendas (kvpetrexgrpizwfomjjt)<br>2. Vá em Settings → API → CORS<br>3. Adicione: https://vizzubreifing.netlify.app<br>4. Execute o arquivo crm_setup.sql no SQL Editor<br><br>Erro: ' + e.message + '</div>';
     }
 }
 
