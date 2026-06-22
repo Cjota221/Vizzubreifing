@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5eb">
 <title>VIZZU Digital — Sua loja online com identidade que vende</title>
-<link rel="icon" href="public/logo principal.svg" type="image/svg+xml">
-<meta name="description" content="Transformamos lojas FacilZap e Shopify com design profissional que aumenta conversões. Entrega rápida, resultado real.">
+<link rel="icon" type="image/png" href="assets/favicon/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon/favicon.png">
+<link rel="shortcut icon" href="assets/favicon/favicon.png">
+<meta name="description" content="Transformamos lojas FacilZap com design profissional que aumenta conversões. Entrega rápida, resultado real.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -234,13 +236,11 @@ nav {
   gap: 8px;
 }
 .logo-mark {
-  width: 34px; height: 34px; flex: 0 0 34px;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
+  height: 52px;
+  width: auto;
   display: block;
-}
-.logo-mark img {
-  width: 100%; height: 100%; object-fit: contain; display: block;
+  object-fit: contain;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,.12));
 }
 .nav-links {
   display: flex;
@@ -814,10 +814,9 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <div class="logo">
-    <img class="logo-mark" src="public/logo principal.svg" alt="VIZZU">
-    VIZZU <span style="color:var(--graphite);">Digital</span>
-  </div>
+  <a href="#hero" class="logo">
+    <img class="logo-mark" src="assets/logo/Design%20sem%20nome%20(99).png" alt="VIZZU Digital">
+  </a>
   <div class="nav-links">
     <a href="#problema">Problema</a>
     <a href="#solucao">Solução</a>
@@ -912,7 +911,7 @@ footer {
   <div class="inner">
     <span class="tag tag-lime rev">A Solução</span>
     <h2 class="section-title rev d1">Uma loja com <span style="color:var(--near-black);">identidade, autoridade</span> e design para converter.</h2>
-    <p class="section-desc rev d2">Trabalhamos 100% com FacilZap e Shopify para moda atacado. Conhecemos cada recurso da plataforma — entregamos resultado, não promessa.</p>
+    <p class="section-desc rev d2">Trabalhamos 100% com FacilZap para moda atacado. Conhecemos cada recurso da plataforma — entregamos resultado, não promessa.</p>
     <div class="solucao-grid">
       <ul class="solucao-list">
         <li class="rev d1"><div class="sol-check">✓</div><div class="sol-txt"><strong>Identidade Visual Consistente</strong><span>Paleta, tipografia e elementos que representam sua marca de ponta a ponta.</span></div></li>
@@ -927,7 +926,7 @@ footer {
           <div class="ba-after"><span class="ba-label">Depois</span><div class="ba-box">Sua Marca ✦</div></div>
         </div>
         <div class="solucao-callout">
-          <p>Especialistas em FacilZap & Shopify</p>
+          <p>Especialistas em FacilZap</p>
           <p>Conhecemos cada recurso, limitação e possibilidade da plataforma. Seu projeto é tratado de forma única — estudamos seu negócio antes de criar qualquer coisa.</p>
         </div>
       </div>
@@ -968,7 +967,7 @@ footer {
     <span class="tag tag-dark rev">Por que a VIZZU?</span>
     <h2 class="section-title rev d1">Comprometimento que você <span style="color:var(--graphite);">sente na entrega.</span></h2>
     <div class="trust-grid">
-      <div class="trust-card rev d1"><div class="trust-icon">⬡</div><div class="trust-text"><h3>Especialistas na Plataforma</h3><p>100% focados em FacilZap e Shopify. Conhecemos cada recurso, limitação e possibilidade.</p></div></div>
+      <div class="trust-card rev d1"><div class="trust-icon">⬡</div><div class="trust-text"><h3>Especialistas na Plataforma</h3><p>100% focados em FacilZap. Conhecemos cada recurso, limitação e possibilidade.</p></div></div>
       <div class="trust-card rev d2"><div class="trust-icon">⚡</div><div class="trust-text"><h3>Entrega no Prazo</h3><p>Comprometimento real com os prazos combinados. Você sabe exatamente quando sua loja fica pronta.</p></div></div>
       <div class="trust-card rev d3"><div class="trust-icon">✦</div><div class="trust-text"><h3>Suporte Incluso</h3><p>Revisões e suporte pós-entrega em todos os planos. Você não fica sozinha depois da entrega.</p></div></div>
       <div class="trust-card rev d4"><div class="trust-icon">◈</div><div class="trust-text"><h3>Atendimento Personalizado</h3><p>Cada loja é tratada de forma única. Estudamos o seu negócio antes de criar qualquer coisa.</p></div></div>
@@ -1057,7 +1056,7 @@ footer {
     <div class="faq-container rev d2">
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">Preciso ter uma loja ativa?<div class="faq-icon">+</div></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Sim, você precisa ter uma conta ativa no FacilZap ou Shopify. Se ainda não tem, podemos orientar como criar. Trabalhamos com lojas novas e com lojas já em funcionamento.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Sim, você precisa ter uma conta ativa no FacilZap. Se ainda não tem, podemos orientar como criar. Trabalhamos com lojas novas e com lojas já em funcionamento.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-btn" onclick="toggleFaq(this)">Como funciona o processo de entrega?<div class="faq-icon">+</div></button>
