@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIZZU | Upload de Ativos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .upload-page { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+        .upload-header { text-align: center; margin-bottom: 48px; }
+        .upload-header .logo { font-size: 26px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 20px; }
+        .upload-header .logo-lime { color: var(--lime); }
+        .upload-header .logo-orange { color: var(--coral-alert); }
+        .upload-header h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .upload-header p { color: var(--graphite); font-size: 14px; }
+        .upload-card {
+            background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius);
+            padding: 32px; margin-bottom: 20px;
+        }
+        .upload-card h2 { font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+        .upload-zone {
+            border: 2px dashed var(--stone); border-radius: var(--radius);
+            padding: 40px 24px; text-align: center; cursor: pointer; transition: border-color .15s;
+        }
+        .upload-zone:hover { border-color: var(--lime); }
+        .upload-zone svg { width: 40px; height: 40px; stroke: var(--stone); fill: none; stroke-width: 1.5; margin-bottom: 12px; }
+        .upload-zone p { font-size: 14px; color: var(--graphite); }
+        .upload-zone .upload-link { color: var(--near-black); text-decoration: underline; cursor: pointer; background: none; border: none; font-family: var(--font); font-size: 14px; }
+        .upload-zone small { font-size: 11px; color: var(--stone); display: block; margin-top: 8px; }
+        .file-list { margin-top: 16px; }
+        .file-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px; border: 1px solid var(--stone); border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+        }
+        .file-item .file-name { flex: 1; font-size: 13px; }
+        .file-item .file-size { font-size: 11px; color: var(--graphite); }
+        .file-item .file-status { font-size: 11px; font-weight: 500; }
+        .file-item .file-status.done { color: var(--mint-confirm); }
+        .file-item .file-status.error { color: var(--coral-alert); }
+        .upload-progress { height: 4px; background: var(--stone); border-radius: var(--radius-round); margin-top: 12px; overflow: hidden; }
+        .upload-progress-fill { height: 100%; background: var(--lime); border-radius: var(--radius-round); width: 0%; transition: width .3s; }
+        .btn-upload {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 24px; background: var(--lime); color: var(--near-black);
+            border: 1px solid var(--near-black); border-radius: var(--radius);
+            font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer;
+            transition: background .15s; margin-top: 16px;
+        }
+        .btn-upload:hover { background: #a8e83a; }
+        .btn-upload:disabled { opacity: .4; cursor: not-allowed; }
+        .upload-result {
+            margin-top: 16px; padding: 12px; border-radius: var(--radius-sm);
+            font-size: 13px; display: none;
+        }
+        .upload-result.success { display: block; background: var(--lime); color: var(--near-black); }
+        .upload-result.error { display: block; background: rgba(235,49,49,.08); color: var(--coral-alert); }
+    </style>
+</head>
+<body class="upload-page">
+    <div class="upload-header">
+        <div class="logo">VIZ<span class="logo-lime">Z</span>U<span class="logo-orange">.</span></div>
+        <h1>Upload de Ativos</h1>
+        <p>Envie imagens, vídeos e arquivos para sua loja</p>
+    </div>
+
+    <div class="upload-card">
+        <h2>Selecione os arquivos</h2>
+        <div class="upload-zone" id="dropZone">
+            <svg viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-1m-4-8-4-4m0 0L8 8m4-4v12"/></svg>
+            <p>Arraste arquivos aqui ou <button type="button" class="upload-link" id="selectBtn">clique para selecionar</button></p>
+            <small>Imagens, vídeos, PDFs · Máx. 10MB por arquivo</small>
+            <input type="file" id="fileInput" multiple accept="image/*,video/*,.pdf" hidden>
+        </div>
+        <div id="fileList" class="file-list"></div>
+        <div class="upload-progress"><div class="upload-progress-fill" id="progressFill"></div></div>
+        <button class="btn-upload" id="uploadBtn" disabled>Enviar arquivos</button>
+        <div id="uploadResult" class="upload-result"></div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressFill = document.getElementById('progressFill');
+        const uploadResult = document.getElementById('uploadResult');
+        let selectedFiles = [];
+
+        document.getElementById('selectBtn').onclick = () => fileInput.click();
+        fileInput.onchange = () => { addFiles(fileInput.files); fileInput.value = ''; };
+        dropZone.ondragover = e => { e.preventDefault(); dropZone.style.borderColor = 'var(--lime)'; };
+        dropZone.ondragleave = () => { dropZone.style.borderColor = 'var(--stone)'; };
+        dropZone.ondrop = e => { e.preventDefault(); dropZone.style.borderColor = 'var(--stone)'; addFiles(e.dataTransfer.files); };
+
+        function addFiles(files) {
+            for (let f of files) {
+                if (f.size > 10 * 1024 * 1024) continue;
+                selectedFiles.push(f);
+            }
+            renderFiles();
+            uploadBtn.disabled = selectedFiles.length === 0;
+        }
+
+        function renderFiles() {
+            fileList.innerHTML = selectedFiles.map((f, i) =>
+                `<div class="file-item">
+                    <span class="file-name">${f.name}</span>
+                    <span class="file-size">${(f.size / 1024).toFixed(1)} KB</span>
+                    <span class="file-status" id="status-${i}">pendente</span>
+                </div>`
+            ).join('');
+        }
+
+        uploadBtn.onclick = async () => {
+            uploadBtn.disabled = true;
+            uploadResult.style.display = 'none';
+            const total = selectedFiles.length;
+            let completed = 0;
+
+            for (let i = 0; i < total; i++) {
+                const statusEl = document.getElementById(`status-${i}`);
+                statusEl.textContent = 'enviando...';
+                statusEl.className = 'file-status';
+                try {
+                    // Simulate upload
+                    await new Promise(r => setTimeout(r, 500 + Math.random() * 1000));
+                    statusEl.textContent = '✓ concluído';
+                    statusEl.className = 'file-status done';
+                } catch {
+                    statusEl.textContent = '✕ erro';
+                    statusEl.className = 'file-status error';
+                }
+                completed++;
+                progressFill.style.width = `${(completed / total) * 100}%`;
+            }
+
+            uploadResult.className = 'upload-result success';
+            uploadResult.textContent = `${completed} arquivo(s) enviado(s) com sucesso!`;
+            uploadResult.style.display = 'block';
+            uploadBtn.disabled = false;
+        };
+    </script>
+</body>
+</html>

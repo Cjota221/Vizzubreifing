@@ -3,127 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#F5F3EE">
+    <meta name="theme-color" content="#f5f5eb">
     <title>VIZZU | Sua Proposta</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        :root {
-            --bg: #F5F3EE; --surface: #FFFFFF; --border: #E0DDD6;
-            --text: #15151A; --text-muted: #888888;
-            --green: #C8FF3D; --green-text: #4a7a00; --orange: #FF5A36;
-            --radius-pill: 9999px; --radius-card: 16px;
+        .proposta-page { max-width: 700px; margin: 0 auto; padding: 40px 24px 80px; }
+        .proposta-nav {
+            max-width: 900px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between; height: 62px;
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
-        h1,h2,h3 { font-family: 'Poppins', sans-serif; letter-spacing: -.02em; }
+        .proposta-nav .logo { font-size: 22px; font-weight: 600; letter-spacing: -.02em; text-decoration: none; color: var(--near-black); }
+        .proposta-nav .logo-lime { color: var(--lime); }
+        .proposta-nav .logo-orange { color: var(--coral-alert); }
+        .nav-wrapper { background: var(--cream); border-bottom: 1px solid var(--stone); }
 
-        .nav { background: rgba(245,243,238,.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
-        .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
-        .logo { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.03em; text-decoration: none; color: var(--text); }
-        .logo-green { color: var(--green); }
-        .logo-orange { color: var(--orange); }
-
-        .page-wrap { max-width: 700px; margin: 0 auto; padding: 48px 24px 80px; }
-
-        .state-card { text-align: center; padding: 80px 24px; }
-        .state-icon { width: 48px; height: 48px; stroke: var(--text-muted); fill: none; stroke-width: 1.5; margin-bottom: 16px; }
-        .state-card p { color: var(--text-muted); }
-
-        .loader { display: inline-block; width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--green-text); border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 14px; }
+        .state-card { text-align: center; padding: 80px 24px; background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius); }
+        .state-card .loader { display: block; width: 32px; height: 32px; margin: 0 auto 16px; border: 3px solid var(--stone); border-top-color: var(--lime); border-radius: 50%; animation: spin .6s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .state-card h2 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .state-card p { color: var(--graphite); font-size: 15px; }
+        .error-state .state-icon { width: 48px; height: 48px; stroke: var(--coral-alert); fill: none; stroke-width: 1.5; margin-bottom: 16px; }
 
-        .proposta-header { text-align: center; margin-bottom: 40px; }
-        .proposta-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,255,61,.2); border: 1px solid rgba(74,122,0,.2); border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; font-weight: 700; color: var(--green-text); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
-        .proposta-header h1 { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
-        .proposta-header .cliente { font-size: 16px; color: var(--text-muted); }
+        .proposta-card {
+            background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius);
+            padding: 40px;
+        }
+        .proposta-card .cliente-info { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--stone); }
+        .proposta-card .cliente-info h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+        .proposta-card .cliente-info .meta { color: var(--graphite); font-size: 14px; }
+        .proposta-card .cliente-info .data { font-size: 13px; color: var(--stone); margin-top: 8px; }
 
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; margin-bottom: 20px; }
-        .card-title { font-size: 14px; font-weight: 700; color: rgba(74,122,0,.8); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+        .prop-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--stone); font-size: 14px; }
+        .prop-item:last-child { border-bottom: none; }
+        .prop-item .prop-nome { color: var(--near-black); }
+        .prop-item .prop-valor { font-weight: 500; }
+        .prop-divider { border: none; border-top: 2px solid var(--near-black); margin: 16px 0; }
+        .prop-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+        .prop-pix { font-size: 13px; color: var(--graphite); margin-bottom: 24px; }
+        .prop-desconto { font-size: 13px; color: var(--coral-alert); margin-bottom: 4px; }
 
-        .itens-list { list-style: none; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .item-row:last-child { border-bottom: 0; }
-        .item-row-name { font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
-        .item-check-icon { width: 20px; height: 20px; background: rgba(200,255,61,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .item-check-icon svg { width: 10px; height: 10px; stroke: var(--green-text); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-        .item-row-price { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--text); white-space: nowrap; }
+        .prop-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+        .prop-actions .btn-primary, .prop-actions .btn-secondary { flex: 1; justify-content: center; }
 
-        .total-section { margin-top: 8px; }
-        .total-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
-        .total-row:last-of-type { border-bottom: 0; }
-        .total-final { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 0; margin-top: 8px; border-top: 2px solid var(--border); }
-        .total-final span:first-child { font-size: 18px; font-weight: 700; }
-        .total-final-price { font-family: 'Poppins', sans-serif; font-size: 40px; font-weight: 900; color: var(--green-text); }
-
-        .discount-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,90,54,.1); border-radius: var(--radius-pill); padding: 4px 12px; font-size: 12px; font-weight: 600; color: var(--orange); margin-left: 8px; }
-
-        .cta-section { text-align: center; margin-top: 32px; }
-        .btn-wpp { display: inline-flex; align-items: center; gap: 12px; background: #25D366; color: #fff; padding: 18px 36px; border-radius: var(--radius-pill); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; transition: all .2s; border: none; cursor: pointer; }
-        .btn-wpp:hover { background: #1ebe5a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.3); }
-        .cta-note { font-size: 13px; color: var(--text-muted); margin-top: 12px; }
-
-        .validity-note { display: flex; align-items: center; gap: 10px; background: #FFF4DB; border: 1px solid #fdeab0; border-radius: 12px; padding: 14px 18px; font-size: 14px; color: #9A5A00; margin-top: 20px; }
-        .validity-note svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+        .status-badge {
+            display: inline-flex; padding: 3px 10px; border-radius: var(--radius-sm);
+            font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em;
+        }
+        .status-badge.pendente { background: #FFF4DB; color: #9A5A00; }
+        .status-badge.aprovada { background: var(--lime); color: var(--near-black); border: 1px solid var(--near-black); }
+        .status-badge.recusada { background: rgba(235,49,49,.08); color: var(--coral-alert); }
     </style>
 </head>
-<body>
-    <nav class="nav">
-        <div class="nav-inner">
-            <a class="logo" href="index.html">VIZ<span class="logo-green">Z</span>U<span class="logo-orange">.</span></a>
+<body style="background:var(--cream);">
+    <div class="nav-wrapper">
+        <div class="proposta-nav">
+            <div class="logo">VIZ<span class="logo-lime">Z</span>U<span class="logo-orange">.</span></div>
+            <a href="index.html" class="btn-secondary rip" style="text-decoration:none;padding:9px 18px;">← Voltar</a>
         </div>
-    </nav>
+    </div>
 
-    <div class="page-wrap">
-        <div class="state-card" id="loadingState">
-            <div class="loader"></div>
+    <div class="proposta-page">
+        <div id="loadingView" class="state-card">
+            <span class="loader"></span>
             <p>Carregando sua proposta...</p>
         </div>
 
-        <div id="errorState" class="state-card" hidden>
+        <div id="errorView" class="state-card error-state" style="display:none;">
             <svg class="state-icon" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.7 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z"/></svg>
             <h2>Proposta não encontrada</h2>
-            <p>Verifique se o link está correto.</p>
+            <p>Verifique o link recebido e tente novamente.</p>
         </div>
 
-        <div id="propostaContent" hidden>
-            <div class="proposta-header">
-                <div class="proposta-badge">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
-                    Proposta Comercial VIZZU
+        <div id="propostaContent" style="display:none;">
+            <div class="proposta-card" id="propostaBody">
+                <div class="cliente-info">
+                    <h1 id="propCliente">Cliente</h1>
+                    <div class="meta"><span id="propStore">Loja</span> · <span id="propPhone">WhatsApp</span></div>
+                    <div class="data" id="propDate">Data</div>
                 </div>
-                <h1>Seu combo personalizado</h1>
-                <p class="cliente" id="pClienteNome"></p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Itens inclusos</div>
-                <ul class="itens-list" id="pItensList"></ul>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Resumo financeiro</div>
-                <div class="total-section">
-                    <div class="total-row"><span style="color:var(--text-muted);">Subtotal</span><span id="pSubtotal">—</span></div>
-                    <div class="total-row" id="pDescontoRow" style="display:none;"><span style="color:var(--orange);">Descontos</span><span id="pDesconto" style="color:var(--orange);">—</span></div>
-                    <div class="total-row" id="pPixRow" style="display:none;"><span style="color:var(--green-text);">Desconto PIX (5%)</span><span style="color:var(--green-text);" id="pPixDesc">—</span></div>
-                    <div class="total-final">
-                        <span>Total</span>
-                        <span class="total-final-price" id="pTotal">—</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cta-section">
-                <a id="pWppBtn" href="#" target="_blank" class="btn-wpp">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                    Confirmar pelo WhatsApp
-                </a>
-                <p class="cta-note">Clique para entrar em contato com nossa equipe e dar início ao projeto.</p>
-                <div class="validity-note">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg>
-                    Esta proposta é válida por 7 dias. Entre em contato para garantir sua vaga.
+                <div id="propItems"></div>
+                <hr class="prop-divider">
+                <div class="prop-total"><span>Total</span><span id="propTotal">R$ 0,00</span></div>
+                <div class="prop-desconto" id="propDesconto"></div>
+                <div class="prop-pix" id="propPix">⬡ 5% de desconto no Pix</div>
+                <div class="prop-actions">
+                    <a id="propWpLink" href="#" target="_blank" class="btn-primary rip">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                        Falar no WhatsApp
+                    </a>
+                    <a href="index.html" class="btn-secondary rip" style="text-align:center;">Ver site completo</a>
                 </div>
             </div>
         </div>
@@ -136,68 +107,45 @@
         const db = window.supabase.createClient(SB_URL, SB_KEY);
 
         async function loadProposta() {
-            const id = new URLSearchParams(window.location.search).get('id');
-            if (!id) { showError(); return; }
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id') || new URL(window.location.href).pathname.split('/').pop().split('.')[0];
+
+            if (!id) {
+                document.getElementById('loadingView').style.display = 'none';
+                document.getElementById('errorView').style.display = 'block';
+                return;
+            }
 
             try {
                 const { data, error } = await db.from('propostas').select('*').eq('id', id).single();
-                if (error || !data) throw new Error('not found');
-                renderProposta(data);
-            } catch {
-                showError();
+                if (error || !data) throw new Error('Not found');
+
+                document.getElementById('loadingView').style.display = 'none';
+                document.getElementById('propostaContent').style.display = 'block';
+
+                document.getElementById('propCliente').textContent = data.nome || 'Cliente';
+                document.getElementById('propStore').textContent = data.loja || '';
+                document.getElementById('propPhone').textContent = data.whatsapp || '';
+                document.getElementById('propDate').textContent = new Date(data.created_at).toLocaleDateString('pt-BR');
+
+                const items = data.itens || [];
+                const container = document.getElementById('propItems');
+                container.innerHTML = items.map(i =>
+                    `<div class="prop-item"><span class="prop-nome">${i.nome}</span><span class="prop-valor">R$ ${i.valor.toLocaleString('pt-BR', {minimumFractionDigits:2})}</span></div>`
+                ).join('');
+
+                document.getElementById('propTotal').textContent = `R$ ${data.total.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+
+                if (data.desconto) {
+                    document.getElementById('propDesconto').textContent = `Desconto: ${data.desconto}`;
+                }
+
+                document.getElementById('propWpLink').href = `https://wa.me/55${data.whatsapp?.replace(/\D/g,'') || '5562981043763'}?text=Olá! Recebi minha proposta da VIZZU.`;
+
+            } catch (e) {
+                document.getElementById('loadingView').style.display = 'none';
+                document.getElementById('errorView').style.display = 'block';
             }
-        }
-
-        function showError() {
-            document.getElementById('loadingState').hidden = true;
-            document.getElementById('errorState').hidden = false;
-        }
-
-        function renderProposta(p) {
-            document.getElementById('loadingState').hidden = true;
-            document.getElementById('propostaContent').hidden = false;
-
-            document.title = `VIZZU | Proposta para ${p.nome_cliente || 'você'}`;
-            const clienteEl = document.getElementById('pClienteNome');
-            if (p.nome_cliente) clienteEl.textContent = `Preparada para: ${p.nome_cliente}`;
-
-            const fmt = v => (v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-            // Items
-            const list = document.getElementById('pItensList');
-            const itens = [];
-            if (p.plano && p.plano !== 'Avulso') itens.push(`Plano ${p.plano}`);
-            if (Array.isArray(p.itens)) p.itens.forEach(i => itens.push(i));
-
-            list.innerHTML = itens.map(nome => `
-                <li class="item-row">
-                    <span class="item-row-name">
-                        <span class="item-check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span>
-                        ${nome}
-                    </span>
-                </li>
-            `).join('') || '<li class="item-row"><span>—</span></li>';
-
-            // Totals
-            document.getElementById('pSubtotal').textContent = fmt(p.valor_subtotal || p.valor_final);
-
-            if (p.desconto_total > 0) {
-                document.getElementById('pDescontoRow').style.display = 'flex';
-                document.getElementById('pDesconto').textContent = '−' + fmt(p.desconto_total);
-            }
-            if (p.pix) {
-                document.getElementById('pPixRow').style.display = 'flex';
-                const pixAmt = (p.valor_subtotal || 0) * 0.05;
-                document.getElementById('pPixDesc').textContent = '−' + fmt(pixAmt);
-            }
-
-            document.getElementById('pTotal').textContent = fmt(p.valor_final);
-
-            // WhatsApp CTA
-            const phone = (p.whatsapp || '').replace(/\D/g, '');
-            const msg = `Olá! Tenho interesse em confirmar minha proposta VIZZU Digital.%0A%0A*Total: ${fmt(p.valor_final)}*%0A%0APor favor me diga os próximos passos 🙏`;
-            const wppTarget = phone ? `55${phone}` : '5562982237075';
-            document.getElementById('pWppBtn').href = `https://wa.me/${wppTarget}?text=${msg}`;
         }
 
         loadProposta();
