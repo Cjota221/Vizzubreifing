@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F5F3EE">
+    <title>VIZZU | Monte seu Combo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F3EE; --surface: #FFFFFF; --border: #E0DDD6;
+            --text: #15151A; --text-muted: #888888;
+            --green: #C8FF3D; --green-text: #4a7a00; --orange: #FF5A36;
+            --radius-pill: 9999px; --radius-card: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+        h1,h2,h3 { font-family: 'Poppins', sans-serif; letter-spacing: -.02em; }
+
+        .nav { background: rgba(245,243,238,.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
+        .logo { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.03em; text-decoration: none; color: var(--text); }
+        .logo-green { color: var(--green); }
+        .logo-orange { color: var(--orange); }
+
+        .page-header { max-width: 700px; margin: 0 auto; padding: 56px 24px 0; text-align: center; }
+        .page-header h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 900; margin-bottom: 14px; }
+        .page-header p { color: var(--text-muted); font-size: 17px; line-height: 1.6; margin-bottom: 40px; }
+
+        .orcamento-layout { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; display: grid; grid-template-columns: 1fr 360px; gap: 32px; align-items: start; }
+
+        /* PLAN TABS */
+        .plan-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+        .plan-tab { padding: 10px 20px; border-radius: var(--radius-pill); border: 2px solid var(--border); background: var(--surface); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s; }
+        .plan-tab:hover { border-color: var(--green); }
+        .plan-tab.active { background: var(--green); border-color: var(--green); color: var(--text); }
+
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section-title svg { width: 18px; height: 18px; stroke: var(--green-text); fill: none; stroke-width: 2; }
+
+        /* ITEM CARDS */
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin-bottom: 32px; }
+        .item-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-card); padding: 18px; cursor: pointer; transition: all .2s; user-select: none; }
+        .item-card:hover { border-color: rgba(200,255,61,.5); }
+        .item-card.selected { border-color: var(--green); background: rgba(200,255,61,.06); }
+        .item-card.selected .item-check { background: var(--green); border-color: var(--green); }
+        .item-card.selected .item-check::after { display: block; }
+        .item-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+        .item-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; position: relative; transition: all .2s; }
+        .item-check::after { content: ''; display: none; position: absolute; top: 2px; left: 5px; width: 6px; height: 10px; border: 2px solid var(--text); border-top: 0; border-left: 0; transform: rotate(45deg); }
+        .item-name { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 4px; flex: 1; padding-right: 8px; }
+        .item-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px; }
+        .item-price { font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 800; color: var(--green-text); }
+
+        /* CART */
+        .cart { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; border-top: 4px solid var(--green); padding: 24px; position: sticky; top: 20px; }
+        .cart h3 { font-size: 18px; font-weight: 800; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+        .cart-items { min-height: 60px; margin-bottom: 20px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .cart-item:last-child { border-bottom: 0; }
+        .cart-item-name { flex: 1; color: var(--text); font-weight: 500; }
+        .cart-item-price { font-weight: 700; color: var(--text); white-space: nowrap; }
+        .cart-item-remove { background: none; border: none; cursor: pointer; color: var(--text-muted); margin-left: 8px; font-size: 16px; padding: 0 4px; }
+        .cart-item-remove:hover { color: var(--orange); }
+        .cart-empty { text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px 0; }
+
+        .cart-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+        .cart-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
+        .cart-total { display: flex; justify-content: space-between; align-items: center; margin: 16px 0; }
+        .cart-total span:first-child { font-size: 16px; font-weight: 700; }
+        .cart-total-price { font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 900; color: var(--green-text); }
+
+        .coupon-row { display: flex; gap: 8px; margin-bottom: 14px; }
+        .coupon-input { flex: 1; padding: 10px 16px; border-radius: var(--radius-pill); border: 2px solid var(--border); font-size: 13px; outline: none; font-family: 'Inter', sans-serif; text-transform: uppercase; }
+        .coupon-input:focus { border-color: var(--green); }
+        .coupon-btn { padding: 10px 16px; background: transparent; border: 2px solid var(--border); border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s; white-space: nowrap; }
+        .coupon-btn:hover { border-color: var(--green-text); background: rgba(200,255,61,.1); }
+        .coupon-msg { font-size: 12px; margin-bottom: 10px; }
+        .coupon-msg.ok { color: var(--green-text); }
+        .coupon-msg.err { color: var(--orange); }
+
+        .pix-toggle { display: flex; align-items: center; justify-content: space-between; background: rgba(200,255,61,.1); border: 1px solid rgba(74,122,0,.2); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; cursor: pointer; }
+        .pix-toggle label { cursor: pointer; font-size: 13px; font-weight: 600; }
+        .pix-toggle input[type="checkbox"] { accent-color: var(--green-text); width: 16px; height: 16px; cursor: pointer; }
+
+        .btn-wpp { width: 100%; padding: 16px; background: #25D366; color: #fff; border: none; border-radius: var(--radius-pill); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all .2s; margin-bottom: 10px; }
+        .btn-wpp:hover { background: #1ebe5a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.3); }
+        .btn-save { width: 100%; padding: 12px; background: var(--green); color: var(--text); border: none; border-radius: var(--radius-pill); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s; }
+        .btn-save:hover { background: #d8ff60; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(21,21,26,.55); backdrop-filter: blur(6px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: var(--surface); border-radius: 20px; border-top: 4px solid var(--green); padding: 32px; max-width: 440px; width: 100%; text-align: center; box-shadow: 0 24px 70px rgba(21,21,26,.2); }
+        .modal h3 { font-size: 22px; margin-bottom: 10px; }
+        .modal p { color: var(--text-muted); margin-bottom: 20px; font-size: 14px; }
+        .modal-form input { width: 100%; padding: 13px 18px; border: 2px solid var(--border); border-radius: var(--radius-pill); font-size: 14px; margin-bottom: 12px; outline: none; font-family: 'Inter', sans-serif; }
+        .modal-form input:focus { border-color: var(--green); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 4px; }
+        .link-result { background: rgba(200,255,61,.15); border: 1px dashed rgba(74,122,0,.3); border-radius: 12px; padding: 14px; font-size: 14px; word-break: break-all; margin-bottom: 16px; cursor: pointer; }
+
+        @media (max-width: 900px) {
+            .orcamento-layout { grid-template-columns: 1fr; }
+            .cart { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a class="logo" href="index.html">VIZ<span class="logo-green">Z</span>U<span class="logo-orange">.</span></a>
+            <div style="font-size:13px;color:var(--text-muted);">Monte seu combo personalizado</div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Monte seu Combo VIZZU</h1>
+        <p>Escolha um plano ou selecione itens avulsos. O total atualiza em tempo real.</p>
+    </div>
+
+    <div class="orcamento-layout">
+        <div>
+            <!-- PLAN TABS -->
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/></svg>
+                Planos Sugestão
+            </h2>
+            <div class="plan-tabs" id="planTabs">
+                <button class="plan-tab" onclick="selecionarPlano('nenhum', this)">Nenhum</button>
+                <button class="plan-tab" onclick="selecionarPlano('iniciante', this)">Iniciante — R$ 797</button>
+                <button class="plan-tab active" onclick="selecionarPlano('elite', this)">Elite Total — R$ 1.661</button>
+                <button class="plan-tab" onclick="selecionarPlano('personalizado', this)">Personalizado — R$ 2.999</button>
+            </div>
+
+            <!-- ITEMS -->
+            <h2 class="section-title">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                Itens & Widgets
+            </h2>
+            <div class="items-grid" id="itemsGrid"></div>
+        </div>
+
+        <!-- CART -->
+        <div class="cart">
+            <h3>Resumo</h3>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">Selecione um plano ou item</div>
+            </div>
+
+            <div class="coupon-row">
+                <input type="text" class="coupon-input" id="cupomInput" placeholder="CUPOM10" maxlength="20">
+                <button class="coupon-btn" onclick="aplicarCupom()">Aplicar</button>
+            </div>
+            <div class="coupon-msg" id="cupomMsg"></div>
+
+            <div class="pix-toggle" onclick="togglePix()">
+                <label for="pixCheck">Pagar via PIX (−5%)</label>
+                <input type="checkbox" id="pixCheck" onchange="calcTotals()">
+            </div>
+
+            <hr class="cart-divider">
+            <div class="cart-row"><span style="color:var(--text-muted);">Subtotal</span><span id="subtotalEl">R$ 0,00</span></div>
+            <div class="cart-row" id="descontoRow" style="display:none;"><span style="color:var(--orange);">Descontos</span><span id="descontoEl" style="color:var(--orange);">−R$ 0,00</span></div>
+            <div class="cart-total">
+                <span>Total</span>
+                <span class="cart-total-price" id="totalEl">R$ 0,00</span>
+            </div>
+
+            <button class="btn-wpp" onclick="enviarWpp()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                Enviar pelo WhatsApp
+            </button>
+            <button class="btn-save" onclick="abrirModalSalvar()">Gerar link da proposta</button>
+        </div>
+    </div>
+
+    <!-- MODAL SALVAR -->
+    <div class="modal-overlay" id="modalSalvar">
+        <div class="modal">
+            <h3>Salvar Proposta</h3>
+            <p>Preencha seus dados para gerar o link da proposta.</p>
+            <div class="modal-form">
+                <input type="text" id="msNome" placeholder="Seu nome completo" required>
+                <input type="tel" id="msPhone" placeholder="Seu WhatsApp" required>
+            </div>
+            <div class="modal-actions">
+                <button onclick="document.getElementById('modalSalvar').classList.remove('open')" style="flex:1;padding:12px;background:transparent;border:2px solid var(--border);border-radius:var(--radius-pill);cursor:pointer;font-weight:600;">Cancelar</button>
+                <button onclick="salvarProposta()" style="flex:1;padding:12px;background:var(--green);border:none;border-radius:var(--radius-pill);cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;">Gerar Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LINK -->
+    <div class="modal-overlay" id="modalLink">
+        <div class="modal">
+            <h3>🎉 Proposta criada!</h3>
+            <p>Compartilhe este link com o cliente:</p>
+            <div class="link-result" id="propostaLink" onclick="copiarLink()">—</div>
+            <div class="modal-actions">
+                <button onclick="copiarLink()" style="flex:1;padding:12px;background:var(--green);border:none;border-radius:var(--radius-pill);cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;">Copiar Link</button>
+                <button onclick="document.getElementById('modalLink').classList.remove('open')" style="flex:1;padding:12px;background:transparent;border:2px solid var(--border);border-radius:var(--radius-pill);cursor:pointer;font-weight:600;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SB_URL = 'https://kvpetrexgrpizwfomjjt.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2cGV0cmV4Z3JwaXp3Zm9tamp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MzkzNjUsImV4cCI6MjA4NDQxNTM2NX0.kP9TQqYIiPchtd7Y89oQdg78nZw4GBiTvLhxhz1vWs8';
+        const db = window.supabase.createClient(SB_URL, SB_KEY);
+
+        const PLANOS = {
+            nenhum: { nome: '', preco: 0, itens: [] },
+            iniciante: { nome: 'Iniciante', preco: 797, itens: ['Redesign Visual', 'Filtro Inteligente', 'Barra Vantagens', 'Cupom One-Click'] },
+            elite: { nome: 'Elite Total', preco: 1661, itens: ['Redesign Visual', 'Carrossel Vitrine', 'Carrossel Institucional', 'Filtro Inteligente', 'Barra Vantagens', 'Cupom One-Click', 'Oferta Scarcity', 'Calc. Lucro'] },
+            personalizado: { nome: 'Personalizado', preco: 2999, itens: [] }
+        };
+
+        const ITENS = [
+            { id: 'redesign', nome: 'Redesign Visual', preco: 450, desc: 'Identidade visual completa com nova paleta e tipografia.' },
+            { id: 'vitrine', nome: 'Carrossel Vitrine', preco: 280, desc: 'Carrossel com vídeos dos produtos mais vendidos.' },
+            { id: 'institucional', nome: 'Carrossel Institucional', preco: 280, desc: 'Carrossel com vídeos da loja, equipe e processo.' },
+            { id: 'lucro', nome: 'Calc. Lucro', preco: 380, desc: 'Widget que mostra ganho da revendedora em tempo real.' },
+            { id: 'oferta', nome: 'Oferta Scarcity', preco: 310, desc: 'Gatilho de urgência e escassez nos produtos.' },
+            { id: 'cupom', nome: 'Cupom One-Click', preco: 180, desc: 'Cupom de desconto aplicado com um único clique.' },
+            { id: 'filtro', nome: 'Filtro Inteligente', preco: 190, desc: 'Navegação por cor, tamanho e categoria na vitrine.' },
+            { id: 'links', nome: 'Central de Links', preco: 150, desc: 'Hub de links da loja, redes sociais e catálogos.' },
+            { id: 'vantagens', nome: 'Barra Vantagens', preco: 150, desc: 'Frete, parcelamento e garantias em destaque.' },
+            { id: 'info', nome: 'Barra Informativa', preco: 120, desc: 'Anúncios e avisos importantes no topo da loja.' }
+        ];
+
+        let planoAtivo = 'elite';
+        let selecionados = new Set();
+        let cupomDesconto = 0;
+        let cupomValido = null;
+        let allCupons = [];
+
+        async function init() {
+            renderItems();
+            selecionarPlano('elite', document.querySelector('.plan-tab.active'));
+            try {
+                const { data } = await db.from('cupons').select('*');
+                allCupons = data || [];
+            } catch {}
+        }
+
+        function renderItems() {
+            const grid = document.getElementById('itemsGrid');
+            grid.innerHTML = ITENS.map(item => `
+                <div class="item-card" id="card-${item.id}" onclick="toggleItem('${item.id}')">
+                    <div class="item-header">
+                        <div class="item-name">${item.nome}</div>
+                        <div class="item-check" id="check-${item.id}"></div>
+                    </div>
+                    <div class="item-desc">${item.desc}</div>
+                    <div class="item-price">R$ ${item.preco}</div>
+                </div>
+            `).join('');
+        }
+
+        function selecionarPlano(key, btn) {
+            planoAtivo = key;
+            document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            selecionados.clear();
+            const plano = PLANOS[key];
+            plano.itens.forEach(nome => {
+                const item = ITENS.find(i => i.nome === nome);
+                if (item) selecionados.add(item.id);
+            });
+
+            ITENS.forEach(item => {
+                const card = document.getElementById('card-' + item.id);
+                const check = document.getElementById('check-' + item.id);
+                const sel = selecionados.has(item.id);
+                if (card) card.classList.toggle('selected', sel);
+                if (check) check.parentElement.classList.toggle('selected', sel);
+            });
+
+            calcTotals();
+        }
+
+        function toggleItem(id) {
+            if (selecionados.has(id)) selecionados.delete(id);
+            else selecionados.add(id);
+
+            const card = document.getElementById('card-' + id);
+            if (card) card.classList.toggle('selected', selecionados.has(id));
+
+            calcTotals();
+        }
+
+        function calcTotals() {
+            const plano = PLANOS[planoAtivo];
+            let subtotal = plano.preco;
+            const itensAvulsos = [];
+
+            selecionados.forEach(id => {
+                const item = ITENS.find(i => i.id === id);
+                if (!item) return;
+                const naoPlanBase = !plano.itens.includes(item.nome);
+                if (naoPlanBase || planoAtivo === 'nenhum') {
+                    subtotal += item.preco;
+                    itensAvulsos.push(item);
+                }
+            });
+
+            const pix = document.getElementById('pixCheck').checked;
+            let desconto = cupomDesconto > 0 ? subtotal * (cupomDesconto / 100) : 0;
+            if (pix) desconto += (subtotal - desconto) * 0.05;
+
+            const total = Math.max(0, subtotal - desconto);
+            const fmt = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            document.getElementById('subtotalEl').textContent = fmt(subtotal);
+            document.getElementById('totalEl').textContent = fmt(total);
+
+            const dRow = document.getElementById('descontoRow');
+            if (desconto > 0) {
+                dRow.style.display = 'flex';
+                document.getElementById('descontoEl').textContent = '−' + fmt(desconto);
+            } else {
+                dRow.style.display = 'none';
+            }
+
+            renderCartItems(plano, itensAvulsos);
+            window._calc = { subtotal, desconto, total, plano, itensAvulsos };
+        }
+
+        function renderCartItems(plano, avulsos) {
+            const el = document.getElementById('cartItems');
+            const fmt = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            let html = '';
+
+            if (plano.preco > 0) {
+                html += `<div class="cart-item"><span class="cart-item-name">Plano ${plano.nome}</span><span class="cart-item-price">${fmt(plano.preco)}</span></div>`;
+            }
+            avulsos.forEach(item => {
+                html += `<div class="cart-item"><span class="cart-item-name">${item.nome}</span><span class="cart-item-price">${fmt(item.preco)}</span><button class="cart-item-remove" onclick="toggleItem('${item.id}')">×</button></div>`;
+            });
+
+            el.innerHTML = html || '<div class="cart-empty">Selecione um plano ou item</div>';
+        }
+
+        function togglePix() {
+            const cb = document.getElementById('pixCheck');
+            cb.checked = !cb.checked;
+            calcTotals();
+        }
+
+        async function aplicarCupom() {
+            const codigo = document.getElementById('cupomInput').value.trim().toUpperCase();
+            const msg = document.getElementById('cupomMsg');
+
+            if (!codigo) return;
+
+            const found = allCupons.find(c => c.codigo && c.codigo.toUpperCase() === codigo);
+            if (found && found.desconto_pct) {
+                cupomDesconto = found.desconto_pct;
+                cupomValido = found;
+                msg.className = 'coupon-msg ok';
+                msg.textContent = `✓ Cupom "${codigo}" — ${found.desconto_pct}% de desconto aplicado!`;
+            } else {
+                // try hardcoded VIZZU10
+                if (codigo === 'VIZZU10') {
+                    cupomDesconto = 10;
+                    msg.className = 'coupon-msg ok';
+                    msg.textContent = '✓ Cupom VIZZU10 — 10% de desconto aplicado!';
+                } else {
+                    cupomDesconto = 0;
+                    cupomValido = null;
+                    msg.className = 'coupon-msg err';
+                    msg.textContent = '✕ Cupom inválido ou expirado.';
+                }
+            }
+            calcTotals();
+        }
+
+        function enviarWpp() {
+            const calc = window._calc;
+            if (!calc || calc.subtotal === 0) return alert('Selecione pelo menos um item.');
+            const fmt = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const itensStr = [
+                calc.plano.nome ? `Plano ${calc.plano.nome}: ${fmt(calc.plano.preco)}` : '',
+                ...calc.itensAvulsos.map(i => `${i.nome}: ${fmt(i.preco)}`)
+            ].filter(Boolean).join('%0A- ');
+
+            let msg = `Olá! Tenho interesse na VIZZU Digital 🚀%0A%0A*Meu combo:%0A- ${itensStr}%0A%0A*Total: ${fmt(calc.total)}*`;
+            if (document.getElementById('pixCheck').checked) msg += '%0A_(com desconto PIX)_';
+            window.open(`https://wa.me/5562982237075?text=${msg}`, '_blank');
+        }
+
+        function abrirModalSalvar() {
+            const calc = window._calc;
+            if (!calc || calc.subtotal === 0) return alert('Selecione pelo menos um item.');
+            document.getElementById('modalSalvar').classList.add('open');
+        }
+
+        async function salvarProposta() {
+            const nome = document.getElementById('msNome').value.trim();
+            const phone = document.getElementById('msPhone').value.trim();
+            if (!nome || !phone) return alert('Preencha nome e WhatsApp.');
+
+            const calc = window._calc;
+            const cupom = document.getElementById('cupomInput').value.trim().toUpperCase() || null;
+            const pix = document.getElementById('pixCheck').checked;
+            const plano = calc.plano.nome || 'Avulso';
+            const itens = calc.itensAvulsos.map(i => i.nome);
+
+            try {
+                const { data, error } = await db.from('propostas').insert([{
+                    nome_cliente: nome, whatsapp: phone, plano, itens,
+                    valor_subtotal: calc.subtotal, desconto_total: calc.desconto,
+                    valor_final: calc.total, cupom_usado: cupom, pix, status: 'Pendente'
+                }]).select();
+
+                if (error) throw error;
+
+                const id = data?.[0]?.id;
+                const link = `${window.location.origin}${window.location.pathname.replace('orcamento.html', '')}proposta.html?id=${id}`;
+
+                document.getElementById('modalSalvar').classList.remove('open');
+                document.getElementById('propostaLink').textContent = link;
+                document.getElementById('modalLink').classList.add('open');
+
+                if (cupomValido) {
+                    await db.from('cupons').update({ usos: (cupomValido.usos || 0) + 1, valor_gerado: (cupomValido.valor_gerado || 0) + calc.total }).eq('id', cupomValido.id);
+                }
+            } catch (e) {
+                alert('Erro ao salvar: ' + e.message);
+            }
+        }
+
+        function copiarLink() {
+            const link = document.getElementById('propostaLink').textContent;
+            navigator.clipboard.writeText(link).then(() => alert('Link copiado!'));
+        }
+
+        init();
+    </script>
+</body>
+</html>

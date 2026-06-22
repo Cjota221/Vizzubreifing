@@ -3,1061 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vizzu - Admin Dashboard</title>
-    <!-- Fonts: Inter + Poppins -->
+    <meta name="theme-color" content="#F5F3EE">
+    <title>VIZZU Digital — Transformamos lojas online em máquinas de vender</title>
+    <meta name="description" content="Redesign completo da sua loja Shopify com widgets que vendem. Entrega em 7 dias.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* VIZZU IDENTITY PALETTE */
-            --bg-main: #1a0b2e;       /* Roxo Profundo */
-            --primary: #c6ff00;       /* Verde Neon (Ação) */
-            --secondary: #d500f9;     /* Rosa Neon (Detalhes) */
-            --tertiary: #4a148c;      /* Roxo Médio */
-            
-            --surface: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-            
-            --text-main: #FFFFFF;
-            --text-muted: rgba(255, 255, 255, 0.7);
-            
-            --glass-blur: blur(16px);
-            --radius-sm: 12px;
-            --radius-md: 20px;
+            --bg: #F5F3EE;
+            --surface: #FFFFFF;
+            --border: #E0DDD6;
+            --text: #15151A;
+            --text-muted: #888888;
+            --green: #C8FF3D;
+            --green-text: #4a7a00;
+            --orange: #FF5A36;
             --radius-pill: 9999px;
+            --radius-card: 16px;
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; letter-spacing: -.02em; color: var(--text); }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        
-        body { 
-            background-color: var(--bg-main); 
-            color: var(--text-main); 
-            display: flex; 
-            height: 100vh; 
-            overflow: hidden;
-            background-image: radial-gradient(circle at 10% 20%, rgba(213, 0, 249, 0.15) 0%, transparent 40%),
-                              radial-gradient(circle at 90% 80%, rgba(198, 255, 0, 0.08) 0%, transparent 40%);
-        }
+        /* NAV */
+        .nav { background: rgba(245,243,238,.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
+        .logo { font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+        .logo-green { color: var(--green); }
+        .logo-orange { color: var(--orange); }
+        .nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; font-weight: 600; }
+        .nav-links a { color: var(--text-muted); transition: color .2s; }
+        .nav-links a:hover { color: var(--text); }
+        .btn-cta { background: var(--green); color: var(--text); padding: 10px 22px; border-radius: var(--radius-pill); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; transition: all .2s; border: none; cursor: pointer; }
+        .btn-cta:hover { background: #d8ff60; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(74,122,0,.15); }
 
-        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; color: var(--text-main); letter-spacing: -0.02em; }
+        /* HERO */
+        .hero { max-width: 1200px; margin: 0 auto; padding: 80px 24px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,255,61,.2); border: 1px solid rgba(74,122,0,.2); border-radius: var(--radius-pill); padding: 6px 16px; font-size: 12px; font-weight: 700; color: var(--green-text); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 20px; }
+        .hero-title { font-size: clamp(36px, 5vw, 56px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+        .hero-title .highlight { color: var(--green-text); }
+        .hero-title .accent { color: var(--orange); }
+        .hero-copy { font-size: 17px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.7; max-width: 480px; }
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-primary { background: var(--green); color: var(--text); padding: 15px 28px; border-radius: var(--radius-pill); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; transition: all .2s; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary:hover { background: #d8ff60; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,122,0,.2); }
+        .btn-outline { background: transparent; color: var(--text); padding: 15px 28px; border-radius: var(--radius-pill); border: 2px solid var(--border); font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; transition: all .2s; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-outline:hover { border-color: var(--text); }
+        .hero-proof { margin-top: 36px; display: flex; align-items: center; gap: 16px; }
+        .hero-stars { color: #F5A623; font-size: 16px; }
+        .hero-proof-text { font-size: 13px; color: var(--text-muted); }
+        .hero-proof-text strong { color: var(--text); }
+        .hero-visual { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 28px; position: relative; overflow: hidden; }
+        .hero-visual::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--green), #a8e620); }
+        .mockup-bar { display: flex; gap: 6px; margin-bottom: 20px; }
+        .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .mockup-dot:nth-child(1) { background: #FF5F57; }
+        .mockup-dot:nth-child(2) { background: #FEBC2E; }
+        .mockup-dot:nth-child(3) { background: #28C840; }
+        .mockup-url { flex: 1; background: var(--bg); border-radius: var(--radius-pill); padding: 6px 14px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .ba-card { border-radius: 12px; padding: 16px; }
+        .ba-card.before { background: #f0eae0; }
+        .ba-card.after { background: rgba(200,255,61,.15); border: 1px solid rgba(74,122,0,.15); }
+        .ba-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+        .ba-card.before .ba-label { color: #999; }
+        .ba-card.after .ba-label { color: var(--green-text); }
+        .ba-metric { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 900; }
+        .ba-card.before .ba-metric { color: #bbb; }
+        .ba-card.after .ba-metric { color: var(--green-text); }
+        .ba-sublabel { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--green-text); background: rgba(200,255,61,.2); padding: 6px 12px; border-radius: var(--radius-pill); margin-top: 14px; }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+        /* COUNTER STRIP */
+        .counters { background: var(--text); padding: 40px 24px; }
+        .counters-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+        .counter-item .number { font-family: 'Poppins', sans-serif; font-size: 40px; font-weight: 900; color: var(--green); line-height: 1; }
+        .counter-item .label { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 6px; }
 
-        /* SIDEBAR */
-        .sidebar {
-            width: 280px;
-            background: rgba(26, 11, 46, 0.6);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 2rem 1.5rem;
-            flex-shrink: 0;
-        }
+        /* SECTION */
+        section { max-width: 1200px; margin: 0 auto; padding: 80px 24px; }
+        .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--green-text); margin-bottom: 14px; display: block; }
+        .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 900; margin-bottom: 16px; }
+        .section-copy { font-size: 17px; color: var(--text-muted); max-width: 560px; line-height: 1.7; }
 
-        .logo {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 900;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--text-main);
-            text-shadow: 0 0 15px rgba(213, 0, 249, 0.5);
-            letter-spacing: 0.05em;
-        }
-        .logo i { color: var(--secondary); }
+        /* PROBLEM / SOLUTION */
+        .problem-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+        .problem-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 24px; position: relative; overflow: hidden; transition: all .3s; }
+        .problem-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--green); }
+        .problem-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(21,21,26,.08); }
+        .problem-icon { width: 44px; height: 44px; background: rgba(200,255,61,.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .problem-icon svg { width: 22px; height: 22px; stroke: var(--green-text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .problem-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .problem-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
-        .nav-item {
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-md);
-            color: var(--text-muted);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            border: 1px solid transparent;
-        }
+        /* PRICING */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+        .plan-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; position: relative; transition: all .3s; }
+        .plan-card.popular { border-color: var(--green); }
+        .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--green); color: var(--text); font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; padding: 4px 16px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+        .plan-name { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+        .plan-price { font-family: 'Poppins', sans-serif; font-size: 40px; font-weight: 900; color: var(--green-text); margin: 14px 0; line-height: 1; }
+        .plan-price small { font-size: 16px; font-weight: 600; color: var(--text-muted); }
+        .plan-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .plan-items { list-style: none; margin-bottom: 28px; }
+        .plan-items li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .plan-items li:last-child { border-bottom: 0; }
+        .plan-items li::before { content: ''; width: 18px; height: 18px; background: rgba(200,255,61,.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%234a7a00' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; background-size: 10px; }
 
-        .nav-item:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
-            border-color: rgba(255,255,255,0.1);
-        }
+        /* LEAD FORM */
+        .lead-section { background: var(--text); border-radius: 24px; padding: 60px; margin: 0 24px 80px; max-width: 1152px; margin-left: auto; margin-right: auto; }
+        .lead-section h2 { color: #fff; font-size: clamp(26px, 4vw, 40px); margin-bottom: 12px; }
+        .lead-section p { color: rgba(255,255,255,.6); margin-bottom: 36px; font-size: 16px; }
+        .lead-form { display: flex; gap: 12px; flex-wrap: wrap; }
+        .lead-form input { flex: 1; min-width: 200px; padding: 15px 20px; border-radius: var(--radius-pill); border: 2px solid rgba(255,255,255,.15); background: rgba(255,255,255,.08); color: #fff; font-size: 15px; outline: none; font-family: 'Inter', sans-serif; }
+        .lead-form input::placeholder { color: rgba(255,255,255,.4); }
+        .lead-form input:focus { border-color: var(--green); }
+        .lead-form button { background: var(--green); color: var(--text); padding: 15px 28px; border-radius: var(--radius-pill); border: none; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+        .lead-form button:hover { background: #d8ff60; transform: translateY(-2px); }
 
-        .nav-item.active {
-            background: rgba(213, 0, 249, 0.15);
-            color: var(--secondary);
-            border-color: rgba(213, 0, 249, 0.3);
-            box-shadow: 0 0 15px rgba(213, 0, 249, 0.1);
-        }
+        /* FAQ */
+        .faq-list { margin-top: 48px; max-width: 760px; }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-question { width: 100%; text-align: left; background: none; border: none; padding: 22px 0; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; color: var(--text); }
+        .faq-icon { width: 28px; height: 28px; background: rgba(200,255,61,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .3s; }
+        .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--green); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+        .faq-item.open .faq-answer { max-height: 300px; }
+        .faq-answer p { padding: 0 0 22px; font-size: 15px; color: var(--text-muted); line-height: 1.7; }
 
-        .btn-new {
-            margin-top: auto;
-            background: var(--primary);
-            color: #1a0b2e;
-            border: none;
-            padding: 1rem;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: 0.3s;
-            box-shadow: 0 0 20px rgba(198, 255, 0, 0.3);
-        }
-        .btn-new:hover { 
-            transform: translateY(-2px) scale(1.02); 
-            box-shadow: 0 0 30px rgba(198, 255, 0, 0.5);
-        }
+        /* FLOATING BANNER */
+        .float-banner { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: #fff; padding: 14px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 12px; z-index: 90; box-shadow: 0 8px 32px rgba(21,21,26,.3); white-space: nowrap; }
+        .float-banner .tag { background: var(--green); color: var(--text); padding: 3px 10px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; }
+        .float-banner a { color: var(--green); font-weight: 700; }
+        .float-close { background: none; border: none; color: rgba(255,255,255,.5); cursor: pointer; font-size: 18px; padding: 0 0 0 8px; }
 
-        /* MAIN CONTENT */
-        .main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 3rem;
-        }
+        /* COUPON POPUP */
+        .popup-overlay { position: fixed; inset: 0; background: rgba(21,21,26,.6); backdrop-filter: blur(6px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .popup-overlay.show { display: flex; }
+        .popup-card { background: var(--surface); border-radius: 24px; border-top: 4px solid var(--green); padding: 40px; max-width: 440px; width: 100%; text-align: center; position: relative; box-shadow: 0 24px 70px rgba(21,21,26,.2); }
+        .popup-close { position: absolute; top: 16px; right: 16px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 22px; }
+        .popup-emoji { font-size: 40px; margin-bottom: 14px; }
+        .popup-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .popup-card p { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
+        .coupon-display { background: rgba(200,255,61,.15); border: 2px dashed rgba(74,122,0,.3); border-radius: 12px; padding: 14px; font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 900; color: var(--green-text); letter-spacing: .1em; margin-bottom: 20px; cursor: pointer; transition: background .2s; }
+        .coupon-display:hover { background: rgba(200,255,61,.25); }
 
-        /* DASHBOARD VIEW */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        .header h2 { font-size: 1.8rem; font-weight: 700; }
+        footer { background: var(--text); padding: 40px 24px; text-align: center; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-logo { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 10px; }
+        .footer-copy { font-size: 13px; color: rgba(255,255,255,.4); }
 
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; padding: 60px 24px 40px; gap: 40px; }
+            .hero-visual { display: none; }
+            .counters-inner { grid-template-columns: 1fr 1fr; }
+            .lead-section { padding: 40px 28px; }
         }
-
-        .project-card {
-            background: var(--surface);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .float-banner { font-size: 12px; padding: 12px 18px; }
         }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--secondary), var(--primary));
-            opacity: 0;
-            transition: 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.2);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-        .project-card:hover::before { opacity: 1; }
-
-        .card-icon {
-            width: 56px;
-            height: 56px;
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            border: 1px solid var(--border);
-        }
-        .project-card:hover .card-icon {
-            color: var(--primary);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(198, 255, 0, 0.2);
-        }
-
-        .card-info h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-        .card-info p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.4rem 1rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .status-badge.pendente { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .status-badge.em-andamento { background: rgba(37, 99, 235, 0.1); color: #60a5fa; border: 1px solid rgba(37, 99, 235, 0.3); }
-        .status-badge.concluido { background: rgba(198, 255, 0, 0.1); color: var(--primary); border: 1px solid rgba(198, 255, 0, 0.3); box-shadow: 0 0 10px rgba(198, 255, 0, 0.1); }
-        .status-badge.link-gerado { background: rgba(213, 0, 249, 0.1); color: var(--secondary); border: 1px solid rgba(213, 0, 249, 0.3); box-shadow: 0 0 10px rgba(213, 0, 249, 0.1); }
-
-        /* DETAIL VIEW */
-        .detail-view { display: none; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .detail-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .detail-title-group h2 { font-size: 1.6rem; margin-bottom: 0.25rem; }
-        .detail-title-group p { color: var(--secondary); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.75rem; }
-
-        .btn-back {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: 0.3s;
-            font-weight: 500;
-        }
-        .btn-back:hover { background: rgba(255,255,255,0.1); color: var(--text-main); border-color: var(--text-main); }
-
-        /* GRID CONTAINER FOR DETAILS */
-        .detail-grid {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 2.5rem;
-            align-items: start;
-        }
-
-        @media (max-width: 1200px) {
-            .detail-grid { grid-template-columns: 1fr; }
-        }
-
-        .panel {
-            background: var(--surface);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .panel h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
-        }
-        .panel h3 i { color: var(--secondary); }
-
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
-            background: rgba(0, 0, 0, 0.3);
-            color: var(--text-main);
-            transition: 0.3s;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 15px rgba(213, 0, 249, 0.2);
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        /* BRIEFING ITEMS */
-        .briefing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .briefing-item {
-            background: rgba(255,255,255,0.03);
-            padding: 1.25rem;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            transition: 0.2s;
-        }
-        .briefing-item:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
-        .briefing-item label { font-size: 0.75rem; color: var(--secondary); display: block; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
-        .briefing-item .value { font-size: 1rem; color: var(--text-main); word-break: break-word; line-height: 1.5; }
-        .briefing-grid h4 { grid-column: 1 / -1; margin: 0.5rem 0 0.25rem; font-size: 0.9rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-
-        /* FILES */
-        .file-preview {
-            background: rgba(0,0,0,0.3);
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            margin-bottom: 0.75rem;
-            text-decoration: none;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: 0.3s;
-        }
-        .file-preview:hover { border-color: var(--primary); background: rgba(198, 255, 0, 0.05); box-shadow: 0 0 15px rgba(198, 255, 0, 0.1); }
-        .file-preview img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; }
-
-        /* CODE SNIPPETS - TERMINAL STYLE */
-        .snippet-item {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            background: #0a0a0a;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .snippet-header {
-            padding: 1rem 1.5rem;
-            background: rgba(255,255,255,0.05);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .snippet-header strong { color: var(--primary); font-family: 'Fira Code', monospace; font-size: 0.85rem; }
-        .snippet-body {
-            padding: 0;
-            background: #050505;
-            position: relative;
-        }
-
-        /* Tabs para alternar entre código e preview */
-        .snippet-tabs {
-            display: flex;
-            gap: 0;
-            background: #050505;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .snippet-tab {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-        .snippet-tab:hover {
-            color: var(--text-main);
-            background: rgba(255,255,255,0.05);
-        }
-        .snippet-tab.active {
-            color: var(--primary);
-            background: rgba(198, 255, 0, 0.1);
-            border-bottom-color: var(--primary);
-        }
-
-        /* Conteúdo do snippet (código ou preview) */
-        .snippet-content {
-            display: none;
-        }
-        .snippet-content.active {
-            display: block;
-        }
-
-        .snippet-body textarea {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #00ff9d;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            padding: 1rem;
-            height: 120px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        /* Preview iframe */
-        .snippet-preview {
-            width: 100%;
-            min-height: 200px;
-            border: none;
-            background: white;
-            padding: 0;
-        }
-
-        .preview-container {
-            padding: 1rem;
-            background: #0a0a0a;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .preview-info {
-            padding: 0.75rem 1rem;
-            background: rgba(198, 255, 0, 0.1);
-            border-left: 3px solid var(--primary);
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        .preview-info i {
-            color: var(--primary);
-            margin-right: 0.5rem;
-        }
-        .btn-copy {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 0.35rem 0.75rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-copy:hover { background: var(--secondary); border-color: var(--secondary); color: white; }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 5, 20, 0.85);
-            backdrop-filter: blur(8px);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #1e1235; /* Solid dark purple for modal to ensure readability */
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            width: 650px;
-            max-width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid var(--secondary);
-            box-shadow: 0 0 50px rgba(213, 0, 249, 0.2);
-        }
-
-        /* Animation for new category input */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .modal h3 { margin-bottom: 1.5rem; font-size: 1.4rem; color: var(--text-main); }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn-primary { 
-            background: var(--primary); 
-            color: #1a0b2e; 
-            border: none; 
-            padding: 0.65rem 1.5rem; 
-            border-radius: var(--radius-pill); 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: 0.3s; 
-            box-shadow: 0 0 20px rgba(198, 255, 0, 0.3);
-        }
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 0 30px rgba(198, 255, 0, 0.5);
-        }
-        
-        .btn-secondary { 
-            background: transparent; 
-            border: 1px solid var(--secondary); 
-            color: var(--text-main); 
-            padding: 0.65rem 1.5rem; 
-            border-radius: var(--radius-pill); 
-            cursor: pointer; 
-            font-weight: 600; 
-            font-size: 0.85rem;
-            transition: 0.3s; 
-        }
-        .btn-secondary:hover { 
-            background: rgba(213, 0, 249, 0.1); 
-            box-shadow: 0 0 15px rgba(213, 0, 249, 0.2);
-        }
-
-        .btn-danger { 
-            background: transparent; 
-            color: #ff4444; 
-            border: 1px solid #ff4444; 
-            padding: 0.65rem; 
-            border-radius: var(--radius-pill); 
-            cursor: pointer; 
-            transition: 0.3s; 
-        }
-        .btn-danger:hover { background: rgba(255, 68, 68, 0.1); box-shadow: 0 0 15px rgba(255, 68, 68, 0.2); }
-
     </style>
-    <link rel="stylesheet" href="css/admin-v3.css">
 </head>
-<body class="admin-page">
+<body>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <div class="logo" aria-label="VIZZU Admin">VIZ<span class="logo-green">Z</span>U<span class="logo-orange">.</span><small>ADMIN</small></div>
-        <nav>
-            <div class="nav-item active" onclick="showDashboard()">
-                <i class="fas fa-th-large"></i> Projetos
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="logo">VIZ<span class="logo-green">Z</span>U<span class="logo-orange">.</span></div>
+            <div class="nav-links">
+                <a href="#solucao">O que fazemos</a>
+                <a href="#precos">Planos</a>
+                <a href="#faq">FAQ</a>
+                <a href="orcamento.html">Monte seu combo</a>
             </div>
-            <div class="nav-item" onclick="showTechLibrary()">
-                <i class="fas fa-code"></i> Biblioteca TI
-            </div>
-            <div class="nav-item" onclick="showPlans()">
-                <i class="fas fa-calculator"></i> Criar Pedido (PV)
-            </div>
-        </nav>
-        <button class="btn-new" onclick="openNewProjectModal()">
-            <i class="fas fa-plus"></i> Novo Projeto
-        </button>
-        <button class="btn-secondary" style="margin-top: 10px; width: 100%; justify-content: center; display: flex; align-items: center; gap: 0.5rem;" onclick="openLinkProjectModal()">
-            <i class="fas fa-link"></i> Vincular ID
-        </button>
-    </div>
+            <a href="orcamento.html" class="btn-cta">Ver Preços</a>
+        </div>
+    </nav>
 
-    <!-- MAIN -->
-    <div class="main">
-        
-        <!-- DASHBOARD VIEW -->
-        <div id="dashboardView">
-            <div class="header">
-                <h2>Projetos Recentes</h2>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-left">
+            <div class="hero-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></svg>
+                Entrega em 7 dias · Shopify especialista
             </div>
-            <div id="projectList" class="project-grid">
-                <!-- Projects will be loaded here -->
+            <h1 class="hero-title">
+                Transformamos lojas online em<br>
+                <span class="highlight">máquinas</span> de <span class="accent">vender</span>
+            </h1>
+            <p class="hero-copy">
+                Redesign completo + widgets estratégicos que aumentam a conversão da sua loja Shopify. Sem enrolação, sem mensalidade.
+            </p>
+            <div class="hero-actions">
+                <a href="orcamento.html" class="btn-primary">
+                    Monte seu combo
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                </a>
+                <a href="https://wa.me/5562982237075?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20VIZZU" target="_blank" class="btn-outline">
+                    Falar com consultor
+                </a>
+            </div>
+            <div class="hero-proof">
+                <div class="hero-stars">★★★★★</div>
+                <div class="hero-proof-text"><strong>+200 lojas</strong> transformadas · NPS 98</div>
             </div>
         </div>
-
-        <!-- TECH LIBRARY VIEW -->
-        <div id="techLibraryView" style="display:none;">
-            <div class="header">
-                <div>
-                    <h2>Biblioteca Técnica</h2>
-                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Códigos reutilizáveis organizados por categoria</p>
+        <div class="hero-visual">
+            <div class="mockup-bar">
+                <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+                <div class="mockup-url">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    sualojaoptimizada.myshopify.com
                 </div>
-                <button class="btn-primary" onclick="showAddGlobalSnippetModal()">
-                    <i class="fas fa-plus"></i> Novo Código
+            </div>
+            <div class="before-after">
+                <div class="ba-card before">
+                    <div class="ba-label">Antes da VIZZU</div>
+                    <div class="ba-metric">1,2%</div>
+                    <div class="ba-sublabel">Taxa de conversão</div>
+                </div>
+                <div class="ba-card after">
+                    <div class="ba-label">Com a VIZZU</div>
+                    <div class="ba-metric">4,8%</div>
+                    <div class="ba-sublabel">Taxa de conversão</div>
+                </div>
+                <div class="ba-card before">
+                    <div class="ba-label">Abandono de carrinho</div>
+                    <div class="ba-metric">78%</div>
+                </div>
+                <div class="ba-card after">
+                    <div class="ba-label">Abandono de carrinho</div>
+                    <div class="ba-metric">41%</div>
+                </div>
+            </div>
+            <div class="hero-tag">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Resultados reais de clientes da VIZZU
+            </div>
+        </div>
+    </div>
+
+    <!-- COUNTERS -->
+    <div class="counters">
+        <div class="counters-inner">
+            <div class="counter-item"><div class="number" data-target="200">0</div><div class="label">Lojas transformadas</div></div>
+            <div class="counter-item"><div class="number" data-target="7">0</div><div class="label">Dias de entrega</div></div>
+            <div class="counter-item"><div class="number" data-target="98">0</div><div class="label">NPS de satisfação</div></div>
+            <div class="counter-item"><div class="number" data-target="4">0</div><div class="label">Anos de experiência</div></div>
+        </div>
+    </div>
+
+    <!-- O QUE FAZEMOS -->
+    <section id="solucao">
+        <span class="section-label">Nossa solução</span>
+        <h2 class="section-title">Tudo que sua loja precisa para vender mais</h2>
+        <p class="section-copy">Combinamos design persuasivo com widgets estratégicos para transformar visitantes em compradores.</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-icon">
+                    <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3>Redesign Visual Completo</h3>
+                <p>Identidade visual única que transmite profissionalismo e confiança para sua loja.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <h3>Carrossel de Produtos</h3>
+                <p>Vitrine interativa com vídeos dos seus produtos que geram desejo e aumentam o ticket médio.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">
+                    <svg viewBox="0 0 24 24"><path d="M9 15 15 9M9.5 9h.01M14.5 15h.01"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+                </div>
+                <h3>Cupom One-Click</h3>
+                <p>Desconto aplicado com um clique que elimina a fricção e acelera a primeira compra.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </div>
+                <h3>Filtro Inteligente</h3>
+                <p>Navegação por cor, tamanho e preço que ajuda clientes a encontrar exatamente o que procuram.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Barra de Vantagens</h3>
+                <p>Frete grátis, parcelamento e diferenciais em destaque que reduzem objeções na hora da compra.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">
+                    <svg viewBox="0 0 24 24"><path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z"/></svg>
+                </div>
+                <h3>Oferta Scarcity</h3>
+                <p>Gatilho de urgência e escassez que acelera decisões e aumenta a taxa de conversão.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="precos" style="background: var(--surface); max-width: 100%; padding: 80px 0;">
+        <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+            <span class="section-label">Planos</span>
+            <h2 class="section-title">Investimento único, resultado permanente</h2>
+            <p class="section-copy">Sem mensalidade. Sem contrato. Pague uma vez e a loja é sua.</p>
+            <div class="pricing-grid">
+                <div class="plan-card">
+                    <div class="plan-name">Iniciante</div>
+                    <div class="plan-price">R$ 797<small></small></div>
+                    <div class="plan-desc">Perfeito para quem quer começar com o pé direito.</div>
+                    <ul class="plan-items">
+                        <li>Redesign Visual Completo</li>
+                        <li>Filtro Inteligente de Produtos</li>
+                        <li>Barra de Vantagens</li>
+                        <li>Cupom One-Click</li>
+                        <li>Entrega em 7 dias</li>
+                    </ul>
+                    <a href="orcamento.html" class="btn-outline" style="width:100%;justify-content:center;">Começar agora</a>
+                </div>
+                <div class="plan-card popular">
+                    <div class="popular-badge">Mais escolhido</div>
+                    <div class="plan-name">Elite Total</div>
+                    <div class="plan-price">R$ 1.661<small></small></div>
+                    <div class="plan-desc">A solução completa para vender muito mais.</div>
+                    <ul class="plan-items">
+                        <li>Tudo do Iniciante</li>
+                        <li>2 Carrosséis com vídeos (12 vídeos)</li>
+                        <li>10 Widgets estratégicos</li>
+                        <li>Calculadora de Lucro</li>
+                        <li>Oferta Scarcity</li>
+                        <li>Suporte VIP 30 dias</li>
+                    </ul>
+                    <a href="orcamento.html" class="btn-primary" style="width:100%;justify-content:center;">Quero o Elite</a>
+                </div>
+                <div class="plan-card">
+                    <div class="plan-name">Personalizado</div>
+                    <div class="plan-price">R$ 2.999<small>+</small></div>
+                    <div class="plan-desc">Projeto sob medida para lojas de alto volume.</div>
+                    <ul class="plan-items">
+                        <li>Projeto completamente personalizado</li>
+                        <li>Pesquisa de mercado e concorrência</li>
+                        <li>Desenvolvimento exclusivo</li>
+                        <li>Suporte ilimitado 60 dias</li>
+                        <li>Consultoria estratégica inclusa</li>
+                    </ul>
+                    <a href="https://wa.me/5562982237075?text=Quero%20saber%20sobre%20o%20plano%20personalizado" target="_blank" class="btn-outline" style="width:100%;justify-content:center;">Falar com especialista</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEAD CAPTURE -->
+    <section style="padding:0 0 80px;">
+        <div class="lead-section">
+            <div style="max-width:620px;">
+                <h2>Receba um diagnóstico gratuito da sua loja</h2>
+                <p>Nosso time analisa sua loja e envia um relatório com os pontos de melhoria que mais impactam suas vendas.</p>
+                <form class="lead-form" id="leadForm" onsubmit="capturarLead(event)">
+                    <input type="text" id="leadNome" placeholder="Seu nome" required>
+                    <input type="tel" id="leadTel" placeholder="WhatsApp" required>
+                    <button type="submit">Quero meu diagnóstico</button>
+                </form>
+                <p id="leadSuccess" style="display:none;color:var(--green);margin-top:14px;font-weight:600;">✓ Recebemos! Nosso time entrará em contato em breve.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <span class="section-label">Dúvidas frequentes</span>
+        <h2 class="section-title">Perguntas que sempre aparecem</h2>
+        <div class="faq-list" id="faqList">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Em qual plataforma a VIZZU trabalha?
+                    <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
                 </button>
+                <div class="faq-answer"><p>Trabalhamos exclusivamente com Shopify. Nossa especialização total nessa plataforma é o que garante resultados superiores e entrega rápida.</p></div>
             </div>
-
-            <div class="panel">
-                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                    <button class="btn-secondary" onclick="filterTechLibrary('all')" id="filter-all">
-                        <i class="fas fa-th"></i> Todos
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Carrinho')" id="filter-Carrinho">
-                        Carrinho
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Página do Produto')" id="filter-Página do Produto">
-                        Produto
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Checkout')" id="filter-Checkout">
-                        Checkout
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Home')" id="filter-Home">
-                        Home
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Coleção/Vitrine')" id="filter-Coleção/Vitrine">
-                        Vitrine
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Menu/Header')" id="filter-Menu/Header">
-                        Menu
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Footer')" id="filter-Footer">
-                        Footer
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Popup/Modal')" id="filter-Popup/Modal">
-                        Popup
-                    </button>
-                    <button class="btn-secondary" onclick="filterTechLibrary('Integração')" id="filter-Integração">
-                        Integração
-                    </button>
-                </div>
-
-                <div id="techLibraryList">
-                    <!-- Global snippets will be loaded here -->
-                </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Realmente entregam em 7 dias?
+                    <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+                </button>
+                <div class="faq-answer"><p>Sim! O prazo começa a contar a partir do preenchimento completo do briefing com todas as informações e materiais necessários. Para projetos personalizados, o prazo pode ser maior.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Como funciona o pagamento?
+                    <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+                </button>
+                <div class="faq-answer"><p>Trabalhamos com 50% de entrada + 50% na entrega. Aceitamos Pix, transferência e cartão de crédito. No Pix você ganha 5% de desconto no total.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    E se eu não gostar do resultado?
+                    <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+                </button>
+                <div class="faq-answer"><p>Trabalhamos com revisões ilimitadas até sua aprovação total. Nosso objetivo é garantir que você fique 100% satisfeita com o resultado entregue.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Preciso ter conhecimento técnico?
+                    <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></div>
+                </button>
+                <div class="faq-answer"><p>Não! Você só precisa preencher o briefing e fornecer os materiais (logo, fotos). Nossa equipe cuida de toda a parte técnica de A a Z.</p></div>
             </div>
         </div>
+    </section>
 
-        <!-- PLANS VIEW -->
-        <div id="plansView" style="display:none;">
-            <div class="header">
-                <h2>Novo Pedido (PV)</h2>
-            </div>
-            
-            <div class="detail-grid">
-                <!-- Coluna Esquerda: Dados do Cliente -->
-                <div class="col-left">
-                    <div class="panel">
-                        <h3><i class="fas fa-user"></i> Dados do Cliente</h3>
-                        <div class="form-group">
-                            <label>Nome do Cliente</label>
-                            <input type="text" id="pvName" class="form-control" placeholder="Nome completo">
-                        </div>
-                        <div class="form-group">
-                            <label>WhatsApp</label>
-                            <input type="text" id="pvPhone" class="form-control" placeholder="(00) 00000-0000">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" id="pvEmail" class="form-control" placeholder="email@exemplo.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Forma de Pagamento</label>
-                            <input type="text" id="pvPayment" class="form-control" placeholder="Ex: Pix 50% + 50%">
-                        </div>
-                    </div>
+    <!-- FLOAT BANNER -->
+    <div class="float-banner" id="floatBanner">
+        <div class="tag">VIZZU10</div>
+        <span>Use e ganhe <strong>10% off</strong> no seu combo</span>
+        <a href="orcamento.html">Ver combos →</a>
+        <button class="float-close" onclick="document.getElementById('floatBanner').style.display='none'">×</button>
+    </div>
 
-                    <div class="panel">
-                        <h3><i class="fas fa-shopping-cart"></i> Seleção de Itens</h3>
-                        
-                        <div class="form-group">
-                            <label>Plano Base</label>
-                            <select id="pvPlanSelect" class="form-control" onchange="updatePvTotal()">
-                                <option value="">Selecione um Plano...</option>
-                                <option value="iniciante">Iniciante (R$ 797)</option>
-                                <option value="elite">Elite Total (R$ 1.661)</option>
-                                <option value="personalizado">Personalizado (Base R$ 2.999)</option>
-                                <option value="avulso">Apenas Itens Avulsos</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Adicionais / Widgets</label>
-                            <div id="pvItemsContainer" class="checkbox-group" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.2);">
-                                <!-- Checkboxes generated via JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Coluna Direita: Resumo e Ação -->
-                <div class="col-right">
-                    <div class="panel" style="position: sticky; top: 20px;">
-                        <h3><i class="fas fa-receipt"></i> Resumo do Pedido</h3>
-                        
-                        <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: var(--text-muted);">Plano Base:</span>
-                                <strong id="pvSummaryPlan" style="color: var(--text-main);">R$ 0,00</strong>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span style="color: var(--text-muted);">Adicionais:</span>
-                                <strong id="pvSummaryAddons" style="color: var(--text-main);">R$ 0,00</strong>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                            <span style="font-size: 1.2rem; font-weight: 600;">TOTAL</span>
-                            <span id="pvTotalDisplay" style="font-size: 1.8rem; font-weight: 900; color: var(--primary);">R$ 0,00</span>
-                        </div>
-
-                        <button class="btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem; font-size: 1rem;" onclick="sendPvToWhatsApp()">
-                            <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> Enviar Proposta no Zap
-                        </button>
-                        
-                        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); text-align: center;">
-                            Isso abrirá o WhatsApp Web com a mensagem pronta.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- DETAIL VIEW -->
-        <div id="projectDetailView" class="detail-view">
-            <div class="detail-header">
-                <div style="display:flex; align-items:center; gap:1rem;">
-                    <button class="btn-back" onclick="closeProject()"><i class="fas fa-arrow-left"></i> Voltar</button>
-                    <div class="detail-title-group">
-                        <h2 id="detailTitle">Nome da Loja</h2>
-                        <p id="detailSubtitle">Cliente</p>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 1rem;">
-                    <a id="waLink" href="#" target="_blank" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <button id="btnSaveAdmin" class="btn-primary" onclick="saveAdminInfo()">
-                        <i class="fas fa-save"></i> Salvar Alterações
-                    </button>
-                    <button class="btn-danger" onclick="deleteProject()">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="detail-grid">
-                <!-- LEFT COLUMN: ADMIN & EDIT -->
-                <div class="col-left">
-                    <div class="panel">
-                        <h3><i class="fas fa-user-edit"></i> Dados do Cliente</h3>
-                        <div class="form-group">
-                            <label>Nome do Cliente</label>
-                            <input type="text" id="infoName" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Nome da Loja</label>
-                            <input type="text" id="infoStore" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>WhatsApp</label>
-                            <input type="text" id="infoPhone" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" id="infoEmail" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Logo (Upload)</label>
-                            <input type="file" id="infoLogoFile" class="form-control" accept="image/*">
-                            <input type="hidden" id="infoLogoUrl">
-                            <div id="logoPreview" style="margin-top: 10px;"></div>
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <h3><i class="fas fa-cog"></i> Gestão do Projeto</h3>
-                        
-                        <div class="form-group">
-                            <label>Link do Briefing</label>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <input type="text" id="briefingLinkInput" class="form-control" readonly style="font-size:0.8rem;">
-                                <button class="btn-secondary" onclick="copyLink()"><i class="fas fa-copy"></i></button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="adminStatus" class="form-control">
-                                <option value="Link Gerado">Link Gerado</option>
-                                <option value="Briefing Preenchido">Briefing Preenchido</option>
-                                <option value="Em Produção">Em Produção</option>
-                                <option value="Aguardando Aprovação">Aguardando Aprovação</option>
-                                <option value="Concluído">Concluído</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Plano & Escopo</label>
-                            <select id="editPlanSelect" class="form-control" onchange="updateEditProjectTotal()">
-                                <option value="">Selecione um Plano...</option>
-                                <option value="iniciante">Iniciante (R$ 797)</option>
-                                <option value="elite">Elite Total (R$ 1.661)</option>
-                                <option value="personalizado">Personalizado</option>
-                                <option value="avulso">Apenas Itens Avulsos</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Itens / Widgets</label>
-                            <div id="editPlanItems" class="checkbox-group" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); padding: 10px; border-radius: 4px; background: var(--bg);">
-                                <!-- Checkboxes generated via JS -->
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Valor Total</label>
-                            <input type="text" id="editProjectTotal" class="form-control" style="font-weight: bold; color: var(--success);" readonly>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Pagamento</label>
-                            <input type="text" id="adminPayment" class="form-control" placeholder="Ex: 50% Entrada...">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Data de Início</label>
-                            <input type="date" id="adminStartDate" class="form-control">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN: CONTENT & SNIPPETS -->
-                <div class="col-right">
-                    <!-- SNIPPETS SECTION (Prominent) -->
-                    <div class="panel" style="border-color: var(--primary);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                            <h3 style="margin:0; color: var(--primary); border:none;"><i class="fas fa-terminal"></i> Code Snippets / Entregáveis</h3>
-                            <button class="btn-secondary" style="padding: 0.4rem 0.8rem;" onclick="showAddSnippetModal()">
-                                <i class="fas fa-plus"></i> Adicionar Código
-                            </button>
-                        </div>
-                        <div id="codeSnippetsList">
-                            <!-- Snippets list -->
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <h3><i class="fas fa-clipboard-list"></i> Respostas do Briefing</h3>
-                        <div id="briefingAnswers" class="briefing-grid">
-                            <!-- Briefing content -->
-                        </div>
-                    </div>
-
-                    <div class="panel">
-                        <h3><i class="fas fa-paperclip"></i> Arquivos de Referência</h3>
-                        <div id="refFilesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;"></div>
-                    </div>
-                </div>
-            </div>
+    <!-- COUPON POPUP -->
+    <div class="popup-overlay" id="cupomPopup">
+        <div class="popup-card">
+            <button class="popup-close" onclick="document.getElementById('cupomPopup').classList.remove('show')">×</button>
+            <div class="popup-emoji">🎁</div>
+            <h3>Presente exclusivo para você!</h3>
+            <p>Ganhe <strong>10% de desconto</strong> no seu combo VIZZU. Clique para copiar:</p>
+            <div class="coupon-display" onclick="copiarCupomPopup()">VIZZU10</div>
+            <p style="font-size:13px;color:var(--text-muted);">Válido para novos clientes · Use no checkout</p>
+            <a href="orcamento.html" class="btn-primary" style="width:100%;justify-content:center;margin-top:16px;">Montar meu combo agora</a>
         </div>
     </div>
 
-    <!-- NEW PROJECT MODAL -->
-    <div id="newProjectModal" class="modal">
-        <div class="modal-content" style="width: 600px;">
-            <h3>Novo Projeto</h3>
-            <div class="form-group">
-                <label>Nome do Cliente</label>
-                <input type="text" id="newClientName" placeholder="Ex: João Silva">
-            </div>
-            <div class="form-group">
-                <label>Nome da Loja (Opcional)</label>
-                <input type="text" id="newStoreName" placeholder="Ex: Loja do João">
-            </div>
-            
-            <div class="form-group">
-                <label>Selecione o Plano Base</label>
-                <select id="newPlanSelect" onchange="updateNewProjectTotal()">
-                    <option value="">-- Selecione --</option>
-                    <option value="iniciante">Iniciante (R$ 797)</option>
-                    <option value="elite">Elite Total (R$ 1.661)</option>
-                    <option value="personalizado">Personalizado (R$ 2.999)</option>
-                    <option value="avulso">Apenas Itens Avulsos</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Itens Adicionais (Avulsos)</label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 150px; overflow-y: auto; border: 1px solid #eee; padding: 10px;">
-                    <label><input type="checkbox" class="new-item-check" value="450" data-name="Redesign Visual"> Redesign (R$ 450)</label>
-                    <label><input type="checkbox" class="new-item-check" value="280" data-name="Carrossel Vitrine"> Vitrine (R$ 280)</label>
-                    <label><input type="checkbox" class="new-item-check" value="280" data-name="Carrossel Institucional"> Institucional (R$ 280)</label>
-                    <label><input type="checkbox" class="new-item-check" value="380" data-name="Calc. Lucro"> Calc. Lucro (R$ 380)</label>
-                    <label><input type="checkbox" class="new-item-check" value="310" data-name="Oferta Scarcity"> Oferta (R$ 310)</label>
-                    <label><input type="checkbox" class="new-item-check" value="180" data-name="Cupom One-Click"> Cupom (R$ 180)</label>
-                    <label><input type="checkbox" class="new-item-check" value="190" data-name="Filtro Inteligente"> Filtro (R$ 190)</label>
-                    <label><input type="checkbox" class="new-item-check" value="150" data-name="Central de Links"> Links (R$ 150)</label>
-                    <label><input type="checkbox" class="new-item-check" value="150" data-name="Barra Vantagens"> Vantagens (R$ 150)</label>
-                    <label><input type="checkbox" class="new-item-check" value="120" data-name="Barra Informativa"> Informativa (R$ 120)</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Total Estimado: <span id="newProjectTotal" style="font-weight:bold; color:var(--accent);">R$ 0,00</span></label>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeNewProjectModal()">Cancelar</button>
-                <button class="btn-primary" onclick="confirmCreateProject()">Criar Projeto</button>
-            </div>
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">VIZ<span style="color:var(--green);">Z</span>U<span style="color:var(--orange);">.</span></div>
+            <p class="footer-copy">VIZZU Digital · Transformando lojas Shopify desde 2020 · (62) 98223-7075</p>
         </div>
-    </div>
-
-    <!-- LINK ID MODAL -->
-    <div id="linkIdModal" class="modal">
-        <div class="modal-content">
-            <h3>Vincular ID Existente</h3>
-            <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Cole o ID do projeto (que está no link do briefing) para encontrá-lo e adicioná-lo à lista.</p>
-            <div class="form-group">
-                <label>ID do Projeto (UUID)</label>
-                <input type="text" id="linkProjectId" placeholder="Ex: 550e8400-e29b-41d4-a716-446655440000">
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeLinkIdModal()">Cancelar</button>
-                <button class="btn-primary" onclick="confirmLinkProject()">Buscar e Vincular</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SNIPPET MODAL -->
-    <div id="snippetModal" class="modal">
-        <div class="modal-content">
-            <h3>Adicionar Código</h3>
-            <div class="form-group">
-                <label>Categoria</label>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <select id="snipCategory" class="form-control" style="flex: 1;">
-                        <option value="Carrinho">Carrinho</option>
-                        <option value="Página do Produto">Página do Produto</option>
-                        <option value="Checkout">Checkout</option>
-                        <option value="Home">Home / Landing</option>
-                        <option value="Coleção/Vitrine">Coleção / Vitrine</option>
-                        <option value="Menu/Header">Menu / Header</option>
-                        <option value="Footer">Footer</option>
-                        <option value="Popup/Modal">Popup / Modal</option>
-                        <option value="Integração">Integração (API/3rd Party)</option>
-                        <option value="Outros">Outros</option>
-                    </select>
-                    <button type="button" class="btn-secondary" style="padding: 0.75rem; width: auto; white-space: nowrap;" onclick="showNewCategoryInput('snip')" title="Criar nova categoria">
-                        <i class="fas fa-plus"></i> Nova
-                    </button>
-                </div>
-                <div id="newCategorySnip" style="display: none; margin-top: 0.75rem; animation: fadeIn 0.3s;">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="text" id="newCategoryNameSnip" class="form-control" placeholder="Nome da nova categoria" style="flex: 1;">
-                        <button type="button" class="btn-primary" style="padding: 0.75rem; width: auto;" onclick="addNewCategory('snip')">
-                            <i class="fas fa-check"></i>
-                        </button>
-                        <button type="button" class="btn-danger" style="padding: 0.75rem; width: auto;" onclick="cancelNewCategory('snip')">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Título</label>
-                <input type="text" id="snipTitle" class="form-control" placeholder="Ex: Botão WhatsApp Flutuante">
-            </div>
-            <div class="form-group">
-                <label>Tipo de Código</label>
-                <select id="snipType" class="form-control">
-                    <option value="HTML">HTML</option>
-                    <option value="CSS">CSS</option>
-                    <option value="JS">JavaScript</option>
-                    <option value="Liquid">Liquid (Shopify)</option>
-                    <option value="Python">Python</option>
-                    <option value="JSON">JSON</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Código</label>
-                <textarea id="snipCode" class="form-control" rows="8" style="font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem;"></textarea>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeSnippetModal()">Cancelar</button>
-                <button class="btn-primary" onclick="saveSnippet()">Salvar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- GLOBAL SNIPPET MODAL (for Tech Library) -->
-    <div id="globalSnippetModal" class="modal">
-        <div class="modal-content">
-            <h3>Adicionar Código Global</h3>
-            <div class="form-group">
-                <label>Categoria</label>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <select id="globalSnipCategory" class="form-control" style="flex: 1;">
-                        <option value="Carrinho">Carrinho</option>
-                        <option value="Página do Produto">Página do Produto</option>
-                        <option value="Checkout">Checkout</option>
-                        <option value="Home">Home / Landing</option>
-                        <option value="Coleção/Vitrine">Coleção / Vitrine</option>
-                        <option value="Menu/Header">Menu / Header</option>
-                        <option value="Footer">Footer</option>
-                        <option value="Popup/Modal">Popup / Modal</option>
-                        <option value="Integração">Integração (API/3rd Party)</option>
-                        <option value="Outros">Outros</option>
-                    </select>
-                    <button type="button" class="btn-secondary" style="padding: 0.75rem; width: auto; white-space: nowrap;" onclick="showNewCategoryInput('global')" title="Criar nova categoria">
-                        <i class="fas fa-plus"></i> Nova
-                    </button>
-                </div>
-                <div id="newCategoryGlobal" style="display: none; margin-top: 0.75rem; animation: fadeIn 0.3s;">
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="text" id="newCategoryNameGlobal" class="form-control" placeholder="Nome da nova categoria" style="flex: 1;">
-                        <button type="button" class="btn-primary" style="padding: 0.75rem; width: auto;" onclick="addNewCategory('global')">
-                            <i class="fas fa-check"></i>
-                        </button>
-                        <button type="button" class="btn-danger" style="padding: 0.75rem; width: auto;" onclick="cancelNewCategory('global')">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Título</label>
-                <input type="text" id="globalSnipTitle" class="form-control" placeholder="Ex: Botão WhatsApp Flutuante">
-            </div>
-            <div class="form-group">
-                <label>Descrição (Opcional)</label>
-                <textarea id="globalSnipDescription" class="form-control" rows="2" placeholder="Descreva para que serve este código..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Tipo de Código</label>
-                <select id="globalSnipType" class="form-control">
-                    <option value="HTML">HTML</option>
-                    <option value="CSS">CSS</option>
-                    <option value="JS">JavaScript</option>
-                    <option value="Liquid">Liquid (Shopify)</option>
-                    <option value="Python">Python</option>
-                    <option value="JSON">JSON</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Código</label>
-                <textarea id="globalSnipCode" class="form-control" rows="10" style="font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem;"></textarea>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeGlobalSnippetModal()">Cancelar</button>
-                <button class="btn-primary" onclick="saveGlobalSnippet()">Salvar na Biblioteca</button>
-            </div>
-        </div>
-    </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/icons.js"></script>
-    <script src="js/admin.js?v=5"></script>
-    <script src="js/tech-library.js?v=5"></script>
+    <script>
+        // Supabase vendas (leads)
+        const SB_URL = 'https://kvpetrexgrpizwfomjjt.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2cGV0cmV4Z3JwaXp3Zm9tamp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MzkzNjUsImV4cCI6MjA4NDQxNTM2NX0.kP9TQqYIiPchtd7Y89oQdg78nZw4GBiTvLhxhz1vWs8';
+        const db = window.supabase.createClient(SB_URL, SB_KEY);
+
+        // Counters
+        function animateCounters() {
+            document.querySelectorAll('[data-target]').forEach(el => {
+                const target = parseInt(el.dataset.target);
+                let current = 0;
+                const step = Math.ceil(target / 40);
+                const timer = setInterval(() => {
+                    current = Math.min(current + step, target);
+                    el.textContent = current + (target > 10 ? '+' : '');
+                    if (current >= target) clearInterval(timer);
+                }, 30);
+            });
+        }
+
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { animateCounters(); io.disconnect(); } });
+        });
+        const countersEl = document.querySelector('.counters-inner');
+        if (countersEl) io.observe(countersEl);
+
+        // Scroll reveal
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.problem-card, .plan-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = 'opacity .5s ease, transform .5s ease';
+            revealObs.observe(el);
+        });
+
+        // FAQ
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+
+        // Coupon popup
+        setTimeout(() => {
+            document.getElementById('cupomPopup').classList.add('show');
+        }, 8000);
+
+        function copiarCupomPopup() {
+            navigator.clipboard.writeText('VIZZU10').then(() => {
+                const el = document.querySelector('.coupon-display');
+                el.textContent = '✓ Copiado!';
+                setTimeout(() => el.textContent = 'VIZZU10', 2000);
+            });
+        }
+
+        // Lead capture
+        async function capturarLead(e) {
+            e.preventDefault();
+            const nome = document.getElementById('leadNome').value.trim();
+            const tel = document.getElementById('leadTel').value.trim();
+            if (!nome || !tel) return;
+
+            try {
+                await db.from('leads').insert([{ nome, telefone: tel, origem: 'landing' }]);
+            } catch {}
+
+            document.getElementById('leadForm').style.display = 'none';
+            document.getElementById('leadSuccess').style.display = 'block';
+        }
+    </script>
 </body>
 </html>

@@ -106,45 +106,19 @@ function renderProjectList(projects) {
     });
 }
 
-// --- NAVIGATION ---
-function showDashboard() {
-    document.getElementById('dashboardView').style.display = 'block';
-    document.getElementById('techLibraryView').style.display = 'none';
-    document.getElementById('plansView').style.display = 'none';
-    document.getElementById('projectDetailView').style.display = 'none';
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[0].classList.add('active');
-    loadProjects();
-}
-
-function showTechLibrary() {
-    document.getElementById('dashboardView').style.display = 'none';
-    document.getElementById('techLibraryView').style.display = 'block';
-    document.getElementById('plansView').style.display = 'none';
-    document.getElementById('projectDetailView').style.display = 'none';
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[1].classList.add('active');
-    loadTechLibrary();
-}
-
-function showPlans() {
-    document.getElementById('dashboardView').style.display = 'none';
-    document.getElementById('techLibraryView').style.display = 'none';
-    document.getElementById('plansView').style.display = 'block';
-    document.getElementById('projectDetailView').style.display = 'none';
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[2].classList.add('active');
-    initPvCreator();
-}
+// Navigation is handled by showSection() in admin.html
+// These thin wrappers keep backward compatibility with any internal calls
 
 // --- OPEN PROJECT ---
 async function openProject(id) {
     currentProject = allProjects.find(p => p.id === id);
     if (!currentProject) return;
 
-    // Hide List, Show Detail
-    document.getElementById('dashboardView').style.display = 'none';
-    document.getElementById('plansView').style.display = 'none';
+    // Hide all section views, show detail
+    ['projetosView','propostasView','leadsView','cuponsView','bibliotecaView','pvView'].forEach(sid => {
+        const el = document.getElementById(sid);
+        if (el) el.style.display = 'none';
+    });
     document.getElementById('projectDetailView').style.display = 'block';
 
     renderProjectDetails();
@@ -152,7 +126,7 @@ async function openProject(id) {
 
 function closeProject() {
     currentProject = null;
-    showDashboard();
+    if (typeof showSection === 'function') showSection('projetos');
 }
 
 // --- RENDER DETAILS ---
