@@ -89,7 +89,7 @@ a, button { touch-action: manipulation; }
 
 /* ═══════════════ MARQUEE ═══════════════ */
 .marquee-wrap {
-  margin-top: var(--nav-h);
+  margin-top: calc(var(--nav-h) + var(--announce-h));
   background: #14140f;
   overflow: hidden;
   padding: 10px 0;
@@ -213,7 +213,7 @@ section { padding: clamp(56px, 7vw, 96px) var(--pad-x); position: relative; z-in
 /* ═══════════════ NAV ═══════════════ */
 nav {
   position: fixed;
-  top: 0;
+  top: var(--announce-h);
   width: 100%;
   z-index: 1000;
   padding: 0 var(--pad-x);
@@ -689,8 +689,46 @@ nav {
 .cta-contact { font-size: .82rem; color: rgba(20,20,15,.55); }
 .cta-contact a { color: var(--near-black); font-weight: 500; text-decoration: underline; }
 
-/* ═══════════════ BANNER + POPUP ═══════════════ */
-.popup-overlay.show { display: flex !important; }
+/* ═══════════════ ANNOUNCE BAR ═══════════════ */
+:root { --announce-h: 44px; }
+.announce-bar {
+  position: fixed; top: 0; left: 0; width: 100%; height: var(--announce-h);
+  background: var(--near-black); z-index: 1001;
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; padding: 0 var(--pad-x);
+  border-bottom: 1px solid #2a2a25;
+}
+.announce-bar.hidden { display: none; }
+.announce-text {
+  font-size: clamp(.68rem, .78rem, .82rem); color: var(--white);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
+  text-align: center; line-height: 1.3;
+}
+.announce-text .de { color: #666; text-decoration: line-through; font-size: .7em; }
+.announce-text .por { color: var(--lime); font-weight: 600; }
+.announce-timer {
+  background: rgba(190,255,80,.12); border: 1px solid rgba(190,255,80,.3);
+  border-radius: 6px; padding: 3px 10px;
+  font-family: monospace; font-size: clamp(.75rem, .82rem, .86rem);
+  color: var(--lime); font-weight: 600; letter-spacing: .04em; white-space: nowrap;
+}
+.announce-cta {
+  background: var(--lime); color: var(--near-black);
+  border: none; border-radius: 6px; padding: 5px 14px;
+  font-family: var(--font); font-size: .72rem; font-weight: 600;
+  cursor: pointer; white-space: nowrap; text-decoration: none;
+  transition: background .15s; flex-shrink: 0;
+}
+.announce-cta:hover { background: #a8e83a; }
+.announce-close {
+  position: absolute; right: 14px; background: none; border: none;
+  color: #555; cursor: pointer; font-size: 16px; line-height: 1; padding: 4px;
+}
+.announce-close:hover { color: var(--white); }
+@media (max-width: 600px) {
+  :root { --announce-h: 52px; }
+  .announce-text .de { display: none; }
+}
 
 /* ═══════════════ WHATSAPP BUBBLE ═══════════════ */
 .wa-bubble {
@@ -797,6 +835,17 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- ANNOUNCE BAR -->
+<div class="announce-bar" id="announceBar">
+  <div class="announce-text">
+    <span>⚡ OFERTA LIMITADA · Plano Completo</span>
+    <span><span class="de">R$ 2.499</span> <span class="por">5× de R$ 432,09</span></span>
+    <span>Encerra em: <span class="announce-timer" id="announceTimer">47:59:59</span></span>
+  </div>
+  <a href="#precos" class="announce-cta">Aproveitar →</a>
+  <button class="announce-close" onclick="fecharBarra()" aria-label="Fechar">×</button>
+</div>
 
 <!-- Mobile Bottom Bar -->
 <div class="mobile-bar">
@@ -1113,17 +1162,6 @@ footer {
 </section>
 
 
-<div class="popup-overlay" id="cupomPopup" style="position:fixed;inset:0;background:rgba(20,20,15,.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;">
-  <div class="popup-card" style="background:var(--white);border:1px solid var(--stone);border-radius:var(--radius);padding:36px;max-width:400px;width:100%;text-align:center;position:relative;">
-    <button class="popup-close" onclick="document.getElementById('cupomPopup').style.display='none'" style="position:absolute;top:14px;right:14px;background:none;border:none;color:var(--graphite);cursor:pointer;font-size:20px;">×</button>
-    <div style="font-size:36px;margin-bottom:14px;">🎁</div>
-    <h3 style="font-family:var(--font);font-size:18px;font-weight:600;color:var(--near-black);margin-bottom:8px;">Presente exclusivo para você!</h3>
-    <p style="color:var(--graphite);font-size:14px;margin-bottom:18px;">Ganhe <strong>10% de desconto</strong> na VIZZU. Clique para copiar:</p>
-    <div class="coupon-display" onclick="copiarCupomPopup()" style="background:var(--lime);border:1px solid var(--near-black);border-radius:var(--radius-sm);padding:12px;font-family:var(--font);font-size:20px;font-weight:600;color:var(--near-black);letter-spacing:1px;margin-bottom:18px;cursor:pointer;transition:background .2s;">VIZZU10</div>
-    <p style="font-size:12px;color:var(--stone);">Válido para novos clientes · Use no checkout</p>
-  </div>
-</div>
-
 <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
 <footer>
   <div class="footer-logo"><img class="footer-logo-mark" src="public/logo principal png.png" alt="VIZZU Digital"></div>
@@ -1210,14 +1248,32 @@ async function capturarLead(e) {
   document.getElementById('leadSuccess').style.display = 'block';
 }
 
-setTimeout(() => { document.getElementById('cupomPopup').style.display = 'flex'; }, 8000);
+/* ═══════════════════════════ ANNOUNCE TIMER ═══════════════════════════ */
+(function(){
+  const KEY = 'vizzu_deadline';
+  const DURATION = 48 * 3600 * 1000;
+  let deadline = parseInt(localStorage.getItem(KEY));
+  if (!deadline || deadline < Date.now()) {
+    deadline = Date.now() + DURATION;
+    localStorage.setItem(KEY, deadline);
+  }
+  const el = document.getElementById('announceTimer');
+  function tick() {
+    const diff = Math.max(0, deadline - Date.now());
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (diff > 0) requestAnimationFrame(tick);
+  }
+  tick();
+})();
 
-function copiarCupomPopup() {
-  navigator.clipboard.writeText('VIZZU10').then(() => {
-    const el = document.querySelector('.coupon-display');
-    el.textContent = '✓ Copiado!';
-    setTimeout(() => el.textContent = 'VIZZU10', 2000);
-  });
+function fecharBarra() {
+  const bar = document.getElementById('announceBar');
+  bar.classList.add('hidden');
+  document.querySelector('nav').style.top = '0';
+  document.querySelector('.marquee-wrap').style.marginTop = 'var(--nav-h)';
 }
 </script>
 </body>
