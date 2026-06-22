@@ -140,7 +140,7 @@ function renderProjectDetails() {
     document.getElementById('detailSubtitle').textContent = p.client_name || normalizeField(data.responsavel_nome) || 'Cliente';
     
     // Generate Briefing Link
-    const link = `${window.location.href.replace('index.html', '').replace(/\/$/, '')}/briefing.html?id=${p.id}`;
+    const link = `${window.location.origin}/briefing.html?id=${p.id}`;
     document.getElementById('briefingLinkInput').value = link;
 
     // Client Info (Editable)
