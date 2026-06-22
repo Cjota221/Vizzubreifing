@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             /* VIZZU IDENTITY PALETTE */
@@ -547,14 +546,13 @@
         .btn-danger:hover { background: rgba(255, 68, 68, 0.1); box-shadow: 0 0 15px rgba(255, 68, 68, 0.2); }
 
     </style>
+    <link rel="stylesheet" href="css/admin-v3.css">
 </head>
-<body>
+<body class="admin-page">
 
     <!-- SIDEBAR -->
     <div class="sidebar">
-        <div class="logo">
-            <i class="fas fa-layer-group"></i> Vizzu Admin
-        </div>
+        <div class="logo" aria-label="VIZZU Admin">VIZ<span class="logo-green">Z</span>U<span class="logo-orange">.</span><small>ADMIN</small></div>
         <nav>
             <div class="nav-item active" onclick="showDashboard()">
                 <i class="fas fa-th-large"></i> Projetos
@@ -591,7 +589,7 @@
         <div id="techLibraryView" style="display:none;">
             <div class="header">
                 <div>
-                    <h2>📚 Biblioteca Técnica</h2>
+                    <h2>Biblioteca Técnica</h2>
                     <p style="color: var(--text-muted); margin-top: 0.5rem;">Códigos reutilizáveis organizados por categoria</p>
                 </div>
                 <button class="btn-primary" onclick="showAddGlobalSnippetModal()">
@@ -605,31 +603,31 @@
                         <i class="fas fa-th"></i> Todos
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Carrinho')" id="filter-Carrinho">
-                        🛒 Carrinho
+                        Carrinho
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Página do Produto')" id="filter-Página do Produto">
-                        📦 Produto
+                        Produto
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Checkout')" id="filter-Checkout">
-                        💳 Checkout
+                        Checkout
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Home')" id="filter-Home">
-                        🏠 Home
+                        Home
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Coleção/Vitrine')" id="filter-Coleção/Vitrine">
-                        🏪 Vitrine
+                        Vitrine
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Menu/Header')" id="filter-Menu/Header">
-                        📋 Menu
+                        Menu
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Footer')" id="filter-Footer">
-                        📄 Footer
+                        Footer
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Popup/Modal')" id="filter-Popup/Modal">
-                        🔔 Popup
+                        Popup
                     </button>
                     <button class="btn-secondary" onclick="filterTechLibrary('Integração')" id="filter-Integração">
-                        🔌 Integração
+                        Integração
                     </button>
                 </div>
 
@@ -939,16 +937,16 @@
                 <label>Categoria</label>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <select id="snipCategory" class="form-control" style="flex: 1;">
-                        <option value="Carrinho">🛒 Carrinho</option>
-                        <option value="Página do Produto">📦 Página do Produto</option>
-                        <option value="Checkout">💳 Checkout</option>
-                        <option value="Home">🏠 Home / Landing</option>
-                        <option value="Coleção/Vitrine">🏪 Coleção / Vitrine</option>
-                        <option value="Menu/Header">📋 Menu / Header</option>
-                        <option value="Footer">📄 Footer</option>
-                        <option value="Popup/Modal">🔔 Popup / Modal</option>
-                        <option value="Integração">🔌 Integração (API/3rd Party)</option>
-                        <option value="Outros">⚙️ Outros</option>
+                        <option value="Carrinho">Carrinho</option>
+                        <option value="Página do Produto">Página do Produto</option>
+                        <option value="Checkout">Checkout</option>
+                        <option value="Home">Home / Landing</option>
+                        <option value="Coleção/Vitrine">Coleção / Vitrine</option>
+                        <option value="Menu/Header">Menu / Header</option>
+                        <option value="Footer">Footer</option>
+                        <option value="Popup/Modal">Popup / Modal</option>
+                        <option value="Integração">Integração (API/3rd Party)</option>
+                        <option value="Outros">Outros</option>
                     </select>
                     <button type="button" class="btn-secondary" style="padding: 0.75rem; width: auto; white-space: nowrap;" onclick="showNewCategoryInput('snip')" title="Criar nova categoria">
                         <i class="fas fa-plus"></i> Nova
@@ -1000,16 +998,16 @@
                 <label>Categoria</label>
                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                     <select id="globalSnipCategory" class="form-control" style="flex: 1;">
-                        <option value="Carrinho">🛒 Carrinho</option>
-                        <option value="Página do Produto">📦 Página do Produto</option>
-                        <option value="Checkout">💳 Checkout</option>
-                        <option value="Home">🏠 Home / Landing</option>
-                        <option value="Coleção/Vitrine">🏪 Coleção / Vitrine</option>
-                        <option value="Menu/Header">📋 Menu / Header</option>
-                        <option value="Footer">📄 Footer</option>
-                        <option value="Popup/Modal">🔔 Popup / Modal</option>
-                        <option value="Integração">🔌 Integração (API/3rd Party)</option>
-                        <option value="Outros">⚙️ Outros</option>
+                        <option value="Carrinho">Carrinho</option>
+                        <option value="Página do Produto">Página do Produto</option>
+                        <option value="Checkout">Checkout</option>
+                        <option value="Home">Home / Landing</option>
+                        <option value="Coleção/Vitrine">Coleção / Vitrine</option>
+                        <option value="Menu/Header">Menu / Header</option>
+                        <option value="Footer">Footer</option>
+                        <option value="Popup/Modal">Popup / Modal</option>
+                        <option value="Integração">Integração (API/3rd Party)</option>
+                        <option value="Outros">Outros</option>
                     </select>
                     <button type="button" class="btn-secondary" style="padding: 0.75rem; width: auto; white-space: nowrap;" onclick="showNewCategoryInput('global')" title="Criar nova categoria">
                         <i class="fas fa-plus"></i> Nova
@@ -1058,6 +1056,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/icons.js"></script>
     <script src="js/admin.js?v=5"></script>
     <script src="js/tech-library.js?v=5"></script>
 </body>

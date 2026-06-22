@@ -7,7 +7,8 @@ Sistema de gerenciamento de briefings para a VIZZU Digital.
 - **Painel Administrativo**: Geração de links únicos para clientes.
 - **Formulário do Cliente**: Briefing interativo e seguro.
 - **Integração Supabase**: Banco de dados em tempo real.
-- **Integração Google Drive**: Links diretos para upload de arquivos.
+- **Upload direto**: Referências enviadas pelo cliente ao Supabase Storage.
+- **Automação n8n**: Notificação do briefing concluído via webhook.
 
 ## Como Fazer Deploy no Netlify
 

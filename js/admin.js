@@ -301,7 +301,7 @@ function renderBriefingContent(data) {
     let html = '';
 
     // Aviso se o briefing ainda não foi enviado
-    if (!data || Object.keys(data).filter(k => !['admin_drive_link', 'logo_url'].includes(k)).length === 0) {
+    if (!data || Object.keys(data).filter(k => !['logo_url'].includes(k)).length === 0) {
         container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;"><i class="fas fa-clock"></i> Briefing ainda não foi preenchido pela cliente.</p>';
         return;
     }
@@ -320,7 +320,12 @@ function renderBriefingContent(data) {
     html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-gem"></i> Identidade & Visual</h4>`;
     html += createField('Paleta de Cores', data.cores);
     html += createField('Vibe / Sensação da Loja', data.vibe);
-    html += createField('Status da Logo', data.logo_status === 'drive' ? '✅ Sim, está no Drive em alta qualidade' : data.logo_status === 'instagram' ? '📷 Não, pegar do Instagram' : data.logo_status);
+    const logoStatuses = {
+        alta_resolucao: 'Logo em alta resolução enviada nas referências',
+        instagram: 'Usar a versão disponível no Instagram',
+        sem_logo: 'Ainda não possui uma logo pronta'
+    };
+    html += createField('Status da Logo', logoStatuses[data.logo_status] || data.logo_status);
     html += createField('Obs. Referências Visuais', data.referencias_obs);
     
     // Section 3: Estratégia
@@ -338,16 +343,16 @@ function renderBriefingContent(data) {
 
     // Vídeos disponíveis
     const videos = [];
-    if (data.video_fachada === 'on' || data.video_fachada === true) videos.push('Fachada / Estoque Cheio');
-    if (data.video_equipe === 'on' || data.video_equipe === true) videos.push('Equipe separando pedidos (Bastidores)');
-    if (data.video_processo === 'on' || data.video_processo === true) videos.push('Processo de Fabricação / Detalhes');
-    if (data.video_dona === 'on' || data.video_dona === true) videos.push('Apresentação da Dona / História');
+    if (['on', 'sim', true].includes(data.video_fachada)) videos.push('Fachada / Estoque Cheio');
+    if (['on', 'sim', true].includes(data.video_equipe)) videos.push('Equipe separando pedidos (Bastidores)');
+    if (['on', 'sim', true].includes(data.video_processo)) videos.push('Processo de Fabricação / Detalhes');
+    if (['on', 'sim', true].includes(data.video_dona)) videos.push('Apresentação da Dona / História');
     if (videos.length > 0) {
         html += createField('Vídeos Disponíveis', videos.join(', '));
     } else {
         html += createField('Vídeos Disponíveis', 'Nenhum vídeo marcado');
     }
-    html += createField('Prova Social (Prints de Clientes)', data.prova_social === 'sim' ? '✅ Sim, colocou prints no Drive' : data.prova_social === 'nao' ? '❌ Não tem prints ainda' : data.prova_social);
+    html += createField('Prova Social (Prints de Clientes)', data.prova_social === 'sim' ? 'Sim, enviou ou enviará nas referências' : data.prova_social === 'nao' ? 'Ainda não possui prints' : data.prova_social);
 
     // Section 5: Suporte
     html += `<h4 style="grid-column: 1/-1;"><i class="fas fa-headset"></i> Suporte & Rodapé</h4>`;
@@ -1050,7 +1055,7 @@ function addNewCategory(type) {
     // Adicionar ao select (antes da opção "Outros")
     const newOption = document.createElement('option');
     newOption.value = categoryName;
-    newOption.textContent = `📁 ${categoryName}`;
+    newOption.textContent = categoryName;
     
     // Inserir antes da última opção (Outros)
     const lastOption = select.options[select.options.length - 1];
@@ -1065,7 +1070,7 @@ function addNewCategory(type) {
     if (otherSelect) {
         const otherNewOption = document.createElement('option');
         otherNewOption.value = categoryName;
-        otherNewOption.textContent = `📁 ${categoryName}`;
+        otherNewOption.textContent = categoryName;
         const otherLastOption = otherSelect.options[otherSelect.options.length - 1];
         otherSelect.insertBefore(otherNewOption, otherLastOption);
     }
@@ -1092,7 +1097,7 @@ function loadCustomCategories() {
             // Adicionar antes da última opção (Outros)
             const newOption = document.createElement('option');
             newOption.value = categoryName;
-            newOption.textContent = `📁 ${categoryName}`;
+            newOption.textContent = categoryName;
             const lastOption = select.options[select.options.length - 1];
             select.insertBefore(newOption, lastOption);
         });
