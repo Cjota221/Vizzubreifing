@@ -244,6 +244,7 @@ nav {
   font-size: 13px;
   font-weight: 500;
   color: var(--near-black);
+  filter: invert(1);
 }
 .nav-links {
   display: flex;
@@ -735,6 +736,7 @@ footer {
   background: var(--lime); border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; color: var(--near-black); font-weight: 500;
+  filter: invert(1);
 }
 .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
 .footer-links a { color: #6e6e64; text-decoration: none; font-size: .76rem; transition: color .2s; }
@@ -824,9 +826,8 @@ footer {
     <a href="#como">Como Funciona</a>
     <a href="#precos">Planos</a>
     <a href="#faq">FAQ</a>
-    <a href="orcamento.html">Monte seu combo</a>
   </div>
-  <a href="orcamento.html" class="btn-nav rip"><span class="btn-nav-text">Ver Preços</span></a>
+  <a href="#precos" class="btn-nav rip"><span class="btn-nav-text">Ver Preços</span></a>
 </nav>
 
 <!-- MARQUEE -->
@@ -835,14 +836,14 @@ footer {
     <span class="marquee-item">Personalização de Lojas</span>
     <span class="marquee-item">Design que Converte</span>
     <span class="marquee-item">Identidade Visual</span>
-    <span class="marquee-item">FacilZap & Shopify</span>
+    <span class="marquee-item">FacilZap</span>
     <span class="marquee-item">Mais Vendas</span>
     <span class="marquee-item">Lojistas</span>
     <span class="marquee-item">VIZZU Digital</span>
     <span class="marquee-item">Personalização de Lojas</span>
     <span class="marquee-item">Design que Converte</span>
     <span class="marquee-item">Identidade Visual</span>
-    <span class="marquee-item">FacilZap & Shopify</span>
+    <span class="marquee-item">FacilZap</span>
     <span class="marquee-item">Mais Vendas</span>
     <span class="marquee-item">Lojistas</span>
     <span class="marquee-item">VIZZU Digital</span>
@@ -988,10 +989,10 @@ footer {
       <div class="plan-card rev d1">
         <div class="plan-header">
           <p class="plan-name">Básico</p>
-          <p class="plan-price">R$ 797</p>
+          <p class="plan-price">R$ 790</p>
           <p class="plan-installments">em até 3× sem juros</p>
           <p class="plan-deadline">Prazo: até 10 dias úteis</p>
-          <div class="plan-pix">⬡ 10% OFF no Pix → R$ 717</div>
+          <div class="plan-pix">⬡ 10% OFF no Pix → R$ 711</div>
         </div>
         <div class="plan-body">
           <ul class="plan-features">
@@ -1000,18 +1001,17 @@ footer {
             <li><span class="plan-check">✓</span> Estruturação do catálogo de produtos</li>
             <li><span class="plan-check">✓</span> Suporte pós-entrega por 7 dias</li>
           </ul>
-          <a href="https://wa.me/5562981043763?text=Ol%C3%A1!%20Quero%20o%20plano%20B%C3%A1sico%20da%20VIZZU%20Digital." target="_blank" rel="noopener" class="plan-cta rip">Quero este plano →</a>
+          <a href="https://wa.me/5562981043763?text=Ol%C3%A1!%20Quero%20o%20plano%20B%C3%A1sico%20da%20VIZZU%20Digital." target="_blank" rel="noopener" class="plan-cta rip">Selecionar plano</a>
         </div>
       </div>
 
-      <div class="plan-card featured rev d2">
-        <div class="popular-tag">★ Mais Popular</div>
+      <div class="plan-card rev d2">
         <div class="plan-header">
           <p class="plan-name">Intermediário</p>
-          <p class="plan-price">R$ 1.661</p>
+          <p class="plan-price">R$ 1.490</p>
           <p class="plan-installments">em até 6× sem juros</p>
           <p class="plan-deadline">Prazo: até 14 dias úteis</p>
-          <div class="plan-pix">⬡ 10% OFF no Pix → R$ 1.495</div>
+          <div class="plan-pix">⬡ 10% OFF no Pix → R$ 1.341</div>
         </div>
         <div class="plan-body">
           <ul class="plan-features">
@@ -1020,26 +1020,29 @@ footer {
             <li><span class="plan-check">✓</span> Redesign do carrinho de compras</li>
             <li><span class="plan-check">✓</span> Suporte pós-entrega por 14 dias</li>
           </ul>
-          <a href="https://wa.me/5562981043763?text=Ol%C3%A1!%20Quero%20o%20plano%20Intermedi%C3%A1rio%20da%20VIZZU%20Digital." target="_blank" rel="noopener" class="plan-cta rip">Quero este plano →</a>
+          <a href="https://wa.me/5562981043763?text=Ol%C3%A1!%20Quero%20o%20plano%20Intermedi%C3%A1rio%20da%20VIZZU%20Digital." target="_blank" rel="noopener" class="plan-cta rip">Selecionar plano</a>
         </div>
       </div>
 
-      <div class="plan-card rev d3">
+      <div class="plan-card featured rev d3">
+        <div class="popular-tag">★ Mais escolhido</div>
         <div class="plan-header">
           <p class="plan-name">Completo</p>
-          <p class="plan-price">R$ 2.999</p>
-          <p class="plan-installments">em até 9× sem juros</p>
-          <p class="plan-deadline">Prazo: até 20 dias úteis</p>
-          <div class="plan-pix">⬡ 10% OFF no Pix → R$ 2.699</div>
+          <p class="plan-price" style="font-size:clamp(1.5rem, 2.8vw, 2.2rem);">5x de R$ 432,09</p>
+          <p class="plan-installments" style="color:var(--white);font-weight:500;">ou R$ 1.890 à vista</p>
+          <p class="plan-deadline" style="color:#6e6e64;">Prazo: até 20 dias úteis</p>
+          <div class="plan-pix">⬡ R$ 1.800 no Pix</div>
         </div>
         <div class="plan-body">
+          <p style="font-size:.78rem;color:#919183;margin-bottom:12px;line-height:1.5;">A diferença de investimento é pequena, mas o impacto no resultado é muito maior.</p>
           <ul class="plan-features">
             <li><span class="plan-check">✓</span> Redesign completo via código</li>
             <li><span class="plan-check">✓</span> Estudo de paleta e identidade visual</li>
             <li><span class="plan-check">✓</span> Reestruturação total da loja</li>
             <li><span class="plan-check">✓</span> Suporte pós-entrega por 30 dias</li>
           </ul>
-          <a href="https://wa.me/5562981043763?text=Ol%C3%A1!%20Quero%20o%20plano%20Completo%20da%20VIZZU%20Digital." target="_blank" rel="noopener" class="plan-cta rip">Quero este plano →</a>
+          <p style="font-size:.72rem;color:#919183;margin-bottom:14px;font-style:italic;">A maioria das lojas que querem um resultado profissional escolhe essa opção</p>
+          <a href="https://wa.me/5562981043763?text=Ol%C3%A1!%20Quero%20o%20plano%20Completo%20da%20VIZZU%20Digital." target="_blank" rel="noopener" class="plan-cta rip" style="font-size:.82rem;padding:14px;">Quero transformar minha loja</a>
         </div>
       </div>
 
