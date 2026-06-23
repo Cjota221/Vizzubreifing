@@ -3,10 +3,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
 const N8N_WEBHOOK_URL = 'https://cjota-n8n.9eo9b2.easypanel.host/webhook/vizzu-briefing';
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-if (typeof window.supabaseClient === 'undefined') {
-    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-}
-var supabase = window.supabaseClient;
+let supabaseClient = null;
 
 let currentBriefingId = null;
 let projectData = null;
@@ -17,23 +14,35 @@ let selectedFiles = [];
 const previewUrls = new Map();
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const form = document.getElementById('briefingForm');
+    form.addEventListener('submit', submitBriefing);
     currentBriefingId = new URLSearchParams(window.location.search).get('id');
-    setupColorPicker();
-    setupUploadZone();
-    setupMasks();
-    document.getElementById('briefingForm').addEventListener('submit', submitBriefing);
     updateBriefingUI(false);
 
     if (!currentBriefingId) {
-        showError();
+        showError('O link deste briefing est\u00e1 incompleto. Pe\u00e7a um novo link \u00e0 equipe VIZZU.');
         return;
     }
-    await loadProjectData(currentBriefingId);
+
+    try {
+        if (!window.supabase?.createClient) {
+            throw new Error('N\u00e3o foi poss\u00edvel conectar ao servi\u00e7o de dados.');
+        }
+        window.supabaseClient ??= window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        supabaseClient = window.supabaseClient;
+        setupColorPicker();
+        setupUploadZone();
+        setupMasks();
+        await loadProjectData(currentBriefingId);
+    } catch (error) {
+        console.error('[VIZZU] Erro ao iniciar briefing:', error);
+        showError('N\u00e3o conseguimos carregar o briefing. Verifique sua conex\u00e3o e tente novamente.');
+    }
 });
 
 async function loadProjectData(id) {
     try {
-        const { data, error } = await supabase.from('projects').select('*').eq('id', id).single();
+        const { data, error } = await supabaseClient.from('projects').select('*').eq('id', id).single();
         if (error || !data) throw error || new Error('Projeto não encontrado');
         projectData = data;
         document.getElementById('briefingTitle').textContent = data.client_name ? `Briefing de ${data.client_name}` : 'Seu projeto começa aqui';
@@ -46,10 +55,15 @@ async function loadProjectData(id) {
     }
 }
 
-function showError() {
+function showError(message) {
     document.getElementById('loadingBriefing').hidden = true;
     document.getElementById('briefingContent').hidden = true;
-    document.getElementById('errorBriefing').hidden = false;
+    const errorBriefing = document.getElementById('errorBriefing');
+    if (message) {
+        const paragraph = errorBriefing.querySelector('p');
+        if (paragraph) paragraph.textContent = message;
+    }
+    errorBriefing.hidden = false;
 }
 
 function nextStep() {
@@ -250,9 +264,9 @@ async function uploadFilesToSupabase(projectId) {
         const file = selectedFiles[index];
         const safeName = file.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9._-]/g, '_');
         const fileName = `${projectId}/${Date.now()}_${index}_${safeName}`;
-        const { error } = await supabase.storage.from('briefing-files').upload(fileName, file, { upsert: false, contentType: file.type });
+        const { error } = await supabaseClient.storage.from('briefing-files').upload(fileName, file, { upsert: false, contentType: file.type });
         if (error) throw new Error(`Não foi possível enviar "${file.name}": ${error.message}`);
-        const { data } = supabase.storage.from('briefing-files').getPublicUrl(fileName);
+        const { data } = supabaseClient.storage.from('briefing-files').getPublicUrl(fileName);
         if (data?.publicUrl) urls.push(data.publicUrl);
         progressFill.style.width = `${Math.round(((index + 1) / selectedFiles.length) * 100)}%`;
     }
@@ -275,6 +289,10 @@ async function disparaWebhookN8N(payload) {
 
 async function submitBriefing(event) {
     event.preventDefault();
+    if (!supabaseClient) {
+        alert('N\u00e3o foi poss\u00edvel conectar ao servi\u00e7o de dados. Recarregue a p\u00e1gina e tente novamente.');
+        return;
+    }
     if (!currentBriefingId || !validateCurrentStep()) return;
     const button = document.querySelector('.btn-submit');
     const originalContent = button.innerHTML;
@@ -297,8 +315,14 @@ async function submitBriefing(event) {
         if (previousFiles.length || uploadedUrls.length) dataObj.referencias_arquivos = [...previousFiles, ...uploadedUrls];
 
         const completedAt = new Date().toISOString();
-        const { error } = await supabase.from('projects').update({ briefing_data: dataObj, status: 'Concluído', completed_at: completedAt }).eq('id', currentBriefingId);
+        const { data: updatedProject, error } = await supabaseClient
+            .from('projects')
+            .update({ briefing_data: dataObj, status: 'Concluído', completed_at: completedAt })
+            .eq('id', currentBriefingId)
+            .select('id')
+            .single();
         if (error) throw error;
+        if (!updatedProject) throw new Error('O projeto não foi atualizado. Peça um novo link à equipe VIZZU.');
 
         await disparaWebhookN8N({
             evento: 'briefing_enviado',

@@ -1,0 +1,62 @@
+{
+  "name": "VIZZU - Lembrete Briefing",
+  "nodes": [
+    {
+      "id": "schedule", "name": "A cada hora", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.2,
+      "position": [-520, 100], "parameters": { "rule": { "interval": [{ "field": "hours", "hoursInterval": 1 }] } }
+    },
+    {
+      "id": "pending-sessions", "name": "Supabase - Onboardings Pendentes", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [-290, 100],
+      "parameters": {
+        "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_sessoes?estagio=eq.onboarding&updated_at=lt.' + encodeURIComponent(new Date(Date.now()-86400000).toISOString()) + '&select=*' }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }] },
+        "options": { "splitIntoItems": true }
+      }
+    },
+    {
+      "id": "project-status", "name": "Supabase - Verificar Briefing", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [-60, 100],
+      "parameters": {
+        "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/projects?id=eq.' + $json.projeto_id + '&select=id,status&limit=1' }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }] },
+        "options": {}
+      }
+    },
+    {
+      "id": "only-incomplete", "name": "Somente Não Preenchidos", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [170, 100],
+      "parameters": { "jsCode": "const project=Array.isArray($json)?$json[0]:$json; if(project?.status==='Concluído'||project?.status==='Briefing Preenchido') return []; const session=$('Supabase - Onboardings Pendentes').item.json; return [{json:{...session,text:`Oi, ${session.nome||''}! 👋\\n\\nVi que o briefing ainda não foi preenchido. Sem ele não conseguimos iniciar seu projeto.\\n\\n📋 ${session.link_briefing}\\n\\nLeva cerca de 10 minutos. Se tiver dificuldade, me chama por aqui 😊`}}];" }
+    },
+    {
+      "id": "send-reminder", "name": "Evolution - Enviar Lembrete", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [400, 100],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.EVOLUTION_API_URL + '/message/sendText/' + $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({number:$json.telefone,text:$json.text}) }}", "options": {}
+      }
+    },
+    {
+      "id": "mark-reminder", "name": "Supabase - Marcar Lembrete", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [630, 100],
+      "parameters": {
+        "method": "PATCH", "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_sessoes?id=eq.' + $('Somente Não Preenchidos').item.json.id }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({updated_at:new Date().toISOString()}) }}", "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "A cada hora": { "main": [[{ "node": "Supabase - Onboardings Pendentes", "type": "main", "index": 0 }]] },
+    "Supabase - Onboardings Pendentes": { "main": [[{ "node": "Supabase - Verificar Briefing", "type": "main", "index": 0 }]] },
+    "Supabase - Verificar Briefing": { "main": [[{ "node": "Somente Não Preenchidos", "type": "main", "index": 0 }]] },
+    "Somente Não Preenchidos": { "main": [[{ "node": "Evolution - Enviar Lembrete", "type": "main", "index": 0 }]] },
+    "Evolution - Enviar Lembrete": { "main": [[{ "node": "Supabase - Marcar Lembrete", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1", "timezone": "America/Sao_Paulo" },
+  "versionId": "3d21cf18-795f-4402-b99f-0664ae984103",
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": []
+}

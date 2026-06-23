@@ -10,10 +10,15 @@ Sistema de gerenciamento de briefings para a VIZZU Digital.
 - **Upload direto**: Referências enviadas pelo cliente ao Supabase Storage.
 - **Automação n8n**: Notificação do briefing concluído via webhook.
 - **CRM comercial**: Pipeline kanban, métricas, funil e conversão de leads em projetos.
+- **Atendimento multiagente**: Templates n8n para recepção, vendas, pagamento e onboarding pelo WhatsApp.
 
 ## Configuração do CRM
 
 Execute [`crm_setup.sql`](crm_setup.sql) no SQL Editor do Supabase Vendas antes de abrir a seção CRM no painel administrativo.
+
+## Sistema multiagente
+
+Execute [`agente_sessoes_setup.sql`](agente_sessoes_setup.sql) no Supabase de Briefings e siga o guia em [`n8n/README.md`](n8n/README.md) para importar e configurar os workflows.
 
 ## Como Fazer Deploy no Netlify
 

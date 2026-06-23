@@ -13,6 +13,7 @@ alter table public.projects add column if not exists client_name text;
 alter table public.projects add column if not exists status text default 'Pendente';
 alter table public.projects add column if not exists briefing_data jsonb default '{}'::jsonb;
 alter table public.projects add column if not exists admin_data jsonb default '{}'::jsonb;
+alter table public.projects add column if not exists completed_at timestamp with time zone;
 
 -- 3. Habilita segurança (RLS)
 alter table public.projects enable row level security;
@@ -20,6 +21,7 @@ alter table public.projects enable row level security;
 -- 4. Cria uma política para permitir acesso total (Leitura e Escrita)
 -- ATENÇÃO: Isso permite que qualquer pessoa com a chave pública (anon key) edite os dados.
 -- Se precisar de mais segurança, configure autenticação no Supabase.
+drop policy if exists "Acesso total público" on public.projects;
 create policy "Acesso total público" 
 on public.projects 
 for all 

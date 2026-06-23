@@ -1,0 +1,122 @@
+{
+  "name": "VIZZU - Pagamento Aprovado",
+  "nodes": [
+    {
+      "id": "payment-webhook", "name": "Webhook Mercado Pago", "type": "n8n-nodes-base.webhook", "typeVersion": 2,
+      "position": [-900, 120],
+      "parameters": { "httpMethod": "POST", "path": "vizzu-pagamento", "responseMode": "onReceived", "options": {} }
+    },
+    {
+      "id": "extract-payment", "name": "Extrair ID do Pagamento", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [-680, 120],
+      "parameters": { "jsCode": "const body=$json.body||$json; const paymentId=body.data?.id||body.id; if(!paymentId) return []; return [{json:{paymentId:String(paymentId),raw:body}}];" }
+    },
+    {
+      "id": "verify-payment", "name": "Mercado Pago - Verificar Pagamento", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [-450, 120],
+      "parameters": {
+        "url": "={{ 'https://api.mercadopago.com/v1/payments/' + $json.paymentId }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "={{ 'Bearer ' + $env.MP_ACCESS_TOKEN }}" }] },
+        "options": {}
+      }
+    },
+    {
+      "id": "approved-only", "name": "Somente Aprovados", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [-220, 120],
+      "parameters": { "jsCode": "if($json.status!=='approved'||!$json.external_reference) return []; return [{json:{paymentId:String($json.id),sessionId:$json.external_reference,status:$json.status,payment:$json}}];" }
+    },
+    {
+      "id": "idempotency", "name": "Supabase - Verificar Idempotência", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [10, 120],
+      "parameters": {
+        "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_pagamentos?mercadopago_payment_id=eq.' + $json.paymentId + '&select=*&limit=1' }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }] },
+        "options": {}
+      }
+    },
+    {
+      "id": "not-processed", "name": "Ignorar Duplicados", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [240, 120],
+      "parameters": { "jsCode": "const rows=Array.isArray($json)?$json:[]; if(rows.length&&rows[0].projeto_id) return []; return [{json:$('Somente Aprovados').item.json}];" }
+    },
+    {
+      "id": "get-session", "name": "Supabase - Buscar Sessão", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [470, 120],
+      "parameters": {
+        "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_sessoes?id=eq.' + $json.sessionId + '&select=*&limit=1' }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }] },
+        "options": {}
+      }
+    },
+    {
+      "id": "prepare-project", "name": "Preparar Projeto", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [700, 120],
+      "parameters": { "jsCode": "const session=Array.isArray($json)?$json[0]:$json; if(!session) throw new Error('Sessão não encontrada'); if(session.projeto_id) return []; const payment=$('Somente Aprovados').item.json; return [{json:{session,payment,project:{client_name:session.nome||'Cliente WhatsApp',status:'Link Gerado',briefing_data:{nome_loja:session.loja||'',responsavel_nome:session.nome||'',responsavel_whatsapp:session.telefone||'',segmento:session.segmento||''},admin_data:{plan_details:{name:session.plano_escolhido||'A definir',price:Number(session.valor_plano||0),items:[]},payment:'Mercado Pago',agente_sessao_id:session.id}}}}];" }
+    },
+    {
+      "id": "create-project", "name": "Supabase - Criar Projeto", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [930, 120],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/projects' }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Prefer", "value": "return=representation" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify($json.project) }}", "options": {}
+      }
+    },
+    {
+      "id": "onboarding-context", "name": "Preparar Onboarding", "type": "n8n-nodes-base.code", "typeVersion": 2,
+      "position": [1160, 120],
+      "parameters": { "jsCode": "const project=Array.isArray($json)?$json[0]:$json; if(!project?.id) throw new Error('Projeto não retornado'); const ctx=$('Preparar Projeto').item.json; const link=`${$env.SITE_URL}/briefing.html?id=${project.id}`; const text=`Olá, ${ctx.session.nome||''}! 🎉\\n\\nSeu pagamento foi confirmado! Estamos super animados para transformar a ${ctx.session.loja||'sua loja'}!\\n\\nAgora preencha nosso briefing:\\n\\n📋 ${link}\\n\\nO prazo começa quando você enviar o briefing completo. Qualquer dúvida, fale com a gente por aqui!\\n\\nEquipe VIZZU Digital`; return [{json:{...ctx,projectId:project.id,briefingLink:link,text}}];" }
+    },
+    {
+      "id": "register-payment", "name": "Supabase - Registrar Pagamento", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [1390, 20],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_pagamentos?on_conflict=mercadopago_payment_id' }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Prefer", "value": "resolution=merge-duplicates" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({mercadopago_payment_id:$json.payment.paymentId,sessao_id:$json.session.id,status:'approved',projeto_id:$json.projectId,payload:$json.payment.payment}) }}", "options": {}
+      }
+    },
+    {
+      "id": "update-session", "name": "Supabase - Ativar Onboarding", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [1390, 210],
+      "parameters": {
+        "method": "PATCH", "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_sessoes?id=eq.' + $json.session.id }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({estagio:'onboarding',projeto_id:$json.projectId,link_briefing:$json.briefingLink,updated_at:new Date().toISOString()}) }}", "options": {}
+      }
+    },
+    {
+      "id": "send-onboarding", "name": "Evolution - Enviar Onboarding", "type": "n8n-nodes-base.httpRequest", "typeVersion": 4.2,
+      "position": [1620, 210],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.EVOLUTION_API_URL + '/message/sendText/' + $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({number:$('Preparar Onboarding').item.json.session.telefone,text:$('Preparar Onboarding').item.json.text}) }}", "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Mercado Pago": { "main": [[{ "node": "Extrair ID do Pagamento", "type": "main", "index": 0 }]] },
+    "Extrair ID do Pagamento": { "main": [[{ "node": "Mercado Pago - Verificar Pagamento", "type": "main", "index": 0 }]] },
+    "Mercado Pago - Verificar Pagamento": { "main": [[{ "node": "Somente Aprovados", "type": "main", "index": 0 }]] },
+    "Somente Aprovados": { "main": [[{ "node": "Supabase - Verificar Idempotência", "type": "main", "index": 0 }]] },
+    "Supabase - Verificar Idempotência": { "main": [[{ "node": "Ignorar Duplicados", "type": "main", "index": 0 }]] },
+    "Ignorar Duplicados": { "main": [[{ "node": "Supabase - Buscar Sessão", "type": "main", "index": 0 }]] },
+    "Supabase - Buscar Sessão": { "main": [[{ "node": "Preparar Projeto", "type": "main", "index": 0 }]] },
+    "Preparar Projeto": { "main": [[{ "node": "Supabase - Criar Projeto", "type": "main", "index": 0 }]] },
+    "Supabase - Criar Projeto": { "main": [[{ "node": "Preparar Onboarding", "type": "main", "index": 0 }]] },
+    "Preparar Onboarding": { "main": [[{ "node": "Supabase - Registrar Pagamento", "type": "main", "index": 0 }, { "node": "Supabase - Ativar Onboarding", "type": "main", "index": 0 }]] },
+    "Supabase - Ativar Onboarding": { "main": [[{ "node": "Evolution - Enviar Onboarding", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "versionId": "c270d573-9587-48df-81ee-3ab3267d3102",
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": []
+}

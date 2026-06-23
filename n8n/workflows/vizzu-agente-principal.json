@@ -1,0 +1,288 @@
+{
+  "name": "VIZZU - Agente Principal",
+  "nodes": [
+    {
+      "id": "webhook-in",
+      "name": "Webhook Evolution",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-1280, 100],
+      "parameters": { "httpMethod": "POST", "path": "vizzu-agente", "responseMode": "onReceived", "options": {} }
+    },
+    {
+      "id": "normalize",
+      "name": "Normalizar Evento",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-1060, 100],
+      "parameters": {
+        "jsCode": "const root=$json.body||$json; const data=root.data||root; const key=data.key||root.key||{}; if(key.fromMe) return []; const message=data.message||root.message||{}; const jid=key.remoteJid||data.remoteJid||''; const telefone=jid.replace(/@.*/, '').replace(/\\D/g,''); if(!telefone||jid.includes('@g.us')) return []; let tipo='texto',conteudo=''; if(message.conversation) conteudo=message.conversation; else if(message.extendedTextMessage?.text) conteudo=message.extendedTextMessage.text; else if(message.audioMessage){tipo='audio';conteudo='[audio]';} else if(message.imageMessage){tipo='imagem';conteudo=message.imageMessage.caption||'[imagem sem legenda]';} else return []; return [{json:{telefone,tipo,conteudo,message,key,instance:root.instance||$env.EVOLUTION_INSTANCE,timestamp:new Date().toISOString()}}];"
+      }
+    },
+    {
+      "id": "media-switch",
+      "name": "Tipo de Mensagem",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [-840, 100],
+      "parameters": {
+        "rules": { "values": [
+          { "conditions": { "options": { "caseSensitive": true, "typeValidation": "strict" }, "conditions": [{ "leftValue": "={{ $json.tipo }}", "rightValue": "texto", "operator": { "type": "string", "operation": "equals" }}], "combinator": "and" }, "renameOutput": true, "outputKey": "texto" },
+          { "conditions": { "options": { "caseSensitive": true, "typeValidation": "strict" }, "conditions": [{ "leftValue": "={{ $json.tipo }}", "rightValue": "audio", "operator": { "type": "string", "operation": "equals" }}], "combinator": "and" }, "renameOutput": true, "outputKey": "audio" },
+          { "conditions": { "options": { "caseSensitive": true, "typeValidation": "strict" }, "conditions": [{ "leftValue": "={{ $json.tipo }}", "rightValue": "imagem", "operator": { "type": "string", "operation": "equals" }}], "combinator": "and" }, "renameOutput": true, "outputKey": "imagem" }
+        ] }, "options": {}
+      }
+    },
+    {
+      "id": "text-ready",
+      "name": "Texto Pronto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-590, -100],
+      "parameters": { "jsCode": "return $input.all();" }
+    },
+    {
+      "id": "audio-base64",
+      "name": "Evolution - Obter Áudio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-610, 80],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.EVOLUTION_API_URL + '/chat/getBase64FromMediaMessage/' + $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }] },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ message: { key: $('Normalizar Evento').item.json.key, message: $('Normalizar Evento').item.json.message } }, null, 0) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "audio-binary",
+      "name": "Preparar Binário de Áudio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-380, 80],
+      "parameters": { "jsCode": "const base64=$json.base64||$json.data?.base64||$json.media; if(!base64) throw new Error('Evolution não retornou base64 do áudio'); const clean=base64.replace(/^data:[^;]+;base64,/, ''); const original=$('Normalizar Evento').item.json; return [{json:original,binary:{audio:{data:clean,mimeType:'audio/ogg',fileName:'audio.ogg'}}}];" }
+    },
+    {
+      "id": "transcribe",
+      "name": "OpenAI - Transcrever Áudio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-150, 80],
+      "parameters": {
+        "method": "POST", "url": "https://api.openai.com/v1/audio/transcriptions",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "Authorization", "value": "={{ 'Bearer ' + $env.OPENAI_API_KEY }}" }] },
+        "sendBody": true, "contentType": "multipart-form-data",
+        "bodyParameters": { "parameters": [
+          { "parameterType": "formBinaryData", "name": "file", "inputDataFieldName": "audio" },
+          { "name": "model", "value": "whisper-1" }, { "name": "language", "value": "pt" }
+        ] }, "options": {}
+      }
+    },
+    {
+      "id": "audio-ready",
+      "name": "Áudio Pronto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [80, 80],
+      "parameters": { "jsCode": "return [{json:{...$('Normalizar Evento').item.json,tipo:'texto',conteudo:$json.text||''}}];" }
+    },
+    {
+      "id": "image-base64",
+      "name": "Evolution - Obter Imagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-610, 280],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.EVOLUTION_API_URL + '/chat/getBase64FromMediaMessage/' + $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ message: { key: $('Normalizar Evento').item.json.key, message: $('Normalizar Evento').item.json.message } }, null, 0) }}", "options": {}
+      }
+    },
+    {
+      "id": "vision",
+      "name": "OpenAI - Descrever Imagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-380, 280],
+      "parameters": {
+        "method": "POST", "url": "https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "Authorization", "value": "={{ 'Bearer ' + $env.OPENAI_API_KEY }}" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({model:'gpt-4o',messages:[{role:'user',content:[{type:'text',text:'Descreva esta imagem enviada por uma lojista. Pode ser loja, produto, site ou referência visual. Seja específico e útil.'},{type:'image_url',image_url:{url:'data:image/jpeg;base64,'+($json.base64||$json.data?.base64||$json.media)}}]}],max_tokens:500}) }}", "options": {}
+      }
+    },
+    {
+      "id": "image-ready",
+      "name": "Imagem Pronta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-150, 280],
+      "parameters": { "jsCode": "const original=$('Normalizar Evento').item.json; const descricao=$json.choices?.[0]?.message?.content||'Imagem recebida'; return [{json:{...original,tipo:'texto',conteudo:`${original.conteudo}\\n[Descrição da imagem: ${descricao}]`}}];" }
+    },
+    {
+      "id": "upsert-session",
+      "name": "Supabase - Obter Sessão",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [320, 80],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_sessoes?on_conflict=telefone' }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [
+          { "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" },
+          { "name": "Prefer", "value": "resolution=merge-duplicates,return=representation" }, { "name": "Content-Type", "value": "application/json" }
+        ] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({telefone:$json.telefone}) }}", "options": {}
+      }
+    },
+    {
+      "id": "build-agent",
+      "name": "Roteador e Contexto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [560, 80],
+      "parameters": {
+        "jsCode": "const incoming=['Texto Pronto','Áudio Pronto','Imagem Pronta'].map(n=>{try{return $(n).item.json}catch{return null}}).find(Boolean); const sessao=Array.isArray($json)?$json[0]:$json; const recepcao=`Você é a recepcionista virtual da VIZZU Digital. Qualifique naturalmente, uma pergunta por vez: nome e loja, segmento, se usa FácilZap, anos de loja e dores. Não fale de preços. Quando tiver nome, loja, segmento e dores, use [TRANSFERIR_VENDEDOR]. Ao extrair dados, adicione [DADOS:{\"campo\":\"valor\"}] com apenas dados confirmados.`; const vendas=`Você é o vendedor consultivo da VIZZU Digital. Recomende primeiro o Intermediário. Planos: Básico R$790 (Pix R$711, 3x); Intermediário R$1490 (Pix R$1341, 6x); Completo R$2490 (Pix R$2241, 9x). Para comprar use [GERAR_PAGAMENTO:plano]. Para humano use [CHAMAR_HUMANO]. Cliente: ${sessao.nome||''}; Loja: ${sessao.loja||''}; Segmento: ${sessao.segmento||''}; Dores: ${sessao.dores||''}.`; const system=sessao.estagio==='vendas'?vendas:recepcao; const history=Array.isArray(sessao.historico)?sessao.historico.slice(-20).map(({role,content})=>({role,content})):[]; return [{json:{...incoming,sessao,request:{model:'gpt-4o',messages:[{role:'system',content:system},...history,{role:'user',content:incoming.conteudo}],max_tokens:400,temperature:.7}}}];"
+      }
+    },
+    {
+      "id": "agent-chat",
+      "name": "OpenAI - Agente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [790, 80],
+      "parameters": {
+        "method": "POST", "url": "https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "Authorization", "value": "={{ 'Bearer ' + $env.OPENAI_API_KEY }}" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify($json.request) }}", "options": {}
+      }
+    },
+    {
+      "id": "parse-action",
+      "name": "Interpretar Ação",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1020, 80],
+      "parameters": {
+        "jsCode": "const ctx=$('Roteador e Contexto').item.json; let raw=$json.choices?.[0]?.message?.content||''; let action='continuar',plano=null,stage=ctx.sessao.estagio||'recepcao'; const pay=raw.match(/\\[GERAR_PAGAMENTO:(basico|intermediario|completo)\\]/i); if(pay){action='pagamento';plano=pay[1].toLowerCase();raw=raw.replace(pay[0],'');stage='aguardando_pagamento';} if(raw.includes('[CHAMAR_HUMANO]')){action='humano';raw='Vou conectar você com uma de nossas especialistas. Ela entra em contato em instantes 😊';stage='humano';} if(raw.includes('[TRANSFERIR_VENDEDOR]')){raw=raw.replace('[TRANSFERIR_VENDEDOR]','');stage='vendas';} let dados={}; const dm=raw.match(/\\[DADOS:(\\{.*?\\})\\]/s); if(dm){try{dados=JSON.parse(dm[1])}catch{} raw=raw.replace(dm[0],'');} const history=[...(ctx.sessao.historico||[]),{role:'user',content:ctx.conteudo,timestamp:new Date().toISOString()},{role:'assistant',content:raw.trim(),timestamp:new Date().toISOString()}].slice(-20); return [{json:{...ctx,action,plano,response:raw.trim(),patch:{...dados,estagio:stage,historico:history,updated_at:new Date().toISOString()}}}];"
+      }
+    },
+    {
+      "id": "action-switch",
+      "name": "Roteador de Ação",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [1240, 80],
+      "parameters": { "rules": { "values": [
+        { "conditions": { "options": { "caseSensitive": true, "typeValidation": "strict" }, "conditions": [{ "leftValue": "={{ $json.action }}", "rightValue": "continuar", "operator": { "type": "string", "operation": "equals" }}], "combinator": "and" }, "renameOutput": true, "outputKey": "continuar" },
+        { "conditions": { "options": { "caseSensitive": true, "typeValidation": "strict" }, "conditions": [{ "leftValue": "={{ $json.action }}", "rightValue": "pagamento", "operator": { "type": "string", "operation": "equals" }}], "combinator": "and" }, "renameOutput": true, "outputKey": "pagamento" },
+        { "conditions": { "options": { "caseSensitive": true, "typeValidation": "strict" }, "conditions": [{ "leftValue": "={{ $json.action }}", "rightValue": "humano", "operator": { "type": "string", "operation": "equals" }}], "combinator": "and" }, "renameOutput": true, "outputKey": "humano" }
+      ] }, "options": {} }
+    },
+    {
+      "id": "plan-data",
+      "name": "Dados do Plano",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1470, 160],
+      "parameters": { "jsCode": "const plans={basico:{name:'VIZZU Básico',value:790,pix:711,installments:3},intermediario:{name:'VIZZU Intermediário',value:1490,pix:1341,installments:6},completo:{name:'VIZZU Completo',value:2490,pix:2241,installments:9}}; return [{json:{...$json,plan:plans[$json.plano]||plans.intermediario}}];" }
+    },
+    {
+      "id": "mp-preference",
+      "name": "Mercado Pago - Criar Preferência",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1690, 160],
+      "parameters": {
+        "method": "POST", "url": "https://api.mercadopago.com/checkout/preferences",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "Authorization", "value": "={{ 'Bearer ' + $env.MP_ACCESS_TOKEN }}" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({items:[{title:$json.plan.name,quantity:1,currency_id:'BRL',unit_price:$json.plan.value}],payer:{name:$json.sessao.nome||'',phone:{number:$json.telefone}},payment_methods:{installments:$json.plan.installments},notification_url:'https://cjota-n8n.9eo9b2.easypanel.host/webhook/vizzu-pagamento',external_reference:$json.sessao.id,statement_descriptor:'VIZZU DIGITAL',back_urls:{success:$env.SITE_URL+'/obrigado.html',failure:$env.SITE_URL,pending:$env.SITE_URL},auto_return:'approved'}) }}", "options": {}
+      }
+    },
+    {
+      "id": "payment-context",
+      "name": "Preparar Resposta de Pagamento",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1910, 160],
+      "parameters": { "jsCode": "const ctx=$('Dados do Plano').item.json; const link=$json.init_point||$json.sandbox_init_point; const response=`Ótimo! 🎉 Aqui está seu link de pagamento para o plano ${ctx.plan.name}:\\n\\n💳 ${link}\\n\\n✅ Pix: R$ ${ctx.plan.pix.toLocaleString('pt-BR')} (10% OFF)\\n💳 Cartão: até ${ctx.plan.installments}x sem juros\\n\\nAssim que o pagamento for confirmado, nossa equipe de onboarding entra em contato!`; return [{json:{...ctx,response,patch:{...ctx.patch,estagio:'aguardando_pagamento',plano_escolhido:ctx.plano,valor_plano:ctx.plan.value,link_pagamento:link}}}];" }
+    },
+    {
+      "id": "patch-session",
+      "name": "Supabase - Salvar Sessão",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2160, 20],
+      "parameters": {
+        "method": "PATCH", "url": "={{ $env.SUPABASE_BRIEFING_URL + '/rest/v1/agente_sessoes?id=eq.' + $json.sessao.id }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Authorization", "value": "={{ 'Bearer ' + $env.SUPABASE_BRIEFING_KEY }}" }, { "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify($json.patch) }}", "options": {}
+      }
+    },
+    {
+      "id": "send-client",
+      "name": "Evolution - Responder Cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2390, 20],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.EVOLUTION_API_URL + '/message/sendText/' + $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({number:$('Interpretar Ação').item.json.telefone,text:$('Preparar Resposta de Pagamento').isExecuted ? $('Preparar Resposta de Pagamento').item.json.response : $('Interpretar Ação').item.json.response}) }}", "options": {}
+      }
+    },
+    {
+      "id": "notify-human",
+      "name": "Evolution - Notificar Humano",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1470, 330],
+      "parameters": {
+        "method": "POST", "url": "={{ $env.EVOLUTION_API_URL + '/message/sendText/' + $env.EVOLUTION_INSTANCE }}",
+        "sendHeaders": true, "headerParameters": { "parameters": [{ "name": "apikey", "value": "={{ $env.EVOLUTION_API_KEY }}" }] },
+        "sendBody": true, "contentType": "raw", "rawContentType": "application/json", "body": "={{ JSON.stringify({number:$env.VIZZU_NUMERO,text:'🚨 INTERVENÇÃO NECESSÁRIA\\n\\nCliente: '+($json.sessao.nome||'Não informado')+' ('+($json.sessao.loja||'Sem loja')+')\\nWhatsApp: '+$json.telefone+'\\n\\nÚltima mensagem: '+$json.conteudo}) }}", "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Evolution": { "main": [[{ "node": "Normalizar Evento", "type": "main", "index": 0 }]] },
+    "Normalizar Evento": { "main": [[{ "node": "Tipo de Mensagem", "type": "main", "index": 0 }]] },
+    "Tipo de Mensagem": { "main": [
+      [{ "node": "Texto Pronto", "type": "main", "index": 0 }],
+      [{ "node": "Evolution - Obter Áudio", "type": "main", "index": 0 }],
+      [{ "node": "Evolution - Obter Imagem", "type": "main", "index": 0 }]
+    ] },
+    "Texto Pronto": { "main": [[{ "node": "Supabase - Obter Sessão", "type": "main", "index": 0 }]] },
+    "Evolution - Obter Áudio": { "main": [[{ "node": "Preparar Binário de Áudio", "type": "main", "index": 0 }]] },
+    "Preparar Binário de Áudio": { "main": [[{ "node": "OpenAI - Transcrever Áudio", "type": "main", "index": 0 }]] },
+    "OpenAI - Transcrever Áudio": { "main": [[{ "node": "Áudio Pronto", "type": "main", "index": 0 }]] },
+    "Áudio Pronto": { "main": [[{ "node": "Supabase - Obter Sessão", "type": "main", "index": 0 }]] },
+    "Evolution - Obter Imagem": { "main": [[{ "node": "OpenAI - Descrever Imagem", "type": "main", "index": 0 }]] },
+    "OpenAI - Descrever Imagem": { "main": [[{ "node": "Imagem Pronta", "type": "main", "index": 0 }]] },
+    "Imagem Pronta": { "main": [[{ "node": "Supabase - Obter Sessão", "type": "main", "index": 0 }]] },
+    "Supabase - Obter Sessão": { "main": [[{ "node": "Roteador e Contexto", "type": "main", "index": 0 }]] },
+    "Roteador e Contexto": { "main": [[{ "node": "OpenAI - Agente", "type": "main", "index": 0 }]] },
+    "OpenAI - Agente": { "main": [[{ "node": "Interpretar Ação", "type": "main", "index": 0 }]] },
+    "Interpretar Ação": { "main": [[{ "node": "Roteador de Ação", "type": "main", "index": 0 }]] },
+    "Roteador de Ação": { "main": [
+      [{ "node": "Supabase - Salvar Sessão", "type": "main", "index": 0 }],
+      [{ "node": "Dados do Plano", "type": "main", "index": 0 }],
+      [{ "node": "Supabase - Salvar Sessão", "type": "main", "index": 0 }, { "node": "Evolution - Notificar Humano", "type": "main", "index": 0 }]
+    ] },
+    "Dados do Plano": { "main": [[{ "node": "Mercado Pago - Criar Preferência", "type": "main", "index": 0 }]] },
+    "Mercado Pago - Criar Preferência": { "main": [[{ "node": "Preparar Resposta de Pagamento", "type": "main", "index": 0 }]] },
+    "Preparar Resposta de Pagamento": { "main": [[{ "node": "Supabase - Salvar Sessão", "type": "main", "index": 0 }]] },
+    "Supabase - Salvar Sessão": { "main": [[{ "node": "Evolution - Responder Cliente", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "versionId": "6ddf202e-0a7e-4a3e-b57b-54d9831aa101",
+  "meta": { "templateCredsSetupCompleted": false },
+  "tags": []
+}
