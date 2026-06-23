@@ -588,15 +588,13 @@
             window.location.href = 'login.html';
         }
 
-        // DUAL SUPABASE SETUP
+        // SUPABASE SETUP — projeto único para briefing + vendas
         const SB_BRIEFING_URL = 'https://khoyztycmrryrkbsvhja.supabase.co';
         const SB_BRIEFING_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
-        const SB_VENDAS_URL = 'https://kvpetrexgrpizwfomjjt.supabase.co';
-        const SB_VENDAS_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt2cGV0cmV4Z3JwaXp3Zm9tamp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MzkzNjUsImV4cCI6MjA4NDQxNTM2NX0.kP9TQqYIiPchtd7Y89oQdg78nZw4GBiTvLhxhz1vWs8';
 
         window.supabaseClient = window.supabase.createClient(SB_BRIEFING_URL, SB_BRIEFING_KEY);
         window.dbBriefing = window.supabaseClient;
-        window.dbVendas = window.supabase.createClient(SB_VENDAS_URL, SB_VENDAS_KEY);
+        window.dbVendas = window.supabaseClient;
 
         // NAVIGATION
         const SECTIONS = ['projetos', 'propostas', 'leads', 'crm', 'cupons', 'biblioteca', 'pv'];
