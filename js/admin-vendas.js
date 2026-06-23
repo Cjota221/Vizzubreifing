@@ -418,6 +418,7 @@ var crmSearchTerm = '';
 var crmShowLost = false;
 var crmChannel = null;
 var crmLegacySyncDone = false;
+var crmLoading = false;
 
 const CRM_STAGES = ['Lead', 'Contatado', 'Proposta', 'Negociando', 'Convertido', 'Perdido'];
 const CRM_COLORS = {
@@ -440,15 +441,17 @@ function crmMoney(value) {
 }
 
 async function loadCRM() {
+    if (crmLoading) return;
     const board = document.getElementById('kanbanBoard');
     if (!board) return;
-    board.innerHTML = '<div class="loading-state">Carregando pipeline...</div>';
 
     if (!dbVendas) {
-        console.error('[CRM] dbVendas não inicializado');
         board.innerHTML = '<div class="empty-state">Erro: Cliente Supabase não inicializado.<br>Verifique as credenciais no admin.html.</div>';
         return;
     }
+
+    crmLoading = true;
+    board.innerHTML = '<div class="loading-state">Carregando pipeline...</div>';
 
     try {
         console.log('[CRM] Conectando ao Supabase Vendas...');
@@ -468,13 +471,15 @@ async function loadCRM() {
         if (!crmLegacySyncDone) {
             crmLegacySyncDone = true;
             const imported = await syncExistingLandingLeads();
-            if (imported) return loadCRM();
+            if (imported) { crmLoading = false; return loadCRM(); }
         }
         renderCRM();
         setupCRMRealtime();
     } catch (e) {
         console.error('[CRM] Erro de conexão:', e);
-        board.innerHTML = '<div class="empty-state">Erro de conexão com o Supabase.<br><br><strong>Para resolver:</strong><br>1. Acesse o Supabase Vendas (kvpetrexgrpizwfomjjt)<br>2. Vá em Settings → API → CORS<br>3. Adicione: https://vizzubreifing.netlify.app<br>4. Execute o arquivo crm_setup.sql no SQL Editor<br><br>Erro: ' + e.message + '</div>';
+        board.innerHTML = '<div class="empty-state">Não foi possível conectar ao Supabase Vendas.<br><br><strong>Causa mais provável:</strong> projeto pausado.<br><br>1. Acesse <strong>supabase.com</strong><br>2. Encontre o projeto <strong>kvpetrexgrpizwfomjjt</strong><br>3. Clique em <strong>"Restore project"</strong><br>4. Aguarde ~1 min e recarregue<br><br>Erro: ' + e.message + '</div>';
+    } finally {
+        crmLoading = false;
     }
 }
 
