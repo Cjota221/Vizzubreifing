@@ -163,64 +163,72 @@
         return num.toLocaleString('pt-BR');
     }
 
+    // SVGs no padrão do sistema: stroke, fill:none, stroke-width:2
+    var ICO = {
+        wa:   '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+        ig:   '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+        mail: '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>',
+        ext:  '<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+        pin:  '<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+    };
+
+    function actionBtn(href, icon, label) {
+        return '<a href="' + href + '" target="_blank" rel="noopener" class="btn-secondary" ' +
+               'style="width:auto;padding:8px 14px;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
+               icon + label + '</a>';
+    }
+
     function renderCard(l) {
         const selos = [
-            l.selo_cupons === 'Sim'              ? '🎟 Cupom' : '',
-            l.selo_cashback === 'Sim'            ? '💰 Cashback' + (l.cashback_porcentagem ? ' ' + l.cashback_porcentagem : '') : '',
-            l.selo_frete_gratis === 'Sim'        ? '🚚 Frete Grátis' : '',
-            l.selo_brindes === 'Sim'             ? '🎁 Brindes' : '',
-            l.selo_desconto_progressivo === 'Sim'? '📉 Desc. Progressivo' : '',
-            l.selo_revendedor_pro === 'Sim'      ? '⭐ Revendedor Pro' : '',
-            l.selo_afiliados === 'Sim'           ? '🔗 Afiliados' + (l.comissao_afiliado ? ' ' + l.comissao_afiliado : '') : ''
+            l.selo_cupons === 'Sim'               ? 'Cupom' : '',
+            l.selo_cashback === 'Sim'             ? 'Cashback' + (l.cashback_porcentagem ? ' ' + l.cashback_porcentagem : '') : '',
+            l.selo_frete_gratis === 'Sim'         ? 'Frete Grátis' : '',
+            l.selo_brindes === 'Sim'              ? 'Brindes' : '',
+            l.selo_desconto_progressivo === 'Sim' ? 'Desc. Progressivo' : '',
+            l.selo_revendedor_pro === 'Sim'       ? 'Revendedor Pro' : '',
+            l.selo_afiliados === 'Sim'            ? 'Afiliados' + (l.comissao_afiliado ? ' ' + l.comissao_afiliado : '') : ''
         ].filter(Boolean);
 
-        const views    = fmtNum(l.total_visualizacoes);
-        const pedidos  = fmtNum(l.total_pedidos);
-        const segs     = fmtNum(l.total_seguidores);
-        const avals    = fmtNum(l.total_avaliacoes);
+        const views   = fmtNum(l.total_visualizacoes);
+        const pedidos = fmtNum(l.total_pedidos);
+        const segs    = fmtNum(l.total_seguidores);
+        const avals   = fmtNum(l.total_avaliacoes);
         const hasMetrics = views || pedidos || segs || avals;
 
-        const metricItem = (icon, val, label) =>
-            val ? '<span>' + icon + ' ' + val + ' ' + label + '</span>' : '';
+        const selosBadges = selos.map(function(s) {
+            return '<span style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--parchment);border:1px solid var(--stone);color:var(--graphite);">' + s + '</span>';
+        }).join('');
 
-        const selosBadges = selos.map(s =>
-            '<span style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--parchment);border:1px solid var(--stone);color:var(--graphite);">' + s + '</span>'
-        ).join('');
-
-        const waBtn = l.whatsapp
-            ? '<a href="https://api.whatsapp.com/send?phone=' + encodeURIComponent(l.whatsapp) + '" target="_blank" rel="noopener" class="btn-secondary" style="width:auto;padding:7px 12px;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px;">' +
-              '<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>' +
-              'WhatsApp</a>'
-            : '';
-
-        const igBtn = l.instagram
-            ? '<a href="https://instagram.com/' + encodeURIComponent(l.instagram) + '" target="_blank" rel="noopener" class="btn-secondary" style="width:auto;padding:7px 12px;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px;">📸 Instagram</a>'
-            : '';
-
-        const lojaBtn = l.url_loja
-            ? '<a href="' + escAttr(l.url_loja) + '" target="_blank" rel="noopener" class="btn-secondary" style="width:auto;padding:7px 12px;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px;">🏪 Ver Loja</a>'
-            : '';
+        // Botões de ação — só aparecem se o campo existir
+        var btns = '';
+        if (l.whatsapp) btns += actionBtn('https://api.whatsapp.com/send?phone=' + encodeURIComponent(l.whatsapp), ICO.wa,   'WhatsApp');
+        if (l.instagram) btns += actionBtn('https://instagram.com/' + encodeURIComponent(l.instagram),            ICO.ig,   'Instagram');
+        if (l.email)     btns += actionBtn('mailto:' + escAttr(l.email),                                          ICO.mail, 'E-mail');
+        if (l.url_loja)  btns += actionBtn(escAttr(l.url_loja),                                                   ICO.ext,  'Ver Loja');
 
         return '<div class="panel" style="margin-bottom:12px;padding:18px 20px;">' +
-            '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">' +
+            '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">' +
+
             '<div style="flex:1;min-width:0;">' +
                 '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">' +
                     '<strong style="font-size:15px;">' + escHtml(l.nome || l.slug || '—') + '</strong>' +
                     nivelBadge(l.nivel_nome) +
-                    (l.loja_verificada === 'Sim' ? '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:rgba(22,163,74,.12);color:#14532d;">✓ Verificada</span>' : '') +
+                    (l.loja_verificada === 'Sim' ? '<span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:rgba(22,163,74,.12);color:#14532d;">Verificada</span>' : '') +
                 '</div>' +
-                (l.estado ? '<div style="font-size:12px;color:var(--graphite);margin-bottom:6px;">📍 ' + escHtml(l.estado) + '</div>' : '') +
-                (hasMetrics ? '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--graphite);margin-bottom:8px;">' +
-                    metricItem('👁', views, 'views') +
-                    metricItem('📦', pedidos, 'pedidos') +
-                    metricItem('👥', segs, 'seg.') +
-                    (avals ? '<span>⭐ ' + avals + ' aval.' + (l.nota_media ? ' · ' + Number(l.nota_media).toFixed(1) : '') + '</span>' : '') +
+                (l.estado ? '<div style="font-size:12px;color:var(--graphite);margin-bottom:6px;display:flex;align-items:center;gap:4px;">' + ICO.pin + escHtml(l.estado) + '</div>' : '') +
+                (hasMetrics ? '<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--graphite);margin-bottom:8px;">' +
+                    (views   ? '<span>' + views   + ' views</span>'   : '') +
+                    (pedidos ? '<span>' + pedidos + ' pedidos</span>' : '') +
+                    (segs    ? '<span>' + segs    + ' seg.</span>'    : '') +
+                    (avals   ? '<span>' + avals   + ' aval.' + (l.nota_media ? ' · ' + Number(l.nota_media).toFixed(1) : '') + '</span>' : '') +
                 '</div>' : '') +
                 (selos.length ? '<div style="display:flex;gap:5px;flex-wrap:wrap;">' + selosBadges + '</div>' : '') +
             '</div>' +
-            '<div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0;">' +
-                waBtn + igBtn + lojaBtn +
+
+            '<div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:6px;align-items:flex-start;">' +
+                btns +
             '</div>' +
+
             '</div>' +
             '</div>';
     }
