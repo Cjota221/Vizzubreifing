@@ -44,6 +44,10 @@
         </nav>
 
         <span class="nav-section-label" style="margin-top:10px;">Ferramentas</span>
+        <div class="nav-item" id="nav-facilzap" onclick="showSection('facilzap')">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+            Leads FacilZap
+        </div>
         <div class="nav-item" id="nav-biblioteca" onclick="showSection('biblioteca')">
             <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             Biblioteca TI
@@ -264,6 +268,66 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 8. FACILZAP LEADS VIEW -->
+        <div id="facilzapView" style="display:none;">
+            <div class="header">
+                <div>
+                    <h2>Leads FacilZap</h2>
+                    <p>Diretório de lojas para prospecção</p>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                    <label class="btn-secondary" style="cursor:pointer;width:auto;padding:10px 16px;display:flex;align-items:center;gap:6px;">
+                        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        Importar CSV
+                        <input type="file" accept=".csv" style="display:none;" onchange="fzImportCSVFile(this)">
+                    </label>
+                    <span id="fzImportStatus" style="font-size:12px;color:var(--graphite);"></span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" id="fzStatTotal">—</div></div>
+                <div class="stat-card"><div class="stat-label">Verificadas</div><div class="stat-value" id="fzStatVerificadas">—</div></div>
+                <div class="stat-card"><div class="stat-label">Diamante</div><div class="stat-value" id="fzStatDiamante">—</div></div>
+                <div class="stat-card"><div class="stat-label">Com Cupom</div><div class="stat-value" id="fzStatCupom">—</div></div>
+            </div>
+
+            <div class="panel" style="margin-bottom:20px;padding:18px 20px;">
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+                    <input type="search" id="fzSearch" class="search-input" placeholder="Buscar por nome..." oninput="fzSearchDebounce()" style="flex:1;min-width:180px;">
+                    <select id="fzNivelFilter" class="form-control" onchange="fzApplyFilters()" style="width:auto;">
+                        <option value="">Todos os níveis</option>
+                        <option value="Bronze">🥉 Bronze</option>
+                        <option value="Prata">🥈 Prata</option>
+                        <option value="Ouro">🥇 Ouro</option>
+                        <option value="Platina">💠 Platina</option>
+                        <option value="Diamante">💎 Diamante</option>
+                    </select>
+                    <select id="fzEstadoFilter" class="form-control" onchange="fzApplyFilters()" style="width:auto;">
+                        <option value="">Todos os estados</option>
+                    </select>
+                    <select id="fzOrdemFilter" class="form-control" onchange="fzApplyFilters()" style="width:auto;">
+                        <option value="visualizacoes">Mais visualizações</option>
+                        <option value="pedidos">Mais pedidos</option>
+                        <option value="seguidores">Mais seguidores</option>
+                        <option value="avaliacoes">Mais avaliações</option>
+                        <option value="recentes">Mais recentes</option>
+                    </select>
+                    <button class="btn-secondary" onclick="fzResetFilters()" style="width:auto;padding:10px 14px;">Limpar</button>
+                </div>
+                <div style="display:flex;gap:18px;flex-wrap:wrap;">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="fzFreteGratis" onchange="fzApplyFilters()"> Frete Grátis</label>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="fzCashback" onchange="fzApplyFilters()"> Cashback</label>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="fzRevendedorPro" onchange="fzApplyFilters()"> Revendedor Pro</label>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="fzAfiliados" onchange="fzApplyFilters()"> Afiliados</label>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" id="fzVerificadas" onchange="fzApplyFilters()"> Verificadas</label>
+                </div>
+            </div>
+
+            <div id="fzGrid"></div>
+            <div id="fzPagination"></div>
         </div>
 
         <!-- 7. PROJECT DETAIL VIEW -->
@@ -600,7 +664,7 @@
         window.dbVendas = window.supabaseClient;
 
         // NAVIGATION
-        const SECTIONS = ['projetos', 'propostas', 'leads', 'crm', 'cupons', 'biblioteca', 'pv'];
+        const SECTIONS = ['projetos', 'propostas', 'leads', 'crm', 'cupons', 'biblioteca', 'pv', 'facilzap'];
         function showSection(name) {
             SECTIONS.forEach(s => {
                 const view = document.getElementById(s + 'View');
@@ -617,6 +681,7 @@
             else if (name === 'cupons') loadCupons();
             else if (name === 'biblioteca') loadTechLibrary();
             else if (name === 'pv') initPvCreator();
+            else if (name === 'facilzap') loadFacilzapLeads();
         }
 
         function showDashboard() { showSection('projetos'); }
@@ -657,5 +722,6 @@
     <script src="js/admin.js?v=6"></script>
     <script src="js/tech-library.js?v=6"></script>
     <script src="js/admin-vendas.js?v=1"></script>
+    <script src="js/facilzap-leads.js?v=1"></script>
 </body>
 </html>
