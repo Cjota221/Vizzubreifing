@@ -199,12 +199,16 @@
             return '<span style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--parchment);border:1px solid var(--stone);color:var(--graphite);">' + s + '</span>';
         }).join('');
 
-        // Botões de ação — só aparecem se o campo existir
-        var btns = '';
-        if (l.whatsapp) btns += actionBtn('https://api.whatsapp.com/send?phone=' + encodeURIComponent(l.whatsapp), ICO.wa,   'WhatsApp');
-        if (l.instagram) btns += actionBtn('https://instagram.com/' + encodeURIComponent(l.instagram),            ICO.ig,   'Instagram');
-        if (l.email)     btns += actionBtn('mailto:' + escAttr(l.email),                                          ICO.mail, 'E-mail');
-        if (l.url_loja)  btns += actionBtn(escAttr(l.url_loja),                                                   ICO.ext,  'Ver Loja');
+        // WhatsApp — sempre visível; primário se tiver número, cinza se não tiver
+        var waHref = l.whatsapp ? 'https://api.whatsapp.com/send?phone=' + encodeURIComponent(l.whatsapp) : null;
+        var waBtn = waHref
+            ? '<a href="' + waHref + '" target="_blank" rel="noopener" class="btn-primary" style="width:auto;padding:8px 16px;font-size:13px;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:6px;">' + ICO.wa + 'WhatsApp</a>'
+            : '<span class="btn-secondary" style="width:auto;padding:8px 14px;font-size:12px;opacity:.45;cursor:not-allowed;display:flex;align-items:center;gap:6px;" title="Número não cadastrado">' + ICO.wa + 'WhatsApp</span>';
+
+        var btns = waBtn;
+        if (l.instagram) btns += actionBtn('https://instagram.com/' + encodeURIComponent(l.instagram), ICO.ig,   'Instagram');
+        if (l.email)     btns += actionBtn('mailto:' + escAttr(l.email),                               ICO.mail, 'E-mail');
+        if (l.url_loja)  btns += actionBtn(escAttr(l.url_loja),                                        ICO.ext,  'Ver Loja');
 
         return '<div class="panel" style="margin-bottom:12px;padding:18px 20px;">' +
             '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">' +
