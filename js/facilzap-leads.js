@@ -274,6 +274,20 @@
         fetchLojas();
     }
 
+    // Colunas válidas da tabela facilzap_lojas — qualquer coluna do CSV
+    // que não esteja nesta lista é ignorada silenciosamente na importação.
+    var KNOWN_COLS = new Set([
+        'slug','nome','whatsapp','instagram','facebook','url_loja',
+        'nivel_nome','estado','email','website','endereco','cep',
+        'total_pedidos','total_visualizacoes','total_seguidores',
+        'total_avaliacoes','nota_media','pedido_minimo',
+        'loja_verificada','selo_cupons','selo_cashback','cashback_porcentagem',
+        'selo_frete_gratis','frete_gratis_valor_minimo','selo_brindes',
+        'selo_desconto_progressivo','desconto_progressivo_maximo',
+        'selo_revendedor_pro','selo_afiliados','comissao_afiliado',
+        'total_curtidas','total_perguntas','descricao','data_entrada_facilzap'
+    ]);
+
     // ---- Importar CSV ----
     async function fzImportCSVFile(input) {
         const file = input.files[0];
@@ -296,6 +310,7 @@
                 const parts = line.split(',');
                 const row = {};
                 headers.forEach(function(h, i) {
+                    if (!KNOWN_COLS.has(h)) return; // ignora colunas fora do schema
                     const v = (parts[i] || '').trim().replace(/^"|"$/g, '');
                     row[h] = v || null;
                 });

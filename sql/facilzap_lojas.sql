@@ -36,6 +36,7 @@ create table if not exists facilzap_lojas (
   frete_gratis_valor_minimo text,
   selo_brindes             text,
   selo_desconto_progressivo text,
+  desconto_progressivo_maximo text,
   selo_revendedor_pro      text,
   selo_afiliados           text,
   comissao_afiliado        text,
