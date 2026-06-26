@@ -274,8 +274,7 @@
         fetchLojas();
     }
 
-    // Colunas válidas da tabela facilzap_lojas — qualquer coluna do CSV
-    // que não esteja nesta lista é ignorada silenciosamente na importação.
+    // Colunas válidas da tabela — extras do CSV são ignoradas silenciosamente.
     var KNOWN_COLS = new Set([
         'slug','nome','whatsapp','instagram','facebook','url_loja',
         'nivel_nome','estado','email','website','endereco','cep',
@@ -287,6 +286,30 @@
         'selo_revendedor_pro','selo_afiliados','comissao_afiliado',
         'total_curtidas','total_perguntas','descricao','data_entrada_facilzap'
     ]);
+
+    // Colunas que o Postgres espera como numeric — qualquer valor não numérico vira null.
+    var NUMERIC_COLS = new Set([
+        'total_pedidos','total_visualizacoes','total_seguidores',
+        'total_avaliacoes','nota_media','total_curtidas','total_perguntas'
+    ]);
+
+    // Parser CSV robusto: respeita campos entre aspas (que podem conter vírgulas).
+    function parseCSVLine(line) {
+        var fields = [], field = '', inQ = false;
+        for (var i = 0; i < line.length; i++) {
+            var c = line[i];
+            if (c === '"') {
+                if (inQ && line[i + 1] === '"') { field += '"'; i++; } // aspas escapadas
+                else inQ = !inQ;
+            } else if (c === ',' && !inQ) {
+                fields.push(field); field = '';
+            } else {
+                field += c;
+            }
+        }
+        fields.push(field);
+        return fields;
+    }
 
     // ---- Importar CSV ----
     async function fzImportCSVFile(input) {
@@ -301,21 +324,26 @@
         setStatus('Lendo arquivo...');
 
         try {
-            const text   = await file.text();
-            const lines  = text.replace(/^﻿/, '').split('\n').filter(function(l) { return l.trim(); });
-            const headers = lines[0].split(',').map(function(h) { return h.trim().replace(/^"|"$/g, ''); });
+            const text    = await file.text();
+            const rawLines = text.replace(/^﻿/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+            const headers  = parseCSVLine(rawLines[0]).map(function(h) { return h.trim(); });
 
-            const rows = lines.slice(1).map(function(line) {
-                // Parse simples — os valores desse CSV não contêm vírgulas internas
-                const parts = line.split(',');
+            const rows = rawLines.slice(1).map(function(line) {
+                if (!line.trim()) return null;
+                const parts = parseCSVLine(line);
                 const row = {};
                 headers.forEach(function(h, i) {
                     if (!KNOWN_COLS.has(h)) return; // ignora colunas fora do schema
-                    const v = (parts[i] || '').trim().replace(/^"|"$/g, '');
-                    row[h] = v || null;
+                    var v = (parts[i] || '').trim();
+                    if (NUMERIC_COLS.has(h)) {
+                        var n = parseFloat(v.replace(',', '.'));
+                        row[h] = isNaN(n) ? null : n; // "Sim"/vazio → null
+                    } else {
+                        row[h] = v || null;
+                    }
                 });
                 return row;
-            }).filter(function(r) { return r.slug; });
+            }).filter(function(r) { return r && r.slug; });
 
             if (!rows.length) {
                 setStatus('⚠ Nenhuma linha válida encontrada no arquivo.', '#854d0e');
