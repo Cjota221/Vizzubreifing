@@ -47,6 +47,15 @@ create table if not exists facilzap_lojas (
   created_at               timestamp default now()
 );
 
+-- RLS: permite acesso pelo anon key (painel admin protegido por sessão JS)
+alter table facilzap_lojas enable row level security;
+
+create policy "admin_facilzap_all"
+  on facilzap_lojas
+  for all
+  using (true)
+  with check (true);
+
 -- Índices para performance nos filtros
 create index if not exists idx_facilzap_nome          on facilzap_lojas (nome);
 create index if not exists idx_facilzap_estado        on facilzap_lojas (estado);
