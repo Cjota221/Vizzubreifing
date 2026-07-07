@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f5eb">
+    <title>VIZZU | Termo de Aprovação e Entrega</title>
+    <link rel="icon" type="image/png" href="assets/fivon.png">
+    <link rel="apple-touch-icon" href="assets/fivon.png">
+    <link rel="shortcut icon" href="assets/fivon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .aprov-page { max-width: 700px; margin: 0 auto; padding: 40px 24px 80px; }
+        .aprov-nav {
+            max-width: 900px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: center; height: 62px;
+        }
+        .nav-wrapper { background: var(--cream); border-bottom: 1px solid var(--stone); }
+
+        .state-card { text-align: center; padding: 80px 24px; background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius); }
+        .state-card .loader { display: block; width: 32px; height: 32px; margin: 0 auto 16px; border: 3px solid var(--stone); border-top-color: var(--lime); border-radius: 50%; animation: spin .6s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .state-card h2 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        .state-card p { color: var(--graphite); font-size: 15px; }
+        .error-state .state-icon { width: 48px; height: 48px; stroke: var(--coral-alert); fill: none; stroke-width: 1.5; margin-bottom: 16px; }
+        .success-state .state-icon { width: 48px; height: 48px; stroke: var(--mint-confirm); fill: none; stroke-width: 1.5; margin-bottom: 16px; }
+
+        .aprov-card {
+            background: var(--white); border: 1px solid var(--stone); border-radius: var(--radius);
+            padding: 40px;
+        }
+        .aprov-card .cliente-info { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--stone); }
+        .aprov-card .cliente-info h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+        .aprov-card .cliente-info .meta { color: var(--graphite); font-size: 14px; }
+
+        .termo-texto {
+            background: var(--parchment); border: 1px solid var(--stone); border-radius: var(--radius-sm);
+            padding: 24px; font-size: 14px; line-height: 1.7; color: var(--near-black);
+            max-height: 340px; overflow-y: auto; margin-bottom: 24px;
+        }
+        .termo-texto h3 { font-size: 15px; margin-bottom: 12px; }
+        .termo-texto p { margin-bottom: 14px; }
+        .termo-texto p:last-child { margin-bottom: 0; }
+
+        .aprov-checkbox {
+            display: flex; align-items: flex-start; gap: 10px;
+            background: var(--parchment); border: 1px solid var(--stone); border-radius: var(--radius-sm);
+            padding: 14px 16px; margin-bottom: 20px; cursor: pointer;
+        }
+        .aprov-checkbox input { margin-top: 2px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--near-black); cursor: pointer; }
+        .aprov-checkbox span { font-size: 14px; color: var(--near-black); }
+
+        .status-badge {
+            display: inline-flex; padding: 3px 10px; border-radius: var(--radius-sm);
+            font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em;
+        }
+        .status-badge.pendente { background: #FFF4DB; color: #9A5A00; }
+        .status-badge.aceito { background: var(--lime); color: var(--near-black); border: 1px solid var(--near-black); }
+
+        .aprov-actions .btn-primary { width: 100%; justify-content: center; }
+    </style>
+</head>
+<body style="background:var(--cream);">
+    <div class="nav-wrapper">
+        <div class="aprov-nav">
+            <div class="logo"><img src="public/logo principal png.png" alt="VIZZU Digital" style="height:36px;width:auto;"></div>
+        </div>
+    </div>
+
+    <div class="aprov-page">
+        <div id="loadingView" class="state-card">
+            <span class="loader"></span>
+            <p>Carregando seu termo...</p>
+        </div>
+
+        <div id="errorView" class="state-card error-state" style="display:none;">
+            <svg class="state-icon" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.7 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z"/></svg>
+            <h2>Termo não encontrado</h2>
+            <p>Verifique o link recebido e tente novamente, ou fale com a equipe VIZZU.</p>
+        </div>
+
+        <div id="pendingView" style="display:none;">
+            <div class="aprov-card">
+                <div class="cliente-info">
+                    <span class="status-badge pendente">Pendente de aprovação</span>
+                    <h1 id="aprCliente" style="margin-top:10px;">Cliente</h1>
+                    <div class="meta">Projeto: <span id="aprProjeto">Loja</span></div>
+                </div>
+
+                <div class="termo-texto">
+                    <h3>TERMO DE ENTREGA E SUPORTE — VIZZU DIGITAL</h3>
+                    <p><strong>Cliente:</strong> <span class="aprNomeInline">Cliente</span><br><strong>Projeto:</strong> <span class="aprProjetoInline">Loja</span></p>
+                    <p>Ao aprovar este projeto, declaro que:</p>
+                    <p>1. Revisei todas as telas e funcionalidades no ambiente de testes disponibilizado pela VIZZU Digital e aprovo a entrega conforme apresentado.</p>
+                    <p>2. Estou ciente de que, a partir desta aprovação e da publicação (deploy) do projeto, o código entregue não deve ser alterado por mim, minha equipe ou terceiros sem autorização prévia da VIZZU Digital.</p>
+                    <p>3. O suporte técnico incluso é válido exclusivamente enquanto o código permanecer exatamente como entregue. Caso sejam identificadas alterações feitas fora da VIZZU Digital, o suporte poderá ser descontinuado ou cobrado à parte.</p>
+                    <p>4. Após esta aprovação, não serão realizadas modificações adicionais no escopo já entregue sem a contratação de um novo serviço.</p>
+                </div>
+
+                <label class="aprov-checkbox">
+                    <input type="checkbox" id="aceiteCheckbox" onchange="document.getElementById('btnAprovar').disabled = !this.checked;">
+                    <span>Li e aceito os termos acima.</span>
+                </label>
+
+                <div class="aprov-actions">
+                    <button id="btnAprovar" class="btn-primary" disabled onclick="aprovarTermo()">Aprovar e Publicar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="acceptedView" class="state-card success-state" style="display:none;">
+            <svg class="state-icon" viewBox="0 0 24 24"><path d="m9 12 2 2 4-4M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z"/></svg>
+            <h2>Termo aceito com sucesso</h2>
+            <p id="aceiteInfo">Aprovado em —</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://khoyztycmrryrkbsvhja.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_ZyR1Q69Dg7sIkTR7AhnXeg_5CDqKWsZ';
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentTermo = null;
+
+        function showView(id) {
+            ['loadingView', 'errorView', 'pendingView', 'acceptedView'].forEach(v => {
+                document.getElementById(v).style.display = v === id ? 'block' : 'none';
+            });
+        }
+
+        function formatDate(iso) {
+            return new Date(iso).toLocaleString('pt-BR', { dateStyle: 'long', timeStyle: 'short' });
+        }
+
+        function renderAccepted(termo) {
+            document.getElementById('aceiteInfo').textContent = `Aprovado por ${termo.aceito_nome || termo.cliente_nome || 'cliente'} em ${formatDate(termo.aceito_em)}`;
+            showView('acceptedView');
+        }
+
+        async function loadTermo() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            if (!id) { showView('errorView'); return; }
+
+            try {
+                const { data, error } = await db.from('termos_aprovacao').select('*').eq('id', id).single();
+                if (error || !data) throw new Error('not found');
+
+                currentTermo = data;
+
+                if (data.status === 'aceito') {
+                    renderAccepted(data);
+                    return;
+                }
+
+                const cliente = data.cliente_nome || 'Cliente';
+                const projeto = data.projeto_nome || 'Projeto';
+                document.getElementById('aprCliente').textContent = cliente;
+                document.getElementById('aprProjeto').textContent = projeto;
+                document.querySelectorAll('.aprNomeInline').forEach(el => el.textContent = cliente);
+                document.querySelectorAll('.aprProjetoInline').forEach(el => el.textContent = projeto);
+                showView('pendingView');
+            } catch (e) {
+                showView('errorView');
+            }
+        }
+
+        async function getClientIp() {
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 3000);
+                const res = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
+                clearTimeout(timeout);
+                const data = await res.json();
+                return data.ip || null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function aprovarTermo() {
+            if (!currentTermo || !document.getElementById('aceiteCheckbox').checked) return;
+
+            const btn = document.getElementById('btnAprovar');
+            btn.disabled = true;
+            btn.textContent = 'Registrando...';
+
+            const ip = await getClientIp();
+            const nowIso = new Date().toISOString();
+
+            const { data, error } = await db.from('termos_aprovacao')
+                .update({
+                    status: 'aceito',
+                    aceito_em: nowIso,
+                    aceito_nome: currentTermo.cliente_nome,
+                    aceito_ip: ip,
+                    aceito_user_agent: navigator.userAgent
+                })
+                .eq('id', currentTermo.id)
+                .eq('status', 'pendente')
+                .select()
+                .single();
+
+            if (error || !data) {
+                // Alguém já aprovou entre o carregamento e o clique — recarrega o estado real.
+                await loadTermo();
+                return;
+            }
+
+            currentTermo = data;
+            renderAccepted(data);
+        }
+
+        loadTermo();
+    </script>
+</body>
+</html>

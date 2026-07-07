@@ -32,6 +32,7 @@ const WIDGETS = {
 // --- STATE ---
 let allProjects = [];
 let currentProject = null;
+let currentTermo = null;
 
 // --- INIT ---
 // Inicializar quando o DOM estiver pronto
@@ -220,6 +221,9 @@ function renderProjectDetails() {
 
     // Code Snippets
     renderCodeSnippets(admin.snippets || []);
+
+    // Termo de Aprovação
+    loadTermoAprovacao();
 }
 
 function updateEditProjectTotal() {
@@ -700,6 +704,93 @@ function copyCode(btn) {
 
 function copyLink() {
     const input = document.getElementById('briefingLinkInput');
+    input.select();
+    document.execCommand('copy');
+    alert('Link copiado!');
+}
+
+// --- TERMO DE APROVAÇÃO ---
+
+function renderTermoBox() {
+    const box = document.getElementById('termoStatusBox');
+    const linkRow = document.getElementById('termoLinkRow');
+    const btnGerar = document.getElementById('btnGerarTermo');
+    if (!box || !linkRow || !btnGerar) return;
+
+    if (!currentTermo) {
+        box.innerHTML = '';
+        linkRow.style.display = 'none';
+        btnGerar.style.display = 'block';
+        btnGerar.disabled = false;
+        btnGerar.textContent = 'Gerar Termo de Aprovação';
+        return;
+    }
+
+    const link = `${window.location.origin}/aprovacao.html?id=${currentTermo.id}`;
+    document.getElementById('termoLinkInput').value = link;
+    linkRow.style.display = 'flex';
+    btnGerar.style.display = 'none';
+
+    if (currentTermo.status === 'aceito') {
+        const dt = currentTermo.aceito_em ? new Date(currentTermo.aceito_em).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '';
+        box.innerHTML = `<span class="status-badge concluido">Aceito em ${dt}</span> <a href="${link}" target="_blank" style="font-size:.78rem;margin-left:8px;">Ver termo aceito</a>`;
+    } else {
+        box.innerHTML = `<span class="status-badge pendente">Pendente de aceite</span>`;
+    }
+}
+
+async function loadTermoAprovacao() {
+    currentTermo = null;
+    if (!currentProject) { renderTermoBox(); return; }
+
+    try {
+        const { data, error } = await supabase
+            .from('termos_aprovacao')
+            .select('*')
+            .eq('projeto_id', currentProject.id)
+            .order('created_at', { ascending: false })
+            .limit(1);
+
+        if (error) throw error;
+        currentTermo = (data && data[0]) || null;
+    } catch (e) {
+        console.error('Erro ao carregar termo de aprovação:', e);
+    }
+
+    renderTermoBox();
+}
+
+async function gerarTermoAprovacao() {
+    if (!currentProject || currentTermo) return;
+
+    const clienteNome = document.getElementById('infoName').value || currentProject.client_name || 'Cliente';
+    const projetoNome = document.getElementById('infoStore').value || 'Projeto';
+
+    const btn = document.getElementById('btnGerarTermo');
+    btn.disabled = true;
+    btn.textContent = 'Gerando...';
+
+    try {
+        const { data, error } = await supabase
+            .from('termos_aprovacao')
+            .insert([{ projeto_id: currentProject.id, cliente_nome: clienteNome, projeto_nome: projetoNome }])
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        currentTermo = data;
+        renderTermoBox();
+    } catch (e) {
+        console.error(e);
+        alert('Erro ao gerar termo de aprovação.');
+        btn.disabled = false;
+        btn.textContent = 'Gerar Termo de Aprovação';
+    }
+}
+
+function copyTermoLink() {
+    const input = document.getElementById('termoLinkInput');
     input.select();
     document.execCommand('copy');
     alert('Link copiado!');

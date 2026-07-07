@@ -377,6 +377,15 @@
                                 <button class="btn-secondary" style="width:auto;padding:10px 14px;" onclick="copyLink()">Copiar</button>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Termo de Aprovação e Entrega</label>
+                            <div id="termoStatusBox" style="margin-bottom:8px;"></div>
+                            <div id="termoLinkRow" style="display:none;gap:8px;">
+                                <input type="text" id="termoLinkInput" class="form-control" readonly style="font-size:.8rem;">
+                                <button class="btn-secondary" style="width:auto;padding:10px 14px;" onclick="copyTermoLink()">Copiar</button>
+                            </div>
+                            <button id="btnGerarTermo" class="btn-secondary" style="width:100%;margin-top:8px;" onclick="gerarTermoAprovacao()">Gerar Termo de Aprovação</button>
+                        </div>
                         <div class="form-group"><label>Status</label>
                             <select id="adminStatus" class="form-control">
                                 <option value="Link Gerado">Link Gerado</option>
