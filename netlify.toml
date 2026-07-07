@@ -2,6 +2,11 @@
   publish = "."
   command = "echo 'Building Static Site'"
 
+[[redirects]]
+  from = "/vendas"
+  to = "/vendas.html"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
