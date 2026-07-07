@@ -796,6 +796,30 @@ function copyTermoLink() {
     alert('Link copiado!');
 }
 
+function enviarTermoWhatsApp() {
+    if (!currentTermo || !currentProject) {
+        alert('Gere o termo antes de enviar.');
+        return;
+    }
+
+    const link = document.getElementById('termoLinkInput').value;
+    const data = currentProject.briefing_data || {};
+    const clienteNome = currentTermo.cliente_nome || normalizeField(data.responsavel_nome) || currentProject.client_name || '';
+    const primeiroNome = clienteNome.trim().split(' ')[0] || clienteNome;
+
+    const msg = `Oi, ${primeiroNome || 'tudo bem'}! Sua loja está pronta 🎉 Antes de publicarmos, dá uma revisada em tudo e aprova a entrega neste link:\n\n${link}\n\nQualquer coisa, só chamar!`;
+
+    const phone = normalizeField(data.responsavel_whatsapp) || '';
+    let url = 'https://wa.me/';
+    if (phone) {
+        const num = phone.replace(/\D/g, '');
+        url += `55${num}`;
+    }
+    url += `?text=${encodeURIComponent(msg)}`;
+
+    window.open(url, '_blank');
+}
+
 // --- NEW PROJECT & LINKING ---
 
 function openNewProjectModal() {
