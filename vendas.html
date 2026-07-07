@@ -596,6 +596,20 @@ nav {
 .price-por { font-family: var(--font); font-size: clamp(2rem, 3.4vw, 2.6rem); font-weight: 600; color: var(--lime); line-height: 1; }
 .plan-installments { font-size: .78rem; color: var(--graphite); margin-bottom: 2px; }
 .plan-card.featured .plan-installments { color: #919183; }
+.plan-installments-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(190,255,80,.14);
+  border: 1px solid rgba(190,255,80,.5);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: .85rem;
+  color: var(--lime);
+  font-weight: 500;
+  margin: 10px 0 12px;
+}
+.plan-installments-badge strong { font-size: 1rem; font-weight: 700; }
 .plan-deadline { font-size: .7rem; color: var(--stone); }
 .plan-pix {
   display: inline-flex;
@@ -715,6 +729,7 @@ nav {
 .announce-text .label { color: #aaa; }
 .announce-text .de { color: #555; text-decoration: line-through; font-size: .7em; }
 .announce-text .por { color: var(--lime); font-weight: 600; }
+.announce-text .parcela { color: var(--white); font-weight: 600; }
 .announce-timer {
   background: rgba(190,255,80,.12); border: 1px solid rgba(190,255,80,.3);
   border-radius: 4px; padding: 2px 8px;
@@ -738,6 +753,7 @@ nav {
 @media (max-width: 600px) {
   .announce-text .label { display: none; }
   .announce-text .de { display: none; }
+  .announce-text .parcela { display: none; }
   .announce-text gap { gap: 6px; }
 }
 
@@ -852,7 +868,7 @@ footer {
 <div class="announce-bar" id="announceBar">
   <div class="announce-text">
     <span class="label">⚡ Oferta Completa</span>
-    <span><span class="de">De R$ 2.499</span> <span class="por">por R$ 1.999,90</span></span>
+    <span><span class="de">De R$ 2.499</span> <span class="por">por R$ 1.999,90</span> <span class="parcela">(5x de R$ 399,98)</span></span>
     <span>· <span class="announce-timer" id="announceTimer">47:59:59</span></span>
   </div>
   <a href="#precos" class="announce-cta">Aproveitar →</a>
@@ -1052,7 +1068,7 @@ footer {
             <span class="price-de">De R$ 2.499</span>
             <span class="price-por">R$ 1.999,90</span>
           </p>
-          <p class="plan-installments" style="color:var(--white);font-weight:500;">ou 5x de R$ 399,98 sem juros</p>
+          <p class="plan-installments-badge">ou <strong>5x de R$ 399,98</strong> sem juros</p>
           <p class="plan-deadline" style="color:#6e6e64;">Prazo: até 20 dias úteis</p>
           <div class="plan-pix">⬡ 10% OFF no Pix → R$ 1.799,91</div>
         </div>
