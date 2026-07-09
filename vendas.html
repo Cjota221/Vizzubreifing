@@ -550,10 +550,12 @@ nav {
   scroll-behavior: smooth;
   padding: 4px 4px 12px;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
 }
 .portfolio-track::-webkit-scrollbar { height: 6px; }
 .portfolio-track::-webkit-scrollbar-thumb { background: var(--stone); border-radius: 4px; }
 .portfolio-item {
+  position: relative;
   flex: 0 0 auto;
   width: clamp(220px, 60vw, 300px);
   aspect-ratio: 9 / 16;
@@ -562,8 +564,25 @@ nav {
   scroll-snap-align: start;
   background: var(--near-black);
   border: 1px solid var(--stone);
+  touch-action: pan-x;
 }
-.portfolio-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.portfolio-item video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.portfolio-mute {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-round);
+  border: none;
+  background: rgba(20,20,15,.55);
+  color: var(--white);
+  font-size: .8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .portfolio-arrow {
   flex: 0 0 auto;
   width: 44px;
@@ -1095,9 +1114,18 @@ footer {
     <div class="portfolio-carousel rev d3">
       <button type="button" class="portfolio-arrow portfolio-prev rip" aria-label="Vídeo anterior">‹</button>
       <div class="portfolio-track" id="portfolioTrack">
-        <div class="portfolio-item"><video src="https://files.catbox.moe/vkh3sw.MP4" controls playsinline preload="metadata"></video></div>
-        <div class="portfolio-item"><video src="https://files.catbox.moe/qo90pu.MP4" controls playsinline preload="metadata"></video></div>
-        <div class="portfolio-item"><video src="https://files.catbox.moe/yv5qnc.MP4" controls playsinline preload="metadata"></video></div>
+        <div class="portfolio-item">
+          <video src="https://files.catbox.moe/vkh3sw.MP4" muted loop playsinline autoplay preload="metadata"></video>
+          <button type="button" class="portfolio-mute" aria-label="Ativar som">🔇</button>
+        </div>
+        <div class="portfolio-item">
+          <video src="https://files.catbox.moe/qo90pu.MP4" muted loop playsinline autoplay preload="metadata"></video>
+          <button type="button" class="portfolio-mute" aria-label="Ativar som">🔇</button>
+        </div>
+        <div class="portfolio-item">
+          <video src="https://files.catbox.moe/yv5qnc.MP4" muted loop playsinline autoplay preload="metadata"></video>
+          <button type="button" class="portfolio-mute" aria-label="Ativar som">🔇</button>
+        </div>
       </div>
       <button type="button" class="portfolio-arrow portfolio-next rip" aria-label="Próximo vídeo">›</button>
     </div>
@@ -1278,6 +1306,7 @@ footer {
   if (!track) return;
   const prev = document.querySelector('.portfolio-prev');
   const next = document.querySelector('.portfolio-next');
+  const items = track.querySelectorAll('.portfolio-item');
   const scrollByCard = dir => {
     const card = track.querySelector('.portfolio-item');
     const gap = 16;
@@ -1286,10 +1315,37 @@ footer {
   };
   prev && prev.addEventListener('click', () => scrollByCard(-1));
   next && next.addEventListener('click', () => scrollByCard(1));
-  const videos = track.querySelectorAll('video');
-  videos.forEach(v => v.addEventListener('play', () => {
-    videos.forEach(other => { if (other !== v) other.pause(); });
-  }));
+
+  items.forEach(item => {
+    const video = item.querySelector('video');
+    const muteBtn = item.querySelector('.portfolio-mute');
+    muteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      muteBtn.textContent = video.muted ? '🔇' : '🔊';
+      if (!video.muted) {
+        items.forEach(other => {
+          if (other !== item) {
+            const otherVideo = other.querySelector('video');
+            const otherBtn = other.querySelector('.portfolio-mute');
+            otherVideo.muted = true;
+            otherBtn.textContent = '🔇';
+          }
+        });
+      }
+    });
+  });
+
+  const playObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const video = e.target.querySelector('video');
+      if (e.isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { root: track, threshold: 0.6 });
+  items.forEach(item => playObs.observe(item));
 })();
 
 /* ═══════════════════════════ COUNTER ═══════════════════════════ */
