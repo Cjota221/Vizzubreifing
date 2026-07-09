@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<meta charset="UTF-8">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0GF68RYGDP"></script>
 <script>
@@ -29,7 +30,6 @@ src="https://www.facebook.com/tr?id=1800114171371610&ev=PageView&noscript=1"
 /></noscript>
 <script src="js/meta-pixel-events.js"></script>
 <!-- End Meta Pixel Code -->
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5eb">
 <title>VIZZU Digital — Sua loja online com identidade que vende</title>
@@ -539,6 +539,52 @@ nav {
 .step-title { font-size: .86rem; font-weight: 600; color: var(--near-black); margin-bottom: 6px; }
 .step-desc { font-size: .8rem; line-height: 1.5; color: var(--graphite); }
 
+/* ═══════════════ PORTFÓLIO (CARROSEL DE VÍDEOS) ═══════════════ */
+#portfolio { background: var(--cream); }
+.portfolio-carousel { position: relative; display: flex; align-items: center; gap: 12px; }
+.portfolio-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 4px 4px 12px;
+  -webkit-overflow-scrolling: touch;
+}
+.portfolio-track::-webkit-scrollbar { height: 6px; }
+.portfolio-track::-webkit-scrollbar-thumb { background: var(--stone); border-radius: 4px; }
+.portfolio-item {
+  flex: 0 0 auto;
+  width: clamp(220px, 60vw, 300px);
+  aspect-ratio: 9 / 16;
+  border-radius: var(--radius);
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: var(--near-black);
+  border: 1px solid var(--stone);
+}
+.portfolio-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.portfolio-arrow {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-round);
+  border: 1px solid var(--near-black);
+  background: var(--white);
+  color: var(--near-black);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.portfolio-arrow:hover { background: var(--lime); }
+@media (max-width: 640px) {
+  .portfolio-arrow { display: none; }
+}
+
 /* ═══════════════ POR QUE VIZZU ═══════════════ */
 #porque { background: var(--cream); }
 .trust-grid {
@@ -925,6 +971,7 @@ footer {
   <div class="nav-links">
     <a href="#problema">Problema</a>
     <a href="#solucao">Solução</a>
+    <a href="#portfolio">Portfólio</a>
     <a href="#como">Como Funciona</a>
     <a href="#precos">Oferta</a>
     <a href="#faq">FAQ</a>
@@ -1035,6 +1082,24 @@ footer {
           <p>Conhecemos cada recurso, limitação e possibilidade da plataforma. Seu projeto é tratado de forma única — estudamos seu negócio antes de criar qualquer coisa.</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PORTFÓLIO ═══════════════════════════ -->
+<section id="portfolio">
+  <div class="inner">
+    <span class="tag rev">Portfólio</span>
+    <h2 class="section-title rev d1">Veja alguns <span style="color:var(--near-black);">trabalhos que já entregamos.</span></h2>
+    <p class="section-desc rev d2">Lojas reais, feitas para clientes reais. Dê o play e confira de perto.</p>
+    <div class="portfolio-carousel rev d3">
+      <button type="button" class="portfolio-arrow portfolio-prev rip" aria-label="Vídeo anterior">‹</button>
+      <div class="portfolio-track" id="portfolioTrack">
+        <div class="portfolio-item"><video src="https://files.catbox.moe/vkh3sw.MP4" controls playsinline preload="metadata"></video></div>
+        <div class="portfolio-item"><video src="https://files.catbox.moe/qo90pu.MP4" controls playsinline preload="metadata"></video></div>
+        <div class="portfolio-item"><video src="https://files.catbox.moe/yv5qnc.MP4" controls playsinline preload="metadata"></video></div>
+      </div>
+      <button type="button" class="portfolio-arrow portfolio-next rip" aria-label="Próximo vídeo">›</button>
     </div>
   </div>
 </section>
@@ -1188,6 +1253,7 @@ footer {
   <div class="footer-links">
     <a href="#problema">Problema</a>
     <a href="#solucao">Solução</a>
+    <a href="#portfolio">Portfólio</a>
     <a href="#como">Como Funciona</a>
     <a href="#precos">Oferta</a>
     <a href="#faq">FAQ</a>
@@ -1204,6 +1270,26 @@ footer {
     });
   }, { threshold: .08 });
   document.querySelectorAll('.rev').forEach(el => obs.observe(el));
+})();
+
+/* ═══════════════════════════ PORTFÓLIO (CARROSEL DE VÍDEOS) ═══════════════════════════ */
+(function(){
+  const track = document.getElementById('portfolioTrack');
+  if (!track) return;
+  const prev = document.querySelector('.portfolio-prev');
+  const next = document.querySelector('.portfolio-next');
+  const scrollByCard = dir => {
+    const card = track.querySelector('.portfolio-item');
+    const gap = 16;
+    const amount = (card ? card.offsetWidth : 300) + gap;
+    track.scrollBy({ left: dir * amount, behavior: 'smooth' });
+  };
+  prev && prev.addEventListener('click', () => scrollByCard(-1));
+  next && next.addEventListener('click', () => scrollByCard(1));
+  const videos = track.querySelectorAll('video');
+  videos.forEach(v => v.addEventListener('play', () => {
+    videos.forEach(other => { if (other !== v) other.pause(); });
+  }));
 })();
 
 /* ═══════════════════════════ COUNTER ═══════════════════════════ */
