@@ -8,6 +8,11 @@
   status = 200
 
 [[redirects]]
+  from = "/sobre"
+  to = "/sobre.html"
+  status = 200
+
+[[redirects]]
   from = "/aprovacao/:token"
   to = "/aprovacao.html?id=:token"
   status = 200

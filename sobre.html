@@ -33,11 +33,11 @@ src="https://www.facebook.com/tr?id=1800114171371610&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5f5eb">
-<title>VIZZU Digital — Link na Bio</title>
+<title>Sobre mim — VIZZU Digital</title>
 <link rel="icon" type="image/png" href="assets/fivon.png">
 <link rel="apple-touch-icon" href="assets/fivon.png">
 <link rel="shortcut icon" href="assets/fivon.png">
-<meta name="description" content="VIZZU Digital — design que faz sua loja vender mais. Fale com a gente ou conheça nosso trabalho.">
+<meta name="description" content="Conheça Caroline Azevedo, fundadora da VIZZU Digital — design que transforma lojas FacilZap em marcas que vendem mais.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -68,28 +68,39 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 32px clamp(20px, 6vw, 40px);
+  padding: 32px clamp(20px, 6vw, 40px) 48px;
   -webkit-tap-highlight-color: transparent;
 }
 
-.bio-card {
+.page {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
 }
+
+.back-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--graphite);
+  text-decoration: none;
+  margin-bottom: 24px;
+}
+.back-link:hover { color: var(--near-black); }
 
 .bio-logo {
-  height: 56px;
+  height: 48px;
   width: auto;
   object-fit: contain;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
-.bio-tag {
+.about-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -101,36 +112,50 @@ body {
   font-weight: 500;
   letter-spacing: .04em;
   color: var(--graphite);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
-.bio-title {
-  font-size: clamp(1.5rem, 6vw, 2rem);
+.about-photo {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(20, 20, 15, .12);
+  border: 1px solid var(--stone);
+  margin-bottom: 24px;
+}
+
+.about-title {
+  font-size: clamp(1.4rem, 5.5vw, 1.9rem);
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: -.01em;
   color: var(--near-black);
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.bio-title .accent { color: var(--near-black); background: var(--lime); padding: 0 6px; border-radius: 6px; }
+.about-text {
+  width: 100%;
+  text-align: left;
+}
 
-.bio-sub {
-  font-size: .92rem;
-  line-height: 1.55;
+.about-text p {
+  font-size: .95rem;
+  line-height: 1.65;
   color: var(--graphite);
-  max-width: 340px;
-  margin-bottom: 36px;
+  margin-bottom: 16px;
 }
 
-.bio-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.about-text p:last-child { margin-bottom: 0; }
+.about-text strong { color: var(--near-black); font-weight: 600; }
+
+.about-cta {
+  margin-top: 32px;
   width: 100%;
 }
 
-.btn-primary, .btn-outline {
+.btn-primary {
   position: relative;
   overflow: hidden;
   display: inline-flex;
@@ -146,21 +171,11 @@ body {
   text-decoration: none;
   min-height: 52px;
   transition: background .15s;
-}
-
-.btn-primary {
   background: var(--lime);
   color: var(--near-black);
   border: 1px solid var(--near-black);
 }
 .btn-primary:hover { background: #a8e83a; }
-
-.btn-outline {
-  background: transparent;
-  color: var(--near-black);
-  border: 1px solid var(--near-black);
-}
-.btn-outline:hover { background: rgba(20,20,15,.04); }
 
 .rip-dot {
   position: absolute; width: 0; height: 0; border-radius: 50%;
@@ -175,11 +190,11 @@ body {
   margin-top: 40px;
   font-size: .72rem;
   color: var(--graphite);
+  text-align: center;
 }
 
 @media (min-width: 480px) {
-  .bio-actions { flex-direction: row; justify-content: center; flex-wrap: wrap; }
-  .btn-primary, .btn-outline { width: auto; white-space: nowrap; }
+  .about-photo { width: 192px; height: 192px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -189,24 +204,30 @@ body {
 </head>
 <body>
 
-<div class="bio-card">
-  <img class="bio-logo" src="public/logo principal png.png" alt="VIZZU Digital">
-  <span class="bio-tag">✦ Especialistas em Lojas Online</span>
-  <h1 class="bio-title">Sua loja merece um visual que <span class="accent">conquista</span> antes mesmo da compra.</h1>
-  <p class="bio-sub">Design que transforma lojas FacilZap em marcas que vendem mais.</p>
+<div class="page">
+  <a class="back-link" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    Voltar
+  </a>
 
-  <div class="bio-actions">
+  <img class="bio-logo" src="public/logo principal png.png" alt="VIZZU Digital">
+  <span class="about-tag">✦ Sobre mim</span>
+
+  <img class="about-photo" src="public/sobre-caroline.png" alt="Caroline Azevedo, fundadora da VIZZU Digital">
+
+  <h1 class="about-title">Quem está por trás da VIZZU</h1>
+
+  <div class="about-text">
+    <p>Sou <strong>Caroline Azevedo</strong>, fundadora e desenvolvedora da VIZZU Digital, especializada em personalização de lojas virtuais na plataforma FacilZap.</p>
+    <p>Meu trabalho vai além de deixar um site bonito. Eu analiso a experiência de compra como um todo e transformo lojas genéricas em ambientes mais organizados, estratégicos e alinhados à identidade de cada marca.</p>
+    <p>Também sou lojista, e foi justamente vivendo os desafios do e-commerce na prática que comecei a enxergar o quanto a apresentação de uma loja influencia a percepção do cliente e a experiência de compra.</p>
+    <p>Hoje uso essa experiência para unir estética, identidade e estratégia, sempre respeitando a essência de cada negócio — para que cada loja tenha personalidade própria e deixe de parecer apenas mais uma no mercado.</p>
+  </div>
+
+  <div class="about-cta">
     <a class="btn-primary rip" href="https://wa.me/5562981043763" target="_blank" rel="noopener">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-      Fale Conosco
-    </a>
-    <a class="btn-outline rip" href="vendas.html">
-      Conheça Nosso Trabalho
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-    </a>
-    <a class="btn-outline rip" href="sobre.html">
-      Sobre mim
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      Vamos conversar
     </a>
   </div>
 
